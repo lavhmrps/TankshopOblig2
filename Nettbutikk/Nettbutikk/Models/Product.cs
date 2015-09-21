@@ -1,6 +1,6 @@
 ﻿namespace Nettbutikk.Models
 {
-    public class OrderLine
+    public class Product
     {
         public int Id
         {
@@ -8,19 +8,19 @@
             set;
         }
 
-        public int Order
+        public string Name
         {
             get;
             set;
         }
 
-        public Product Product
+        public string Description
         {
             get;
             set;
         }
 
-        public int Amount
+        public double Price
         {
             get;
             set;

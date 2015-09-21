@@ -13,6 +13,12 @@ namespace Nettbutikk.Models
             set;
         }
 
+        public Customer Customer
+        {
+            get;
+            set;
+        }
+
         public DateTime Date
         {
             get;
@@ -23,7 +29,5 @@ namespace Nettbutikk.Models
             get;
             set;
         }
-
-
     }
 }
