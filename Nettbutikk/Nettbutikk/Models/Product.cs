@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Models
@@ -30,6 +32,12 @@ namespace Nettbutikk.Models
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
         public double Price
+        {
+            get;
+            set;
+        }
+        
+        public virtual ICollection<Category> Categories
         {
             get;
             set;
