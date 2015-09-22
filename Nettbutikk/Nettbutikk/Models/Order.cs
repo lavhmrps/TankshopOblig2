@@ -34,7 +34,7 @@ namespace Nettbutikk.Models
 
         [Display(Name="Cart contents")]
         [UIHint("Collection")]
-        public OrderLine[] Lines {
+        public virtual ICollection<OrderLine> Lines {
             get;
             set;
         }
