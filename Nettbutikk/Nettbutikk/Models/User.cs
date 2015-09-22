@@ -5,6 +5,7 @@ namespace Nettbutikk.Models
 {
     public class User
     {
+        [Key]
         [HiddenInput(DisplayValue = false)]
         public int Id
         {

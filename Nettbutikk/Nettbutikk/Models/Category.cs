@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Models
 {
     public class Category
     {
+        [Key]
         [HiddenInput(DisplayValue = false)]
         public int Id {
             get;
@@ -26,6 +28,7 @@ namespace Nettbutikk.Models
             set;
         }
 
+        [ForeignKey("ParentCategory")]
         public int? ParentCategory
         {
             get;

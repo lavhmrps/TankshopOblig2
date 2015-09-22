@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Models
 {
     public class OrderLine
     {
+        [Key]
         [HiddenInput(DisplayValue = false)]
         public int Id
         {
@@ -12,6 +14,7 @@ namespace Nettbutikk.Models
             set;
         }
 
+        [ForeignKey("OrderId")]
         [HiddenInput(DisplayValue = false)]
         public int Order
         {
@@ -19,6 +22,7 @@ namespace Nettbutikk.Models
             set;
         }
 
+        [ForeignKey("ProductId")]
         [Display(Name = "Product")]
         public Product Product
         {
@@ -26,6 +30,7 @@ namespace Nettbutikk.Models
             set;
         }
 
+        [Required]
         [Display(Name = "Amount")]
         [Range(0, int.MaxValue, ErrorMessage = "Cannot add a negative amount of products.")]
         public int Amount

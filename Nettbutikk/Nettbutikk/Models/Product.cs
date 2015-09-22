@@ -7,6 +7,7 @@ namespace Nettbutikk.Models
 {
     public class Product
     {
+        [Key]
         [HiddenInput(DisplayValue = false)]
         public int Id
         {
