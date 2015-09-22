@@ -19,13 +19,8 @@ namespace Nettbutikk.Models
             set;
         }
 
-        [Required]
-        public string Adress
-        {
-            get;
-            set;
-        }
-
+        // This property might be better to move into Customer,
+        // or do we need this for regular users?
         [Required]
         [UIHint("Tel")]
         [DataType(DataType.PhoneNumber)]

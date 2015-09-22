@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,13 +10,15 @@ namespace Nettbutikk.Models
 {
     public class Order
     {
+        [Key]
         [HiddenInput(DisplayValue = false)]
         public int Id
         {
             get;
             set;
         }
-
+        
+        [ForeignKey("CustomerId")]
         [HiddenInput(DisplayValue = false)]
         public Customer Customer
         {
@@ -24,9 +27,12 @@ namespace Nettbutikk.Models
         }
 
         [HiddenInput(DisplayValue = false)]
-        [UIHint("DateTime")]
-        [DataType(DataType.DateTime)]
-        public DateTime Date
+        // These validations aren't needed, methinks;
+        // They're just for internal use and record-keeping.
+        // But they might be useful in the case the value is to be displayed.
+        // [UIHint("DateTime")]
+        // [DataType(DataType.DateTime)]
+        public DateTime PlacedDateTime
         {
             get;
             set;
@@ -34,7 +40,15 @@ namespace Nettbutikk.Models
 
         [Display(Name="Cart contents")]
         [UIHint("Collection")]
-        public virtual ICollection<OrderLine> Lines {
+        public virtual ICollection<OrderLine> Lines
+        {
+            get;
+            set;
+        }
+
+        [Required]
+        public Address ShippingAddress
+        {
             get;
             set;
         }
