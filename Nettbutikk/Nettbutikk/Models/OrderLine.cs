@@ -12,14 +12,22 @@ namespace Nettbutikk.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
+    
     public partial class OrderLine
     {
         [Key]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
+
         public long Amount { get; set; }
-        public long OrderId { get; set; }
-    
+
+        [ForeignKey("Order")]
+        public Guid OrderId { get; set; }
+
+
+        [ForeignKey("Product")]
+        public Guid ProductId { get; set; }
+
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
     }

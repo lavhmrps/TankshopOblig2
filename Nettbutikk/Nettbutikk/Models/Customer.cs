@@ -16,26 +16,30 @@ namespace Nettbutikk.Models
 
     public partial class Customer : User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
             this.Addresses = new HashSet<Address>();
             this.Orders = new HashSet<Order>();
         }
+        
+        public string Phone { get; set; }
 
-        [Key]
-        public long Id
+        [ForeignKey("PrimaryShippingAddress")]
+        public Guid PrimaryShippingAddressId
         {
             get;
             set;
         }
-        
-        public string Phone { get; set; }
-        
-        [ForeignKey("PrimaryShippingAddressId")]
+
         public virtual Address PrimaryShippingAddress { get; set; }
 
-        [ForeignKey("PrimaryBillingAddressId")]
+        [ForeignKey("PrimaryBillingAddress")]
+        public Guid PrimaryBillingAddressId
+        {
+            get;
+            set;
+        }
+
         public virtual Address PrimaryBillingAddress { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

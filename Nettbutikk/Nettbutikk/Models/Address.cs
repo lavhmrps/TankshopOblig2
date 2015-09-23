@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Nettbutikk.Models
@@ -6,7 +7,7 @@ namespace Nettbutikk.Models
     public class Address
     {
         [Key]
-        public int Id
+        public Guid Id
         {
             get;
             set;

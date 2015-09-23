@@ -14,7 +14,7 @@ namespace Nettbutikk.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Web.Mvc;
-
+    
     public partial class Order
     {
         public Order()
@@ -24,16 +24,16 @@ namespace Nettbutikk.Models
         
         [Key]
         [HiddenInput(DisplayValue = false)]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public DateTime PlacementDateTime { get; set; }
 
+        [ForeignKey("Customer")]
         [HiddenInput(DisplayValue = false)]
         public long CustomerId { get; set; }
         
         public virtual ICollection<OrderLine> OrderLines { get; set; }
 
-        [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
     }
 }
