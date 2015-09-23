@@ -16,7 +16,7 @@ namespace Nettbutikk.Models
 
         [ForeignKey("OrderId")]
         [HiddenInput(DisplayValue = false)]
-        public int Order
+        public virtual Order Order
         {
             get;
             set;
@@ -24,7 +24,7 @@ namespace Nettbutikk.Models
 
         [ForeignKey("ProductId")]
         [Display(Name = "Product")]
-        public Product Product
+        public virtual Product Product
         {
             get;
             set;

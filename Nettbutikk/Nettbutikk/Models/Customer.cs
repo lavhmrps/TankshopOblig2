@@ -11,7 +11,7 @@ namespace Nettbutikk.Models
     {
         [Required]
         [ForeignKey("BillingAddressId")]
-        public Address BillingAddress
+        public virtual Address BillingAddress
         {
             get;
             set;
@@ -19,13 +19,19 @@ namespace Nettbutikk.Models
         
         [Required]
         [ForeignKey("ShippingAddressId")]
-        public Address PrimaryShippingAddress
+        public virtual Address PrimaryShippingAddress
         {
             get;
             set;
         }
 
         public virtual ICollection<Address> Addresses
+        {
+            get;
+            set;
+        }
+
+        public virtual ICollection<Order> Orders
         {
             get;
             set;

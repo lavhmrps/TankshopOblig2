@@ -20,7 +20,7 @@ namespace Nettbutikk.Models
         
         [ForeignKey("CustomerId")]
         [HiddenInput(DisplayValue = false)]
-        public Customer Customer
+        public virtual Customer Customer
         {
             get;
             set;
@@ -47,7 +47,7 @@ namespace Nettbutikk.Models
         }
 
         [Required]
-        public Address ShippingAddress
+        public virtual Address ShippingAddress
         {
             get;
             set;
