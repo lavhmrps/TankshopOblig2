@@ -11,14 +11,22 @@ namespace Nettbutikk.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Product
     {
+        [Key]
         public long Id { get; set; }
+
         public string Name { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
+        public string Description { get; set; }
+
+
         public long CategoryId { get; set; }
-    
+        
+        [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
     }
 }

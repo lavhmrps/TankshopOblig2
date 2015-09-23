@@ -11,11 +11,13 @@ namespace Nettbutikk.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OrderLine
     {
+        [Key]
         public long Id { get; set; }
-        public double Amount { get; set; }
+        public long Amount { get; set; }
         public long OrderId { get; set; }
     
         public virtual Order Order { get; set; }

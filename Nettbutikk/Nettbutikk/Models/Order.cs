@@ -17,7 +17,6 @@ namespace Nettbutikk.Models
 
     public partial class Order
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
             this.OrderLines = new HashSet<OrderLine>();
@@ -29,12 +28,12 @@ namespace Nettbutikk.Models
 
         public DateTime PlacementDateTime { get; set; }
 
-        [ForeignKey("CustomerId")]
         [HiddenInput(DisplayValue = false)]
         public long CustomerId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        
         public virtual ICollection<OrderLine> OrderLines { get; set; }
+
+        [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
     }
 }

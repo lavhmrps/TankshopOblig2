@@ -7,6 +7,12 @@ namespace Nettbutikk.Models
 
     public partial class Category
     {
+        [Key]
+        public long Id
+        {
+            get;
+            set;
+        }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
