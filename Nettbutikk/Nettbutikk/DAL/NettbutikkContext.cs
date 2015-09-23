@@ -2,12 +2,13 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
+
 namespace Nettbutikk.DAL
 {
     public class NettbutikkContext : DbContext
     {
 
-        public NettbutikkContext() : base("NettbutikkContext")
+        public NettbutikkContext() : base("Nettbutikk")
         {
         }
 
@@ -16,10 +17,5 @@ namespace Nettbutikk.DAL
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
     }
 }

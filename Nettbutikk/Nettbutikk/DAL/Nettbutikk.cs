@@ -7,18 +7,3 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Nettbutikk.Models
-{
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class OrderLine
-    {
-        public long Id { get; set; }
-        public double Amount { get; set; }
-        public long OrderId { get; set; }
-    
-        public virtual Order Order { get; set; }
-        public virtual Product Product { get; set; }
-    }
-}

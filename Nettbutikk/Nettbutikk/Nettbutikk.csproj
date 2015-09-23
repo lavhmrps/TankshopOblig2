@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -73,6 +74,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -183,11 +186,28 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="DAL\Nettbutikk.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Nettbutikk.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Nettbutikk.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Nettbutikk.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Nettbutikk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Nettbutikk.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\NettbutikkInitializer.cs" />
     <Compile Include="DAL\NettbutikkContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -204,6 +224,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Error\ApplicationException.html" />
     <Content Include="Content\Error\NotFoundException.html" />
+    <Content Include="DAL\Nettbutikk.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Nettbutikk.Context.cs</LastGenOutput>
+      <DependentUpon>Nettbutikk.edmx</DependentUpon>
+    </Content>
+    <Content Include="DAL\Nettbutikk.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Nettbutikk.cs</LastGenOutput>
+      <DependentUpon>Nettbutikk.edmx</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -218,6 +248,13 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="DAL\Nettbutikk.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Nettbutikk.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Nettbutikk.edmx.diagram">
+      <DependentUpon>Nettbutikk.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />

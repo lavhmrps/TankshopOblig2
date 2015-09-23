@@ -4,6 +4,13 @@ namespace Nettbutikk.Models
 {
     public class Address
     {
+        [Key]
+        public int Id
+        {
+            get;
+            set;
+        }
+
         [Required]
         public string Street
         {
@@ -31,14 +38,15 @@ namespace Nettbutikk.Models
             get;
             set;
         }
-        
+
+        [Required]
         public string State
         {
             get;
             set;
         }
 
-
+        [Required]
         public string Country
         {
             get;
