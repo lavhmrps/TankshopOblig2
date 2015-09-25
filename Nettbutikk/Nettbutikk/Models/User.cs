@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         [Key]
         [HiddenInput(DisplayValue = false)]
-        public int Id
+        public Guid Id
         {
             get;
             set;
