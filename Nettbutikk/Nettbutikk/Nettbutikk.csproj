@@ -206,15 +206,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseDbController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="DAL\NettbutikkContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\RoleManager.cs" />
     <Compile Include="Infrastructure\UserManager.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />

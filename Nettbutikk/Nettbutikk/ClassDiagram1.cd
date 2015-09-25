@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="Nettbutikk.Models.OrderLine">
-    <Position X="8.25" Y="0.5" Width="1.5" />
+    <Position X="3.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAECAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\OrderLine.cs</FileName>
@@ -12,13 +12,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Nettbutikk.Models.Order">
-    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Position X="3.75" Y="6.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAECAAAAQAAAAAAAQAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAECAAAAUAAAAAAAQAAAAAAAAAAAABACAAAAAAAAAAA=</HashCode>
       <FileName>Models\Order.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Customer" />
+      <Property Name="BillingAddress" />
       <Property Name="ShippingAddress" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
@@ -26,9 +27,9 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Nettbutikk.Models.Customer">
-    <Position X="3" Y="0.5" Width="1.5" />
+    <Position X="4.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAFAAAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Customer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -37,10 +38,16 @@
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Addresses" />
+      <Property Name="Orders" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Nettbutikk.Models.Product">
-    <Position X="8.25" Y="3" Width="1.5" />
+    <Position X="0.5" Y="9.25" Width="1.75" />
+    <AssociationLine Name="Categories" Type="Nettbutikk.Models.Category">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.06" Y="0.11" Height="0.182" Width="1.088" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAQAgAAAAAAAAAAQAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Product.cs</FileName>
@@ -50,28 +57,14 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Nettbutikk.Models.User">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="4" Y="2" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAACAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>Models\User.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nettbutikk.Models.Administrator">
-    <Position X="0.5" Y="3" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Administrator.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Nettbutikk.Models.Address">
-    <Position X="3" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAEIAAAABAAIABAAAAAA=</HashCode>
-      <FileName>Models\Address.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Nettbutikk.Models.Category">
-    <Position X="11.75" Y="3" Width="1.5" />
+    <Position X="1.5" Y="4.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>Models\Category.cs</FileName>
@@ -79,6 +72,18 @@
     <ShowAsAssociation>
       <Property Name="ParentCategory" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.AspNet.Identity.EntityFramework.IdentityUser" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="4.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Nettbutikk.Models.Address">
+    <Position X="8.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAEIAAAABAAIABAAAAAA=</HashCode>
+      <FileName>Models\Address.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

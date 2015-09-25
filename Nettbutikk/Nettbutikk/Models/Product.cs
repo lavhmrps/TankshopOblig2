@@ -38,7 +38,13 @@ namespace Nettbutikk.Models
             set;
         }
         
-        public virtual ICollection<Category> Categories
+        public Guid CategoryId
+        {
+            get;
+            set;
+        }
+
+        public virtual Category Category
         {
             get;
             set;
