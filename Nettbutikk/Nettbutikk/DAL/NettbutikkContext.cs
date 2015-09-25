@@ -20,7 +20,6 @@ namespace Nettbutikk.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
         internal static NettbutikkContext Create()

@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Nettbutikk.Models
 {
-    public class User : IdentityUser<string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    public class User : IdentityUser
     {
         [Required]
         public new Guid Id
