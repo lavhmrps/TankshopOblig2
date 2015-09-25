@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Nettbutikk.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         [Key]
         [HiddenInput(DisplayValue = false)]
