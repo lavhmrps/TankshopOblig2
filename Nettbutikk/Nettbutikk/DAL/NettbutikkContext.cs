@@ -1,17 +1,18 @@
-﻿using Nettbutikk.Models;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Nettbutikk.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System;
 
 namespace Nettbutikk.DAL
 {
-    public class NettbutikkContext : DbContext
+    public class NettbutikkContext : IdentityDbContext<User>
     {
 
-        public NettbutikkContext() : base("NettbutikkContext")
+        public NettbutikkContext() : base("Nettbutikk")
         {
         }
-
-        public DbSet<User> Users { get; set; }
+        
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -20,6 +21,11 @@ namespace Nettbutikk.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+        internal static NettbutikkContext Create()
+        {
+            return new NettbutikkContext();
         }
     }
 }

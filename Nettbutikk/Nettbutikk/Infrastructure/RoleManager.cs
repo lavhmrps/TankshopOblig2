@@ -19,9 +19,7 @@ namespace Nettbutikk.Infrastructure
 
         public static RoleManager Create(IdentityFactoryOptions<RoleManager> options, IOwinContext context)
         {
-            var appRoleManager = new RoleManager(new RoleStore<IdentityRole>(context.Get<NettbutikkContext>()));
-
-            return appRoleManager;
+            return new RoleManager(new RoleStore<IdentityRole>(context.Get<NettbutikkContext>()));
         }
     }
 }

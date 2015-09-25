@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
-using Nettbutikk.Infrastructure;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +10,26 @@ namespace Nettbutikk.Controllers
 {
     public class BaseController : Controller
     {
-        private ApplicationRoleManager _AppRoleManager = null;
+        private ApplicationRoleManager _AppRoleManager;
+        
+        /*
+        * Base instance for all controllers in this project.
+        * Makes adding and removing site-wide solutions such as
+        * sessions and authentication much easier.
+        */
 
-        protected ApplicationRoleManager AppRoleManager
+        protected ApplicationRoleManager RoleManager
         {
             get
             {
                 return _AppRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
             }
         }
-        /*
-        * Base instance for all controllers in this project.
-        * Makes adding and removing site-wide solutions such as
-        * sessions and authentication much easier.
-        */
+        
+        private bool IsCurrentUser(User user)
+        {
+            User.Identity.Equals(user);
+        }
+
     }
 }
