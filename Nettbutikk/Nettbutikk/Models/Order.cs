@@ -12,7 +12,7 @@ namespace Nettbutikk.Models
     {
         [Key]
         [HiddenInput(DisplayValue = false)]
-        public int Id
+        public Guid Id
         {
             get;
             set;
@@ -20,6 +20,12 @@ namespace Nettbutikk.Models
         
         [ForeignKey("CustomerId")]
         [HiddenInput(DisplayValue = false)]
+        public Guid CustomerId
+        {
+            get;
+            set;
+        }
+
         public virtual Customer Customer
         {
             get;

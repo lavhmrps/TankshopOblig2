@@ -15,10 +15,12 @@ namespace Nettbutikk.Controllers
     public class OrdersController : BaseDbController
     {
 
-        // GET: Orders
+        [Authorize(Roles = "Customer")]
         public async Task<ActionResult> Index()
         {
-            var orders = db.Orders.Include(o => o.Customer);
+            var orders = db.Orders
+                .Include(order => order.Customer)
+                .Where(order => order.Customer == User.Identity);
             return View(await orders.ToListAsync());
         }
 
@@ -34,6 +36,11 @@ namespace Nettbutikk.Controllers
             {
                 return HttpNotFound();
             }
+            if(order.Customer != User.Identity)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             return View(order);
         }
 
