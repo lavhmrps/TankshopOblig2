@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Nettbutikk.Models
 {
-    public class Administrator : User
+    public partial class Administrator : User
     {
     }
 }

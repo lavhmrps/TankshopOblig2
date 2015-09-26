@@ -38,6 +38,7 @@ namespace Nettbutikk.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Administrator,Manager,Owner")]
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
@@ -49,6 +50,7 @@ namespace Nettbutikk.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Manager,Owner")]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,Price,Description,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -64,6 +66,7 @@ namespace Nettbutikk.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Administrator,Manager,Owner")]
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -84,6 +87,7 @@ namespace Nettbutikk.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Manager,Owner")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Price,Description,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -97,6 +101,7 @@ namespace Nettbutikk.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Administrator,Manager,Owner")]
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -114,6 +119,7 @@ namespace Nettbutikk.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Manager,Owner")]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             Product product = await db.Products.FindAsync(id);
