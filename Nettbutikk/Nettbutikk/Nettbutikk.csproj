@@ -185,6 +185,7 @@
     <Compile Include="Controllers\BaseDbController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="DAL\NettbutikkContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -254,9 +255,15 @@
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Bindings\" />
     <Folder Include="Views\Roles\" />
   </ItemGroup>
   <ItemGroup>
