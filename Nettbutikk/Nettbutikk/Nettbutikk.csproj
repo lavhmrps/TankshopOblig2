@@ -182,7 +182,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Admin\ProductsController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\ProductsAdminController.cs" />
     <Compile Include="Controllers\BaseDbController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Administrator.cs" />
+    <Compile Include="Models\Bindings\AccountBindings.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
@@ -264,7 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Bindings\" />
+    <Folder Include="Views\Account\" />
     <Folder Include="Views\Roles\" />
   </ItemGroup>
   <ItemGroup>
