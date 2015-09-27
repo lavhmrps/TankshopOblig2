@@ -8,27 +8,46 @@ using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
 {
+    /**
+    * <summary>
+    * Base instance for all controllers in this project.
+    * Makes managing site-wide solutions such as
+    * sessions and authentication much easier.
+    * </summary>
+    */
     public class BaseController : Controller
     {
-        private ApplicationRoleManager _AppRoleManager;
+        private NettbutikkContext _db;
         
-        /*
-        * Base instance for all controllers in this project.
-        * Makes adding and removing site-wide solutions such as
-        * sessions and authentication much easier.
-        */
+        /**
+         * <summary>
+         * 
+         * </summary>
+         */
+        protected NettbutikkContext db
+        {
+            get { return _db ?? (_db = new NettbutikkContext()); }
+        }
 
-        protected ApplicationRoleManager RoleManager
+        public BaseController()
+        {
+            _db = new NettbutikkContext();
+        }
+
+        private RoleManager _roleManager;
+        
+
+        protected RoleManager RoleManager
         {
             get
             {
-                return _AppRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+                return _roleManager ?? (_roleManager = Request.GetOwinContext().GetUserManager<RoleManager>());
             }
         }
         
         private bool IsCurrentUser(User user)
         {
-            User.Identity.Equals(user);
+            return User.Identity.Equals(user);
         }
 
     }

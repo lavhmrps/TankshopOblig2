@@ -12,7 +12,7 @@ using Nettbutikk.Models;
 
 namespace Nettbutikk.Controllers
 {
-    public class ProductsController : BaseDbController
+    public class ProductsController : BaseController
     {
 
         // GET: Products

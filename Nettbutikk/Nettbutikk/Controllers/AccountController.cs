@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Nettbutikk.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         // GET: /Account/Login
         [AllowAnonymous]

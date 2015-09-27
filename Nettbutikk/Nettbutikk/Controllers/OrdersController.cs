@@ -12,7 +12,7 @@ using Nettbutikk.Models;
 
 namespace Nettbutikk.Controllers
 {
-    public class OrdersController : BaseDbController
+    public class OrdersController : BaseController
     {
 
         [Authorize(Roles = "Customer")]

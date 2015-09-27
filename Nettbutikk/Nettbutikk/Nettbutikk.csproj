@@ -207,7 +207,6 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\ProductsAdminController.cs" />
-    <Compile Include="Controllers\BaseDbController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />

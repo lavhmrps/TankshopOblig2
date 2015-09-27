@@ -12,7 +12,7 @@ using Nettbutikk.Models;
 namespace Nettbutikk.Controllers
 {
     [RoutePrefix("accounts")]
-    public class AccountsController : BaseDbController
+    public class AccountsController : BaseController
     {
 
         [Authorize(Roles = "Administrator")]
