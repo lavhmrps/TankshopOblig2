@@ -1,13 +1,14 @@
 ﻿using Nettbutikk.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System;
 
 namespace Nettbutikk.DAL
 {
     public class NettbutikkContext : DbContext
     {
 
-        public NettbutikkContext() : base("NettbutikkContext")
+        public NettbutikkContext() : base("Nettbutikk")
         {
         }
 
@@ -20,6 +21,11 @@ namespace Nettbutikk.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+        internal static NettbutikkContext Create()
+        {
+            return new NettbutikkContext();
         }
     }
 }
