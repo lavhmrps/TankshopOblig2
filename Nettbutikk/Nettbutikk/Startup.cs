@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
 using System.Web.Http;
 using Nettbutikk.DAL;
+using System.Net.Http.Formatting;
+using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 [assembly: OwinStartup(typeof(Nettbutikk.Infrastructure.Startup))]
 
