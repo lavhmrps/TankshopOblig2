@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Nettbutikk.Models.Bindings;
 using System.Threading.Tasks;
+using Nettbutikk.Infrastructure;
 
 namespace Nettbutikk.Controllers
 {

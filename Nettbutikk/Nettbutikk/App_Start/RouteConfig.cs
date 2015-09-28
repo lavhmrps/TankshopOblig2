@@ -15,6 +15,14 @@ namespace Nettbutikk
 
             //
 
+            routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute(
+                name: "Account",
+                url: "account",
+                defaults: new {controller = "Accounts", action = "Index"}
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",

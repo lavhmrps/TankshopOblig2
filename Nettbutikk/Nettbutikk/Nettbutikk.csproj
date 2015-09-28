@@ -215,6 +215,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\SignInManager.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Migrations\Configuration.cs" />

@@ -16,7 +16,7 @@ namespace Nettbutikk.Controllers
     {
 
         [Authorize(Roles = "Administrator")]
-        [Route("users")]
+        [Route("all")]
         public async Task<ActionResult> Index()
         {
             return View(await db.Users.ToListAsync());

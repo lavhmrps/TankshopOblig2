@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
+using Nettbutikk.DAL;
+using Nettbutikk.Infrastructure;
 using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
