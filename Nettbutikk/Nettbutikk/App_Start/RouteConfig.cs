@@ -19,7 +19,7 @@ namespace Nettbutikk
 
             routes.MapRoute(
                 name: "Account",
-                url: "account",
+                url: "{controller}/{action?}",
                 defaults: new {controller = "Accounts", action = "Index"}
             );
 
