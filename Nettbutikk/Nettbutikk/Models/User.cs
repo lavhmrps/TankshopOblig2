@@ -8,6 +8,7 @@ namespace Nettbutikk.Models
 {
     public class User : IdentityUser
     {
+        [Key]
         [Required]
         public new Guid Id
         {
@@ -38,5 +39,11 @@ namespace Nettbutikk.Models
             get;
             set;
         }
+
+        public string Email { get; set; }
+        
+        public string PasswordHash { get; set; }
+        
+        public string PasswordSalt { get; set; }
     }
 }
