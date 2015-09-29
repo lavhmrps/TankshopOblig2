@@ -1,55 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Nettbutikk.Models.Bindings
 {
-    public class ExternalLoginConfirmation
+    public class ExternalAccountLoginConfirmation
     {
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
-    public class ExternalLogin
+    public class ExternalAccountLogin
     {
         public string ReturnUrl { get; set; }
     }
 
-    public class SendCode
+    public class RegisterAccountSendCode
     {
+        [Required]
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }
+
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 
-    public class VerifyCode
+    public class VerifyAccountCode
     {
         [Required]
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "Code", Description = "The verification code you received.")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
         [Display(Name = "Remember this browser?")]
         public bool RememberBrowser { get; set; }
 
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
-    public class Forgot
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
-
-    public class Login
+    
+    public class AccountLogin
     {
         [Required]
         [Display(Name = "Email")]
@@ -65,7 +59,7 @@ namespace Nettbutikk.Models.Bindings
         public bool RememberMe { get; set; }
     }
 
-    public class Register
+    public class RegisterAccount
     {
         [Required]
         [EmailAddress]
@@ -84,7 +78,7 @@ namespace Nettbutikk.Models.Bindings
         public string ConfirmPassword { get; set; }
     }
 
-    public class ResetPassword
+    public class ResetAccountPassword
     {
         [Required]
         [EmailAddress]
@@ -105,7 +99,7 @@ namespace Nettbutikk.Models.Bindings
         public string Code { get; set; }
     }
 
-    public class ForgotPassword
+    public class ForgotAccountPassword
     {
         [Required]
         [EmailAddress]
@@ -113,7 +107,7 @@ namespace Nettbutikk.Models.Bindings
         public string Email { get; set; }
     }
 
-    public class SetPassword
+    public class SetAccountPassword
     {
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -127,7 +121,7 @@ namespace Nettbutikk.Models.Bindings
         public string ConfirmPassword { get; set; }
     }
 
-    public class ChangePassword
+    public class ChangeAccountPassword
     {
         [Required]
         [DataType(DataType.Password)]
