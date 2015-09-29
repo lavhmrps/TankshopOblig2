@@ -24,7 +24,7 @@ namespace Nettbutikk.Controllers
         
         /**
          * <summary>
-         * 
+         * A reference to the local database context.
          * </summary>
          */
         protected NettbutikkContext db
@@ -38,7 +38,6 @@ namespace Nettbutikk.Controllers
         }
 
         private RoleManager _roleManager;
-        
 
         protected RoleManager RoleManager
         {
@@ -51,6 +50,25 @@ namespace Nettbutikk.Controllers
         private bool IsCurrentUser(User user)
         {
             return User.Identity.Equals(user);
+        }
+
+        private UserManager _userManager;
+
+        protected UserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? (_userManager = Request.GetOwinContext().GetUserManager<UserManager>());
+            }
+
+        private SignInManager<User, Guid> _signInManager;
+
+        protected SignInManager<User, Guid> SignInManager
+        {
+            get
+            {
+                return _signInManager ?? (_signInManager = Request.GetOwinContext().GetUserManager<SignInManager<User, Guid>>());
+            }
         }
 
     }

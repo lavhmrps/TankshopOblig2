@@ -6,34 +6,10 @@ using Microsoft.AspNet.Identity;
 
 namespace Nettbutikk.Models
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<Guid, IdentityUserLogin<Guid>, IdentityUserRole<Guid>, IdentityUserClaim<Guid>>, IUser<Guid>
     {
         [Required]
-        public new Guid Id
-        {
-            get
-            {
-                return Guid.Parse(base.Id);
-            }
-            set
-            {
-                base.Id = value.ToString();
-            }
-        }
-
-        [Required]
         public string Name
-        {
-            get;
-            set;
-        }
-
-        // This property might be better to move into Customer,
-        // or do we need this for regular users?
-        [Required]
-        [UIHint("Tel")]
-        [DataType(DataType.PhoneNumber)]
-        public string Telephone
         {
             get;
             set;
