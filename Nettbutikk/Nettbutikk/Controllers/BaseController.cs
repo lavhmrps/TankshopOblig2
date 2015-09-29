@@ -17,6 +17,7 @@ namespace Nettbutikk.Controllers
     * sessions and authentication much easier.
     * </summary>
     */
+    [RequireHttps]
     public class BaseController : Controller
     {
         private NettbutikkContext _db;
