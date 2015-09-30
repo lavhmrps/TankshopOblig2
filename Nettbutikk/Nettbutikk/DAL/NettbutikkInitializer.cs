@@ -24,9 +24,9 @@ namespace Nettbutikk.DAL
             };
             addresses.ForEach(address => context.Addresses.Add(address));
 
-            var customers = new List<Customer>();
+            var customers = new List<User>();
             // transform users to customers...
-            customers.ForEach(customer => context.Customers.Add(customer));
+            customers.ForEach(customer => context.Users.Add(customer));
 
             var categories = new List<Category>
             {

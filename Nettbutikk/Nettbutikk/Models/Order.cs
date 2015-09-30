@@ -20,7 +20,7 @@ namespace Nettbutikk.Models
         [HiddenInput(DisplayValue = false)]
         public Guid CustomerId { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual User Customer { get; set; }
         
         [Required]
         public virtual Address ShippingAddress

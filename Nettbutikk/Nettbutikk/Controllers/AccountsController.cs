@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Nettbutikk.Models;
+using Nettbutikk.Models.Bindings;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Nettbutikk.Controllers
 {
@@ -31,7 +33,7 @@ namespace Nettbutikk.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            User user = await db.Users.FindAsync(id);
+            User user = await UserManager.FindByIdAsync((Guid) id);
 
             if (user == null)
             {
@@ -60,11 +62,11 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("register")]
-        public async Task<ActionResult> Create(Models.Bindings.Register user)
+        public async Task<ActionResult> Create([ModelBinder(typeof(RegisterAccount))] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(Models.Bindings.Register.toUser(user));
+                db.Users.Add(user);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -74,14 +76,14 @@ namespace Nettbutikk.Controllers
 
         // GET: Accounts/Edit/5
         [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> Edit(long? id)
+        public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            User user = await db.Users.FindAsync(id);
+            User user = await UserManager.FindByIdAsync((Guid) id);
 
             if (user == null)
             {
@@ -96,7 +98,7 @@ namespace Nettbutikk.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Email,PasswordHash,PasswordSalt")] User user)
+        public async Task<ActionResult> Edit([ModelBinder(typeof(EditAccount))] User user)
         {
             if (ModelState.IsValid)
             {

@@ -13,7 +13,7 @@ namespace Nettbutikk.Controllers
     {
         public async Task<ActionResult> GetRole(string id)
         {
-            var role = await this.AppRoleManager.FindByAsync(id);
+            return View(await RoleManager.FindByIdAsync(id));
         }
     }
 }
