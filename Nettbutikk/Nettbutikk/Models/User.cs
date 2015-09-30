@@ -1,24 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using Microsoft.AspNet.Identity;
 
 namespace Nettbutikk.Models
 {
-    public class User : IdentityUser
+    public class User
     {
-        [Required]
-        public new Guid Id
+        [HiddenInput(DisplayValue = false)]
+        public int Id
         {
-            get
-            {
-                return Guid.Parse(base.Id);
-            }
-            set
-            {
-                base.Id = value.ToString();
-            }
+            get;
+            set;
         }
 
         [Required]
@@ -28,12 +19,26 @@ namespace Nettbutikk.Models
             set;
         }
 
-        // This property might be better to move into Customer,
-        // or do we need this for regular users?
+        [Required]
+        public string Adress
+        {
+            get;
+            set;
+        }
+
         [Required]
         [UIHint("Tel")]
         [DataType(DataType.PhoneNumber)]
         public string Telephone
+        {
+            get;
+            set;
+        }
+
+        [Required]
+        [UIHint("EmailAddress")]
+        [DataType(DataType.EmailAddress)]
+        public string Email
         {
             get;
             set;
