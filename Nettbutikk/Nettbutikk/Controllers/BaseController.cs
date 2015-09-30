@@ -46,11 +46,6 @@ namespace Nettbutikk.Controllers
                 return _roleManager ?? (_roleManager = Request.GetOwinContext().GetUserManager<RoleManager>());
             }
         }
-        
-        private bool IsCurrentUser(User user)
-        {
-            return User.Identity.Equals(user);
-        }
 
         private UserManager _userManager;
 
@@ -60,6 +55,7 @@ namespace Nettbutikk.Controllers
             {
                 return _userManager ?? (_userManager = Request.GetOwinContext().GetUserManager<UserManager>());
             }
+        }
 
         private SignInManager<User, Guid> _signInManager;
 
@@ -71,5 +67,20 @@ namespace Nettbutikk.Controllers
             }
         }
 
+        /**
+         * Summary:
+         *   A utility helper-method used to redirect to a local URI, or the index if it is not a local url.
+         */
+        protected ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
     }
 }
