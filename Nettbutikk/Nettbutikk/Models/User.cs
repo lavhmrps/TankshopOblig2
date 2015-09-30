@@ -8,6 +8,7 @@ namespace Nettbutikk.Models
 {
     public class User : IdentityUser<Guid, IdentityUserLogin<Guid>, IdentityUserRole<Guid>, IdentityUserClaim<Guid>>, IUser<Guid>
     {
+        [Key]
         [Required]
         public string Name
         {
