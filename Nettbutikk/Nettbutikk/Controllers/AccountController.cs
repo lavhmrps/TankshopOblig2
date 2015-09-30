@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Nettbutikk.Models.Bindings;
 using System.Threading.Tasks;
 using Nettbutikk.Infrastructure;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Nettbutikk.Controllers
 {
@@ -23,7 +20,7 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(Login model, string returnUrl)
+        public async Task<ActionResult> Login(AccountLogin model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {

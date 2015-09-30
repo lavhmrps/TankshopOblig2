@@ -60,11 +60,11 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("register")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Email,PasswordHash,PasswordSalt")] User user)
+        public async Task<ActionResult> Create(Models.Bindings.Register user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Users.Add(Models.Bindings.Register.toUser(user));
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
