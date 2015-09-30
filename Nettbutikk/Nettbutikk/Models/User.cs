@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using Microsoft.AspNet.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace Nettbutikk.Models
 {
-    public class User
+    public class User : IdentityUser<Guid, IdentityUserLogin<Guid>, IdentityUserRole<Guid>, IdentityUserClaim<Guid>>, IUser<Guid>
     {
-        [HiddenInput(DisplayValue = false)]
-        public int Id
-        {
-            get;
-            set;
-        }
-
+        private ICollection<Address> addresses;
+        private ICollection<Order> orders;
+        
+        [Key]
         [Required]
         public string Name
         {
@@ -19,29 +20,36 @@ namespace Nettbutikk.Models
             set;
         }
 
-        [Required]
-        public string Adress
+        public string Phone { get; set; }
+
+        [ForeignKey("PrimaryShippingAddress")]
+        public Guid PrimaryShippingAddressId
         {
             get;
             set;
         }
 
-        [Required]
-        [UIHint("Tel")]
-        [DataType(DataType.PhoneNumber)]
-        public string Telephone
+        public virtual Address PrimaryShippingAddress { get; set; }
+
+        [ForeignKey("PrimaryBillingAddress")]
+        public Guid PrimaryBillingAddressId
         {
             get;
             set;
         }
 
-        [Required]
-        [UIHint("EmailAddress")]
-        [DataType(DataType.EmailAddress)]
-        public string Email
+        public virtual Address PrimaryBillingAddress { get; set; }
+        
+        public virtual ICollection<Address> Addresses
         {
-            get;
-            set;
+            get { return addresses ?? (addresses = new HashSet<Address>()); }
+            set { addresses = value; }
+        }
+        
+        public virtual ICollection<Order> Orders
+        {
+            get { return orders ?? (orders = new HashSet<Order>()); }
+            set { orders = value; }
         }
     }
 }

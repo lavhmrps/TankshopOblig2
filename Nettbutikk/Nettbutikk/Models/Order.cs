@@ -1,42 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Models
 {
-    public class Order
+    
+    public partial class Order
     {
+        [Key]
         [HiddenInput(DisplayValue = false)]
-        public int Id
+        public Guid Id { get; set; }
+        
+        public DateTime PlacementDateTime { get; set; }
+
+        [Required]
+        [ForeignKey("CustomerId")]
+        [HiddenInput(DisplayValue = false)]
+        public Guid CustomerId { get; set; }
+
+        public virtual User Customer { get; set; }
+        
+        [Required]
+        public virtual Address ShippingAddress
         {
             get;
             set;
         }
 
-        [HiddenInput(DisplayValue = false)]
-        public Customer Customer
+        [Required]
+        public virtual Address BillingAddress
         {
             get;
             set;
         }
-
-        [HiddenInput(DisplayValue = false)]
-        [UIHint("DateTime")]
-        [DataType(DataType.DateTime)]
-        public DateTime Date
-        {
-            get;
-            set;
-        }
-
-        [Display(Name="Cart contents")]
-        [UIHint("Collection")]
-        public OrderLine[] Lines {
-            get;
-            set;
-        }
+        
+        public virtual ICollection<OrderLine> OrderLines { get; set; }
     }
 }
