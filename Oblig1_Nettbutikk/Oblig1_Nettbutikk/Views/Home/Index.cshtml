@@ -1,0 +1,35 @@
+﻿@{ 
+    List<Oblig1_Nettbutikk.Models.Category> categories = ViewBag.Categories;
+}
+<div class="categories">
+    <ul>
+        @foreach (var category in categories)
+        {
+            <li>@Html.DisplayFor(mode => category.Name)</li>
+        }
+    </ul>
+
+    @*<ul>
+        <li>Tanks</li>
+        <li>Våpen</li>
+        <li>Kanoner</li>
+        <li>Rifler</li>
+        <li>
+            Medisinsk utstyr
+            <ul>
+                <li>Bandasje</li>
+                <li>Salver</li>
+                <li>Plaster</li>
+                <li>Myggspray</li>
+            </ul>
+        </li>
+        <li>Noe annet..</li>
+    </ul>*@
+</div>
+
+<div class="content">
+    her e mitt content!
+</div>
+
+
+

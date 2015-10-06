@@ -1,0 +1,37 @@
+﻿<div class="header">
+    <div class="container">
+        <div class="header_logo">
+            logo
+        </div>
+        <div class="header_search">
+            search
+        </div>
+        <div class="header_options">
+            <div class="header_login">
+                @if (!ViewBag.LoggedIn)
+                {
+                <a href="#LoginModal" data-toggle="modal" >Logg inn</a> 
+                <span> | </span>
+                <a href="#RegisterModal" data-toggle="modal">Register</a>
+                }
+                else
+                {
+                    <span style="color:forestgreen">Logget inn</span>
+                    <span> | </span>
+                    @Html.ActionLink("Logg ut", "Logout", "Account")
+                    <span> | </span>
+                    @Html.ActionLink("Min side", "MyPage", "Account")
+                }
+            </div>
+            <div class="header_shop">
+                <div class="header_shoppingcart">Handlekurv</div>
+                <div class="header_checkout">Til kassen</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@Html.Partial("_LoginModal")
+@Html.Partial("_RegisterModal")
+
+

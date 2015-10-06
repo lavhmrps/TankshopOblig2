@@ -1,0 +1,120 @@
+﻿@model Oblig1_Nettbutikk.Models.CustomerRegisterPartial
+
+<div id="RegisterModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Registrer deg her</h2></div>
+            <div class="modal-body table">
+                @*@using (Html.BeginForm("Register","Account"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)*@
+                <span id="messageRegister" style="color:red"></span>
+                <table class="table-modal">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Email)</td>
+                        <td>@Html.EditorFor(model => model.Email)</td>
+                        </tr>
+
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Password)</td>
+                            <td>@Html.EditorFor(model => model.Password)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.RepeatPassword)</td>
+                            <td>@Html.EditorFor(model => model.RepeatPassword)</td>
+
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Firstname)</td>
+                            <td>@Html.EditorFor(model => model.Firstname)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Lastname)</td>
+                            <td>@Html.EditorFor(model => model.Lastname)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Address)</td>
+                            <td>@Html.EditorFor(model => model.Address)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Zipcode)</td>
+                            <td>@Html.EditorFor(model => model.Zipcode)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.City)</td>
+                            <td>@Html.EditorFor(model => model.City)</td>
+                        </tr>
+
+                        <tr>
+                            <td><button class="btn btn-danger" data-dismiss="modal">Avbryt</button></td>
+                            @*@Html.Hidden("returnUrl", this.Request.RawUrl)*@
+                            <td><button id="btnRegister" type="button" class="btn btn-success" value="Registrer">Registrer</button></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+        $(document).ready(function () {
+            $("button[data-dismiss='modal']").click(function () {
+                $("#messageRegister").html("");
+                $("#RegisterModal #Email").html("");
+                $("#RegisterModal #Password").html("");
+                $("#RegisterModal #RepeatPassword").html("");
+                $("#RegisterModal #Firstname").html("");
+                $("#RegisterModal #Lastname").html("");
+                $("#RegisterModal #Address").html("");
+                $("#RegisterModal #Zipcode").html("");
+                $("#RegisterModal #City").html("");
+            })
+
+            $("#btnRegister").click(function () {
+
+                var email = $("#RegisterModal #Email").val();
+                var password = $("#RegisterModal #Password").val();
+                var repeatPassword = $("#RegisterModal #RepeatPassword").val();
+                var firstname = $("#RegisterModal #Firstname").val();
+                var lastname = $("#RegisterModal #Lastname").val();
+                var address = $("#RegisterModal #Address").val();
+                var zipcode = $("#RegisterModal #Zipcode").val();
+                var city = $("#RegisterModal #City").val();
+
+                var customer = {
+                    email: email,
+                    password: password,
+                    repeatPassword: repeatPassword,
+                    firstname: firstname,
+                    lastname: lastname,
+                    address: address,
+                    zipcode: zipcode,
+                    city: city
+                }
+
+
+                $.ajax
+                ({
+                    url: '@Url.Action("Register", "Account")',
+                    data: customer,
+                    method: "post",
+                    success: function (result) {
+                        if (result == "False") {
+                            $("#messageRegister").html("Feil med registrering");
+                        }
+                        else if (result == "True") {
+                            window.location.reload();
+                        }
+                        
+
+                    }, error: function () {
+                        alert("error: " + result);
+                    }
+                })
+            })
+        })
+    </script>
