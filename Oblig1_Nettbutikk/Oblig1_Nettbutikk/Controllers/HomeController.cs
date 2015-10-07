@@ -11,17 +11,12 @@ namespace Oblig1_Nettbutikk.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.LoggedIn = false;
-            if(Session["LoggedIn"] != null)
-            {
-                ViewBag.LoggedIn = (bool)(Session["LoggedIn"]);
-            }
-
             var categories = DB.AllCategories();
             var products = DB.GetProductsByCategory(1);
 
             ViewBag.Categories = categories;
             ViewBag.Products = products;
+            ViewBag.LoggedIn = LoginStatus();
 
             return View();
         }
@@ -33,8 +28,21 @@ namespace Oblig1_Nettbutikk.Controllers
 
             ViewBag.Categories = categories;
             ViewBag.Products = products;
+            ViewBag.LoggedIn = LoginStatus() ;
 
             return View("Index");
         }
+
+        public bool LoginStatus()
+        {
+            bool LoggedIn = false;
+            if (Session["LoggedIn"] != null)
+            {
+                LoggedIn = (bool)Session["LoggedIn"];
+            }
+            return LoggedIn;
+        }
+
+
     }
 }

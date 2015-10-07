@@ -191,7 +191,7 @@
     <Content Include="Views\Shared\_LoginModal.cshtml" />
     <Content Include="Views\Shared\_RegisterModal.cshtml" />
     <Content Include="Views\Shared\Templates\ListItemTemplate.cshtml" />
-    <Content Include="Views\Home\Product.cshtml" />
+    <Content Include="Views\Home\Product_ListItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />

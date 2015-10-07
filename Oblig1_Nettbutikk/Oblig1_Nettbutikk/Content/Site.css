@@ -2,6 +2,7 @@
     padding-top: 50px;
     padding-bottom: 20px;
     box-sizing: border-box;
+    overflow-y:scroll;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -28,8 +29,6 @@ textarea {
 
 .wrapper{
     position:relative;
-    height:700px;
-    border:thin solid gray;
 }
 
 .categories{
@@ -42,6 +41,7 @@ textarea {
 .content{
     float:left;
     width:80%;
+    height:inherit;
     /*border:thin solid green;*/
 }
 
@@ -90,4 +90,27 @@ textarea {
     height: 60px;
     padding:0 5px;
 
+}
+
+/* product_listitem */
+
+.product_listitem{
+    height:300px;
+    overflow:hidden;
+
+    /*background:lightblue;*/
+}
+
+.listitem_description_outer{
+    overflow:hidden;
+}
+
+.listitem_description{
+    max-height:120px;
+    width:108%;
+    overflow:auto;
+    font-size:small;
+    padding:10px;
+    color:#808080;
+    background:#f5f3f3;
 }

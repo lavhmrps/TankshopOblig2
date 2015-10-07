@@ -1,27 +1,43 @@
-﻿@{ 
+﻿@{
     List<Oblig1_Nettbutikk.Models.Category> categories = ViewBag.Categories;
     List<Oblig1_Nettbutikk.Models.Product> products = ViewBag.Products;
+    int counter = 0;
 }
 <div class="wrapper">
     <div class="categories">
         <ul class="category-list">
             @foreach (var category in categories)
             {
-                <li id="@category.CategoryID">@Html.DisplayFor(model => category.Name)</li>
                 <li>
-                    @Html.ActionLink(category.Name,"Category","Home",new  { @CategoryID = category.CategoryID },null)
+                    @Html.ActionLink(category.Name, "Category", "Home", new { @CategoryID = category.CategoryID }, null)
                 </li>
-                
+
             }
         </ul>
     </div>
     <div class="content">
-        <ul>
-            @foreach(var product in products)
+        
+        @foreach (var product in products)
+        {
+            bool startRow = counter++ % 3 == 0;
+            bool endRow = counter % 3 == 0;
+           
+            if (startRow)
             {
-                <li>@Html.DisplayFor(p => product.Name)</li>
+                @Html.Raw("<div class='row'>")
             }
-        </ul>
+
+
+            <div class="col-md-4">
+                @Html.Partial("Product_ListItem",product)
+            </div>
+
+            if (endRow || products.Count == counter)
+            {
+                @Html.Raw("</div>")
+            }
+        }
+
     </div>
 
 </div>
@@ -29,7 +45,7 @@
 <script>
     $(document).ready(function () {
         $(".category-list li").click(function () {
-            
+
         })
     })
 </script>
