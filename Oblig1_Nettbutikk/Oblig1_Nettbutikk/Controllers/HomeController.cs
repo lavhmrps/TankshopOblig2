@@ -17,10 +17,24 @@ namespace Oblig1_Nettbutikk.Controllers
                 ViewBag.LoggedIn = (bool)(Session["LoggedIn"]);
             }
 
-            List<Category> categories = DB.AllCategories();
+            var categories = DB.AllCategories();
+            var products = DB.GetProductsByCategory(1);
+
             ViewBag.Categories = categories;
+            ViewBag.Products = products;
 
             return View();
+        }
+
+        public ActionResult Category (int CategoryID)
+        {
+            var categories = DB.AllCategories();
+            var products = DB.GetProductsByCategory(CategoryID);
+
+            ViewBag.Categories = categories;
+            ViewBag.Products = products;
+
+            return View("Index");
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿<div class="header">
+﻿@{ 
+    bool LoggedIn = ViewBag.LoggedIn ?? false;
+}
+
+<div class="header">
     <div class="container">
         <div class="header_logo">
             logo
@@ -8,7 +12,7 @@
         </div>
         <div class="header_options">
             <div class="header_login">
-                @if (!ViewBag.LoggedIn)
+                @if (! LoggedIn)
                 {
                 <a href="#LoginModal" data-toggle="modal" >Logg inn</a> 
                 <span> | </span>

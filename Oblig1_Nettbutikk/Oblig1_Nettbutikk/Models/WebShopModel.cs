@@ -27,7 +27,7 @@ namespace Oblig1_Nettbutikk.Models
         public virtual DbSet<Postal> Postals { get; set; }
         public virtual DbSet<CCard> CCards { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Product> Items { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Shoppingcart> Shoppingcarts { get; set; }
@@ -88,15 +88,11 @@ namespace Oblig1_Nettbutikk.Models
     // Item-category
     public class Category
     {
-        public Category()
-        {
-            this.Products = new List<Product>();
-        }
         [Key]
         public int CategoryID { get; set; }
         public string Name { get; set; }
         public List<Product> Products { get; set; }
-
+     
     }
 
     // Product
@@ -108,12 +104,14 @@ namespace Oblig1_Nettbutikk.Models
         }
         [Key]
         public int ProductID { get; set; }
+        public int CategoryID { get; set; }
         public string Name { get; set; }
-        public Category Category { get; set; }
         public double Price { get; set; }
         public int Stock { get; set; }
         public string Description { get; set; }
         public List<Image> Images { get; set; }
+
+        public virtual Category Category { get; set; }
 
     }
 

@@ -30,6 +30,21 @@ namespace Oblig1_Nettbutikk
             }
         }
 
+        internal static List<Product> GetProductsByCategory(int categoryID)
+        {
+            using (var db = new WebShopModel())
+            {
+                List<Product> AllProducts = db.Products.ToList();
+                List<Product> products = new List<Product>();
+
+                foreach (var product in AllProducts)
+                    if (product.Category.CategoryID == categoryID)
+                        products.Add(product);
+                
+                return products;
+            }
+        }
+
         internal static List<Category> AllCategories()
         {
             using (var db = new WebShopModel())

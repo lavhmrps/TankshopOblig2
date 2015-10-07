@@ -1,35 +1,35 @@
 ﻿@{ 
     List<Oblig1_Nettbutikk.Models.Category> categories = ViewBag.Categories;
+    List<Oblig1_Nettbutikk.Models.Product> products = ViewBag.Products;
 }
-<div class="categories">
-    <ul>
-        @foreach (var category in categories)
-        {
-            <li>@Html.DisplayFor(mode => category.Name)</li>
-        }
-    </ul>
+<div class="wrapper">
+    <div class="categories">
+        <ul class="category-list">
+            @foreach (var category in categories)
+            {
+                <li id="@category.CategoryID">@Html.DisplayFor(model => category.Name)</li>
+                <li>
+                    @Html.ActionLink(category.Name,"Category","Home",new  { @CategoryID = category.CategoryID },null)
+                </li>
+                
+            }
+        </ul>
+    </div>
+    <div class="content">
+        <ul>
+            @foreach(var product in products)
+            {
+                <li>@Html.DisplayFor(p => product.Name)</li>
+            }
+        </ul>
+    </div>
 
-    @*<ul>
-        <li>Tanks</li>
-        <li>Våpen</li>
-        <li>Kanoner</li>
-        <li>Rifler</li>
-        <li>
-            Medisinsk utstyr
-            <ul>
-                <li>Bandasje</li>
-                <li>Salver</li>
-                <li>Plaster</li>
-                <li>Myggspray</li>
-            </ul>
-        </li>
-        <li>Noe annet..</li>
-    </ul>*@
 </div>
 
-<div class="content">
-    her e mitt content!
-</div>
-
-
-
+<script>
+    $(document).ready(function () {
+        $(".category-list li").click(function () {
+            
+        })
+    })
+</script>
