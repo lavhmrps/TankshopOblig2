@@ -6,8 +6,8 @@ using System.Web;
 
 namespace Oblig1_Nettbutikk
 {
-	public class DB
-	{
+    public class DB
+    {
         public static bool AttemptLogin(CustomerLoginPartial user)
         {
             using (var db = new WebShopModel())
@@ -20,7 +20,7 @@ namespace Oblig1_Nettbutikk
 
                     if (existingUser == null)
                         return false;
-                    
+
                     return true;
                 }
                 catch (Exception)
@@ -37,10 +37,10 @@ namespace Oblig1_Nettbutikk
                 try
                 {
                     return db.Categories.ToList();
-    }
+                }
                 catch (Exception)
                 {
-                    return null;
+                    return new List<Category>();
                 }
             }
         }

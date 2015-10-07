@@ -9,7 +9,7 @@ namespace Oblig1_Nettbutikk.Models
     public class WebShopModel : DbContext
     {
         public WebShopModel()
-            : base("name=WebShopModel2")
+            : base("name=WebShopModel")
         {
             try
             {
@@ -27,10 +27,12 @@ namespace Oblig1_Nettbutikk.Models
         public virtual DbSet<Postal> Postals { get; set; }
         public virtual DbSet<CCard> CCards { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Product> Items { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Shoppingcart> Shoppingcarts { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+
     }
 
     // Username/password combination
@@ -44,6 +46,11 @@ namespace Oblig1_Nettbutikk.Models
     // Customerinfo
     public class Customer
     {
+        public Customer()
+        {
+            this.CreditCards = new List<CCard>();
+            this.Orders = new List<Order>();
+        }
         [Key]
         public string Email { get; set; }
         public string Firstname { get; set; }
@@ -51,14 +58,20 @@ namespace Oblig1_Nettbutikk.Models
         public string Address { get; set; }
         public Postal Postal { get; set; }
         public List<CCard> CreditCards { get; set; }
+        public List<Order> Orders { get; set; }
     }
 
     // Postaladdress
     public class Postal
     {
+        public Postal()
+        {
+            this.Customers = new List<Customer>();
+        }
         [Key]
         public string Zipcode { get; set; }
         public string City { get; set; }
+        public List<Customer> Customers { get; set; }
     }
 
     // Creditcard 
@@ -75,29 +88,42 @@ namespace Oblig1_Nettbutikk.Models
     // Item-category
     public class Category
     {
+        public Category()
+        {
+            this.Products = new List<Product>();
+        }
         [Key]
         public int CategoryID { get; set; }
         public string Name { get; set; }
-        public List<Item> Items { get; set; }
+        public List<Product> Products { get; set; }
 
     }
 
-    // Sellable Item
-    public class Item
+    // Product
+    public class Product
     {
+        public Product()
+        {
+            this.Images = new List<Image>();
+        }
         [Key]
-        public int ItemID { get; set; }
+        public int ProductID { get; set; }
         public string Name { get; set; }
         public Category Category { get; set; }
         public double Price { get; set; }
         public int Stock { get; set; }
         public string Description { get; set; }
+        public List<Image> Images { get; set; }
 
     }
 
     // Complete order
     public class Order
     {
+        public Order()
+        {
+            this.Orderlines= new List<Orderline>();
+        }
         [Key]
         public int OrderID { get; set; }
         public string Email { get; set; }
@@ -110,13 +136,17 @@ namespace Oblig1_Nettbutikk.Models
     {
         [Key]
         public int OrderlineID { get; set; }
-        public Item Item { get; set; }
+        public Product Item { get; set; }
         public int Number { get; set; }
     }
 
     // Items in shoppingcart before checkout
     public class Shoppingcart
     {
+        public Shoppingcart()
+        {
+            this.Items = new List<ShoppingcartItem>();
+        }
         [Key]
         public string Email { get; set; }
         public List<ShoppingcartItem> Items { get; set; }
@@ -127,7 +157,15 @@ namespace Oblig1_Nettbutikk.Models
         [Key]
         public int ShoppingCartItemID { get; set; }
         public Shoppingcart ShoppingCart { get; set; }
-        public Item Item { get; set; }
+        public Product Item { get; set; }
+    }
+
+    public class Image
+    {
+        [Key]
+        public int ImageID { get; set; }
+        public Product ProductID { get; set; }
+        public byte[] Imagebytes { get; set; }
     }
 
 }
