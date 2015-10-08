@@ -34,11 +34,11 @@ namespace Oblig1_Nettbutikk.Controllers
             return false;
         }
 
-        public ActionResult Logout()
+        public void Logout()
         {
             Session["LoggedIn"] = false;
             ViewBag.LoggedIn = false;
-            return RedirectToAction("Index", "Home");
+            
         }
 
         [HttpPost]

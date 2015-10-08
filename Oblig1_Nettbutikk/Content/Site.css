@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
     box-sizing: border-box;
     overflow-y:scroll;
@@ -9,6 +8,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -25,42 +25,37 @@ textarea {
     max-width: 280px;
 }
 
+.container{
+}
+
 /* Custom css */
-
-.wrapper{
-    position:relative;
+.backbar-top{
+    height:28px;
+    background:#3b3b3b;
 }
-
-.categories{
-    height:inherit;
-    float:left;
-    width:20%;
-}
-
-.content{
-    float:left;
-    width:80%;
-    height:inherit;
-    /*border:thin solid green;*/
+.backbar-mid{
+    background:lightgrey;
 }
 
 .header *{
     position:relative;
-    height:100px;
-    background:#fff094;
+    height:90px;
 
 }
 
 .header_logo{
     float:left;
     width:20%;
-    /*border:thin solid lightblue;*/
+}
+
+.header_logo img{
+    padding:5px;
 }
 
 .header_search{
+    position:relative;
     float:left;
     width:55%;
-    /*border:thin solid green;*/
 }
 
 .header_options{
@@ -70,13 +65,13 @@ textarea {
     /*border:thin solid lightblue;*/
 }
 
-.header_login, .header_shop{
+.header_login, .header_shop *{
     height:50%;
     /*border:thin solid black;*/
 }
 
-.header_shop{
-    position:relative;
+.header_shop a{
+    height:40%;
 }
 
 .header_shoppingcart, .header_checkout{
@@ -90,6 +85,27 @@ textarea {
     padding:0 5px;
 
 }
+
+.wrapper{
+    position:relative;
+    background: white;
+}
+
+.categories{
+    margin-top:20px;
+    height:inherit;
+    float:left;
+    width:20%;
+}
+
+.content{
+    float:left;
+    width:80%;
+    height:inherit;
+    /*border:thin solid green;*/
+}
+
+
 
 /* product_listitem */
 
@@ -112,4 +128,20 @@ textarea {
     padding:10px;
     color:#808080;
     background:#f5f3f3;
+}
+
+/* Search */
+.searchfield{
+    
+}
+
+.searchfield input{
+    position:absolute;
+    left:0;right:0;
+    top:0;bottom:0;
+    margin:auto;
+    padding:0 15px;
+    height:40%;
+    width:50%;
+    background:white;
 }

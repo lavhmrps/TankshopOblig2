@@ -17,6 +17,7 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
+            ViewBag.Category = 0;
 
             return View();
         }
@@ -29,6 +30,8 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus() ;
+            ViewBag.CategoryID = CategoryID;
+            ViewBag.CategoryName = DB.GetCategoryName(CategoryID) ?? "" ;
 
             return View("Index");
         }

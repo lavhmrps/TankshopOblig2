@@ -40,8 +40,19 @@ namespace Oblig1_Nettbutikk
                 foreach (var product in AllProducts)
                     if (product.Category.CategoryID == categoryID)
                         products.Add(product);
-                
+
                 return products;
+            }
+        }
+
+        public static string GetCategoryName(int categoryID)
+        {
+            using (var db = new WebShopModel())
+            {
+                var category = db.Categories.Find(categoryID);
+
+                return category.Name;
+
             }
         }
 

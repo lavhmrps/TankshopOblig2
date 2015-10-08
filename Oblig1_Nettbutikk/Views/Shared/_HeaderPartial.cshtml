@@ -1,35 +1,44 @@
-﻿@{ 
+﻿@{
     bool LoggedIn = ViewBag.LoggedIn ?? false;
 }
 
-<div class="header">
+<div class="backbar-top"></div>
+
+<div class="header backbar-mid">
     <div class="container">
         <div class="header_logo">
-            logo
+           <img src="~/Images/Tank1.png" alt="Logo showing a tank"/>
         </div>
         <div class="header_search">
-            search
+            <div class="searchfield">
+                <input type="search" placeholder="Søk i produkter" />
+            </div>
         </div>
         <div class="header_options">
             <div class="header_login">
-                @if (! LoggedIn)
+                @if (!LoggedIn)
                 {
-                <a href="#LoginModal" data-toggle="modal" >Logg inn</a> 
-                <span> | </span>
-                <a href="#RegisterModal" data-toggle="modal">Register</a>
+                    <a href="#LoginModal" data-toggle="modal">Logg inn</a>
+                    <span> | </span>
+                    <a href="#RegisterModal" data-toggle="modal">Register</a>
                 }
                 else
                 {
                     <span style="color:forestgreen">Logget inn</span>
                     <span> | </span>
-                    @Html.ActionLink("Logg ut", "Logout", "Account")
+                    <a href="#" id="Logout">Logg Ut</a>
+                    // @Html.ActionLink("Logg ut2", "Logout", "Account")
                     <span> | </span>
                     @Html.ActionLink("Min side", "MyPage", "Account")
                 }
             </div>
             <div class="header_shop">
-                <div class="header_shoppingcart">Handlekurv</div>
-                <div class="header_checkout">Til kassen</div>
+                <div class="header_shoppingcart">
+                    <a href="#"  class="btn btn-primary" >Handlekurv <span class="glyphicon glyphicon-shopping-cart" ></span></a>
+                </div>
+                <div class="header_checkout">
+                    <a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>
+                </div>
             </div>
 
         </div>
@@ -38,4 +47,21 @@
 @Html.Partial("_LoginModal")
 @Html.Partial("_RegisterModal")
 
+<script>
+    $(document).ready(function () {
+        $("#Logout").click(function () {
 
+            $.ajax({
+                url: '@Url.Action("Logout","Account")',
+                method: "post",
+                success: function () {
+
+                    window.location.reload();
+                }, error: function (result) {
+                    alert("error: " + JSON.stringify(result));
+                }
+            })
+        })
+    })
+
+</script>
