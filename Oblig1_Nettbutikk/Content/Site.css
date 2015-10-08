@@ -2,6 +2,7 @@
     padding-bottom: 20px;
     box-sizing: border-box;
     overflow-y:scroll;
+    background:#f2f2f2;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -112,8 +113,8 @@ textarea {
 .product_listitem{
     height:300px;
     overflow:hidden;
-
-    /*background:lightblue;*/
+    padding:10px;
+    background:white;
 }
 
 .listitem_description_outer{
@@ -127,7 +128,7 @@ textarea {
     font-size:small;
     padding:10px;
     color:#808080;
-    background:#f5f3f3;
+    margin-bottom:20px;
 }
 
 /* Search */
