@@ -199,7 +199,6 @@
     <Content Include="Views\Home\Product_ListItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\" />
     <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
