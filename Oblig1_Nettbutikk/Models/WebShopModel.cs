@@ -1,3 +1,19 @@
+//namespace Oblig1_Nettbutikk.Models
+//{
+//    using System;
+//    using System.Data.Entity;
+//    using System.Linq;
+
+//    public class WebShopModel : DbContext
+//    {
+//        public WebShopModel()
+//            : base("name=WebShopModel")
+//        {
+//        }
+//    }
+
+//}
+
 namespace Oblig1_Nettbutikk.Models
 {
     using System;
@@ -92,7 +108,7 @@ namespace Oblig1_Nettbutikk.Models
         public int CategoryID { get; set; }
         public string Name { get; set; }
         public List<Product> Products { get; set; }
-     
+
     }
 
     // Product
@@ -120,7 +136,7 @@ namespace Oblig1_Nettbutikk.Models
     {
         public Order()
         {
-            this.Orderlines= new List<Orderline>();
+            this.Orderlines = new List<Orderline>();
         }
         [Key]
         public int OrderID { get; set; }

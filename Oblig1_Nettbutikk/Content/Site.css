@@ -29,6 +29,11 @@ textarea {
 .container{
 }
 
+/* bootstrap override / extention */
+.row{
+    margin-top:15px;
+}
+
 /* Custom css */
 .backbar-top {
     height:28px ;
@@ -129,6 +134,22 @@ textarea {
     padding:10px;
     color:#808080;
     margin-bottom:20px;
+}
+
+.listitem_image{
+    position:relative;
+    height:70px;
+    width:100%;
+}
+
+.listitem_image img{
+    position:absolute;
+    top:0;bottom:0;
+    left:0;right:0;
+    margin:auto;
+    max-height:100%;
+    max-width:100%;
+    box-shadow: 1px 1px 1px #787;
 }
 
 /* Search */

@@ -16,14 +16,14 @@
         </ul>
     </div>
     <div class="content">
-        
+
         <h1>@ViewBag.CategoryName</h1>
-        
+
         @foreach (var product in products)
         {
             bool startRow = counter++ % 3 == 0;
             bool endRow = counter % 3 == 0;
-           
+
             if (startRow)
             {
                 @Html.Raw("<div class='row'>")
@@ -31,7 +31,7 @@
 
 
             <div class="col-md-4">
-                @Html.Partial("Product_ListItem",product)
+                @Html.Partial("Product_ListItem", product)
             </div>
 
             if (endRow || products.Count == counter)

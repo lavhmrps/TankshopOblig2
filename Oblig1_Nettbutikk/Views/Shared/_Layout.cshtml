@@ -10,17 +10,16 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    
+
     @Html.Partial("_HeaderPartial")
     <div class="container">
-       @*@Html.Partial("_CategoriesPartial")*@
         @RenderBody()
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
- 
+
 </body>
 
 

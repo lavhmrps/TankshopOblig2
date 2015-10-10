@@ -14,53 +14,53 @@
                     <tr>
                         <td>@Html.DisplayNameFor(model => model.Email)</td>
                         <td>@Html.EditorFor(model => model.Email)</td>
-                        </tr>
+                    </tr>
 
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.Password)</td>
-                            <td>@Html.EditorFor(model => model.Password)</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.RepeatPassword)</td>
-                            <td>@Html.EditorFor(model => model.RepeatPassword)</td>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Password)</td>
+                        <td>@Html.EditorFor(model => model.Password)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.RepeatPassword)</td>
+                        <td>@Html.EditorFor(model => model.RepeatPassword)</td>
 
-                        </tr>
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.Firstname)</td>
-                            <td>@Html.EditorFor(model => model.Firstname)</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.Lastname)</td>
-                            <td>@Html.EditorFor(model => model.Lastname)</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.Address)</td>
-                            <td>@Html.EditorFor(model => model.Address)</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.Zipcode)</td>
-                            <td>@Html.EditorFor(model => model.Zipcode)</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.DisplayNameFor(model => model.City)</td>
-                            <td>@Html.EditorFor(model => model.City)</td>
-                        </tr>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Firstname)</td>
+                        <td>@Html.EditorFor(model => model.Firstname)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Lastname)</td>
+                        <td>@Html.EditorFor(model => model.Lastname)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Address)</td>
+                        <td>@Html.EditorFor(model => model.Address)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Zipcode)</td>
+                        <td>@Html.EditorFor(model => model.Zipcode)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.City)</td>
+                        <td>@Html.EditorFor(model => model.City)</td>
+                    </tr>
 
-                        <tr>
-                            <td><button class="btn btn-danger" data-dismiss="modal">Avbryt</button></td>
-                            @*@Html.Hidden("returnUrl", this.Request.RawUrl)*@
-                            <td><button id="btnRegister" type="button" class="btn btn-success" value="Registrer">Registrer</button></td>
-                        </tr>
-                    </table>
+                    <tr>
+                        <td><button class="btn btn-danger" data-dismiss="modal">Avbryt</button></td>
+                        @*@Html.Hidden("returnUrl", this.Request.RawUrl)*@
+                        <td><button id="btnRegister" type="button" class="btn btn-success" value="Registrer">Registrer</button></td>
+                    </tr>
+                </table>
 
-                </div>
             </div>
         </div>
-
     </div>
-    @Scripts.Render("~/bundles/jquery")
 
-    <script>
+</div>
+@Scripts.Render("~/bundles/jquery")
+
+<script>
         $(document).ready(function () {
             $("button[data-dismiss='modal']").click(function () {
                 $("#messageRegister").html("");
@@ -109,7 +109,7 @@
                         else if (result == "True") {
                             window.location.reload();
                         }
-                        
+
 
                     }, error: function () {
                         alert("error: " + result);
@@ -117,4 +117,4 @@
                 })
             })
         })
-    </script>
+</script>

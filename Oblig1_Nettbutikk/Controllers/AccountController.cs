@@ -9,7 +9,7 @@ namespace Oblig1_Nettbutikk.Controllers
 {
     public class AccountController : Controller
     {
-        
+
 
         [HttpPost]
         public bool Login(string email, string password)
@@ -38,7 +38,7 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             Session["LoggedIn"] = false;
             ViewBag.LoggedIn = false;
-            
+
         }
 
         [HttpPost]
@@ -47,7 +47,7 @@ namespace Oblig1_Nettbutikk.Controllers
             if (DB.RegisterCustomer(customer))
             {
                 Session["LoggedIn"] = true;
-                RedirectToAction("Index","Home");
+                RedirectToAction("Index", "Home");
                 return true;
             }
             return false;
@@ -56,7 +56,7 @@ namespace Oblig1_Nettbutikk.Controllers
         public bool LoginStatus()
         {
             bool LoggedIn = false;
-            if(Session["LoggedIn"] != null)
+            if (Session["LoggedIn"] != null)
             {
                 LoggedIn = (bool)Session["LoggedIn"];
             }

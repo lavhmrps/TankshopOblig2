@@ -8,7 +8,7 @@
                 <span id="messageLogin" style="color:red"></span>
                 <table class="table-modal">
                     <tr>
-                        <td >
+                        <td>
                             @Html.DisplayNameFor(model => model.Email)
                         </td>
                         <td>
@@ -19,7 +19,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td >
+                        <td>
                             @Html.DisplayNameFor(model => model.Password)
                         </td>
                         <td>
@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
 
-                        <td >
+                        <td>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Lukk</button>
                         </td>
                         <td>
@@ -69,7 +69,7 @@
         $("#btnLogin").click(function () {
             var email = $("#Email").val();
             var password = $("#Password").val();
-            
+
             $.ajax
             ({
                 url: '@Url.Action("Login", "Account")',

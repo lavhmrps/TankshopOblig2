@@ -17,21 +17,22 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.Category = 0;
+            //ViewBag.Category = 2;
+            ViewBag.CategoryName = DB.GetCategoryName(1);
 
             return View();
         }
 
-        public ActionResult Category (int CategoryID)
+        public ActionResult Category(int CategoryID)
         {
             var categories = DB.AllCategories();
             var products = DB.GetProductsByCategory(CategoryID);
 
             ViewBag.Categories = categories;
             ViewBag.Products = products;
-            ViewBag.LoggedIn = LoginStatus() ;
-            ViewBag.CategoryID = CategoryID;
-            ViewBag.CategoryName = DB.GetCategoryName(CategoryID) ?? "" ;
+            ViewBag.LoggedIn = LoginStatus();
+            //ViewBag.CategoryID = CategoryID;
+            ViewBag.CategoryName = DB.GetCategoryName(CategoryID) ?? "";
 
             return View("Index");
         }

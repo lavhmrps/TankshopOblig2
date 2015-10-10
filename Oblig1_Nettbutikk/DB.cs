@@ -34,14 +34,22 @@ namespace Oblig1_Nettbutikk
         {
             using (var db = new WebShopModel())
             {
-                List<Product> AllProducts = db.Products.ToList();
-                List<Product> products = new List<Product>();
+                try
+                {
+                    List<Product> AllProducts = db.Products.ToList();
+                    List<Product> products = new List<Product>();
 
-                foreach (var product in AllProducts)
-                    if (product.Category.CategoryID == categoryID)
-                        products.Add(product);
+                    foreach (var product in AllProducts)
+                        if (product.Category.CategoryID == categoryID)
+                            products.Add(product);
 
-                return products;
+                    return products;
+                }
+                catch (Exception)
+                {
+                    return new List<Product>();
+                    throw;
+                }
             }
         }
 
