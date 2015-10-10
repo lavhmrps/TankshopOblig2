@@ -18,7 +18,7 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
             //ViewBag.Category = 2;
-            ViewBag.CategoryName = DB.GetCategoryName(1);
+            ViewBag.CategoryName = "Default";
 
             return View();
         }
