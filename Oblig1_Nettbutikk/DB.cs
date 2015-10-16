@@ -61,6 +61,14 @@ namespace Oblig1_Nettbutikk
             }
         }
 
+        public static Customer GetCustomerByEmail(string email)
+        {
+            using (var db = new WebShopModel())
+            {
+                return db.Customers.Find(email);
+            }
+        }
+
         public static string GetCategoryName(int categoryID)
         {
             using (var db = new WebShopModel())

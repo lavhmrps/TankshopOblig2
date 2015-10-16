@@ -23,6 +23,7 @@ namespace Oblig1_Nettbutikk.Controllers
             if (DB.AttemptLogin(customerLogin))
             {
                 Session["LoggedIn"] = true;
+                Session["Email"] = email;
                 ViewBag.LoggedIn = true;
                 return true;
             }
@@ -37,6 +38,7 @@ namespace Oblig1_Nettbutikk.Controllers
         public void Logout()
         {
             Session["LoggedIn"] = false;
+            Session["Email"] = null;
             ViewBag.LoggedIn = false;
 
         }
@@ -52,6 +54,23 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             return false;
         }
+
+        public ActionResult MyPage()
+        {
+            if (!LoginStatus())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            string Email;
+            Email = (string)Session["Email"];
+            var Customer = DB.GetCustomerByEmail(Email);
+
+            ViewBag.Customer = Customer;
+            ViewBag.LoggedIn = LoginStatus();
+
+            return View();
+        }
+
 
         public bool LoginStatus()
         {
