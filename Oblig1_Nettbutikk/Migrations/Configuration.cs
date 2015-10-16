@@ -11,7 +11,7 @@
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "Oblig1_Nettbutikk.Models.WebShopModel";
         }
 
