@@ -39,7 +39,8 @@
             <div class="header_shop">
                 @*<div class="header_shoppingcart">*@
                 <div class="col-md-6">
-                    <a href="#" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    <a id="btnShoppingCart" href="#ShoppingCartModal" data-toggle="modal" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    
                     <div class="cartCounter"></div>
                 </div>
                 @*<div class="header_checkout">*@
@@ -53,6 +54,7 @@
 </div>
 @Html.Partial("_LoginModal")
 @Html.Partial("_RegisterModal")
+@Html.Partial("_ShoppingCartModal")
 
 <script>
     $(document).ready(function () {
@@ -86,6 +88,20 @@
                 }, error: function (result) {
                     alert("error: " + JSON.stringify(result));
                 }
+            })
+        })
+
+        $("#btnShoppingCart").on("click", function () {
+            $.ajax({
+                url: '@Url.Action("GetCart","Home")',
+                
+                success: function (result) {
+                    var list = JSON.parse(result);
+                    $("#list").text(list[0].Name);
+                }, error: function (result) {
+                    alert("error: " + JSON.stringify(result))
+                }
+
             })
         })
     })

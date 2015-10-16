@@ -119,6 +119,11 @@ namespace Oblig1_Nettbutikk.Controllers
             return LoggedIn;
         }
 
+        public ActionResult Test()
+        {
+            return PartialView("_ShoppingCartModal");
+        }
+
 
     }
 }

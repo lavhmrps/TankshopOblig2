@@ -30,6 +30,14 @@ namespace Oblig1_Nettbutikk
             }
         }
 
+        public static Product GetProductById(int productId)
+        {
+            using (var db = new WebShopModel())
+            {
+                return db.Products.Find(productId);
+            }
+        }
+
         internal static List<Product> GetProductsByCategory(int categoryID)
         {
             using (var db = new WebShopModel())

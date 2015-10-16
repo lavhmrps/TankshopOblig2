@@ -10,7 +10,7 @@
 
         </div>
         <div class="col-md-7">
-            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Home", new { ProductId = Model.ProductID }, null)</h5>
+            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Product", new { ProductId = Model.ProductID, ReturnUrl=Request.RawUrl }, null)</h5>
         </div>
         </div>
     <div class="listitem_description_outer">

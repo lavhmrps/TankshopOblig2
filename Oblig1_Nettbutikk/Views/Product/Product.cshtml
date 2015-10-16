@@ -1,0 +1,12 @@
+﻿@using Oblig1_Nettbutikk.Models
+@{ 
+    Product product = ViewBag.Product;
+    var ReturnUrl = ViewBag.ReturnUrl;
+}
+
+
+<div class="wrapper">
+    <a href="@ReturnUrl">Tilbake</a>
+    @Html.Partial("Product_Details", product)
+</div>
+
