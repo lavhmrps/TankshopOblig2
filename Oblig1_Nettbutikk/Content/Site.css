@@ -43,7 +43,7 @@ textarea {
     background:lightgrey;
 }
 
-.header *{
+.header, .header_logo, .header_logo img, .header_search, .header_options{
     position:relative;
     height:90px;
 
@@ -71,7 +71,7 @@ textarea {
     /*border:thin solid lightblue;*/
 }
 
-.header_login, .header_shop *{
+.header_login, .header_shop {
     height:50%;
     /*border:thin solid black;*/
 }
@@ -154,7 +154,13 @@ textarea {
 
 /* Search */
 .searchfield{
-    
+    position:relative;
+     position:absolute;
+    left:0;right:0;
+    top:0;bottom:0;
+    margin:auto;
+    height:40%;
+    width:50%;
 }
 
 .searchfield input{
@@ -162,8 +168,18 @@ textarea {
     left:0;right:0;
     top:0;bottom:0;
     margin:auto;
-    padding:0 15px;
-    height:40%;
-    width:50%;
-    background:white;
+    padding-left: 25px;
+    height:100%;
+}
+
+.search_icon{
+    position:absolute;
+    left:25px;
+    top:10px;
+    font-size:1.1em;
+    color: #555;
+    height:auto;
+    overflow:hidden;
+    
+
 }

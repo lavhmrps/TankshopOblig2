@@ -37,6 +37,12 @@ namespace Oblig1_Nettbutikk.Controllers
             return View("Index");
         }
 
+        [HttpPost]
+        public int AddToCart(int ProductId)
+        {
+            return ProductId * 2;
+        }
+
         public bool LoginStatus()
         {
             bool LoggedIn = false;

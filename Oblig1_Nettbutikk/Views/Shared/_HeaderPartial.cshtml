@@ -11,8 +11,12 @@
         </div>
         <div class="header_search">
             <div class="searchfield">
-                <input type="search" placeholder="Søk i produkter" />
+                <input id="inputProductSearch" type="search" class="form-control" placeholder="Søk i produkter" />
+                <span class="glyphicon glyphicon-search search_icon"></span>
+                @* Temp *@
+                <span id="searchText" style="position:absolute;top:35px;left:25px;"></span>
             </div>
+
         </div>
         <div class="header_options">
             <div class="header_login">
@@ -24,21 +28,23 @@
                 }
                 else
                 {
-                    <span style="color:forestgreen">Logget inn</span>
+                    //var Cookie = Request.Cookies["Userinfo"];
+                    //var Fullname = Cookie["Firstname"] + " " + Cookie["Lastname"];
+
+                    <span>@Html.ActionLink("Min side","MyPage" ,"Account")</span>
                     <span> | </span>
-                    <a href="#" id="Logout">Logg Ut</a>
-                    // @Html.ActionLink("Logg ut2", "Logout", "Account")
-                    <span> | </span>
-                    @Html.ActionLink("Min side", "MyPage", "Account")
+                    <a href="#" id="Logout">Logg ut</a>
                 }
             </div>
             <div class="header_shop">
-                <div class="header_shoppingcart">
-                    <a href="#" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                </div>
-                <div class="header_checkout">
-                    <a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>
-                </div>
+                @*<div class="header_shoppingcart">*@
+                    <div class="col-md-6">
+                        <a href="#" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    </div>
+                @*<div class="header_checkout">*@
+                    <div class="col-md-6">
+                        <a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>
+                    </div>
             </div>
 
         </div>
@@ -49,6 +55,10 @@
 
 <script>
     $(document).ready(function () {
+        $("#inputProductSearch").on("keyup", function () {
+            $("#searchText").text($(this).val())
+        })
+
         $("#Logout").click(function () {
 
             $.ajax({

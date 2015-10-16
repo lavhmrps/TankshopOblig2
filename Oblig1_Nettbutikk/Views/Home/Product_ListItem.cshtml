@@ -2,15 +2,15 @@
 
 <div class="product_listitem">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5" style="padding-right:0;">
             <div class="listitem_image">
               
                 <img id="imgProductID_@Model.ProductID" src="@Model.ImageUrl" alt="Bilde av @Model.Name"/>
             </div>
 
         </div>
-        <div class="col-md-6">
-            <h4>@Model.Name</h4>
+        <div class="col-md-7">
+            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Home", new { ProductId = Model.ProductID }, null)</h5>
         </div>
         </div>
     <div class="listitem_description_outer">
@@ -19,21 +19,5 @@
         </div>
     </div>
     <p>Antall på lager: @Model.Stock</p>
-    <a href="#" id="@Model.ProductID" data-productName="@Model.Name" class="btn btn-success">kr @Model.Price,- <span class="glyphicon glyphicon-shopping-cart"></span></a>
+    <a href="#" id="@Model.ProductID" data-productName="@Model.Name" class="btn btn-success addItemToCart">kr @Model.Price,- <span class="glyphicon glyphicon-shopping-cart"></span></a>
 </div>
-
-<script>
-    $(document).ready(function () {
-
-        $("img").on("error", function ()
-        {
-            $(this).hide();
-        })
-
-        $(".product_listitem a").unbind("click");
-        $(".product_listitem a").click(function () {
-            alert("TODO: legg " + $(this).attr("data-productName") + " i shoppingcart (Product_ListItem.cshtml)")
-            // Add to shoppingcart
-        })
-    })
-</script>
