@@ -73,8 +73,8 @@ namespace Oblig1_Nettbutikk.Models
         public string Lastname { get; set; }
         public string Address { get; set; }
         public Postal Postal { get; set; }
-        public List<CCard> CreditCards { get; set; }
-        public List<Order> Orders { get; set; }
+        public virtual List<CCard> CreditCards { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }
 
     // Postaladdress
@@ -104,20 +104,20 @@ namespace Oblig1_Nettbutikk.Models
     // Item-category
     public class Category
     {
+        public Category()
+        {
+            this.Products = new List<Product>();
+        }
         [Key]
         public int CategoryID { get; set; }
         public string Name { get; set; }
-        public List<Product> Products { get; set; }
+        public virtual List<Product> Products { get; set; }
 
     }
 
     // Product
     public class Product
     {
-        public Product()
-        {
-            this.Images = new List<Image>();
-        }
         [Key]
         public int ProductID { get; set; }
         public int CategoryID { get; set; }
@@ -125,7 +125,7 @@ namespace Oblig1_Nettbutikk.Models
         public double Price { get; set; }
         public int Stock { get; set; }
         public string Description { get; set; }
-        public List<Image> Images { get; set; }
+        public string ImageUrl { get; set; }
 
         public virtual Category Category { get; set; }
 
@@ -150,8 +150,9 @@ namespace Oblig1_Nettbutikk.Models
     {
         [Key]
         public int OrderlineID { get; set; }
-        public Product Item { get; set; }
+        public int ProductID { get; set; }
         public int Number { get; set; }
+        public virtual Product Item { get; set; }
     }
 
     // Items in shoppingcart before checkout
@@ -163,23 +164,26 @@ namespace Oblig1_Nettbutikk.Models
         }
         [Key]
         public string Email { get; set; }
-        public List<ShoppingcartItem> Items { get; set; }
+        public virtual  List<ShoppingcartItem> Items { get; set; }
     }
 
     public class ShoppingcartItem
     {
         [Key]
         public int ShoppingCartItemID { get; set; }
-        public Shoppingcart ShoppingCart { get; set; }
-        public Product Item { get; set; }
+        public int ProductID { get; set; }
+        public int Number { get; set; }
+        public virtual Shoppingcart ShoppingCart { get; set; }
+        public virtual Product Product { get; set; }
     }
 
     public class Image
     {
         [Key]
         public int ImageID { get; set; }
-        public Product ProductID { get; set; }
-        public byte[] Imagebytes { get; set; }
+        public int ProductID { get; set; }
+        public string  ImageURL{ get; set; }
+        public virtual Product Product { get; set; }
     }
 
 }
