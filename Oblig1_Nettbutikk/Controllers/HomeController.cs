@@ -60,8 +60,15 @@ namespace Oblig1_Nettbutikk.Controllers
             var numItemsInCart = 0;
             foreach (var c in list)
             {
-                var count = Convert.ToInt32(cookie[c.ToString()]);
-                numItemsInCart += count;
+                try
+                {
+                    var count = Convert.ToInt32(cookie[c.ToString()]);
+                    numItemsInCart += count;
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
             return numItemsInCart;
         }
@@ -76,8 +83,16 @@ namespace Oblig1_Nettbutikk.Controllers
             var numItemsInCart = 0;
             foreach (var c in list)
             {
-                var count = Convert.ToInt32(cookie[c.ToString()]);
-                numItemsInCart += count;
+                try
+                {
+
+                    var count = Convert.ToInt32(cookie[c.ToString()]);
+                    numItemsInCart += count;
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
             return numItemsInCart;
         }
@@ -92,17 +107,25 @@ namespace Oblig1_Nettbutikk.Controllers
             {
                 foreach (var c in list)
                 {
-                    var pId = Convert.ToInt32(c);
-                    var product = db.Products.Find(pId);
-                    var count = Convert.ToInt32(cookie[c.ToString()]);
-                    cart.Add(new CartItem
+                    try
                     {
-                        ProductId = pId,
-                        Name = product.Name,
-                        Price = product.Price,
-                        Count = count
-                    });
 
+                        var pId = Convert.ToInt32(c);
+                        var product = db.Products.Find(pId);
+                        var count = Convert.ToInt32(cookie[c.ToString()]);
+                        cart.Add(new CartItem
+                        {
+                            ProductId = pId,
+                            Name = product.Name,
+                            Price = product.Price,
+                            Count = count
+                        });
+
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                 }
             }
             var jsonCart = JsonConvert.SerializeObject(cart);
@@ -119,11 +142,80 @@ namespace Oblig1_Nettbutikk.Controllers
             return LoggedIn;
         }
 
-        public ActionResult Test()
+        public ActionResult ShoppingCart(string ReturnUrl)
         {
-            return PartialView("_ShoppingCartModal");
+            ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.ShoppingCart = GetCartList();
+            return View();
         }
 
+        private List<CartItem> GetCartList()
+        {
+            var cookie = Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
+            var list = cookie.Values;
+            var cart = new List<CartItem>();
 
+            using (var db = new WebShopModel())
+            {
+                foreach (var c in list)
+                {
+                    try
+                    {
+                        var pId = Convert.ToInt32(c);
+                        var product = db.Products.Find(pId);
+                        var count = Convert.ToInt32(cookie[c.ToString()]);
+                        cart.Add(new CartItem
+                        {
+                            ProductId = pId,
+                            Name = product.Name,
+                            Price = product.Price,
+                            Count = count
+                        });
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+
+                }
+            }
+
+            return cart;
+        }
+
+        [HttpPost]
+        public int RemoveFromCart(int ProductId)
+        {
+            var cookie = Request.Cookies["Shoppingcart"];
+            cookie.Values[ProductId.ToString()] = null;
+            Response.AppendCookie(cookie);
+
+            GetCart();
+
+            return NumItemsInCart();
+        }
+
+        public double GetSumTotalCart()
+        {
+            var sumTotal = 0.0;
+            var cart = GetCartList();
+
+            foreach (var item in cart)
+            {
+                sumTotal += item.Price * item.Count;
+            }
+
+            return sumTotal;
+        }
+
+        public int UpdateCartProductCount(int ProductId, int Count)
+        {
+            var cookie = Request.Cookies["Shoppingcart"];
+            cookie[ProductId.ToString()] = Count.ToString();
+            Response.AppendCookie(cookie);
+
+            return NumItemsInCart();
+
+        }
     }
 }

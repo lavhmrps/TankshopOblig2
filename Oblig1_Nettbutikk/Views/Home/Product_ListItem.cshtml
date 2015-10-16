@@ -19,5 +19,8 @@
         </div>
     </div>
     <p>Antall på lager: @Model.Stock</p>
-    <a href="#" id="@Model.ProductID" data-productName="@Model.Name" class="btn btn-success addItemToCart">kr @Model.Price,- <span class="glyphicon glyphicon-shopping-cart"></span></a>
+    @{ 
+        
+    }
+    <a href="#" id="@Model.ProductID" data-productName="@Model.Name" class="btn btn-success addItemToCart">kr <span class="formatPrice">@Model.Price</span> <span class="glyphicon glyphicon-shopping-cart"></span></a>
 </div>

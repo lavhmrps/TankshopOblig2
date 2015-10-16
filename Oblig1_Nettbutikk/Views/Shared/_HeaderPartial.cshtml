@@ -7,7 +7,9 @@
 <div class="header backbar-mid">
     <div class="container">
         <div class="header_logo">
-            <img src="~/Images/logo-tank.png" alt="Logo showing a tank" />
+            <a href="@Url.Action("Index","Home")">
+                <img src="~/Images/logo-tank.png" alt="Logo showing a tank" />
+            </a>
         </div>
         <div class="header_search">
             <div class="searchfield">
@@ -24,7 +26,9 @@
                 {
                     <a href="#LoginModal" data-toggle="modal">Logg inn</a>
                     <span> | </span>
-                    <a href="#RegisterModal" data-toggle="modal">Register</a>
+                    <a href="#RegisterModal" data-toggle="modal">Registrer bruker</a>
+                    
+                   
                 }
                 else
                 {
@@ -37,15 +41,17 @@
                 }
             </div>
             <div class="header_shop">
-                @*<div class="header_shoppingcart">*@
                 <div class="col-md-6">
-                    <a id="btnShoppingCart" href="#ShoppingCartModal" data-toggle="modal" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    @*<a id="btnShoppingCart" href="#ShoppingCartModal" data-toggle="modal" class="btn btn-primary">
+                        Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </a>*@
+                    @Html.ActionLink("Handlekurv","Shoppingcart","Home",null, new { @class="btn btn-primary" })
                     
                     <div class="cartCounter"></div>
                 </div>
-                @*<div class="header_checkout">*@
                 <div class="col-md-6">
-                    <a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>
+                    @*<a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>*@
+                    @Html.ActionLink("Til betaling","Checkout","Account", null, new {@class= "btn btn-danger" })
                 </div>
             </div>
 
@@ -58,20 +64,24 @@
 
 <script>
     $(document).ready(function () {
-        $.ajax({
-            url: '@Url.Action("NumItemsInCart","Home")',
-            method: "GET",
-            success: function (result) {
-                count = parseInt(result);
-                $(".cartCounter").text(count);
+        updateNumItemsInCart();
 
+        function updateNumItemsInCart() {
+            $.ajax({
+                url: '@Url.Action("NumItemsInCart","Home")',
+                method: "GET",
+                success: function (result) {
+                    count = parseInt(result);
+                    $(".cartCounter").text(count);
 
-            }, error: function (result) {
-                //window.location.href = result;
-                alert(result);
-            }
+                }, error: function (result) {
+                    //window.location.href = result;
+                    alert(result);
+                }
+            })
+        }
 
-        })
+        
 
         $("#inputProductSearch").on("keyup", function () {
             $("#searchText").text($(this).val())
@@ -96,8 +106,8 @@
                 url: '@Url.Action("GetCart","Home")',
                 
                 success: function (result) {
-                    var list = JSON.parse(result);
-                    $("#list").text(list[0].Name);
+                    var cart = JSON.parse(result);
+                    populateCartTable(list);
                 }, error: function (result) {
                     alert("error: " + JSON.stringify(result))
                 }
