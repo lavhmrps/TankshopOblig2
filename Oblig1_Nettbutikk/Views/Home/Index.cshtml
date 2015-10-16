@@ -60,9 +60,11 @@
                 },
                 method: "POST",
                 success: function (result) {
-                    alert("success: " + JSON.stringify(result))
+                    count = parseInt(result);
+                    $(".cartCounter").text(count);
                 }, error: function (result) {
-                    alert("error: "+JSON.stringify(result))
+                    //window.location.href = result;
+                    alert(JSON.stringify(result));
                 }
                 
             })

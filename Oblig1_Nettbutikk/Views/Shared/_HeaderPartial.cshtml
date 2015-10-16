@@ -31,20 +31,21 @@
                     //var Cookie = Request.Cookies["Userinfo"];
                     //var Fullname = Cookie["Firstname"] + " " + Cookie["Lastname"];
 
-                    <span>@Html.ActionLink("Min side","MyPage" ,"Account")</span>
+                    <span>@Html.ActionLink("Min side", "MyPage", "Account")</span>
                     <span> | </span>
                     <a href="#" id="Logout">Logg ut</a>
                 }
             </div>
             <div class="header_shop">
                 @*<div class="header_shoppingcart">*@
-                    <div class="col-md-6">
-                        <a href="#" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                    </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-primary">Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    <div class="cartCounter"></div>
+                </div>
                 @*<div class="header_checkout">*@
-                    <div class="col-md-6">
-                        <a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>
-                    </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>
+                </div>
             </div>
 
         </div>
@@ -55,6 +56,21 @@
 
 <script>
     $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("NumItemsInCart","Home")',
+            method: "GET",
+            success: function (result) {
+                count = parseInt(result);
+                $(".cartCounter").text(count);
+
+
+            }, error: function (result) {
+                //window.location.href = result;
+                alert(result);
+            }
+
+        })
+
         $("#inputProductSearch").on("keyup", function () {
             $("#searchText").text($(this).val())
         })

@@ -104,14 +104,9 @@ namespace Oblig1_Nettbutikk.Models
     // Item-category
     public class Category
     {
-        public Category()
-        {
-            this.Products = new List<Product>();
-        }
         [Key]
         public int CategoryID { get; set; }
         public string Name { get; set; }
-        public virtual List<Product> Products { get; set; }
 
     }
 
