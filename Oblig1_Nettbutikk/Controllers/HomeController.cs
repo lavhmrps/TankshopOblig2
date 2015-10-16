@@ -146,6 +146,7 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             ViewBag.ReturnUrl = ReturnUrl;
             ViewBag.ShoppingCart = GetCartList();
+            ViewBag.LoggedIn = LoginStatus();
             return View();
         }
 
