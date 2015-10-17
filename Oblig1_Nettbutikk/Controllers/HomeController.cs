@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -217,6 +218,15 @@ namespace Oblig1_Nettbutikk.Controllers
 
             return NumItemsInCart();
 
+        }
+
+        public ActionResult EmptyCart(string returnUrl)
+        {
+            var cookie = Request.Cookies["Shoppingcart"];
+            cookie.Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies.Add(cookie);
+
+            return Redirect(returnUrl);
         }
     }
 }

@@ -266,11 +266,17 @@ section {
 
 /* Shopping cart */
 .shoppingcart {
+    position:relative;
     width: 80%;
+    min-height:400px;
     margin: auto;
     background: white;
     padding: 10px;
 }
+
+/*.shoppingcart .rowlist {
+    box-shadow:0 0 1px #555;
+}*/
 
     .shoppingcart .rowlist .row {
         margin: 0;
@@ -287,12 +293,19 @@ section {
             color: #fafafa;
         }
 
+        .summary_wrapper{
+            position:relative;
+            height:100px;width:350px;
+            margin-top:20px;
+            float:right;
+        }
+
 .shoppingcart_summary {
-    position:relative;
-    float:right;
-    height:100px;
-    width:300px;
-    margin-top:20px;
+    position:absolute;
+    right:0;
+    height:100%;
+    width:100%;
+    /*margin-top:20px;*/
     padding:5px;
     background: #f3c0c0;
     box-shadow: 0 0 1px #555;
@@ -321,4 +334,10 @@ section {
         margin:auto;
         width:200px;
         font-size:large;
+    }
+
+    .shoppingcart_summary .emptyCartLink{
+        position:absolute;
+        left:0;
+        bottom:-20px;
     }

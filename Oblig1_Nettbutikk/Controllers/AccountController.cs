@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
+    
     public class AccountController : Controller
     {
 
