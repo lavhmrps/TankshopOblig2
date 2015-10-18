@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -138,8 +138,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CustomerEditInfo.cs" />
     <Compile Include="Models\CustomerLoginPartial.cs" />
     <Compile Include="Models\CustomerRegisterPartial.cs" />
+    <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\WebShopModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -198,6 +200,9 @@
     <Content Include="Views\Home\ShoppingCart.cshtml" />
     <Content Include="Views\Home\_CartItem.cshtml" />
     <Content Include="Views\Account\MyPage.cshtml" />
+    <Content Include="Views\Account\_CustomerEditInfoPartial.cshtml" />
+    <Content Include="Views\Account\_CustomerChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_CustomerListOrdersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -226,6 +231,8 @@
           <DevelopmentServerPort>1486</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1486/Nettbutikk</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:1486/Nettbutikk</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

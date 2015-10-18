@@ -1,19 +1,3 @@
-//namespace Oblig1_Nettbutikk.Models
-//{
-//    using System;
-//    using System.Data.Entity;
-//    using System.Linq;
-
-//    public class WebShopModel : DbContext
-//    {
-//        public WebShopModel()
-//            : base("name=WebShopModel")
-//        {
-//        }
-//    }
-
-//}
-
 namespace Oblig1_Nettbutikk.Models
 {
     using System;
@@ -39,8 +23,8 @@ namespace Oblig1_Nettbutikk.Models
         }
 
         public virtual DbSet<CustomerCredential> CustomerCredentials { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Postal> Postals { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Postal> Postals { get; set; }
         public virtual DbSet<CCard> CCards { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -62,31 +46,25 @@ namespace Oblig1_Nettbutikk.Models
     // Customerinfo
     public class Customer
     {
-        public Customer()
-        {
-            this.CreditCards = new List<CCard>();
-            this.Orders = new List<Order>();
-        }
         [Key]
         public string Email { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Address { get; set; }
+        public string Zipcode { get; set; }
+
         public Postal Postal { get; set; }
-        public virtual List<CCard> CreditCards { get; set; }
-        public virtual List<Order> Orders { get; set; }
+        public List<CCard> CreditCards { get; set; }
+        public List<Order> Orders { get; set; }
     }
 
     // Postaladdress
     public class Postal
     {
-        public Postal()
-        {
-            this.Customers = new List<Customer>();
-        }
         [Key]
         public string Zipcode { get; set; }
         public string City { get; set; }
+
         public List<Customer> Customers { get; set; }
     }
 
@@ -136,8 +114,8 @@ namespace Oblig1_Nettbutikk.Models
         [Key]
         public int OrderID { get; set; }
         public string Email { get; set; }
-        public List<Orderline> Orderlines { get; set; }
-        public DateTime Date { get; set; }
+        public virtual List<Orderline> Orderlines { get; set; }
+        //public DateTime Date { get; set; }
     }
 
     // Individual orderlines

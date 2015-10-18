@@ -1,0 +1,26 @@
+﻿@using Oblig1_Nettbutikk.Models
+
+@{
+    bool LoggedIn = ViewBag.LoggedIn;
+    CustomerEditInfo customer = ViewBag.Customer;
+    List<OrderView> OrderList = ViewBag.OrderList;
+}
+
+@Html.Partial("_CustomerListOrdersPartial",OrderList)
+@Html.Partial("_CustomerEditInfoPartial", customer)
+@Html.Partial("_CustomerChangePasswordPartial", new CustomerChangePassword())
+
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <script>
+        $(document).ready(function () {
+
+        })
+    </script>

@@ -61,11 +61,20 @@ namespace Oblig1_Nettbutikk
             }
         }
 
+        public static Postal GetPostal(string zipcode)
+        {
+            using (var db = new WebShopModel())
+            {
+                return db.Postals.Find(zipcode);
+            }
+        }
+
         public static Customer GetCustomerByEmail(string email)
         {
             using (var db = new WebShopModel())
             {
-                return db.Customers.Find(email);
+                var customer = db.Customers.Find(email);
+                return customer;
             }
         }
 
@@ -95,7 +104,46 @@ namespace Oblig1_Nettbutikk
             }
         }
 
-        private static byte[] CreateHash(string password)
+        public static bool UpdateCustomer(CustomerEditInfo updates, string email)
+        {
+            using (var db = new WebShopModel())
+            {
+                try
+                {
+                    var Customer = db.Customers.Find(email);
+                    Customer.Firstname = updates.Firstname;
+                    Customer.Lastname = updates.Lastname;
+                    Customer.Address = updates.Address;
+
+                    if (Customer.Zipcode != updates.Zipcode)
+                    {
+                        Customer.Zipcode = updates.Zipcode;
+                        var oldPostal = db.Postals.Find(Customer.Zipcode);
+                        var newPostal = db.Postals.Find(updates.Zipcode);
+
+                        if (newPostal == null)
+                        {
+                            newPostal = new Postal()
+                            {
+                                Zipcode = updates.Zipcode,
+                                City = updates.City,
+                                Customers = new List<Customer>()
+                            };
+                        }
+                        newPostal.Customers.Add(Customer);
+                        Customer.Postal = newPostal;
+                    }
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        internal static byte[] CreateHash(string password)
         {
             byte[] inData, outData;
             var alg = System.Security.Cryptography.SHA256.Create();
@@ -119,7 +167,7 @@ namespace Oblig1_Nettbutikk
                         Firstname = customer.Firstname,
                         Lastname = customer.Lastname,
                         Address = customer.Address,
-                        CreditCards = new List<CCard>()
+                        Zipcode = customer.Zipcode
                     };
 
                     var customerPostal = db.Postals.Find(customer.Zipcode);
@@ -128,11 +176,13 @@ namespace Oblig1_Nettbutikk
                         customerPostal = new Postal
                         {
                             Zipcode = customer.Zipcode,
-                            City = customer.City
+                            City = customer.City,
+                            Customers = new List<Customer>()
                         };
                     }
 
                     newCustomer.Postal = customerPostal;
+                    customerPostal.Customers.Add(newCustomer);
 
                     var newCustomerCredential = new CustomerCredential
                     {
@@ -142,7 +192,6 @@ namespace Oblig1_Nettbutikk
 
                     db.Customers.Add(newCustomer);
                     db.CustomerCredentials.Add(newCustomerCredential);
-
 
                     db.SaveChanges();
                     return true;

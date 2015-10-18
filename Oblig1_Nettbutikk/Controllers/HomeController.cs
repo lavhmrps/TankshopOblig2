@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
-    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
