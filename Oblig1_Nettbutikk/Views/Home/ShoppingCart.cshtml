@@ -38,10 +38,9 @@
     <section>
         <div class="summary_wrapper">
             <div class="shoppingcart_summary">
-
                 <span class="lblPrice">Totalsum: </span>
                 <span id="sumTotal" class="formatPrice">@Html.Action("GetSumTotalCart", "Home")</span><span class="dotdash">,-</span>
-                <a href="#" class="btn btn-danger">Gå til betaling</a>
+                @Html.ActionLink("Til betaling","Checkout","Account",null, new { @class = "btn btn-danger " })
                 @Html.ActionLink("Tøm handlekurven", "EmptyCart", "Home", new { returnUrl = Request.RawUrl }, new { @class = "emptyCartLink" })
             </div>
         </div>
@@ -50,6 +49,8 @@
 
 <script>
     $(document).ready(function () {
+        
+
         $("#sumTotal").text(formatPrice($("#sumTotal").text()))
     
         $(".selectChangeCountItem").change(function () {

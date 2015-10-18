@@ -150,7 +150,7 @@ namespace Oblig1_Nettbutikk.Controllers
             return View();
         }
 
-        private List<CartItem> GetCartList()
+        public List<CartItem> GetCartList()
         {
             var cookie = Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
             var list = cookie.Values;

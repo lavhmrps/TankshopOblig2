@@ -14,12 +14,12 @@
     @foreach(var order in Model)
     {
         <li>OrdreId: 
-            @order.OrderId;
+            @order.OrderId kl<time>@order.Date</time>
             <ul>
                 @foreach(var item in order.Orderlines)
                 {
                     <li>Produkt: 
-                        @item.Item.Name
+                        @item.Product.Name
                     </li>
                 }
             </ul>

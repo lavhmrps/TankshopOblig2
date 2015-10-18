@@ -9,6 +9,13 @@ namespace Oblig1_Nettbutikk.Models
     {
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
-        public List<Orderline> Orderlines { get; set; }
+        public List<OrderlineView> Orderlines { get; set; }
+    }
+
+    public class OrderlineView
+    {
+        public int OrderlineId { get; set; }
+        public Product Product{ get; set; }
+        public int Count { get; set; }
     }
 }

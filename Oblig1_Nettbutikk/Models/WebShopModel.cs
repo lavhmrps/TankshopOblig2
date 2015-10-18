@@ -22,16 +22,16 @@ namespace Oblig1_Nettbutikk.Models
             }
         }
 
-        public virtual DbSet<CustomerCredential> CustomerCredentials { get; set; }
+        public DbSet<CustomerCredential> CustomerCredentials { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Postal> Postals { get; set; }
-        public virtual DbSet<CCard> CCards { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Orderline> Orderlines { get; set; }
-        public virtual DbSet<Shoppingcart> Shoppingcarts { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
+        public DbSet<CCard> CCards { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Orderline> Orderlines { get; set; }
+        public DbSet<Shoppingcart> Shoppingcarts { get; set; }
+        public DbSet<Image> Images { get; set; }
 
     }
 
@@ -115,7 +115,7 @@ namespace Oblig1_Nettbutikk.Models
         public int OrderID { get; set; }
         public string Email { get; set; }
         public virtual List<Orderline> Orderlines { get; set; }
-        //public DateTime Date { get; set; }
+        public DateTime Date { get; set; }
     }
 
     // Individual orderlines

@@ -202,6 +202,63 @@ namespace Oblig1_Nettbutikk
                 }
             }
         }
+
+        public static OrderView GetReciept(int orderId)
+        {
+            using (var db = new WebShopModel())
+            {
+                var OrderView = db.Orders.Where(o => o.OrderID == orderId).Select(o => new OrderView()
+                {
+                    OrderId = o.OrderID,
+                    Date = o.Date,
+                    Orderlines = o.Orderlines.Select(l => new OrderlineView
+                    {
+                        OrderlineId = l.OrderlineID,
+                        Product = l.Item    ,
+                        Count = l.Number
+                    }).ToList()
+                }).FirstOrDefault();
+
+                return OrderView;
+            }
+        }
+
+        public static int PlaceOrder(string email, List<CartItem> cart)
+        {
+            using (var db = new WebShopModel())
+            {
+                try
+                {
+                    var Order = new Order();
+                    
+                    var Customer = GetCustomerByEmail(email);
+
+                    Order.Email = email;
+                    Order.Date = DateTime.Now;
+
+                    foreach (var item in cart)
+                    {
+                        var Product = GetProductById(item.ProductId);
+                        var Orderline = new Orderline();
+
+                        Orderline.Item = Product;
+                        Orderline.Number = item.Count;
+                        Orderline.ProductID = item.ProductId;
+
+                        Order.Orderlines.Add(Orderline);
+                    }
+                    db.Orders.Add(Order);
+                    //Customer.Orders.Add(Order);
+                    db.SaveChanges();
+                    return Order.OrderID;
+                }
+                catch (Exception)
+                {
+                    return -1;
+                }
+
+            }
+        }
     }
 }
 

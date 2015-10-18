@@ -1,0 +1,26 @@
+﻿@using Oblig1_Nettbutikk.Models
+@{
+    OrderView Reciept = ViewBag.Reciept;
+}
+
+<h2>GetReciept</h2>
+
+<ul>
+    <li>
+        @Reciept.OrderId <time>@Reciept.Date </time>
+        <ul>
+            @foreach(var item in Reciept.Orderlines)
+            {
+                <li>OrdrelinjeId
+                    @item.OrderlineId
+                </li>
+                <li>Produkt: 
+                    @item.Product.Name
+                </li>
+                <li>Antall: 
+                    @item.Count
+                </li>
+            }
+        </ul>
+    </li>
+</ul>

@@ -1,4 +1,5 @@
 ﻿using Oblig1_Nettbutikk.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public void Logout()
         {
-                //Session["LoggedIn"] = false;
-                //Session["Email"] = null;
+            //Session["LoggedIn"] = false;
+            //Session["Email"] = null;
             Session.Abandon();
             ViewBag.LoggedIn = false;
 
@@ -64,7 +65,7 @@ namespace Oblig1_Nettbutikk.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            
+
             string Email = (string)Session["Email"];
             var Customer = DB.GetCustomerByEmail(Email);
             var Postal = DB.GetPostal(Customer.Zipcode);
@@ -80,9 +81,16 @@ namespace Oblig1_Nettbutikk.Controllers
                 City = c.Postal.City
             }).FirstOrDefault();
 
-            var orderList = db.Orders.Where(o => o.Email == Email).Select(o => new OrderView() {
+            var orderList = db.Orders.Where(o => o.Email == Email).Select(o => new OrderView()
+            {
                 OrderId = o.OrderID,
-                Orderlines = o.Orderlines.ToList()
+                Date=o.Date,
+                Orderlines = o.Orderlines.Select(l => new OrderlineView
+                {
+                    OrderlineId = l.OrderlineID,
+                    Product = l.Item,
+                    Count = l.Number
+                }).ToList()
             }).ToList();
 
             ViewBag.LoggedIn = LoginStatus();
@@ -101,9 +109,9 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public ActionResult UpdatePersonData(CustomerEditInfo customerEdit, string returnUrl)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                if(DB.UpdateCustomer(customerEdit, (string)Session["Email"]))
+                if (DB.UpdateCustomer(customerEdit, (string)Session["Email"]))
                 {
                     return RedirectToAction("MyPage");
                 }
@@ -114,7 +122,7 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public bool ChangePassword2(string CurrentPw, string NewPw)
         {
-            
+
             var Email = (string)Session["Email"];
 
             CustomerLoginPartial login = new CustomerLoginPartial()
@@ -143,32 +151,93 @@ namespace Oblig1_Nettbutikk.Controllers
             return false;
         }
 
-        [HttpPost]
-        public ActionResult ChangePassword(CustomerChangePassword changePw, string returnUrl)
+        //[HttpPost]
+        //public ActionResult ChangePassword(CustomerChangePassword changePw, string returnUrl)
+        //{
+        //    if(ModelState.IsValid)
+        //    {
+        //        var Email = (string)Session["Email"];
+
+        //        CustomerLoginPartial login = new CustomerLoginPartial()
+        //        {
+        //            Email = Email,
+        //            Password = changePw.CurrentPassword
+        //        };
+        //        if(DB.AttemptLogin(login))
+        //        {
+        //            var newPasswordHash = DB.CreateHash(changePw.NewPassword);
+        //            using (var db = new WebShopModel())
+        //            {
+        //                var credentials = db.CustomerCredentials.Find(Email);
+        //                credentials.Password = newPasswordHash;
+        //                db.SaveChanges();
+
+        //                return RedirectToAction("MyPage");
+        //            }
+        //        }
+        //    }
+        //    return Redirect(returnUrl);
+        //}
+
+        public ActionResult Checkout()
         {
-            if(ModelState.IsValid)
+            if (LoginStatus())
             {
                 var Email = (string)Session["Email"];
-
-                CustomerLoginPartial login = new CustomerLoginPartial()
+                var cart = new CookieHandler().GetCartList(this);
+                var cust = new WebShopModel().Customers.Where(c => c.Email == Email).Select(c => new CustomerEditInfo()
                 {
-                    Email = Email,
-                    Password = changePw.CurrentPassword
-                };
-                if(DB.AttemptLogin(login))
-                {
-                    var newPasswordHash = DB.CreateHash(changePw.NewPassword);
-                    using (var db = new WebShopModel())
-                    {
-                        var credentials = db.CustomerCredentials.Find(Email);
-                        credentials.Password = newPasswordHash;
-                        db.SaveChanges();
+                    Firstname = c.Firstname,
+                    Lastname = c.Lastname,
+                    Address = c.Address,
+                    Zipcode = c.Zipcode,
+                    City = c.Postal.City
+                }).FirstOrDefault();
 
-                        return RedirectToAction("MyPage");
-                    }
-                }
+                ViewBag.Cart = cart;
+                ViewBag.Customer = cust;
+                ViewBag.LoggedIn = LoginStatus();
+
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult PlaceOrder(string returnUrl)
+        {
+            var ch = new CookieHandler();
+            var cart = ch.GetCartList(this);
+            var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
+            if (OrderId > 0)
+            {
+                ch.EmptyCart(this);
+                OrderView Reciept = GetReciept(OrderId);
+
+                ViewBag.LoggedIn = LoginStatus();
+                ViewBag.Reciept = Reciept;
+
+                return View("GetReciept");
             }
             return Redirect(returnUrl);
+        }
+
+        public OrderView GetReciept(int OrderId)
+        {
+            var db = new WebShopModel();
+            var reciept = db.Orders.Where(o => o.OrderID == OrderId).Select(o => new OrderView()
+            {
+                OrderId = o.OrderID,
+                Date = o.Date,
+                Orderlines = o.Orderlines.Select(l => new OrderlineView
+                {
+                    OrderlineId = l.OrderlineID,
+                    Product = l.Item,
+                    Count = l.Number
+                }).ToList()
+            }).FirstOrDefault();
+
+            return reciept;
+            
         }
 
 

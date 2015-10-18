@@ -1,0 +1,14 @@
+﻿@model List<Oblig1_Nettbutikk.Models.CartItem>
+
+<h4>Din ordre</h4>
+<ul>
+    @foreach (var item in Model)
+    {
+        var SumTotal = item.Price * item.Count;
+
+        <li>
+            @item.Count stk @item.Name (@item.ProductId), Totalt kr. @SumTotal
+        </li>
+    }
+</ul>
+

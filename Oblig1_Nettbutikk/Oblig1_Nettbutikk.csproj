@@ -132,6 +132,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="CookieHandler.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,6 +204,10 @@
     <Content Include="Views\Account\_CustomerEditInfoPartial.cshtml" />
     <Content Include="Views\Account\_CustomerChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_CustomerListOrdersPartial.cshtml" />
+    <Content Include="Views\Account\Checkout.cshtml" />
+    <Content Include="Views\Account\_CheckoutItemsPartial.cshtml" />
+    <Content Include="Views\Account\_CheckoutAddressPartial.cshtml" />
+    <Content Include="Views\Account\GetReciept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
