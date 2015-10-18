@@ -15,7 +15,7 @@
         var SumTotal = item.Price * item.Count;
 
         <li>
-            @item.Count stk @item.Name (@item.ProductId), Totalt kr. @SumTotal
+            @item.Count stk @item.Name (@item.ProductId), Totalt kr. @String.Format("{0:n}", SumTotal)
         </li>
     }
 </ul>
