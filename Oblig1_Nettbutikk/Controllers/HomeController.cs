@@ -19,7 +19,6 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
-            //ViewBag.Category = 2;
             ViewBag.CategoryName = DB.GetCategoryName(1);
 
             return View();
@@ -33,109 +32,64 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
-            //ViewBag.CategoryID = CategoryID;
             ViewBag.CategoryName = DB.GetCategoryName(CategoryID) ?? "";
 
             return View("Index");
         }
 
+        public ActionResult ShoppingCart(string ReturnUrl)
+        {
+            ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.ShoppingCart = CookieHandler.GetCartList(this);
+            ViewBag.LoggedIn = LoginStatus();
+            return View();
+        }
+
         [HttpPost]
         public int AddToCart(int ProductId)
         {
-            var ch = new CookieHandler();
-            //var countItems = ch.AddToCart(this, ProductId);
-            //var cookie = Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
-            //int numProduct;
-            //try
-            //{
-            //    numProduct = Convert.ToInt32(cookie[ProductId.ToString()]);
-            //    numProduct++;
-            //}
-            //catch (Exception)
-            //{
-            //    numProduct = 1;
-            //}
-            //cookie[ProductId.ToString()] = numProduct.ToString();
-            //Response.Cookies.Add(cookie);
-
-            //var list = cookie.Values;
-            //var numItemsInCart = 0;
-            //foreach (var c in list)
-            //{
-            //    try
-            //    {
-            //        var count = Convert.ToInt32(cookie[c.ToString()]);
-            //        numItemsInCart += count;
-            //    }
-            //    catch (Exception)
-            //    {
-            //        continue;
-            //    }
-            //}
             return CookieHandler.AddToCart(this, ProductId);
         }
 
         public int NumItemsInCart()
         {
-            //var cookie = Request.Cookies["Shoppingcart"];
-            //if (cookie == null)
-            //    return 0;
-
-            //var list = cookie.Values;
-            //var numItemsInCart = 0;
-            //foreach (var c in list)
-            //{
-            //    try
-            //    {
-
-            //        var count = Convert.ToInt32(cookie[c.ToString()]);
-            //        numItemsInCart += count;
-            //    }
-            //    catch (Exception)
-            //    {
-            //        continue;
-            //    }
-            //}
-            //return numItemsInCart;
             return CookieHandler.NumItemsInCart(this);
         }
 
         public string GetCart()
         {
-            //var cookie = Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
-            //var list = cookie.Values;
-            //var cart = new List<CartItem>();
-
-            //using (var db = new WebShopModel())
-            //{
-            //    foreach (var c in list)
-            //    {
-            //        try
-            //        {
-
-            //            var pId = Convert.ToInt32(c);
-            //            var product = db.Products.Find(pId);
-            //            var count = Convert.ToInt32(cookie[c.ToString()]);
-            //            cart.Add(new CartItem
-            //            {
-            //                ProductId = pId,
-            //                Name = product.Name,
-            //                Price = product.Price,
-            //                Count = count
-            //            });
-
-            //        }
-            //        catch (Exception)
-            //        {
-            //            continue;
-            //        }
-            //    }
-            //}
-
             var cart = CookieHandler.GetCartList(this);
 
             var jsonCart = JsonConvert.SerializeObject(cart);
             return jsonCart;
+        }
+
+        [HttpPost]
+        public int RemoveFromCart(int ProductId)
+        {
+            CookieHandler.RemoveFromCart(ProductId, this);
+
+            return CookieHandler.NumItemsInCart(this);
+        }
+
+        public double GetSumTotalCart()
+        {
+            return CookieHandler.GetSumTotalCart(this);
+        }
+
+        public int UpdateCartProductCount(int ProductId, int Count)
+        {
+            CookieHandler.UpdateCartProductCount(ProductId, Count, this);
+
+            return CookieHandler.NumItemsInCart(this);
+
+        }
+
+        public ActionResult EmptyCart(string returnUrl)
+        {
+            CookieHandler.EmptyCart(this);
+
+            return Redirect(returnUrl);
         }
 
         public bool LoginStatus()
@@ -148,94 +102,5 @@ namespace Oblig1_Nettbutikk.Controllers
             return LoggedIn;
         }
 
-        public ActionResult ShoppingCart(string ReturnUrl)
-        {
-            ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.ShoppingCart = CookieHandler.GetCartList(this);
-            ViewBag.LoggedIn = LoginStatus();
-            return View();
-        }
-
-        //public List<CartItem> GetCartList()
-        //{
-        //    var cookie = Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
-        //    var list = cookie.Values;
-        //    var cart = new List<CartItem>();
-
-        //    using (var db = new WebShopModel())
-        //    {
-        //        foreach (var c in list)
-        //        {
-        //            try
-        //            {
-        //                var pId = Convert.ToInt32(c);
-        //                var product = db.Products.Find(pId);
-        //                var count = Convert.ToInt32(cookie[c.ToString()]);
-        //                cart.Add(new CartItem
-        //                {
-        //                    ProductId = pId,
-        //                    Name = product.Name,
-        //                    Price = product.Price,
-        //                    Count = count
-        //                });
-        //            }
-        //            catch (Exception)
-        //            {
-        //                continue;
-        //            }
-
-        //        }
-        //    }
-
-        //    return cart;
-        //}
-
-        [HttpPost]
-        public int RemoveFromCart(int ProductId)
-        {
-            //var cookie = Request.Cookies["Shoppingcart"];
-            //cookie.Values[ProductId.ToString()] = null;
-            //Response.AppendCookie(cookie);
-
-            //GetCart();
-            CookieHandler.RemoveFromCart(ProductId, this);
-
-            return CookieHandler.NumItemsInCart(this);
-        }
-
-        public double GetSumTotalCart()
-        {
-            //var sumTotal = 0.0;
-            //var cart = GetCartList();
-
-            //foreach (var item in cart)
-            //{
-            //    sumTotal += item.Price * item.Count;
-            //}
-
-            //return sumTotal;
-            return CookieHandler.GetSumTotalCart(this);
-        }
-
-        public int UpdateCartProductCount(int ProductId, int Count)
-        {
-            //var cookie = Request.Cookies["Shoppingcart"];
-            //cookie[ProductId.ToString()] = Count.ToString();
-            //Response.AppendCookie(cookie);
-            CookieHandler.UpdateCartProductCount(ProductId, Count, this);
-
-            return CookieHandler.NumItemsInCart(this);
-
-        }
-
-        public ActionResult EmptyCart(string returnUrl)
-        {
-            //var cookie = Request.Cookies["Shoppingcart"];
-            //cookie.Expires = DateTime.Now.AddDays(-1d);
-            //Response.Cookies.Add(cookie);
-            CookieHandler.EmptyCart(this);
-
-            return Redirect(returnUrl);
-        }
     }
 }

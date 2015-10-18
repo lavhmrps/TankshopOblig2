@@ -38,8 +38,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public void Logout()
         {
-            //Session["LoggedIn"] = false;
-            //Session["Email"] = null;
             Session.Abandon();
             ViewBag.LoggedIn = false;
 
@@ -150,34 +148,6 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             return false;
         }
-
-        //[HttpPost]
-        //public ActionResult ChangePassword(CustomerChangePassword changePw, string returnUrl)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        var Email = (string)Session["Email"];
-
-        //        CustomerLoginPartial login = new CustomerLoginPartial()
-        //        {
-        //            Email = Email,
-        //            Password = changePw.CurrentPassword
-        //        };
-        //        if(DB.AttemptLogin(login))
-        //        {
-        //            var newPasswordHash = DB.CreateHash(changePw.NewPassword);
-        //            using (var db = new WebShopModel())
-        //            {
-        //                var credentials = db.CustomerCredentials.Find(Email);
-        //                credentials.Password = newPasswordHash;
-        //                db.SaveChanges();
-
-        //                return RedirectToAction("MyPage");
-        //            }
-        //        }
-        //    }
-        //    return Redirect(returnUrl);
-        //}
 
         public ActionResult Checkout()
         {
