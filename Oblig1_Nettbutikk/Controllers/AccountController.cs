@@ -184,7 +184,7 @@ namespace Oblig1_Nettbutikk.Controllers
             if (LoginStatus())
             {
                 var Email = (string)Session["Email"];
-                var cart = new CookieHandler().GetCartList(this);
+                var cart = CookieHandler.GetCartList(this);
                 var cust = new WebShopModel().Customers.Where(c => c.Email == Email).Select(c => new CustomerEditInfo()
                 {
                     Firstname = c.Firstname,
@@ -205,8 +205,7 @@ namespace Oblig1_Nettbutikk.Controllers
         
         public ActionResult PlaceOrder(string returnUrl)
         {
-            var ch = new CookieHandler();
-            var cart = ch.GetCartList(this);
+            var cart = CookieHandler.GetCartList(this);
             if(cart.Count == 0)
             {
                 return Redirect("Checkout");
@@ -214,7 +213,7 @@ namespace Oblig1_Nettbutikk.Controllers
             var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
             if (OrderId > 0)
             {
-                ch.EmptyCart(this);
+                CookieHandler.EmptyCart(this);
                 OrderView Reciept = GetReciept(OrderId);
 
                 ViewBag.LoggedIn = LoginStatus();

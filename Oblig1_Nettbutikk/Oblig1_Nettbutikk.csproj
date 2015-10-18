@@ -197,7 +197,6 @@
     <Content Include="Views\Shared\_RegisterModal.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Product\Product_Details.cshtml" />
-    <Content Include="Views\Shared\_ShoppingCartModal.cshtml" />
     <Content Include="Views\Home\ShoppingCart.cshtml" />
     <Content Include="Views\Home\_CartItem.cshtml" />
     <Content Include="Views\Account\MyPage.cshtml" />

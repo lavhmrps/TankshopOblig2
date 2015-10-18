@@ -207,6 +207,16 @@ section {
     border: thin solid #2e6da4;
 }
 
+    /* Categories */
+    .category-list{
+        list-style:;
+    }
+    .category-listitem{
+        font-size:large;
+        margin-top:25px;
+
+    }
+
 /* Product_details */
 .product_details {
     position: relative;

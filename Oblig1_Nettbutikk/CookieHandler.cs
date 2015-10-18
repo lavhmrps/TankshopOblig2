@@ -9,7 +9,7 @@ namespace Oblig1_Nettbutikk
 {
     public class CookieHandler
     {
-        public List<CartItem> GetCartList(Controller controller)
+        public static List<CartItem> GetCartList(Controller controller)
         {
             var cookie = controller.Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
             var list = cookie.Values;
@@ -43,12 +43,102 @@ namespace Oblig1_Nettbutikk
             return cart;
         }
 
-        internal void EmptyCart(Controller controller)
+        public static void EmptyCart(Controller controller)
         {
             var cookie = controller.Request.Cookies["Shoppingcart"];
             cookie.Expires = DateTime.Now.AddDays(-1d);
             controller.Response.Cookies.Add(cookie);
 
+        }
+
+        public static int AddToCart(Controller controller, int ProductId)
+        {
+            var cookie = controller.Request.Cookies["Shoppingcart"] ?? new HttpCookie("Shoppingcart");
+            int numProduct;
+            try
+            {
+                numProduct = Convert.ToInt32(cookie[ProductId.ToString()]);
+                numProduct++;
+            }
+            catch (Exception)
+            {
+                numProduct = 1;
+            }
+            cookie[ProductId.ToString()] = numProduct.ToString();
+            controller.Response.Cookies.Add(cookie);
+
+            var list = cookie.Values;
+            var numItemsInCart = 0;
+            foreach (var c in list)
+            {
+                try
+                {
+                    var count = Convert.ToInt32(cookie[c.ToString()]);
+                    numItemsInCart += count;
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+            return numItemsInCart;
+        }
+
+        public static int NumItemsInCart(Controller controller)
+        {
+            var cookie = controller.Request.Cookies["Shoppingcart"];
+            if (cookie == null)
+                return 0;
+
+            var list = cookie.Values;
+            var numItemsInCart = 0;
+            foreach (var c in list)
+            {
+                try
+                {
+                    var count = Convert.ToInt32(cookie[c.ToString()]);
+                    numItemsInCart += count;
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+            return numItemsInCart;
+        }
+
+        public static double GetSumTotalCart(Controller controller)
+        {
+            var sumTotal = 0.0;
+            var cart = GetCartList(controller);
+
+            foreach (var item in cart)
+            {
+                sumTotal += item.Price * item.Count;
+            }
+
+            return sumTotal;
+        }
+
+        public static int UpdateCartProductCount(int ProductId, int Count, Controller controller)
+        {
+            var cookie = controller.Request.Cookies["Shoppingcart"];
+            cookie[ProductId.ToString()] = Count.ToString();
+            controller.Response.AppendCookie(cookie);
+
+            return NumItemsInCart(controller);
+
+        }
+
+        public static int RemoveFromCart(int ProductId, Controller controller)
+        {
+            var cookie = controller.Request.Cookies["Shoppingcart"];
+            cookie.Values[ProductId.ToString()] = null;
+            controller.Response.AppendCookie(cookie);
+
+            //GetCart(this);
+
+            return NumItemsInCart(controller);
         }
     }
 }
