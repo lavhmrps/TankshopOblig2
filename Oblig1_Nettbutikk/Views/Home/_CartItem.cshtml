@@ -1,4 +1,4 @@
-﻿@model Oblig1_Nettbutikk.Models.CartItem
+@model Oblig1_Nettbutikk.Models.CartItem
 
 <div class="row" productid="@Model.ProductId">
     <div class="col-sm-1">
@@ -23,13 +23,13 @@
         </select>
     </div>
     <div class="col-sm-2">
-        <span class="productPrice formatPrice">@Model.Price</span>
+        <span class="productPrice formatPrice">@String.Format("{0:n}", Model.Price)</span>
     </div>
     <div class="col-sm-2">
         @{ 
             var sumTotal = Model.Price * Model.Count;
         }
-        <span class="totalProductPrice formatPrice">@sumTotal</span>
+        <span class="totalProductPrice formatPrice">@String.Format("{0:n}", sumTotal)</span>
     </div>
     <div class="col-sm-1">
         <a href="#" productid="@Model.ProductId" class="removeFromCart">Slett</a>
