@@ -1,4 +1,4 @@
-﻿namespace Oblig1_Nettbutikk.Migrations
+namespace Oblig1_Nettbutikk.Migrations
 {
 
     using Models;
@@ -17,6 +17,92 @@
 
         protected override void Seed(Oblig1_Nettbutikk.Models.WebShopModel context)
         {
+
+            //Postals
+            context.Postals.AddOrUpdate( new Postal {
+                Zipcode = "0351",
+                City = "Oslo"
+
+            },
+            
+            new Postal {
+                Zipcode = "0341",
+                City = "Oslo"
+            });
+
+            //Customers
+            context.Customers.AddOrUpdate(new Customer {
+                Email = "ola@nordmann.no",
+                Firstname = "Ola",
+                Lastname = "Nordmann",
+                Address = "Storgata 22",
+                Zipcode = "0351"
+            },
+            
+            new Customer {
+                Email = "kari@nordmann.no",
+                Firstname = "Kari",
+                Lastname = "Nordmann",
+                Address = "Karl Johans Gate 4",
+                Zipcode = "0341"
+
+            });
+
+
+            //Passwords
+            context.CustomerCredentials.AddOrUpdate(new CustomerCredential {
+                Email = "ola@nordmann.no",
+                Password = DB.CreateHash("password123")
+            },
+
+            new CustomerCredential
+            {
+                Email = "kari@nordmann.no",
+                Password = DB.CreateHash("password456")
+            }
+
+            );
+
+
+
+            //Orders
+            context.Orders.AddOrUpdate(new Order
+            {
+                Email = "ola@nordmann.no",
+                Date = DateTime.Now.AddDays(1d),
+            },
+
+            new Order
+            {
+                Email = "ola@nordmann.no",
+                Date = DateTime.Now.AddDays(-30d),
+            },
+
+            new Order
+            {
+                Email = "ola@nordmann.no",
+                Date = DateTime.Now.AddDays(-100d),
+            },
+
+            new Order
+            {
+                Email = "ola@nordmann.no",
+                Date = DateTime.Now.AddDays(-31d),
+            },
+
+
+            new Order
+            {
+                Email = "kari@nordmann.no",
+                Date = DateTime.Now.AddDays(-10d),
+            },
+
+            new Order
+            {
+                Email = "kari@nordmann.no",
+                Date = DateTime.Now.AddDays(-14d),
+            });
+
             // Categories
             context.Categories.AddOrUpdate(new Category
             {
@@ -245,6 +331,105 @@
                 CategoryID = 3,
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/0/09/85_mm_air_defense_gun_M1939_(52-K)_11.jpg"
             });
+
+
+
+            //OrderLines
+            context.Orderlines.AddOrUpdate(new Orderline
+            {
+                ProductID = 20,
+                Number = 3,
+                OrderID = 3
+                
+            },
+
+            new Orderline
+            {
+                ProductID = 10,
+                Number = 2,
+                OrderID = 3
+            },
+
+            new Orderline
+            {
+                ProductID = 3,
+                Number = 1,
+                OrderID = 3
+            },
+
+            new Orderline
+            {
+                ProductID = 10,
+                Number = 2,
+                OrderID = 4
+
+            },
+
+            new Orderline
+            {
+                ProductID = 19,
+                Number = 1,
+                OrderID = 4
+
+            },
+
+            new Orderline
+            {
+                ProductID = 16,
+                Number = 1,
+                OrderID = 5
+
+            },
+
+            new Orderline
+            {
+                ProductID = 21,
+                Number = 2,
+                OrderID = 6
+
+            },
+
+            new Orderline
+            {
+                ProductID = 9,
+                Number = 4,
+                OrderID = 6
+
+            },
+
+            new Orderline
+            {
+                ProductID = 13,
+                Number = 3,
+                OrderID = 1
+
+            },
+
+
+            new Orderline
+            {
+                ProductID = 12,
+                Number = 2,
+                OrderID = 1
+
+            },
+
+            new Orderline
+            {
+                ProductID = 4,
+                Number = 1,
+                OrderID = 2
+
+            },
+
+            new Orderline
+            {
+                ProductID = 12,
+                Number = 5,
+                OrderID = 2
+
+            });
+
         }
     }
 

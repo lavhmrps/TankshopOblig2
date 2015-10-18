@@ -124,8 +124,10 @@ namespace Oblig1_Nettbutikk.Models
         [Key]
         public int OrderlineID { get; set; }
         public int ProductID { get; set; }
+        public int OrderID { get; set; }
         public int Number { get; set; }
         public virtual Product Item { get; set; }
+        public virtual Order Order { get; set; }
     }
 
     // Items in shoppingcart before checkout
