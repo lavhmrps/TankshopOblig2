@@ -24,9 +24,7 @@
                     <tr>
 
 
-                        <td>
-                            @item.Product.Name
-                        </td>
+                        <td>@Html.ActionLink(@item.Product.Name, "Product", "Product", new { ProductId = item.Product.ProductID }, null)</td>
                         <td>@item.Count</td>
                         <td>@String.Format("{0:n}", item.Product.Price) kr</td>
                         <td>@String.Format("{0:n}", productTotal) kr</td>

@@ -368,8 +368,8 @@ section {
         width:50%;
     }
 
-/* Checkout */
- .divCheckout{
+/* Checkout / Reciept*/
+ .divCheckout, .divReciept{
      width:60%;
      padding :20px;
      margin:auto;

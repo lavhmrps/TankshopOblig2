@@ -3,24 +3,25 @@
     OrderView Reciept = ViewBag.Reciept;
 }
 
+<div class="liOrderItem divReciept">
 <h2>Kvittering</h2>
+    <hr />
+    <table>
+        <tr><th>Ordrenummer</th><th>Produkt</th><th>Antall</th><th>Enhetspris</th><th>Totalpris</th></tr>
+        @foreach (var item in Reciept.Orderlines)
+        {
+            var productTotal = item.Product.Price * item.Count;
+            <tr>
+                <td>@Reciept.OrderId</td>
+                <td>@Html.ActionLink(@item.Product.Name, "Product", "Product", new { ProductId = item.Product.ProductID }, null)</td>
+                <td>@item.Count</td>
+                <td>@item.Product.Price<span>,-</span></td>
+                <td>@productTotal<span>,-</span></td>
 
-<ul>
-    <li>
-        @Reciept.OrderId <time>@Reciept.Date </time>
-        <ul>
-            @foreach(var item in Reciept.Orderlines)
-            {
-                <li>Ordre id:
-                    @item.OrderlineId
-                </li>
-                <li>Produkt: 
-                    @item.Product.Name
-                </li>
-                <li>Antall: 
-                    @item.Count
-                </li>
-            }
-        </ul>
-    </li>
-</ul>
+
+            </tr>
+        }
+    </table>
+    <hr />
+    @Html.ActionLink("Tilbake til butikk","Index","Home")
+</div>
