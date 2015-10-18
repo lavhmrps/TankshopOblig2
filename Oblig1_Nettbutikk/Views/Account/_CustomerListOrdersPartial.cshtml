@@ -1,4 +1,4 @@
-﻿@model List<Oblig1_Nettbutikk.Models.OrderView>
+@model List<Oblig1_Nettbutikk.Models.OrderView>
 
 <h1>Ordrehistorikk</h1>
 <ul>
@@ -20,7 +20,7 @@
                 <tr><th>Produkt</th><th>Antall</th><th>Enhetspris</th><th>Totalpris</th></tr>
                 @foreach (var item in order.Orderlines)
                 {
-                    var produktTotal = item.Product.Price * item.Count;
+                    var productTotal = item.Product.Price * item.Count;
                     <tr>
 
 
@@ -28,8 +28,8 @@
                             @item.Product.Name
                         </td>
                         <td>@item.Count</td>
-                        <td>@item.Product.Price</td>
-                        <td>@produktTotal</td>
+                        <td>@String.Format("{0:n}", item.Product.Price) kr</td>
+                        <td>@String.Format("{0:n}", productTotal) kr</td>
 
                         </tr>
                 }
