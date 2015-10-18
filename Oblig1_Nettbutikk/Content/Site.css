@@ -344,6 +344,10 @@ section {
 
     /* Mypage */
 
+    .liOrderItem table tr td,.liOrderItem table tr th{
+        padding:2px 5px;
+    }
+
     #divUpdateCustomer{
         float:left;
         width:50%;
@@ -353,3 +357,11 @@ section {
         float:right;
         width:50%;
     }
+
+/* Checkout */
+ .divCheckout{
+     width:60%;
+     padding :20px;
+     margin:auto;
+     background:white;
+ }

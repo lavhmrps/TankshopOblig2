@@ -207,6 +207,10 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             var ch = new CookieHandler();
             var cart = ch.GetCartList(this);
+            if(cart.Count == 0)
+            {
+                return Redirect("Checkout");
+            }
             var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
             if (OrderId > 0)
             {

@@ -4,15 +4,21 @@
     List<CartItem> cart = ViewBag.Cart;
     CustomerEditInfo customer = ViewBag.Customer;
 }
-<h1>Checkout</h1>
-@Html.Partial("_CheckoutItemsPartial", cart)
-@Html.Partial("_CheckoutAddressPartial", customer)
-<hr />
-<a id="btnConfirmPlaceOrder" class="btn btn-success">Bekreft kjøp</a>
-@Html.ActionLink("Bekreft kjøp","PlaceOrder","Account",new { returnUrl = Request.RawUrl }, new { @class = "btn btn-success" })
+<div class="divCheckout">
+    <h1>Din ordre</h1>
+    <hr />
+    @Html.Partial("_CheckoutItemsPartial", cart)
+    <hr />
+    @Html.Partial("_CheckoutAddressPartial", customer)
+    <hr />
+    @*<a id="btnConfirmPlaceOrder" class="btn btn-success">Bekreft kjøp</a>*@
 
+    @Html.ActionLink("Bekreft kjøp", "PlaceOrder", "Account", new { returnUrl = Request.RawUrl }, new { @class = "btn btn-success" })
+</div>
 <script>
     $(document).ready(function () {
+        
+
         $("#btnConfirmPlaceOrder").unbind("click");
         $("#btnConfirmPlaceOrder").click(function () {
 
