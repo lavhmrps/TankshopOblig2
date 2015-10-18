@@ -15,8 +15,8 @@
                 <td>@Reciept.OrderId</td>
                 <td>@Html.ActionLink(@item.Product.Name, "Product", "Product", new { ProductId = item.Product.ProductID }, null)</td>
                 <td>@item.Count</td>
-                <td>@item.Product.Price<span>,-</span></td>
-                <td>@productTotal<span>,-</span></td>
+                <td>@String.Format("{0:n}", item.Product.Price)<span>,-</span></td>
+                <td>@String.Format("{0:n}", productTotal)<span>,-</span></td>
 
 
             </tr>
