@@ -1,9 +1,9 @@
-﻿@using Oblig1_Nettbutikk.Models
+@using Oblig1_Nettbutikk.Models
 @{
     OrderView Reciept = ViewBag.Reciept;
 }
 
-<h2>GetReciept</h2>
+<h2>Kvittering</h2>
 
 <ul>
     <li>
@@ -11,7 +11,7 @@
         <ul>
             @foreach(var item in Reciept.Orderlines)
             {
-                <li>OrdrelinjeId
+                <li>Ordre id:
                     @item.OrderlineId
                 </li>
                 <li>Produkt: 
