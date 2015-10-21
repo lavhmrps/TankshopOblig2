@@ -22,31 +22,40 @@ namespace Oblig1_Nettbutikk.Models
             }
         }
 
-        public DbSet<CustomerCredential> CustomerCredentials { get; set; }
+        
+        public DbSet<Person> People { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Credential> Credentials { get; set; }
+
         public DbSet<Postal> Postals { get; set; }
-        public DbSet<CCard> CCards { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Orderline> Orderlines { get; set; }
-        public DbSet<Shoppingcart> Shoppingcarts { get; set; }
         public DbSet<Image> Images { get; set; }
 
     }
 
-    // Username/password combination
-    public class CustomerCredential
-    {
-        [Key]
-        public string Email { get; set; }
-        public byte[] Password { get; set; }
-    }
-
-    // Customerinfo
     public class Customer
     {
+
         [Key]
+        public int CustomerID { get; set; }
+        public int PersonID { get; set; }
+
+    }
+
+    public class Administrator {
+        [Key]
+        public int AdministratorID { get; set; }
+        public int PersonID { get; set; }
+    }
+
+    public class Person {
+
+        [Key]
+        public int PersonID { get; set; }
         public string Email { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
@@ -54,8 +63,16 @@ namespace Oblig1_Nettbutikk.Models
         public string Zipcode { get; set; }
 
         public Postal Postal { get; set; }
-        public List<CCard> CreditCards { get; set; }
         public List<Order> Orders { get; set; }
+
+    }
+
+    // Username/password combination
+    public class Credential
+    {
+        [Key]
+        public int CredentialID { get; set; }
+        public byte[] Password { get; set; }
     }
 
     // Postaladdress
@@ -65,18 +82,7 @@ namespace Oblig1_Nettbutikk.Models
         public string Zipcode { get; set; }
         public string City { get; set; }
 
-        public List<Customer> Customers { get; set; }
-    }
-
-    // Creditcard 
-    public class CCard
-    {
-        [Key]
-        public string Cardnumber { get; set; }
-        public string CCV { get; set; }
-        public string ExpireYear { get; set; }
-        public string ExpireMonth { get; set; }
-        public string Email { get; set; }
+        public List<Person> Persons { get; set; }
     }
 
     // Item-category
@@ -126,32 +132,12 @@ namespace Oblig1_Nettbutikk.Models
         public int ProductID { get; set; }
         public int OrderID { get; set; }
         public int Number { get; set; }
+
         public virtual Product Item { get; set; }
         public virtual Order Order { get; set; }
     }
 
-    // Items in shoppingcart before checkout
-    public class Shoppingcart
-    {
-        public Shoppingcart()
-        {
-            this.Items = new List<ShoppingcartItem>();
-        }
-        [Key]
-        public string Email { get; set; }
-        public virtual  List<ShoppingcartItem> Items { get; set; }
-    }
-
-    public class ShoppingcartItem
-    {
-        [Key]
-        public int ShoppingCartItemID { get; set; }
-        public int ProductID { get; set; }
-        public int Number { get; set; }
-        public virtual Shoppingcart ShoppingCart { get; set; }
-        public virtual Product Product { get; set; }
-    }
-
+   
     public class Image
     {
         [Key]
