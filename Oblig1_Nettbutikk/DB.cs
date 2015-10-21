@@ -261,5 +261,3 @@ namespace Oblig1_Nettbutikk
         }
     }
 }
-
-// test

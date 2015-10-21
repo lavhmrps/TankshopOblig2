@@ -1,15 +1,15 @@
-namespace Oblig1_Nettbutikk.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Data.Entity;
-    using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Linq;
 
-    public class WebShopModel : DbContext
+namespace Oblig1_Nettbutikk.Model
+{
+    public class TankshopDbContext : DbContext
     {
-        public WebShopModel()
-            : base("name=WebShopModel")
+        public TankshopDbContext()
+            : base("name=TankshopDbContext")
         {
             try
             {
@@ -22,7 +22,7 @@ namespace Oblig1_Nettbutikk.Models
             }
         }
 
-        
+
         public DbSet<Person> People { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -47,7 +47,8 @@ namespace Oblig1_Nettbutikk.Models
         public Person Person { get; set; }
     }
 
-    public class Administrator {
+    public class Administrator
+    {
         [Key]
         public int AdministratorId { get; set; }
         public int PersonId { get; set; }
@@ -55,7 +56,8 @@ namespace Oblig1_Nettbutikk.Models
         public Person Person { get; set; }
     }
 
-    public class Person {
+    public class Person
+    {
 
         [Key]
         public int PersonId { get; set; }
@@ -83,11 +85,15 @@ namespace Oblig1_Nettbutikk.Models
     // Postaladdress
     public class Postal
     {
+        public Postal()
+        {
+            this.People = new List<Person>();
+        }
         [Key]
         public string Zipcode { get; set; }
         public string City { get; set; }
 
-        public List<Person> Persons { get; set; }
+        public List<Person> People { get; set; }
     }
 
     // Item-category
@@ -144,13 +150,13 @@ namespace Oblig1_Nettbutikk.Models
         public virtual Order Order { get; set; }
     }
 
-   
+
     public class Image
     {
         [Key]
         public int ImageId { get; set; }
         public int ProductId { get; set; }
-        public string  ImageUrl{ get; set; }
+        public string ImageUrl { get; set; }
         public virtual Product Product { get; set; }
     }
 
