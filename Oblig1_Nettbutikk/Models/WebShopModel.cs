@@ -41,21 +41,24 @@ namespace Oblig1_Nettbutikk.Models
     {
 
         [Key]
-        public int CustomerID { get; set; }
-        public int PersonID { get; set; }
+        public int CustomerId { get; set; }
+        public int PersonId { get; set; }
 
+        public Person Person { get; set; }
     }
 
     public class Administrator {
         [Key]
-        public int AdministratorID { get; set; }
-        public int PersonID { get; set; }
+        public int AdministratorId { get; set; }
+        public int PersonId { get; set; }
+
+        public Person Person { get; set; }
     }
 
     public class Person {
 
         [Key]
-        public int PersonID { get; set; }
+        public int PersonId { get; set; }
         public string Email { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
@@ -67,12 +70,14 @@ namespace Oblig1_Nettbutikk.Models
 
     }
 
-    // Username/password combination
+    // PersonId / password combination
     public class Credential
     {
         [Key]
-        public int CredentialID { get; set; }
+        public int PersonId { get; set; }
         public byte[] Password { get; set; }
+
+        public virtual Person Person { get; set; }
     }
 
     // Postaladdress
@@ -89,7 +94,7 @@ namespace Oblig1_Nettbutikk.Models
     public class Category
     {
         [Key]
-        public int CategoryID { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
 
     }
@@ -98,8 +103,8 @@ namespace Oblig1_Nettbutikk.Models
     public class Product
     {
         [Key]
-        public int ProductID { get; set; }
-        public int CategoryID { get; set; }
+        public int ProductId { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public int Stock { get; set; }
@@ -118,22 +123,24 @@ namespace Oblig1_Nettbutikk.Models
             this.Orderlines = new List<Orderline>();
         }
         [Key]
-        public int OrderID { get; set; }
-        public string Email { get; set; }
-        public virtual List<Orderline> Orderlines { get; set; }
+        public int OrderId { get; set; }
+        public string PersonId { get; set; }
         public DateTime Date { get; set; }
+
+        public virtual Person Person { get; set; }
+        public virtual List<Orderline> Orderlines { get; set; }
     }
 
     // Individual orderlines
     public class Orderline
     {
         [Key]
-        public int OrderlineID { get; set; }
-        public int ProductID { get; set; }
-        public int OrderID { get; set; }
-        public int Number { get; set; }
+        public int OrderlineId { get; set; }
+        public int ProductId { get; set; }
+        public int OrderId { get; set; }
+        public int Count { get; set; }
 
-        public virtual Product Item { get; set; }
+        public virtual Product Product { get; set; }
         public virtual Order Order { get; set; }
     }
 
@@ -141,8 +148,8 @@ namespace Oblig1_Nettbutikk.Models
     public class Image
     {
         [Key]
-        public int ImageID { get; set; }
-        public int ProductID { get; set; }
+        public int ImageId { get; set; }
+        public int ProductId { get; set; }
         public string  ImageURL{ get; set; }
         public virtual Product Product { get; set; }
     }
