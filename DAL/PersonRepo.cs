@@ -26,7 +26,7 @@ namespace Oblig1_Nettbutikk.DAL
 
                 foreach (var person in people)
                 {
-                    // If not admin / customer
+                    // If not admin / customer -> id == -1
                     int adminId = -1, customerId = -1;
 
                     var admin = db.Administrators.FirstOrDefault(a => a.PersonId == person.PersonId);
@@ -49,9 +49,8 @@ namespace Oblig1_Nettbutikk.DAL
                 return people;
             }
         }
-
-        // Returns the PersonId or -1 on error
-        public int AddPerson(PersonModel person)
+        
+        public bool  AddPerson(PersonModel person)
         {
             var newPerson = new Person()
             {
@@ -80,11 +79,11 @@ namespace Oblig1_Nettbutikk.DAL
 
                     db.People.Add(newPerson);
                     db.SaveChanges();
-                    return person.PersonId;
+                    return true;
                 }
                 catch (Exception)
                 {
-                    return -1;
+                    return false;
                 }
             }
 
@@ -108,27 +107,62 @@ namespace Oblig1_Nettbutikk.DAL
             }
         }
 
-        public PersonModel GetCustomer(int customerId)
+        public CustomerModel GetCustomer(int customerId)
         {
             using (var db = new TankshopDbContext())
             {
-                var customer = db.Customers.Find(customerId);
-                return GetPerson(customer.PersonId);
+                try
+                {
+                    var dbPerson = db.Customers.Find(customerId).Person;
+                    var orderRepo = new OrderRepo();
+
+                    var customer = new CustomerModel()
+                    {
+                        PersonId = dbPerson.PersonId,
+                        Firstname = dbPerson.Firstname,
+                        Lastname = dbPerson.Lastname,
+                        Address = dbPerson.Address,
+                        Zipcode = dbPerson.Zipcode,
+                        City = dbPerson.Postal.City,
+                        CustomerId = customerId,
+                        Orders = orderRepo.GetOrders(customerId)
+                    };
+
+
+                    return customer;
+                }
+                catch (Exception)
+                {
+
+                    return null;
+                }
             }
         }
 
-        public PersonModel GetAdmin(int adminId)
+        public AdminModel GetAdmin(int adminId)
         {
             using (var db = new TankshopDbContext())
             {
-                var admin = db.Administrators.Find(adminId);
-                return GetPerson(admin.PersonId);
+                var dbPerson = db.Administrators.Find(adminId).Person;
+                var admin = new AdminModel()
+                {
+                    PersonId = dbPerson.PersonId,
+                    Firstname = dbPerson.Firstname,
+                    Lastname = dbPerson.Lastname,
+                    Address = dbPerson.Address,
+                    Zipcode = dbPerson.Zipcode,
+                    City = dbPerson.Postal.City,
+                    AdminId = adminId
+                };
+
+                return admin;
             }
         }
 
         // Return true / false on update ok / error
         public bool UpdatePerson(PersonModel personUpdate, int personId)
         {
+            // TODO: update admin/customer -id
             using (var db = new TankshopDbContext())
             {
                 try
@@ -171,7 +205,7 @@ namespace Oblig1_Nettbutikk.DAL
         }
 
         // Return PersonModel of deleted person or null on error
-        public PersonModel DeletePerson(int personId)
+        public bool DeletePerson(int personId)
         {
             using (var db = new TankshopDbContext())
             {
@@ -183,11 +217,11 @@ namespace Oblig1_Nettbutikk.DAL
                     db.People.Remove(deletePerson);
                     db.SaveChanges();
 
-                    return deletePersonModel;
+                    return true;
                 }
                 catch (Exception)
                 {
-                    return null;
+                    return false;
                 }
             }
         }

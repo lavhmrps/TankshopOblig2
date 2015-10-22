@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using Oblig1_Nettbutikk.Model;
+﻿using Oblig1_Nettbutikk.Model;
+using System.Collections.Generic;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Oblig1_Nettbutikk.BLL
 {
-    public interface IPersonRepo
+    public interface IPersonLogic
     {
+
         bool AddPerson(PersonModel person);
         bool DeletePerson(int personId);
         AdminModel GetAdmin(int adminId);

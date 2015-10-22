@@ -7,41 +7,134 @@ using Oblig1_Nettbutikk.Model;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    class PersonRepoStub : IPersonRepo
+    // For testing
+    public class PersonRepoStub : IPersonRepo
     {
-        public int AddPerson(PersonModel person)
+        public bool AddPerson(PersonModel person)
         {
-            throw new NotImplementedException();
+            if (person.Email == "")
+                return false;
+
+            return true;
         }
 
-        public PersonModel DeletePerson(int personId)
+        public bool DeletePerson(int personId)
         {
-            throw new NotImplementedException();
+            if (personId == 0)
+                return false;
+
+            return true;
         }
 
-        public PersonModel GetAdmin(int adminId)
+        public AdminModel GetAdmin(int adminId)
         {
-            throw new NotImplementedException();
+            if (adminId == 0)
+            {
+                var admin = new AdminModel()
+                {
+                    PersonId = 0
+                };
+                return admin;
+            }
+            else
+            {
+                var admin = new AdminModel()
+                {
+                    PersonId = 1,
+                    Firstname = "Test",
+                    Lastname = "Test",
+                    Address = "Test",
+                    Zipcode = "1234",
+                    City = "Test",
+                    AdminId = 1
+                };
+                return admin;
+            }
         }
 
         public List<PersonModel> GetAllPeople()
         {
-            throw new NotImplementedException();
+            var list = new List<PersonModel>();
+            var person = new PersonModel()
+            {
+                PersonId = 1,
+                Firstname = "Test",
+                Lastname = "Test",
+                Address = "Test",
+                Zipcode = "1234",
+                City = "Test",
+                AdminstratorId = 1,
+                CustomerId = 1
+            };
+
+            list.Add(person);
+            list.Add(person);
+            list.Add(person);
+
+            return list;
         }
 
-        public PersonModel GetCustomer(int customerId)
+        public CustomerModel GetCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            if (customerId == 0)
+            {
+                var customer = new CustomerModel()
+                {
+                    PersonId = 0
+                };
+                return customer;
+            }
+            else
+            {
+                var customer = new CustomerModel()
+                {
+                    PersonId = 1,
+                    Firstname = "Test",
+                    Lastname = "Test",
+                    Address = "Test",
+                    Zipcode = "1234",
+                    City = "Test",
+                    CustomerId = 1
+                };
+
+                return customer;
+            }
         }
 
         public PersonModel GetPerson(int personId)
         {
-            throw new NotImplementedException();
+            if (personId == 0)
+            {
+                var person = new PersonModel()
+                {
+                    PersonId = 0
+                };
+                return person;
+            }
+            else
+            {
+                var person = new PersonModel()
+                {
+
+                    PersonId = 1,
+                    Firstname = "Test",
+                    Lastname = "Test",
+                    Address = "Test",
+                    Zipcode = "1234",
+                    City = "Test",
+                    AdminstratorId = 1,
+                    CustomerId = 1
+                };
+                return person;
+            }
         }
 
         public bool UpdatePerson(PersonModel personUpdate, int personId)
         {
-            throw new NotImplementedException();
+            if (personId == 0)
+                return false;
+
+            return true;
         }
     }
 }

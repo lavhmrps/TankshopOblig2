@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="IPersonRepo.cs" />
     <Compile Include="LoginRepo.cs" />
+    <Compile Include="OrderRepo.cs" />
     <Compile Include="PersonRepoStub.cs" />
     <Compile Include="PersonRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

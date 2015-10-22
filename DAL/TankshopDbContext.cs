@@ -130,11 +130,10 @@ namespace Oblig1_Nettbutikk.Model
         }
         [Key]
         public int OrderId { get; set; }
-        public string PersonId { get; set; }
-        public DateTime Date { get; set; }
-
-        public virtual Person Person { get; set; }
+        public int CustomerId { get; set; }
+        
         public virtual List<Orderline> Orderlines { get; set; }
+        public DateTime Date { get; set; }
     }
 
     // Individual orderlines

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.Model
 {
-    class OrderlineModel
+    public class OrderlineModel
     {
         public int OrderlineId { get; set; }
         public int ProductId { get; set; }

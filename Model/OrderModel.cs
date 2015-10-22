@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.Model
 {
-    class OrderModel
+    public class OrderModel
     {
         public int OrderId { get; set; }
-        public string PersonId { get; set; }
-        public DateTime Date { get; set; }
-        public PersonModel Person { get; set; }
+        public int CustomerId { get; set; }
         public List<OrderlineModel> Orderlines { get; set; }
+        public DateTime Date { get; set; }
     }
 }

@@ -143,7 +143,6 @@
     <Compile Include="Models\CustomerLoginPartial.cs" />
     <Compile Include="Models\CustomerRegisterPartial.cs" />
     <Compile Include="Models\OrderView.cs" />
-    <Compile Include="Models\WebShopModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,11 +209,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{a36e895f-863d-4c0d-afbc-99cc0fc0cb1b}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

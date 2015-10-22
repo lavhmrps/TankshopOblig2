@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminModel.cs" />
     <Compile Include="CategoryModel.cs" />
+    <Compile Include="CustomerModel.cs" />
     <Compile Include="OrderlineModel.cs" />
     <Compile Include="OrderModel.cs" />
     <Compile Include="PersonModel.cs" />
