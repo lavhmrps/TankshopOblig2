@@ -3,8 +3,9 @@ using Oblig1_Nettbutikk.Model;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    public interface IPersonRepo
+    public interface IAccountRepo
     {
+        bool AttemptLogin(int personId, string password);
         bool AddPerson(PersonModel person);
         bool DeletePerson(int personId);
         AdminModel GetAdmin(int adminId);

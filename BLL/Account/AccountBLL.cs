@@ -8,16 +8,16 @@ using Oblig1_Nettbutikk.DAL;
 
 namespace Oblig1_Nettbutikk.BLL
 {
-    public class PersonLogic : IPersonLogic
+    public class AccountBLL : IAccountRepo
     {
-        private IPersonRepo _repo;
+        private IAccountRepo _repo;
 
-        public PersonLogic()
+        public AccountBLL()
         {
-            _repo = new PersonRepo();
+            _repo = new AccountRepo();
         }
 
-        public PersonLogic(IPersonRepo stub)
+        public AccountBLL(IAccountRepo stub)
         {
             _repo = stub;
         }
@@ -55,6 +55,11 @@ namespace Oblig1_Nettbutikk.BLL
         public bool UpdatePerson(PersonModel personUpdate, int personId)
         {
             return _repo.UpdatePerson(personUpdate, personId);
+        }
+
+        public bool AttemptLogin(int personId, string password)
+        {
+            return _sec.AttemptLogin(personId, password);
         }
     }
 }

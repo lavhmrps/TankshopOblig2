@@ -7,7 +7,7 @@ using Oblig1_Nettbutikk.Model;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    public class PersonRepo : IPersonRepo
+    public class AccountRepo : IAccountRepo
     {
         public List<PersonModel> GetAllPeople()
         {
@@ -224,6 +224,36 @@ namespace Oblig1_Nettbutikk.DAL
                     return false;
                 }
             }
+        }
+
+        public bool AttemptLogin(int personId, string password)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var passwordHash = CreateHash(password);
+                    var existingUser = db.Credentials.FirstOrDefault(c => c.PersonId == personId && c.Password == passwordHash);
+
+                    if (existingUser == null)
+                        return false;
+
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public byte[] CreateHash(string password)
+        {
+            byte[] inData, outData;
+            var alg = System.Security.Cryptography.SHA256.Create();
+            inData = System.Text.Encoding.Default.GetBytes(password);
+            outData = alg.ComputeHash(inData);
+            return outData;
         }
 
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Oblig1_Nettbutikk.BLL
 {
-    public interface IPersonLogic
+    public interface IAccountLogic
     {
 
         bool AddPerson(PersonModel person);

@@ -8,7 +8,7 @@ using Oblig1_Nettbutikk.Model;
 namespace Oblig1_Nettbutikk.DAL
 {
     // For testing
-    public class PersonRepoStub : IPersonRepo
+    public class AccountRepoStub : IAccountRepo
     {
         public bool AddPerson(PersonModel person)
         {
@@ -135,6 +135,20 @@ namespace Oblig1_Nettbutikk.DAL
                 return false;
 
             return true;
+        }
+
+        public bool AttemptLogin(int personId, string password)
+        {
+            if (personId == 0)
+                return false;
+            if (password == "")
+                return false;
+            return true;
+        }
+
+        private byte[] CreateHash(string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

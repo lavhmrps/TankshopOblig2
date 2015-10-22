@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPersonLogic.cs" />
-    <Compile Include="PersonLogic.cs" />
+    <Compile Include="Account\IAccountLogic.cs" />
+    <Compile Include="Account\AccountBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
