@@ -8,8 +8,9 @@ using Oblig1_Nettbutikk.DAL;
 
 namespace Oblig1_Nettbutikk.BLL
 {
-    public class AccountBLL : IAccountRepo
+    public class AccountBLL : IAccountLogic
     {
+      
         private IAccountRepo _repo;
 
         public AccountBLL()
@@ -22,15 +23,11 @@ namespace Oblig1_Nettbutikk.BLL
             _repo = stub;
         }
 
-        public bool AddPerson(PersonModel person)
+        public bool AddPerson(PersonModel person, Role role, string password)
         {
-            return _repo.AddPerson(person);
+            return _repo.AddPerson(person, role, password);
         }
-
-        public bool DeletePerson(int personId)
-        {
-            return _repo.DeletePerson(personId);
-        }
+        
 
         public AdminModel GetAdmin(int adminId)
         {
@@ -47,19 +44,39 @@ namespace Oblig1_Nettbutikk.BLL
             return _repo.GetCustomer(customerId);
         }
 
-        public PersonModel GetPerson(int personId)
+        public CustomerModel GetCustomer(string email)
         {
-            return _repo.GetPerson(personId);
+            return _repo.GetCustomer(email);
         }
 
-        public bool UpdatePerson(PersonModel personUpdate, int personId)
+        public bool AttemptLogin(string email, string password)
         {
-            return _repo.UpdatePerson(personUpdate, personId);
+            return _repo.AttemptLogin(email, password);
         }
 
-        public bool AttemptLogin(int personId, string password)
+        public bool ChangePassword(string email, string newPassword)
         {
-            return _sec.AttemptLogin(personId, password);
+            throw new NotImplementedException();
+        }
+
+        public bool DeletePerson(string email)
+        {
+            return _repo.DeletePerson(email);
+        }
+
+        public AdminModel GetAdmin(string email)
+        {
+            return _repo.GetAdmin(email);
+        }
+
+        public PersonModel GetPerson(string email)
+        {
+            return _repo.GetPerson(email);
+        }
+
+        public bool UpdatePerson(PersonModel personUpdate, string email)
+        {
+            return _repo.UpdatePerson(personUpdate, email);
         }
     }
 }

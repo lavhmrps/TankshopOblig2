@@ -1,6 +1,6 @@
 ﻿
 using Newtonsoft.Json;
-using Oblig1_Nettbutikk.Models;
+using Oblig1_Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace Oblig1_Nettbutikk.Controllers
             var categories = DB.AllCategories();
             var products = DB.GetProductsByCategory(1);
 
-            ViewBag.Categories = categories;
-            ViewBag.Products = products;
+            ViewBag.Categories = categories ?? new List<Category>();
+            ViewBag.Products = products ?? new List<Product>();
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.CategoryName = DB.GetCategoryName(1);
 

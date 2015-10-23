@@ -2,11 +2,11 @@
 
 @{
     bool LoggedIn = ViewBag.LoggedIn;
-    CustomerEditInfo customer = ViewBag.Customer;
-    List<OrderView> OrderList = ViewBag.OrderList;
+    CustomerView customer = ViewBag.Customer;
+    List<OrderView> customerOrders = ViewBag.CustomerOrders;
 }
 
-@Html.Partial("_CustomerListOrdersPartial",OrderList)
+@Html.Partial("_CustomerListOrdersPartial",customerOrders)
 <hr />
 @Html.Partial("_CustomerEditInfoPartial", customer)
 @Html.Partial("_CustomerChangePasswordPartial", new CustomerChangePassword())

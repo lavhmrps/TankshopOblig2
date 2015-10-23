@@ -7,8 +7,12 @@ using System.Web;
 
 namespace Oblig1_Nettbutikk.Models
 {
-    public class CustomerEditInfo
+    public class CustomerView
     {
+        public int CustomerId { get; set; }
+
+        public string Email { get; set; }
+
         [Required]
         [DisplayName("Fornavn")]
         public string Firstname { get; set; }

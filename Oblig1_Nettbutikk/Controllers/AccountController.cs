@@ -5,23 +5,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Oblig1_Nettbutikk.BLL;
+using Oblig1_Nettbutikk.Model;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
 
     public class AccountController : Controller
     {
+        private IAccountLogic _accountBLL;
 
+        public AccountController()
+        {
+            _accountBLL = new AccountBLL();
+        }
+
+        public AccountController(IAccountLogic stub)
+        {
+            _accountBLL = stub;
+        }
+        
         [HttpPost]
         public bool Login(string email, string password)
         {
-            var customerLogin = new CustomerLoginPartial
-            {
-                Email = email,
-                Password = password
-            };
 
-            if (DB.AttemptLogin(customerLogin))
+            if (_accountBLL.AttemptLogin(email, password))
             {
                 Session["LoggedIn"] = true;
                 Session["Email"] = email;
@@ -46,7 +54,17 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public bool Register(CustomerRegisterPartial customer, string returnUrl)
         {
-            if (DB.RegisterCustomer(customer))
+            var person = new PersonModel()
+            {
+                Email = customer.Email,
+                Firstname = customer.Firstname,
+                Lastname = customer.Lastname,
+                Address = customer.Address,
+                Zipcode = customer.Zipcode,
+                City = customer.City
+            };
+
+            if (_accountBLL.AddPerson(person, Role.Customer, customer.Password))
             {
                 Session["LoggedIn"] = true;
                 Session["Email"] = customer.Email;
@@ -65,51 +83,79 @@ namespace Oblig1_Nettbutikk.Controllers
             }
 
             string Email = (string)Session["Email"];
-            var Customer = DB.GetCustomerByEmail(Email);
-            var Postal = DB.GetPostal(Customer.Zipcode);
-
-            var db = new WebShopModel();
-
-            var cust = db.Customers.Where(c => c.Email == Email).Select(c => new CustomerEditInfo()
+            var Customer = _accountBLL.GetCustomer(Email);
+            var customerView = new CustomerView()
             {
-                Firstname = c.Firstname,
-                Lastname = c.Lastname,
-                Address = c.Address,
-                Zipcode = c.Zipcode,
-                City = c.Postal.City
-            }).FirstOrDefault();
+                CustomerId= Customer.CustomerId,
+                Email = Customer.Email,
+                Firstname = Customer.Firstname,
+                Lastname = Customer.Lastname,
+                Address = Customer.Address,
+                Zipcode = Customer.Zipcode,
+                City = Customer.City
+            };
 
-            var orderList = db.Orders.Where(o => o.Email == Email).Select(o => new OrderView()
-            {
-                OrderId = o.OrderID,
-                Date=o.Date,
-                Orderlines = o.Orderlines.Select(l => new OrderlineView
+            var customerOrders = Customer.Orders.Select(o => new OrderView()
+            { 
+                OrderId = o.OrderId,
+                Orderlines = o.Orderlines.Select(l => new OrderlineView()
                 {
-                    OrderlineId = l.OrderlineID,
-                    Product = l.Item,
-                    Count = l.Number
+                    OrderlineId = l.OrderlineId,
+                    Count = l.Count,
+                    Product =  new ProductView()
+                    {
+                        ProductId = l.ProductId,
+                        ProductName = l.Product.ProductName,
+                        Descripton = l.Product.Description,
+                        Price = l.Product.Price,
+                        ImageUrl = l.Product.ImageUrl,
+                        Stock = l.Product.Stock,
+                        CategoryName = l.Product.CategoryName
+                    }
                 }).ToList()
             }).ToList();
 
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.Customer = cust;
-            ViewBag.OrderList = orderList;
+            ViewBag.Customer = customerView;
+            ViewBag.CustomerOrders = customerOrders;
 
             return View();
         }
 
         [HttpPost]
-        public bool UpdateCustomerInfo(CustomerEditInfo customerEdit, string returnUrl)
+        public bool UpdateCustomerInfo(CustomerView customerEdit, string returnUrl)
         {
-            return DB.UpdateCustomer(customerEdit, (string)Session["Email"]);
+            var email = (string)Session["Email"];
+
+            var personUpdate = new PersonModel()
+            {
+                Firstname = customerEdit.Firstname,
+                Lastname = customerEdit.Lastname,
+                Address = customerEdit.Address,
+                Zipcode = customerEdit.Zipcode,
+                City = customerEdit.City
+            };
+
+            return _accountBLL.UpdatePerson(personUpdate, email);
         }
 
         [HttpPost]
-        public ActionResult UpdatePersonData(CustomerEditInfo customerEdit, string returnUrl)
+        public ActionResult UpdatePersonData(CustomerView customerEdit, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                if (DB.UpdateCustomer(customerEdit, (string)Session["Email"]))
+                var email = customerEdit.Email;
+
+                var personUpdate = new PersonModel()
+                {
+                    Firstname = customerEdit.Firstname,
+                    Lastname = customerEdit.Lastname,
+                    Address = customerEdit.Address,
+                    Zipcode = customerEdit.Zipcode,
+                    City = customerEdit.City
+                };
+
+                if (_accountBLL.UpdatePerson(personUpdate, email))
                 {
                     return RedirectToAction("MyPage");
                 }
@@ -118,33 +164,15 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
         [HttpPost]
-        public bool ChangePassword2(string CurrentPw, string NewPw)
+        public bool ChangePassword2(string CurrentPw, string NewPassword)
         {
 
-            var Email = (string)Session["Email"];
+            var email = (string)Session["Email"];
 
-            CustomerLoginPartial login = new CustomerLoginPartial()
+            if (_accountBLL.AttemptLogin(email, CurrentPw))
             {
-                Email = Email,
-                Password = CurrentPw
-            };
-            if (DB.AttemptLogin(login))
-            {
-                try
-                {
-                    var newPasswordHash = DB.CreateHash(NewPw);
-                    using (var db = new WebShopModel())
-                    {
-                        var credentials = db.CustomerCredentials.Find(Email);
-                        credentials.Password = newPasswordHash;
-                        db.SaveChanges();
-                        return true;
-                    }
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                if (_accountBLL.ChangePassword(email, NewPassword))
+                    return true;
             }
             return false;
         }
@@ -155,63 +183,55 @@ namespace Oblig1_Nettbutikk.Controllers
             {
                 var Email = (string)Session["Email"];
                 var cart = CookieHandler.GetCartList(this);
-                var cust = new WebShopModel().Customers.Where(c => c.Email == Email).Select(c => new CustomerEditInfo()
-                {
-                    Firstname = c.Firstname,
-                    Lastname = c.Lastname,
-                    Address = c.Address,
-                    Zipcode = c.Zipcode,
-                    City = c.Postal.City
-                }).FirstOrDefault();
+                var customer = _accountBLL.GetCustomer(Email);
 
                 ViewBag.Cart = cart;
-                ViewBag.Customer = cust;
+                ViewBag.Customer = customer;
                 ViewBag.LoggedIn = LoginStatus();
 
                 return View();
             }
             return RedirectToAction("Index", "Home");
         }
-        
-        public ActionResult PlaceOrder(string returnUrl)
-        {
-            var cart = CookieHandler.GetCartList(this);
-            if(cart.Count == 0)
-            {
-                return Redirect("Checkout");
-            }
-            var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
-            if (OrderId > 0)
-            {
-                CookieHandler.EmptyCart(this);
-                OrderView Reciept = GetReciept(OrderId);
 
-                ViewBag.LoggedIn = LoginStatus();
-                ViewBag.Reciept = Reciept;
+        //public ActionResult PlaceOrder(string returnUrl)
+        //{
+        //    var cart = CookieHandler.GetCartList(this);
+        //    if (cart.Count == 0)
+        //    {
+        //        return Redirect("Checkout");
+        //    }
+        //    var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
+        //    if (OrderId > 0)
+        //    {
+        //        CookieHandler.EmptyCart(this);
+        //        OrderView Reciept = GetReciept(OrderId);
 
-                return View("GetReciept");
-            }
-            return Redirect(returnUrl);
-        }
+        //        ViewBag.LoggedIn = LoginStatus();
+        //        ViewBag.Reciept = Reciept;
 
-        public OrderView GetReciept(int OrderId)
-        {
-            var db = new WebShopModel();
-            var reciept = db.Orders.Where(o => o.OrderID == OrderId).Select(o => new OrderView()
-            {
-                OrderId = o.OrderID,
-                Date = o.Date,
-                Orderlines = o.Orderlines.Select(l => new OrderlineView
-                {
-                    OrderlineId = l.OrderlineID,
-                    Product = l.Item,
-                    Count = l.Number
-                }).ToList()
-            }).FirstOrDefault();
+        //        return View("GetReciept");
+        //    }
+        //    return Redirect(returnUrl);
+        //}
 
-            return reciept;
-            
-        }
+        //public OrderView GetReciept(int OrderId)
+        //{
+        //    var db = new WebShopModel();
+        //    var reciept = db.Orders.Where(o => o.OrderID == OrderId).Select(o => new OrderView()
+        //    {
+        //        OrderId = o.OrderID,
+        //        Date = o.Date,
+        //        Orderlines = o.Orderlines.Select(l => new OrderlineView
+        //        {
+        //            OrderlineId = l.OrderlineID,
+        //            Product = l.Item,
+        //            Count = l.Number
+        //        }).ToList()
+        //    }).FirstOrDefault();
+
+        //    return reciept;
+        //}
 
 
         public bool LoginStatus()
@@ -225,6 +245,4 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
     }
-
-
 }

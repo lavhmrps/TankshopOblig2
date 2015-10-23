@@ -15,30 +15,30 @@ namespace Oblig1_Nettbutikk
             var list = cookie.Values;
             var cart = new List<CartItem>();
 
-            using (var db = new WebShopModel())
-            {
-                foreach (var c in list)
-                {
-                    try
-                    {
-                        var pId = Convert.ToInt32(c);
-                        var product = db.Products.Find(pId);
-                        var count = Convert.ToInt32(cookie[c.ToString()]);
-                        cart.Add(new CartItem
-                        {
-                            ProductId = pId,
-                            Name = product.Name,
-                            Price = product.Price,
-                            Count = count
-                        });
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
+            //using (var db = new WebShopModel())
+            //{
+            //    foreach (var c in list)
+            //    {
+            //        try
+            //        {
+            //            var pId = Convert.ToInt32(c);
+            //            var product = db.Products.Find(pId);
+            //            var count = Convert.ToInt32(cookie[c.ToString()]);
+            //            cart.Add(new CartItem
+            //            {
+            //                ProductId = pId,
+            //                Name = product.Name,
+            //                Price = product.Price,
+            //                Count = count
+            //            });
+            //        }
+            //        catch (Exception)
+            //        {
+            //            continue;
+            //        }
 
-                }
-            }
+            //    }
+            //}
 
             return cart;
         }

@@ -129,8 +129,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Account2Controller.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountOldController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="CookieHandler.cs" />
@@ -140,10 +140,11 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
-    <Compile Include="Models\CustomerEditInfo.cs" />
+    <Compile Include="Models\CustomerView.cs" />
     <Compile Include="Models\CustomerLoginPartial.cs" />
     <Compile Include="Models\CustomerRegisterPartial.cs" />
     <Compile Include="Models\OrderView.cs" />
+    <Compile Include="Models\ProductView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +221,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{a36e895f-863d-4c0d-afbc-99cc0fc0cb1b}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{854590CE-5EA6-4EE8-917F-9AEA3D3DDA27}</Project>
+      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>

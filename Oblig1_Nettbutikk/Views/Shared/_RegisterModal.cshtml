@@ -6,6 +6,7 @@
             <div class="modal-header"><h2>Registrer deg her</h2></div>
             <div class="modal-body table">
                 <span id="messageRegister" style="color:red"></span>
+                
                 <table class="table-modal">
                     <tr>
                         <td>@Html.DisplayNameFor(model => model.Email)</td>
@@ -80,6 +81,14 @@
                 var address = $("#RegisterModal #Address").val();
                 var zipcode = $("#RegisterModal #Zipcode").val();
                 var city = $("#RegisterModal #City").val();
+
+                if(email === "" || password === "" || repeatPassword === "" || 
+                    firstname === "" || lastname === "" || address === "" ||
+                    zipcode === "" || city === "")
+                {
+                    $("#messageRegister").text("Vennligst fyll inn alle felter");
+                    return;
+                }
 
                 var customer = {
                     email: email,

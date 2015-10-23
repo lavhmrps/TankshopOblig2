@@ -1,6 +1,8 @@
-﻿@{
-    List<Oblig1_Nettbutikk.Models.Category> categories = ViewBag.Categories;
-    List<Oblig1_Nettbutikk.Models.Product> products = ViewBag.Products;
+﻿@using Oblig1_Nettbutikk.Model;
+
+@{
+    List<Category> categories = ViewBag.Categories;
+    List<Product> products = ViewBag.Products;
     int counter = 0;
 }
 <div class="categories">
@@ -8,7 +10,7 @@
         @foreach (var category in categories)
             {
             <li class="category-listitem">
-                @Html.ActionLink(category.Name, "Category", "Home", new { @CategoryID = category.CategoryID }, null)
+                @Html.ActionLink(category.Name, "Category", "Home", new { @CategoryID = category.CategoryId }, null)
             </li>
 
         }

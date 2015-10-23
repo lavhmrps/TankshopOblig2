@@ -10,7 +10,7 @@ namespace Oblig1_Nettbutikk.DAL
     // For testing
     public class AccountRepoStub : IAccountRepo
     {
-        public bool AddPerson(PersonModel person)
+        public bool AddPerson(PersonModel person, Role role, string password)
         {
             if (person.Email == "")
                 return false;
@@ -32,7 +32,7 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var admin = new AdminModel()
                 {
-                    PersonId = 0
+                    Email=""
                 };
                 return admin;
             }
@@ -40,7 +40,7 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var admin = new AdminModel()
                 {
-                    PersonId = 1,
+                    Email = "Test@test.cz",
                     Firstname = "Test",
                     Lastname = "Test",
                     Address = "Test",
@@ -57,14 +57,12 @@ namespace Oblig1_Nettbutikk.DAL
             var list = new List<PersonModel>();
             var person = new PersonModel()
             {
-                PersonId = 1,
+                Email = "Test@test.cz",
                 Firstname = "Test",
                 Lastname = "Test",
                 Address = "Test",
                 Zipcode = "1234",
-                City = "Test",
-                AdminstratorId = 1,
-                CustomerId = 1
+                City = "Test"
             };
 
             list.Add(person);
@@ -80,7 +78,7 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var customer = new CustomerModel()
                 {
-                    PersonId = 0
+                    Email = ""
                 };
                 return customer;
             }
@@ -88,7 +86,7 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var customer = new CustomerModel()
                 {
-                    PersonId = 1,
+                    Email = "Test@test.cz",
                     Firstname = "Test",
                     Lastname = "Test",
                     Address = "Test",
@@ -101,13 +99,13 @@ namespace Oblig1_Nettbutikk.DAL
             }
         }
 
-        public PersonModel GetPerson(int personId)
+        public PersonModel GetPerson(string email)
         {
-            if (personId == 0)
+            if (email == "")
             {
                 var person = new PersonModel()
                 {
-                    PersonId = 0
+                    Email=""
                 };
                 return person;
             }
@@ -115,15 +113,12 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var person = new PersonModel()
                 {
-
-                    PersonId = 1,
+                    Email = "Test@test.cz",
                     Firstname = "Test",
                     Lastname = "Test",
                     Address = "Test",
                     Zipcode = "1234",
-                    City = "Test",
-                    AdminstratorId = 1,
-                    CustomerId = 1
+                    City = "Test"
                 };
                 return person;
             }
@@ -146,7 +141,61 @@ namespace Oblig1_Nettbutikk.DAL
             return true;
         }
 
+        public bool AttemptLogin(string email, string password)
+        {
+            if (email == "")
+                return false;
+            if (password == "")
+                return false;
+            return true;
+        }
+
         private byte[] CreateHash(string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CustomerModel GetCustomer(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPersonId(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ChangePassword(int personId, string newPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ChangePassword(string email, string newPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AdminModel GetAdmin(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdatePerson(PersonModel personUpdate, string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeletePerson(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CreateCredentials(string email, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetRole(string email, Role role, bool isRole)
         {
             throw new NotImplementedException();
         }

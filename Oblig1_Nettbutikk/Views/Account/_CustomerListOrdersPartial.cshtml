@@ -24,7 +24,7 @@
                     <tr>
 
 
-                        <td>@Html.ActionLink(@item.Product.Name, "Product", "Product", new { ProductId = item.Product.ProductID, ReturnUrl=Request.RawUrl }, null)</td>
+                        <td>@Html.ActionLink(@item.Product.ProductName, "Product", "Product", new { ProductId = item.Product.ProductId, ReturnUrl=Request.RawUrl }, null)</td>
                         <td>@item.Count</td>
                         <td>@String.Format("{0:n}", item.Product.Price) kr</td>
                         <td>@String.Format("{0:n}", productTotal) kr</td>

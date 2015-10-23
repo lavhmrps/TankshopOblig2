@@ -1,16 +1,16 @@
-﻿@model Oblig1_Nettbutikk.Models.Product
+﻿@model Oblig1_Nettbutikk.Model.Product
 
 <div class="product_listitem">
     <div class="row">
         <div class="col-md-5" style="padding-right:0;">
             <div class="listitem_image">
               
-                <img id="imgProductID_@Model.ProductID" src="@Model.ImageUrl" alt="Bilde av @Model.Name"/>
+                <img id="imgProductID_@Model.ProductId" src="@Model.ImageUrl" alt="Bilde av @Model.Name"/>
             </div>
 
         </div>
         <div class="col-md-7">
-            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Product", new { ProductId = Model.ProductID, ReturnUrl=Request.RawUrl }, null)</h5>
+            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Product", new { ProductId = Model.ProductId, ReturnUrl=Request.RawUrl }, null)</h5>
         </div>
         </div>
     <div class="listitem_description_outer">

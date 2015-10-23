@@ -1,4 +1,5 @@
-﻿using Oblig1_Nettbutikk.Models;
+﻿using Oblig1_Nettbutikk.Model;
+using Oblig1_Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,7 +15,7 @@ namespace Oblig1_Nettbutikk
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<WebShopModel>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<TankshopDbContext>());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
@@ -23,17 +24,17 @@ namespace Oblig1_Nettbutikk.Model
         }
 
 
-        public DbSet<Person> People { get; set; }
-        public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Credential> Credentials { get; set; }
+        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Administrator> Administrators { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Credential> Credentials { get; set; }
 
-        public DbSet<Postal> Postals { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Orderline> Orderlines { get; set; }
-        public DbSet<Image> Images { get; set; }
+        public virtual DbSet<Postal> Postals { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Orderline> Orderlines { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
 
     }
 
@@ -41,34 +42,29 @@ namespace Oblig1_Nettbutikk.Model
     {
 
         [Key]
+        public string Email { get; set; }
         public int CustomerId { get; set; }
-        public int PersonId { get; set; }
-
-        public Person Person { get; set; }
     }
 
     public class Administrator
     {
         [Key]
+        public string Email { get; set; }
         public int AdministratorId { get; set; }
-        public int PersonId { get; set; }
-
-        public Person Person { get; set; }
     }
 
     public class Person
     {
 
         [Key]
-        public int PersonId { get; set; }
         public string Email { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Address { get; set; }
         public string Zipcode { get; set; }
 
-        public Postal Postal { get; set; }
-        public List<Order> Orders { get; set; }
+        public virtual Postal Postal { get; set; }
+        public virtual List<Order> Orders { get; set; }
 
     }
 
@@ -76,10 +72,8 @@ namespace Oblig1_Nettbutikk.Model
     public class Credential
     {
         [Key]
-        public int PersonId { get; set; }
+        public string Email { get; set; }
         public byte[] Password { get; set; }
-
-        public virtual Person Person { get; set; }
     }
 
     // Postaladdress
@@ -93,7 +87,7 @@ namespace Oblig1_Nettbutikk.Model
         public string Zipcode { get; set; }
         public string City { get; set; }
 
-        public List<Person> People { get; set; }
+        public virtual List<Person> People { get; set; }
     }
 
     // Item-category
@@ -110,13 +104,13 @@ namespace Oblig1_Nettbutikk.Model
     {
         [Key]
         public int ProductId { get; set; }
-        public int CategoryId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public int Stock { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
 
+        public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
     }
