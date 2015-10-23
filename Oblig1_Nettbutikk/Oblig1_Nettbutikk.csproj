@@ -138,6 +138,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510230212211_Initital.cs" />
+    <Compile Include="Migrations\201510230212211_Initital.Designer.cs">
+      <DependentUpon>201510230212211_Initital.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CustomerView.cs" />
@@ -230,6 +234,11 @@
       <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>
       <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510230212211_Initital.resx">
+      <DependentUpon>201510230212211_Initital.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

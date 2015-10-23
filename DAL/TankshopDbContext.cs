@@ -151,6 +151,7 @@ namespace Oblig1_Nettbutikk.Model
         public int ProductId { get; set; }
         public string ImageUrl { get; set; }
         public virtual Product Product { get; set; }
+        public string hei { get; set; }
     }
 
 }

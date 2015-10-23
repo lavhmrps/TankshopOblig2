@@ -10,7 +10,7 @@ namespace Oblig1_Nettbutikk.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
             ContextKey = "TankshopDbContext";
         }
 
