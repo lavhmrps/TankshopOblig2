@@ -71,7 +71,7 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Shoppingcart(string ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.ShoppingCart = CookieHandler.GetCartList(this);
+            ViewBag.ShoppingCart = new CookieController().GetCartList(this);
             ViewBag.LoggedIn = LoginStatus();
             return View();
         }

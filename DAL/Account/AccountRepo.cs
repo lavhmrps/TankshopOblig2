@@ -329,6 +329,7 @@ namespace Oblig1_Nettbutikk.DAL
                         var oldPostal = db.Postals.Find(editPerson.Zipcode);
                         if (oldPostal != null)
                             oldPostal.People.Remove(editPerson);
+                        db.SaveChanges();
 
                         personPostal = new Postal()
                         {
@@ -336,9 +337,11 @@ namespace Oblig1_Nettbutikk.DAL
                             City = personUpdate.City
                         };
                         personPostal.People.Add(editPerson);
+                        db.SaveChanges();
                     }
 
                     editPerson.Zipcode = personUpdate.Zipcode;
+                    editPerson.Postal = personPostal;
 
                     db.SaveChanges();
 

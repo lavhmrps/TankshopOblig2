@@ -108,9 +108,50 @@ namespace Oblig1_Nettbutikk.Controllers
             return cartItemList;
         }
 
+        public List<CartItem> GetCartList(Controller controller)
+        {
+            _shoppingcart = controller.Request.Cookies[SHOPPINGCART] ?? new HttpCookie(SHOPPINGCART);
+            var cookieValueList = _shoppingcart.Values;
+            var productIdList = new List<int>();
+
+            foreach (var cookieValue in cookieValueList)
+            {
+                var productId = Convert.ToInt32(cookieValue);
+                try
+                {
+                    var count = Convert.ToInt32(_shoppingcart[productId.ToString()]);
+                    if (count > 0)
+                        productIdList.Add(productId);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+
+            var productModelList = _productBLL.GetProducts(productIdList);
+
+            var cartItemList = productModelList.Select(p => new CartItem()
+            {
+                ProductId = p.ProductId,
+                Name = p.ProductName,
+                Count = GetCount(p.ProductId,controller),
+                Price = p.Price
+            }).ToList();
+
+            return cartItemList;
+        }
+
         public int GetCount(int productId)
         {
             _shoppingcart = Request.Cookies[SHOPPINGCART] ?? new HttpCookie(SHOPPINGCART);
+            var count = Convert.ToInt32(_shoppingcart[productId.ToString()]);
+            return count;
+        }
+
+        public int GetCount(int productId, Controller controller)
+        {
+            _shoppingcart = controller.Request.Cookies[SHOPPINGCART] ?? new HttpCookie(SHOPPINGCART);
             var count = Convert.ToInt32(_shoppingcart[productId.ToString()]);
             return count;
         }

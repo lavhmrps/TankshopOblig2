@@ -56,7 +56,7 @@ namespace Oblig1_Nettbutikk.BLL
 
         public bool ChangePassword(string email, string newPassword)
         {
-            throw new NotImplementedException();
+            return _repo.ChangePassword(email, newPassword);
         }
 
         public bool DeletePerson(string email)
