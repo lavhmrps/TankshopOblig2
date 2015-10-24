@@ -1,6 +1,7 @@
 ﻿
 using Newtonsoft.Json;
 using Oblig1_Nettbutikk.Model;
+using Oblig1_Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,83 +14,66 @@ namespace Oblig1_Nettbutikk.Controllers
     {
         public ActionResult Index()
         {
-            var categories = DB.AllCategories();
-            var products = DB.GetProductsByCategory(1);
+            var categories = DB.AllCategories().Select(c => new CategoryView()
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.Name
+            }
+            ).ToList();
 
-            ViewBag.Categories = categories ?? new List<Category>();
-            ViewBag.Products = products ?? new List<Product>();
+            var products = DB.GetProductsByCategory(1).Select( p => new ProductView()
+            {
+                ProductId = p.ProductId,
+                ProductName = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Stock = p.Stock,
+                ImageUrl = p.ImageUrl,
+                CategoryName = categories.FirstOrDefault(c => c.CategoryId == p.CategoryId).CategoryName
+            }).ToList();
+
+            ViewBag.Categories = categories ?? new List<CategoryView>();
+            ViewBag.Products = products ?? new List<ProductView>();
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.CategoryName = DB.GetCategoryName(1);
 
             return View();
         }
 
-        public ActionResult Category(int CategoryID)
+        public ActionResult Category(int CategoryId)
         {
-            var categories = DB.AllCategories();
-            var products = DB.GetProductsByCategory(CategoryID);
+            var categories = DB.AllCategories().Select(c => new CategoryView()
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.Name
+            }
+            ).ToList();
+
+            var products = DB.GetProductsByCategory(CategoryId).Select(p => new ProductView()
+            {
+                ProductId = p.ProductId,
+                ProductName = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Stock = p.Stock,
+                ImageUrl = p.ImageUrl,
+                CategoryName = categories.FirstOrDefault(c => c.CategoryId == p.CategoryId).CategoryName
+            }).ToList(); 
 
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = DB.GetCategoryName(CategoryID) ?? "";
+            ViewBag.CategoryName = DB.GetCategoryName(CategoryId) ?? "Epler?";
 
             return View("Index");
         }
 
-        public ActionResult ShoppingCart(string ReturnUrl)
+        public ActionResult Shoppingcart(string ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
             ViewBag.ShoppingCart = CookieHandler.GetCartList(this);
             ViewBag.LoggedIn = LoginStatus();
             return View();
-        }
-
-        [HttpPost]
-        public int AddToCart(int ProductId)
-        {
-            return CookieHandler.AddToCart(this, ProductId);
-        }
-
-        public int NumItemsInCart()
-        {
-            return CookieHandler.NumItemsInCart(this);
-        }
-
-        public string GetCart()
-        {
-            var cart = CookieHandler.GetCartList(this);
-
-            var jsonCart = JsonConvert.SerializeObject(cart);
-            return jsonCart;
-        }
-
-        [HttpPost]
-        public int RemoveFromCart(int ProductId)
-        {
-            CookieHandler.RemoveFromCart(ProductId, this);
-
-            return CookieHandler.NumItemsInCart(this);
-        }
-
-        public double GetSumTotalCart()
-        {
-            return CookieHandler.GetSumTotalCart(this);
-        }
-
-        public int UpdateCartProductCount(int ProductId, int Count)
-        {
-            CookieHandler.UpdateCartProductCount(ProductId, Count, this);
-
-            return CookieHandler.NumItemsInCart(this);
-
-        }
-
-        public ActionResult EmptyCart(string returnUrl)
-        {
-            CookieHandler.EmptyCart(this);
-
-            return Redirect(returnUrl);
         }
 
         public bool LoginStatus()
