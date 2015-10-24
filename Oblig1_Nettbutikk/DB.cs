@@ -84,9 +84,9 @@ namespace Oblig1_Nettbutikk
             }
         }
 
-       
-        
-        
+
+
+
 
         //public static OrderView GetReciept(int orderId)
         //{
@@ -114,9 +114,9 @@ namespace Oblig1_Nettbutikk
         //    {
         //        try
         //        {
-        //            var Order = new Order();
+        //            var Order = new OrderView();
 
-        //            var Customer = GetCustomer(email);
+        //            var Customer = BLL.AccountBLL.GetCustomer(email);
 
         //            Order.Email = email;
         //            Order.Date = DateTime.Now;

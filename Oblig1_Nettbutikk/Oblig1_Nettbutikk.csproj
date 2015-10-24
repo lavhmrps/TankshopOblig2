@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountOldController.cs" />
+    <Compile Include="Controllers\CookieController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="CookieHandler.cs" />
@@ -144,6 +145,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CategoryView.cs" />
     <Compile Include="Models\CustomerView.cs" />
     <Compile Include="Models\CustomerLoginPartial.cs" />
     <Compile Include="Models\CustomerRegisterPartial.cs" />
@@ -202,8 +204,8 @@
     <Content Include="Views\Shared\_RegisterModal.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Product\Product_Details.cshtml" />
-    <Content Include="Views\Home\ShoppingCart.cshtml" />
-    <Content Include="Views\Home\_CartItem.cshtml" />
+    <Content Include="Views\Home\Shoppingcart.cshtml" />
+    <Content Include="Views\Home\_Cartitem.cshtml" />
     <Content Include="Views\Account\MyPage.cshtml" />
     <Content Include="Views\Account\_CustomerEditInfoPartial.cshtml" />
     <Content Include="Views\Account\_CustomerChangePasswordPartial.cshtml" />

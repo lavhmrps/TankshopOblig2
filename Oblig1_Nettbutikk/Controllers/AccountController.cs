@@ -106,7 +106,7 @@ namespace Oblig1_Nettbutikk.Controllers
                     {
                         ProductId = l.ProductId,
                         ProductName = l.Product.ProductName,
-                        Descripton = l.Product.Description,
+                        Description = l.Product.Description,
                         Price = l.Product.Price,
                         ImageUrl = l.Product.ImageUrl,
                         Stock = l.Product.Stock,
@@ -164,7 +164,7 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
         [HttpPost]
-        public bool ChangePassword2(string CurrentPw, string NewPassword)
+        public bool ChangePassword(string CurrentPw, string NewPassword)
         {
 
             var email = (string)Session["Email"];
@@ -182,9 +182,20 @@ namespace Oblig1_Nettbutikk.Controllers
             if (LoginStatus())
             {
                 var Email = (string)Session["Email"];
-                var cart = CookieHandler.GetCartList(this);
-                var customer = _accountBLL.GetCustomer(Email);
+                var cart = new CookieController().GetCartList(this);
+                var customerModel = _accountBLL.GetCustomer(Email);
+                var customer = new CustomerView()
+                {
+                    Firstname = customerModel.Firstname,
+                    Lastname = customerModel.Lastname,
+                    Address = customerModel.Address,
+                    Zipcode = customerModel.Zipcode,
+                    City = customerModel.City,
+                    CustomerId = customerModel.CustomerId,
+                    Email = customerModel.Email
 
+                };
+                
                 ViewBag.Cart = cart;
                 ViewBag.Customer = customer;
                 ViewBag.LoggedIn = LoginStatus();
@@ -196,37 +207,41 @@ namespace Oblig1_Nettbutikk.Controllers
 
         //public ActionResult PlaceOrder(string returnUrl)
         //{
-        //    var cart = CookieHandler.GetCartList(this);
-        //    if (cart.Count == 0)
+        //    if (LoginStatus())
         //    {
-        //        return Redirect("Checkout");
-        //    }
-        //    var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
-        //    if (OrderId > 0)
-        //    {
-        //        CookieHandler.EmptyCart(this);
-        //        OrderView Reciept = GetReciept(OrderId);
+        //        var cart = CookieHandler.GetCartList(this);
+        //        if (cart.Count == 0)
+        //        {
+        //            return Redirect("Checkout");
+        //        }
+        //        var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
+        //        if (OrderId > 0)
+        //        {
+        //            CookieHandler.EmptyCart(this);
+        //            OrderView Reciept = GetReciept(OrderId);
 
-        //        ViewBag.LoggedIn = LoginStatus();
-        //        ViewBag.Reciept = Reciept;
+        //            ViewBag.LoggedIn = LoginStatus();
+        //            ViewBag.Reciept = Reciept;
 
-        //        return View("GetReciept");
+        //            return View("GetReciept");
+        //        }
+        //        return Redirect(returnUrl);
         //    }
-        //    return Redirect(returnUrl);
+        //    return RedirectToAction("Index", "Home");
         //}
 
         //public OrderView GetReciept(int OrderId)
         //{
-        //    var db = new WebShopModel();
-        //    var reciept = db.Orders.Where(o => o.OrderID == OrderId).Select(o => new OrderView()
+        //    var db = new TankshopDbContext();
+        //    var reciept = db.Orders.Where(o => o.OrderId == OrderId).Select(o => new OrderView()
         //    {
-        //        OrderId = o.OrderID,
+        //        OrderId = o.OrderId,
         //        Date = o.Date,
         //        Orderlines = o.Orderlines.Select(l => new OrderlineView
         //        {
-        //            OrderlineId = l.OrderlineID,
-        //            Product = l.Item,
-        //            Count = l.Number
+        //            OrderlineId = l.OrderlineId,
+        //            Product = l.Product,
+        //            Count = l.Count
         //        }).ToList()
         //    }).FirstOrDefault();
 

@@ -67,7 +67,7 @@
 
         function updateNumItemsInCart() {
             $.ajax({
-                url: '@Url.Action("NumItemsInCart","Home")',
+                url: '@Url.Action("NumItemsInCart","Cookie")',
                 method: "GET",
                 success: function (result) {
                     count = parseInt(result);
@@ -102,7 +102,7 @@
 
         $("#btnShoppingCart").on("click", function () {
             $.ajax({
-                url: '@Url.Action("GetCart","Home")',
+                url: '@Url.Action("GetCart","Cookie")',
                 
                 success: function (result) {
                     var cart = JSON.parse(result);
