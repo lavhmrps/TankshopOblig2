@@ -14,9 +14,6 @@ namespace Oblig1_Nettbutikk.Model
         public string Address { get; set; }
         public string Zipcode { get; set; }
         public string City { get; set; }
-
-        // -1 if not present
-        //public int AdminstratorId { get; set; }
-        //public int CustomerId { get; set; }
+        
     }
 }

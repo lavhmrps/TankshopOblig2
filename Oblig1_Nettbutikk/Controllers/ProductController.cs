@@ -1,4 +1,5 @@
-﻿using Oblig1_Nettbutikk.Models;
+﻿using Oblig1_Nettbutikk.BLL;
+using Oblig1_Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,27 @@ namespace Oblig1_Nettbutikk.Controllers
 {
     public class ProductController : Controller
     {
+        private IProductLogic _productBLL;
+
+        public ProductController()
+        {
+            _productBLL = new ProductBLL();
+        }
+
+        public ProductController(IProductLogic stub)
+        {
+            _productBLL = stub;
+        }
+
         // GET: Product
         public ActionResult Product(int ProductId,string ReturnUrl)
         {
-            var productmodel = DB.GetProductById(ProductId);
-            var categoryname = DB.GetCategoryName(productmodel.CategoryId);
+            var productmodel = _productBLL.GetProduct(ProductId);
+            var categoryname = _productBLL.GetCategoryName(productmodel.CategoryId);
             var productview = new ProductView()
             {
                 ProductId = productmodel.ProductId,
-                ProductName = productmodel.Name,
+                ProductName = productmodel.ProductName,
                 Description = productmodel.Description,
                 Price = productmodel.Price,
                 Stock = productmodel.Stock,

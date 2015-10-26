@@ -7,13 +7,13 @@ namespace Oblig1_Nettbutikk.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initital : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initital));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510230212211_Initital"; }
+            get { return "201510252348511_Initial"; }
         }
         
         string IMigrationMetadata.Source

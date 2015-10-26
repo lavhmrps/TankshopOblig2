@@ -11,5 +11,5 @@ namespace Oblig1_Nettbutikk.Model
         Admin,
         Customer
     };
-
+    
 }

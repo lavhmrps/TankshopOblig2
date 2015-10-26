@@ -42,8 +42,10 @@
   <ItemGroup>
     <Compile Include="Account\IAccountLogic.cs" />
     <Compile Include="Account\AccountBLL.cs" />
-    <Compile Include="IProductLogic.cs" />
-    <Compile Include="ProductBLL.cs" />
+    <Compile Include="Order\IOrderLogic.cs" />
+    <Compile Include="Product\IProductLogic.cs" />
+    <Compile Include="Order\OrderBLL.cs" />
+    <Compile Include="Product\ProductBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +58,7 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

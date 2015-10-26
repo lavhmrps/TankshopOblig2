@@ -13,7 +13,7 @@
     <hr />
     @*<a id="btnConfirmPlaceOrder" class="btn btn-success">Bekreft kjøp</a>*@
 
-    @Html.ActionLink("Bekreft kjøp", "PlaceOrder", "Account", new { returnUrl = Request.RawUrl }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Bekreft kjøp", "PlaceOrder", "Checkout", new { returnUrl = Request.RawUrl }, new { @class = "btn btn-success" })
 </div>
 <script>
     $(document).ready(function () {
@@ -23,7 +23,7 @@
         $("#btnConfirmPlaceOrder").click(function () {
 
             $.ajax({
-                url: '@Url.Action("PlaceOrder","Account")',
+                url: '@Url.Action("PlaceOrder","Checkout")',
                 method: "POST",
                 success: function (result) {
                     var OrderId = parseInt(result);
@@ -33,7 +33,7 @@
                         
                         // Return reciept
                         $.ajax({
-                            url: '@Url.Action("GetReciept","Account")',
+                            url: '@Url.Action("GetReciept", "Checkout")',
                             data: {
                                 OrderId:OrderId
                             }, method: "POST",

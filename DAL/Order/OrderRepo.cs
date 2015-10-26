@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    public class OrderRepo
+    public class OrderRepo : IOrderRepo
     {
         public List<OrderModel> GetOrders(int customerId)
         {
-            using(var db = new TankshopDbContext())
+            using (var db = new TankshopDbContext())
             {
                 var customerOrders = new List<OrderModel>();
-                var dbOrders = db.Orders.ToList();
+                var dbOrders = db.Orders.OrderByDescending(o => o.Date);
 
-                foreach(var order in dbOrders)
+                foreach (var order in dbOrders)
                 {
-                    if(order.CustomerId == customerId)
-                        customerOrders.Add(GetOrder(customerId));
+                    if (order.CustomerId == customerId)
+                        customerOrders.Add(GetOrder(order.OrderId));
                 }
 
                 return customerOrders;
@@ -45,12 +45,74 @@ namespace Oblig1_Nettbutikk.DAL
                         OrderId = l.OrderId,
                         ProductId = l.ProductId,
                         Count = l.Count,
+                        ProductName = l.Product.Name,
+                        ProductPrice = l.Product.Price
 
                     }).ToList(),
                     Date = dbOrder.Date
                 };
 
                 return order;
+            }
+        }
+
+        public int PlaceOrder(OrderModel order)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var newOrder = new Order()
+                    {
+                        CustomerId = order.CustomerId,
+                        Date = order.Date
+                    };
+
+                    foreach (var item in order.Orderlines)
+                    {
+                        var product = db.Products.Find(item.ProductId);
+                        var orderline = new Orderline()
+                        {
+                            Product = product,
+                            Count = item.Count,
+                            ProductId = item.ProductId
+                        };
+
+                        newOrder.Orderlines.Add(orderline);
+                    }
+
+                    db.Orders.Add(newOrder);
+                    db.SaveChanges();
+                    return newOrder.OrderId;
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public OrderModel GetReciept(int orderId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbOrder = db.Orders.Find(orderId);
+                var orderModel = new OrderModel()
+                {
+                    CustomerId = dbOrder.CustomerId,
+                    Date = dbOrder.Date,
+                    OrderId = dbOrder.OrderId,
+                    Orderlines = dbOrder.Orderlines.Select(l => new OrderlineModel()
+                    {
+                        Count = l.Count,
+                        OrderlineId = l.OrderlineId,
+                        ProductId = l.ProductId,
+                        ProductName = l.Product.Name,
+                        ProductPrice = l.Product.Price
+                    }).ToList()
+                };
+
+                return orderModel;
             }
         }
     }

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    public interface IProductRepo
+    public interface IOrderRepo
     {
-       List<ProductModel> GetProducts(List<int> productIdList);
+        int PlaceOrder(OrderModel order);
+        OrderModel GetReciept(int orderId);
     }
 }

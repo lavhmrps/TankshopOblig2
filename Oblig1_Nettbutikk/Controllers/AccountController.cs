@@ -95,25 +95,48 @@ namespace Oblig1_Nettbutikk.Controllers
                 City = Customer.City
             };
 
-            var customerOrders = Customer.Orders.Select(o => new OrderView()
-            { 
-                OrderId = o.OrderId,
-                Orderlines = o.Orderlines.Select(l => new OrderlineView()
+            var orders = Customer.Orders;
+            var customerOrders = new List<OrderView>();
+
+            foreach (var o in orders)
+            {
+                var order = new OrderView();
+                order.Date = o.Date;
+                order.OrderId = o.OrderId;
+                order.Orderlines = new List<OrderlineView>();
+
+                foreach(var l in o.Orderlines)
                 {
-                    OrderlineId = l.OrderlineId,
-                    Count = l.Count,
-                    Product =  new ProductView()
+                    var orderline = new OrderlineView();
+                    orderline.Count = l.Count;
+                    orderline.OrderlineId = l.OrderlineId;
+                    orderline.Product = new ProductView()
                     {
+                        Price = l.ProductPrice,
                         ProductId = l.ProductId,
-                        ProductName = l.Product.ProductName,
-                        Description = l.Product.Description,
-                        Price = l.Product.Price,
-                        ImageUrl = l.Product.ImageUrl,
-                        Stock = l.Product.Stock,
-                        CategoryName = l.Product.CategoryName
-                    }
-                }).ToList()
-            }).ToList();
+                        ProductName = l.ProductName
+                    };
+
+                    order.Orderlines.Add(orderline);
+                }
+                customerOrders.Add(order);
+            }
+
+            //var customerOrders = Customer.Orders.Select(o => new OrderView()
+            //{
+            //    OrderId = o.OrderId,
+            //    Orderlines = o.Orderlines.Select(l => new OrderlineView()
+            //    {
+            //        OrderlineId = l.OrderlineId,
+            //        Count = l.Count,
+            //        Product = new ProductView()
+            //        {
+            //            ProductId = l.ProductId,
+            //            ProductName = l.ProductName,
+            //            Price = l.ProductPrice
+            //        }
+            //    }).ToList()
+            //}).ToList();
 
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.Customer = customerView;
@@ -176,78 +199,6 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             return false;
         }
-
-        public ActionResult Checkout()
-        {
-            if (LoginStatus())
-            {
-                var Email = (string)Session["Email"];
-                var cart = new CookieController().GetCartList(this);
-                var customerModel = _accountBLL.GetCustomer(Email);
-                var customer = new CustomerView()
-                {
-                    Firstname = customerModel.Firstname,
-                    Lastname = customerModel.Lastname,
-                    Address = customerModel.Address,
-                    Zipcode = customerModel.Zipcode,
-                    City = customerModel.City,
-                    CustomerId = customerModel.CustomerId,
-                    Email = customerModel.Email
-
-                };
-                
-                ViewBag.Cart = cart;
-                ViewBag.Customer = customer;
-                ViewBag.LoggedIn = LoginStatus();
-
-                return View();
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-        //public ActionResult PlaceOrder(string returnUrl)
-        //{
-        //    if (LoginStatus())
-        //    {
-        //        var cart = CookieHandler.GetCartList(this);
-        //        if (cart.Count == 0)
-        //        {
-        //            return Redirect("Checkout");
-        //        }
-        //        var OrderId = DB.PlaceOrder((String)Session["Email"], cart);
-        //        if (OrderId > 0)
-        //        {
-        //            CookieHandler.EmptyCart(this);
-        //            OrderView Reciept = GetReciept(OrderId);
-
-        //            ViewBag.LoggedIn = LoginStatus();
-        //            ViewBag.Reciept = Reciept;
-
-        //            return View("GetReciept");
-        //        }
-        //        return Redirect(returnUrl);
-        //    }
-        //    return RedirectToAction("Index", "Home");
-        //}
-
-        //public OrderView GetReciept(int OrderId)
-        //{
-        //    var db = new TankshopDbContext();
-        //    var reciept = db.Orders.Where(o => o.OrderId == OrderId).Select(o => new OrderView()
-        //    {
-        //        OrderId = o.OrderId,
-        //        Date = o.Date,
-        //        Orderlines = o.Orderlines.Select(l => new OrderlineView
-        //        {
-        //            OrderlineId = l.OrderlineId,
-        //            Product = l.Product,
-        //            Count = l.Count
-        //        }).ToList()
-        //    }).FirstOrDefault();
-
-        //    return reciept;
-        //}
-
 
         public bool LoginStatus()
         {

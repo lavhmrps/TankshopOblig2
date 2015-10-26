@@ -39,9 +39,9 @@
         <div class="summary_wrapper">
             <div class="shoppingcart_summary">
                 <span class="lblPrice">Totalsum: </span>
-                <span id="sumTotal" class="formatPrice">@Html.Action("GetSumTotalCart", "Cookie")</span>
-                @Html.ActionLink("Til betaling","Checkout","Account",null, new { @class = "btn btn-danger " })
-                @Html.ActionLink("Tøm handlekurven", "EmptyCart", "Cookie", new { returnUrl = Request.RawUrl }, new { @class = "emptyCartLink" })
+                <span id="sumTotal" class="formatPrice">@Html.Action("GetSumTotalCart", "Cart")</span>
+                @Html.ActionLink("Til betaling","Checkout","Checkout",null, new { @class = "btn btn-danger " })
+                @Html.ActionLink("Tøm handlekurven", "EmptyCart", "Cart", new { returnUrl = Request.RawUrl }, new { @class = "emptyCartLink" })
             </div>
         </div>
     </section>
@@ -67,7 +67,7 @@
             var totalPriceElem = $(this).closest(".row").find(".totalProductPrice");
                        
             $.ajax({
-                url: '@Url.Action("UpdateCartProductCount","Cookie")',
+                url: '@Url.Action("UpdateCartProductCount","Cart")',
                 data: {
                     ProductId:pId,
                     Count: count
@@ -101,7 +101,7 @@
     // functions
     function removeFromCart(pId, row) {
         $.ajax({
-            url: '@Url.Action("RemoveFromCart","Cookie")',
+            url: '@Url.Action("RemoveFromCart","Cart")',
             data: {
                 ProductId: pId
             },
@@ -124,7 +124,7 @@
 
     function updateSumTotal() {
         $.ajax({
-            url: '@Url.Action("GetSumTotalCart","Cookie")',
+            url: '@Url.Action("GetSumTotalCart","Cart")',
             success: function (result) {
                 $(".shoppingcart_summary #sumTotal").text(formatPrice(result));
 

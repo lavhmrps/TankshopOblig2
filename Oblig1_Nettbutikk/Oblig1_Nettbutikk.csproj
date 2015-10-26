@@ -130,18 +130,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AccountOldController.cs" />
-    <Compile Include="Controllers\CookieController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="CookieHandler.cs" />
-    <Compile Include="DB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510230212211_Initital.cs" />
-    <Compile Include="Migrations\201510230212211_Initital.Designer.cs">
-      <DependentUpon>201510230212211_Initital.cs</DependentUpon>
+    <Compile Include="Migrations\201510252348511_Initial.cs" />
+    <Compile Include="Migrations\201510252348511_Initial.Designer.cs">
+      <DependentUpon>201510252348511_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -204,20 +203,19 @@
     <Content Include="Views\Shared\_RegisterModal.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Product\Product_Details.cshtml" />
-    <Content Include="Views\Home\Shoppingcart.cshtml" />
-    <Content Include="Views\Home\_Cartitem.cshtml" />
+    <Content Include="Views\Cart\Shoppingcart.cshtml" />
+    <Content Include="Views\Cart\_Cartitem.cshtml" />
     <Content Include="Views\Account\MyPage.cshtml" />
     <Content Include="Views\Account\_CustomerEditInfoPartial.cshtml" />
     <Content Include="Views\Account\_CustomerChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_CustomerListOrdersPartial.cshtml" />
-    <Content Include="Views\Account\Checkout.cshtml" />
-    <Content Include="Views\Account\_CheckoutItemsPartial.cshtml" />
-    <Content Include="Views\Account\_CheckoutAddressPartial.cshtml" />
-    <Content Include="Views\Account\GetReciept.cshtml" />
+    <Content Include="Views\Checkout\Checkout.cshtml" />
+    <Content Include="Views\Checkout\_CheckoutItemsPartial.cshtml" />
+    <Content Include="Views\Checkout\_CheckoutAddressPartial.cshtml" />
+    <Content Include="Views\Checkout\GetReciept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Account2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -238,8 +236,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201510230212211_Initital.resx">
-      <DependentUpon>201510230212211_Initital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510252348511_Initial.resx">
+      <DependentUpon>201510252348511_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

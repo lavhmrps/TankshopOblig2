@@ -13,7 +13,7 @@
             var productTotal = item.Product.Price * item.Count;
             <tr>
                 <td>@Reciept.OrderId</td>
-                <td>@Html.ActionLink(@item.Product.Name, "Product", "Product", new { ProductId = item.Product.ProductID }, null)</td>
+                <td>@Html.ActionLink(@item.Product.ProductName, "Product", "Product", new { ProductId = item.Product.ProductId }, null)</td>
                 <td>@item.Count</td>
                 <td>@String.Format("{0:n}", item.Product.Price)<span>,-</span></td>
                 <td>@String.Format("{0:n}", productTotal)<span>,-</span></td>

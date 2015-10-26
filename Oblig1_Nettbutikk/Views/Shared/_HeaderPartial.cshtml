@@ -45,13 +45,13 @@
                     @*<a id="btnShoppingCart" href="#ShoppingCartModal" data-toggle="modal" class="btn btn-primary">
                         Handlekurv <span class="glyphicon glyphicon-shopping-cart"></span>
                     </a>*@
-                    @Html.ActionLink("Handlekurv","Shoppingcart","Home",null, new { @class="btn btn-primary" })
+                    @Html.ActionLink("Handlekurv","Cart","Cart",null, new { @class="btn btn-primary" })
                     
                     <div class="cartCounter"></div>
                 </div>
                 <div class="col-md-6">
                     @*<a href="#" class="btn btn-danger">Til kassen <span class="glyphicon glyphicon-credit-card"></span></a>*@
-                    @Html.ActionLink("Til betaling","Checkout","Account", null, new {@class= "btn btn-danger" })
+                    @Html.ActionLink("Til betaling","Checkout","Checkout", null, new {@class= "btn btn-danger" })
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
 
         function updateNumItemsInCart() {
             $.ajax({
-                url: '@Url.Action("NumItemsInCart","Cookie")',
+                url: '@Url.Action("NumItemsInCart","Cart")',
                 method: "GET",
                 success: function (result) {
                     count = parseInt(result);

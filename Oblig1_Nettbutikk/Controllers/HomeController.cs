@@ -1,5 +1,6 @@
 ﻿
 using Newtonsoft.Json;
+using Oblig1_Nettbutikk.BLL;
 using Oblig1_Nettbutikk.Model;
 using Oblig1_Nettbutikk.Models;
 using System;
@@ -12,47 +13,59 @@ namespace Oblig1_Nettbutikk.Controllers
 {
     public class HomeController : Controller
     {
+        private IProductLogic _productBLL;
+
+        public HomeController()
+        {
+            _productBLL = new ProductBLL();
+        }
+
+        public HomeController(IProductLogic stub)
+        {
+            _productBLL = stub;
+        }
+
         public ActionResult Index()
         {
-            var categories = DB.AllCategories().Select(c => new CategoryView()
+            var categories = _productBLL.AllCategories().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,
-                CategoryName = c.Name
+                CategoryName = c.CategoryName
             }
             ).ToList();
 
-            var products = DB.GetProductsByCategory(1).Select( p => new ProductView()
+            var products = _productBLL.GetProductsByCategory(1).Select( p => new ProductView()
             {
                 ProductId = p.ProductId,
-                ProductName = p.Name,
+                ProductName = p.ProductName,
                 Description = p.Description,
                 Price = p.Price,
                 Stock = p.Stock,
                 ImageUrl = p.ImageUrl,
-                CategoryName = categories.FirstOrDefault(c => c.CategoryId == p.CategoryId).CategoryName
+                CategoryName = p.CategoryName
             }).ToList();
 
             ViewBag.Categories = categories ?? new List<CategoryView>();
             ViewBag.Products = products ?? new List<ProductView>();
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = DB.GetCategoryName(1);
+            ViewBag.CategoryName = _productBLL.GetCategoryName(1);
 
             return View();
         }
 
         public ActionResult Category(int CategoryId)
         {
-            var categories = DB.AllCategories().Select(c => new CategoryView()
+            var categories = _productBLL.AllCategories().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,
-                CategoryName = c.Name
+                CategoryName = c.CategoryName
             }
             ).ToList();
 
-            var products = DB.GetProductsByCategory(CategoryId).Select(p => new ProductView()
+            var products = _productBLL.GetProductsByCategory(CategoryId).Select(p => new ProductView()
             {
                 ProductId = p.ProductId,
-                ProductName = p.Name,
+                ProductName = p.ProductName,
                 Description = p.Description,
                 Price = p.Price,
                 Stock = p.Stock,
@@ -63,18 +76,11 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = DB.GetCategoryName(CategoryId) ?? "Epler?";
+            ViewBag.CategoryName = _productBLL.GetCategoryName(CategoryId) ?? "Epler?";
 
             return View("Index");
         }
 
-        public ActionResult Shoppingcart(string ReturnUrl)
-        {
-            ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.ShoppingCart = new CookieController().GetCartList(this);
-            ViewBag.LoggedIn = LoginStatus();
-            return View();
-        }
 
         public bool LoginStatus()
         {

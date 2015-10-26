@@ -25,7 +25,7 @@ namespace Oblig1_Nettbutikk.Model
 
 
         public virtual DbSet<Person> People { get; set; }
-        public virtual DbSet<Administrator> Administrators { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Credential> Credentials { get; set; }
 
@@ -40,17 +40,22 @@ namespace Oblig1_Nettbutikk.Model
 
     public class Customer
     {
-
+        public Customer()
+        {
+            this.Orders = new List<Order>();
+        }
         [Key]
-        public string Email { get; set; }
         public int CustomerId { get; set; }
+        public string Email { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
     }
 
-    public class Administrator
+    public class Admin
     {
         [Key]
+        public int AdminId { get; set; }
         public string Email { get; set; }
-        public int AdministratorId { get; set; }
     }
 
     public class Person
@@ -64,7 +69,6 @@ namespace Oblig1_Nettbutikk.Model
         public string Zipcode { get; set; }
 
         public virtual Postal Postal { get; set; }
-        public virtual List<Order> Orders { get; set; }
 
     }
 
@@ -93,9 +97,15 @@ namespace Oblig1_Nettbutikk.Model
     // Item-category
     public class Category
     {
+        public Category()
+        {
+            this.Products = new List<Product>();
+        }
         [Key]
         public int CategoryId { get; set; }
         public string Name { get; set; }
+
+        public virtual List<Product> Products { get; set; }
 
     }
 
@@ -124,10 +134,12 @@ namespace Oblig1_Nettbutikk.Model
         }
         [Key]
         public int OrderId { get; set; }
-        public int CustomerId { get; set; }
-        
-        public virtual List<Orderline> Orderlines { get; set; }
         public DateTime Date { get; set; }
+        
+        public int CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
+
+        public virtual List<Orderline> Orderlines { get; set; }
     }
 
     // Individual orderlines
@@ -151,7 +163,6 @@ namespace Oblig1_Nettbutikk.Model
         public int ProductId { get; set; }
         public string ImageUrl { get; set; }
         public virtual Product Product { get; set; }
-        public string hei { get; set; }
     }
 
 }

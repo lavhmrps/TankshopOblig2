@@ -7,6 +7,7 @@ namespace Oblig1_Nettbutikk.DAL
 {
     public class AccountRepo : IAccountRepo
     {
+
         public List<PersonModel> GetAllPeople()
         {
             using (var db = new TankshopDbContext())
@@ -27,7 +28,7 @@ namespace Oblig1_Nettbutikk.DAL
                 //    // If not admin / customer -> id == -1
                 //    int adminId = -1, customerId = -1;
 
-                //    var admin = db.Administrators.FirstOrDefault(a => a.PersonId == person.PersonId);
+                //    var admin = db.Admins.FirstOrDefault(a => a.PersonId == person.PersonId);
                 //    var customer = db.Customers.FirstOrDefault(c => c.PersonId == person.PersonId);
 
                 //    if (admin != null)
@@ -47,9 +48,10 @@ namespace Oblig1_Nettbutikk.DAL
 
         public bool AddPerson(PersonModel person, Role role, string password)
         {
+            var email = person.Email;
             var newPerson = new Person()
             {
-                Email = person.Email,
+                Email = email,
                 Firstname = person.Firstname,
                 Lastname = person.Lastname,
                 Address = person.Address,
@@ -58,37 +60,81 @@ namespace Oblig1_Nettbutikk.DAL
             };
             using (var db = new TankshopDbContext())
             {
-                try
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    var personPostal = db.Postals.Find(person.Zipcode);
-                    if (personPostal == null)
+                    try
                     {
-                        personPostal = new Postal()
+                        var personPostal = db.Postals.Find(person.Zipcode);
+                        if (personPostal == null)
                         {
-                            Zipcode = person.Zipcode,
-                            City = person.City
+                            personPostal = new Postal()
+                            {
+                                Zipcode = person.Zipcode,
+                                City = person.City
+                            };
+                        }
+                        personPostal.People.Add(newPerson);
+                        newPerson.Postal = personPostal;
+
+
+                        // Create email / password - combination
+                        var existingCredentials = db.Credentials.Find(email);
+                        if (existingCredentials != null)
+                            return false;
+
+                        var passwordHash = CreateHash(password);
+                        var newCredentials = new Credential()
+                        {
+                            Email = email,
+                            Password = passwordHash
                         };
+                        db.Credentials.Add(newCredentials);
+
+                        // Set Customer / AdminId
+                        int AdminId = 0, CustomerId = 0;
+                        if (role == Role.Admin)
+                        {
+                            var dbAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
+                            if (dbAdmin == null)
+                            {
+                                dbAdmin = new Admin()
+                                {
+                                    Email = email
+                                };
+                                db.Admins.Add(dbAdmin);
+                            }
+                            AdminId = dbAdmin.AdminId;
+                        }
+                        if (role == Role.Customer)
+                        {
+                            var dbCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
+                            if (dbCustomer == null)
+                            {
+                                dbCustomer = new Customer()
+                                {
+                                    Email = email
+                                };
+                                db.Customers.Add(dbCustomer);
+                            }
+                            CustomerId = dbCustomer.CustomerId;
+
+                        }
+
+                        db.People.Add(newPerson);
+
+                        db.SaveChanges();
+                        transaction.Commit();
+
+                        return true;
+
                     }
-                    personPostal.People.Add(newPerson);
-                    newPerson.Postal = personPostal;
-
-                    db.People.Add(newPerson);
-                    db.SaveChanges();
-
-
-                    if (CreateCredentials(person.Email, password))
-                        if (SetRole(person.Email, role, true))
-                            return true;
-
-                    return false;
-
-                }
-                catch (Exception)
-                {
-                    return false;
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
                 }
             }
-
         }
 
         public bool CreateCredentials(string email, string password)
@@ -109,7 +155,7 @@ namespace Oblig1_Nettbutikk.DAL
                     };
                     db.Credentials.Add(newCredentials);
 
-                    db.SaveChanges();
+                    //db.SaveChanges();
                     return true;
                 }
                 catch (Exception)
@@ -129,21 +175,21 @@ namespace Oblig1_Nettbutikk.DAL
                 {
                     if (role == Role.Admin)
                     {
-                        var dbAdmin = db.Administrators.Find(email);
+                        var dbAdmin = db.Admins.Find(email);
                         if (isRole)
                         {
                             if (dbAdmin == null)
                             {
-                                var newAdmin = new Administrator()
+                                var newAdmin = new Admin()
                                 {
                                     Email = email
                                 };
-                                db.Administrators.Add(newAdmin);
+                                db.Admins.Add(newAdmin);
                             }
                         }
                         else
                         {
-                            db.Administrators.Remove(dbAdmin);
+                            db.Admins.Remove(dbAdmin);
                         }
                     }
                     if (role == Role.Customer)
@@ -165,7 +211,7 @@ namespace Oblig1_Nettbutikk.DAL
                             db.Customers.Remove(dbCustomer);
                         }
                     }
-                    db.SaveChanges();
+                    //db.SaveChanges();
                     return true;
                 }
                 catch (Exception)
@@ -213,13 +259,13 @@ namespace Oblig1_Nettbutikk.DAL
 
                     var customer = new CustomerModel()
                     {
+                        CustomerId = customerId,
                         Email = dbPerson.Email,
                         Firstname = dbPerson.Firstname,
                         Lastname = dbPerson.Lastname,
                         Address = dbPerson.Address,
                         Zipcode = dbPerson.Zipcode,
                         City = dbPerson.City,
-                        CustomerId = customerId,
                         Orders = orderRepo.GetOrders(customerId)
                     };
 
@@ -239,19 +285,19 @@ namespace Oblig1_Nettbutikk.DAL
                 try
                 {
                     var dbPerson = GetPerson(email);
-                    var customerId = db.Customers.Find(email).CustomerId;
+                    var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
 
                     var orderRepo = new OrderRepo();
 
                     var customer = new CustomerModel()
                     {
+                        CustomerId = customerId,
                         Email = dbPerson.Email,
                         Firstname = dbPerson.Firstname,
                         Lastname = dbPerson.Lastname,
                         Address = dbPerson.Address,
                         Zipcode = dbPerson.Zipcode,
                         City = dbPerson.City,
-                        CustomerId = customerId,
                         Orders = orderRepo.GetOrders(customerId)
                     };
 
@@ -268,17 +314,17 @@ namespace Oblig1_Nettbutikk.DAL
         {
             using (var db = new TankshopDbContext())
             {
-                var dbAdmin = db.Administrators.FirstOrDefault(a => a.AdministratorId == adminId);
+                var dbAdmin = db.Admins.FirstOrDefault(a => a.AdminId == adminId);
                 var dbPerson = GetPerson(dbAdmin.Email);
                 var admin = new AdminModel()
                 {
+                    AdminId = adminId,
                     Email = dbPerson.Email,
                     Firstname = dbPerson.Firstname,
                     Lastname = dbPerson.Lastname,
                     Address = dbPerson.Address,
                     Zipcode = dbPerson.Zipcode,
-                    City = dbPerson.City,
-                    AdminId = adminId
+                    City = dbPerson.City
                 };
 
                 return admin;
@@ -290,17 +336,17 @@ namespace Oblig1_Nettbutikk.DAL
         {
             using (var db = new TankshopDbContext())
             {
-                var dbAdmin = db.Administrators.Find(email);
-                var dbPerson = GetPerson(dbAdmin.Email);
+                var adminId = db.Admins.FirstOrDefault(a => a.Email == email).AdminId;
+                var dbPerson = GetPerson(email);
                 var admin = new AdminModel()
                 {
+                    AdminId = adminId,
                     Email = dbPerson.Email,
                     Firstname = dbPerson.Firstname,
                     Lastname = dbPerson.Lastname,
                     Address = dbPerson.Address,
                     Zipcode = dbPerson.Zipcode,
-                    City = dbPerson.City,
-                    AdminId = dbAdmin.AdministratorId
+                    City = dbPerson.City
                 };
 
                 return admin;
@@ -308,7 +354,6 @@ namespace Oblig1_Nettbutikk.DAL
 
         }
 
-        // Return true / false on update ok / error
         public bool UpdatePerson(PersonModel personUpdate, string email)
         {
             // TODO: update admin/customer -id
@@ -318,7 +363,7 @@ namespace Oblig1_Nettbutikk.DAL
                 {
                     var editPerson = db.People.Find(email);
                     var editPersonModel = GetPerson(email);
-                                        
+
                     editPerson.Firstname = personUpdate.Firstname;
                     editPerson.Lastname = personUpdate.Lastname;
                     editPerson.Address = personUpdate.Address;
@@ -355,7 +400,6 @@ namespace Oblig1_Nettbutikk.DAL
 
         }
 
-        // Return PersonModel of deleted person or null on error
         public bool DeletePerson(string email)
         {
             using (var db = new TankshopDbContext())
@@ -363,9 +407,16 @@ namespace Oblig1_Nettbutikk.DAL
                 try
                 {
                     var deletePerson = db.People.Find(email);
-                    var deletePersonModel = GetPerson(email);
+                    var deleteCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
+                    var deleteAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
 
-                    db.People.Remove(deletePerson);
+                    if (deletePerson != null)
+                        db.People.Remove(deletePerson);
+                    if (deleteCustomer != null)
+                        db.Customers.Remove(deleteCustomer);
+                    if (deleteAdmin != null)
+                        db.Admins.Remove(deleteAdmin);
+
                     db.SaveChanges();
 
                     return true;
@@ -427,6 +478,6 @@ namespace Oblig1_Nettbutikk.DAL
                     return false;
                 }
             }
-        }        
+        }
     }
 }
