@@ -21,8 +21,17 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.Images = imageBLL.GetAllImages();
+            try {
+                ViewBag.Images = imageBLL.GetAllImages();
+            }
+            catch (Exception e) {
+                App_Code.LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "An error occurred while retrieving the images from the database";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
+            
             return View("ListImage");
         }
 
@@ -37,7 +46,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
                 imageBLL.AddImage(Convert.ToInt32(ProductIDs), ImageUrl);
 
-            } catch (Exception) {
+            } catch (Exception e) {
+                App_Code.LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not add the image to the database";
                 return View("~/Views/Shared/Result.cshtml");
@@ -61,7 +71,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
                 imageBLL.UpdateImage(Convert.ToInt32(ImageId), Convert.ToInt32(ProductIDs),ImageUrl);
 
-            }catch (Exception) {
+            }catch (Exception e) {
+                App_Code.LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the image";
                 return View("~/Views/Shared/Result.cshtml");
@@ -81,7 +92,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
                 imageBLL.DeleteImage(Convert.ToInt32(ImageId));
 
-            }catch (Exception) {
+            }catch (Exception e) {
+                App_Code.LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not delete the image";
                 return View("~/Views/Shared/Result.cshtml");
@@ -119,13 +131,30 @@ namespace Oblig1_Nettbutikk.Controllers
 
             System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
 
+            int nImageId;
+
+            try {
+                nImageId = Convert.ToInt32(imageId);
+            }
+            catch (Exception) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid image id: " + imageId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
             Image img = null;
 
             try {
 
-                img = imageBLL.GetImage(Convert.ToInt32(imageId));
+                img = imageBLL.GetImage(nImageId);
 
-            }catch (Exception) {}
+            }catch (Exception e) {
+                App_Code.LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Error occurred while fetching the image";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
 
             if (img == null)
@@ -156,15 +185,35 @@ namespace Oblig1_Nettbutikk.Controllers
 
             System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
 
+            int nImageId;
+
+            try
+            {
+                nImageId = Convert.ToInt32(imageId);
+            }
+            catch (Exception)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid image id: " + imageId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
             Image img = null;
 
             try
             {
 
-                img = imageBLL.GetImage(Convert.ToInt32(imageId));
+                img = imageBLL.GetImage(nImageId);
 
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                App_Code.LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Error occurred while fetching the image";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
 
             if (img == null)

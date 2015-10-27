@@ -27,6 +27,7 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult Index()
         {
+
             var categories = _productBLL.AllCategories().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,

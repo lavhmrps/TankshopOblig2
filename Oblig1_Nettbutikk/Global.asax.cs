@@ -15,6 +15,7 @@ namespace Oblig1_Nettbutikk
     {
         protected void Application_Start()
         {
+                        
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<TankshopDbContext>());
 
             AreaRegistration.RegisterAllAreas();
@@ -22,5 +23,18 @@ namespace Oblig1_Nettbutikk
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        void Application_Error(object sender, EventArgs e)
+        {
+
+            System.Diagnostics.Debug.WriteLine("Before");
+
+            Exception exception = Server.GetLastError();
+            App_Code.LogHandler.WriteToLog(exception);
+
+            //TODO: Redirect to error page
+
+        }
+
     }
 }
