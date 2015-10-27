@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\IAccountRepo.cs" />
+    <Compile Include="Image\IImageRepo.cs" />
+    <Compile Include="Image\ImageRepo.cs" />
     <Compile Include="Product\IProductRepo.cs" />
     <Compile Include="Order\IOrderRepo.cs" />
     <Compile Include="Order\OrderRepo.cs" />
