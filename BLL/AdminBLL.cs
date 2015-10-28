@@ -1,12 +1,12 @@
-﻿using Oblig1_Nettbutikk.DAL;
-using Oblig1_Nettbutikk.Model;
+﻿using Nettbutikk.DAL;
+using Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oblig1_Nettbutikk.BLL
+namespace Nettbutikk.BusinessLogic
 {
     public class AdminBLL :IAdminLogic
     {

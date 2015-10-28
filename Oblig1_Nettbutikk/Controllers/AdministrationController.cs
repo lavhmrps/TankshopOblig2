@@ -1,12 +1,12 @@
-﻿using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Models;
+﻿using Nettbutikk.BusinessLogic;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class AdministrationController : Controller
     {

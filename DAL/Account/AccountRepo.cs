@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     public class AccountRepo : IAccountRepo
     {

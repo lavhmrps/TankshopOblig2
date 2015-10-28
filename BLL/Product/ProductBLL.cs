@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.DAL;
+using Nettbutikk.Model;
+using Nettbutikk.DAL;
 
-namespace Oblig1_Nettbutikk.BLL
+namespace Nettbutikk.BusinessLogic
 {
     public class ProductBLL : IProductLogic
     {
