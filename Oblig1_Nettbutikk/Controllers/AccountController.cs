@@ -31,6 +31,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
             if (_accountBLL.AttemptLogin(email, password))
             {
+                if(_accountBLL.isAdmin(email))
+                    Session["Admin"] = true;
                 Session["LoggedIn"] = true;
                 Session["Email"] = email;
                 ViewBag.LoggedIn = true;
@@ -48,7 +50,6 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             Session.Abandon();
             ViewBag.LoggedIn = false;
-
         }
 
         [HttpPost]

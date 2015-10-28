@@ -78,5 +78,10 @@ namespace Oblig1_Nettbutikk.BLL
         {
             return _repo.UpdatePerson(personUpdate, email);
         }
+
+        public bool isAdmin(string email)
+        {
+            return _repo.isAdmin(email);
+        }
     }
 }

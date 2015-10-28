@@ -24,5 +24,6 @@ namespace Oblig1_Nettbutikk.DAL
         bool DeletePerson(string email);
         bool CreateCredentials(string email, string password);
         bool SetRole(string email, Role role, bool isRole);
+        bool isAdmin(string email);
     }
 }
