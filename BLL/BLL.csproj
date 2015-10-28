@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Account\IAccountLogic.cs" />
     <Compile Include="Account\AccountBLL.cs" />
+    <Compile Include="AdminBLL.cs" />
+    <Compile Include="IAdminLogic.cs" />
     <Compile Include="Order\IOrderLogic.cs" />
     <Compile Include="Product\IProductLogic.cs" />
     <Compile Include="Order\OrderBLL.cs" />

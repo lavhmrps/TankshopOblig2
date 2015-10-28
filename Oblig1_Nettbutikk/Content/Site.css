@@ -405,3 +405,20 @@ section {
      margin:auto;
      background:white;
  }
+
+ /* Administration page */
+
+ #adminCustomer{
+ }
+
+ #adminCustomerTable td {
+     padding:2px 5px;
+ }
+
+ .adminRowCustomer input{
+     padding:2px 5px;
+ }
+
+ .adminRowCustomer input:read-only{
+     background:inherit;
+ }

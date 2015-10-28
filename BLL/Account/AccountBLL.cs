@@ -83,5 +83,6 @@ namespace Oblig1_Nettbutikk.BLL
         {
             return _repo.isAdmin(email);
         }
+        
     }
 }

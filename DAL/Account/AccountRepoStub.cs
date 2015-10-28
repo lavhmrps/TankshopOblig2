@@ -199,5 +199,10 @@ namespace Oblig1_Nettbutikk.DAL
         {
             throw new NotImplementedException();
         }
+
+        public bool isAdmin(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

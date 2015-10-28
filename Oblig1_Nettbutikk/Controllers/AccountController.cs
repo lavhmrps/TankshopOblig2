@@ -31,8 +31,11 @@ namespace Oblig1_Nettbutikk.Controllers
 
             if (_accountBLL.AttemptLogin(email, password))
             {
-                if(_accountBLL.isAdmin(email))
+                if (_accountBLL.isAdmin(email))
                     Session["Admin"] = true;
+                else
+                    Session["Admin"] = false;
+
                 Session["LoggedIn"] = true;
                 Session["Email"] = email;
                 ViewBag.LoggedIn = true;

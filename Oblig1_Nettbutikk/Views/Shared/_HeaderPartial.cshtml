@@ -1,5 +1,7 @@
 ﻿@{
-    bool LoggedIn = ViewBag.LoggedIn ?? false;
+    bool LoggedIn = (Session["LoggedIn"] == null ? false : (bool)Session["LoggedIn"]);
+    //bool Admin = ViewBag.Admin;
+    bool Admin = (Session["Admin"] == null ? false : (bool)Session["Admin"]);
 }
 
 <div class="backbar-top"></div>
@@ -27,8 +29,9 @@
                     <a href="#LoginModal" data-toggle="modal">Logg inn</a>
                     <span> | </span>
                     <a href="#RegisterModal" data-toggle="modal">Registrer bruker</a>
-                    
-                   
+                
+
+
                 }
                 else
                 {
@@ -38,6 +41,11 @@
                     <span>@Html.ActionLink("Min side", "MyPage", "Account")</span>
                     <span> | </span>
                     <a href="#" id="Logout">Logg ut</a>
+                    if (Admin)
+                    {
+                        <span> | </span>
+                        <span>@Html.ActionLink("Administrer", "Index", "Administration")</span>
+                    }
                 }
             </div>
             <div class="header_shop">
