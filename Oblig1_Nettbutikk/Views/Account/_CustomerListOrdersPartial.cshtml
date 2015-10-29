@@ -64,7 +64,7 @@
     $(document).ready(function () {
         $(".liTableToggle").each(function () {
             var raw = $(this).find("time").attr("raw");
-            $(this).find("time").text("ca " + timeConverter(raw));
+            $(this).find("time").text(timeConverter(raw));
         })
 
         $(".liOrderItem .liOrderDetails").each(function () {

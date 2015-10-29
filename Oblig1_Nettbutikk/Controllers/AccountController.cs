@@ -125,23 +125,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 }
                 customerOrders.Add(order);
             }
-
-            //var customerOrders = Customer.Orders.Select(o => new OrderView()
-            //{
-            //    OrderId = o.OrderId,
-            //    Orderlines = o.Orderlines.Select(l => new OrderlineView()
-            //    {
-            //        OrderlineId = l.OrderlineId,
-            //        Count = l.Count,
-            //        Product = new ProductView()
-            //        {
-            //            ProductId = l.ProductId,
-            //            ProductName = l.ProductName,
-            //            Price = l.ProductPrice
-            //        }
-            //    }).ToList()
-            //}).ToList();
-
+          
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.Customer = customerView;
             ViewBag.CustomerOrders = customerOrders;

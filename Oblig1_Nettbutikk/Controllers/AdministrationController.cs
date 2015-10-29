@@ -1,4 +1,5 @@
 ﻿using Oblig1_Nettbutikk.BLL;
+using Oblig1_Nettbutikk.Model;
 using Oblig1_Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 var customerViewList = new List<CustomerView>();
                 var customerModels = _adminBLL.GetAllCustomers();
 
-                foreach(var Customer in customerModels)
+                foreach (var Customer in customerModels)
                 {
                     var customerView = new CustomerView()
                     {
@@ -53,6 +54,44 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View();
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public bool UpdateCustomerInfo(CustomerView customerEdit)
+        {
+            var email = customerEdit.Email;
+
+            var personUpdate = new PersonModel()
+            {
+                Firstname = customerEdit.Firstname,
+                Lastname = customerEdit.Lastname,
+                Address = customerEdit.Address,
+                Zipcode = customerEdit.Zipcode,
+                City = customerEdit.City
+            };
+
+            return _adminBLL.UpdatePerson(personUpdate, email);
+        }
+
+        [HttpPost]
+        public bool DeleteCustomer(string email)
+        {
+            if (Session["Email"] != null)
+            {
+                if ((string)Session["Email"] != email)
+                {
+                    return _adminBLL.DeleteCustomer(email);
+                }
+                else
+                {
+                    if(_adminBLL.DeleteCustomer(email))
+                    {
+                        Session.Abandon();
+                        RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            return false;
         }
     }
 }

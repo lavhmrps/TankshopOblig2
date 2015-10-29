@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Account\IAccountRepo.cs" />
     <Compile Include="AdminRepo.cs" />
+    <Compile Include="IAdminRepo.cs" />
     <Compile Include="Product\IProductRepo.cs" />
     <Compile Include="Order\IOrderRepo.cs" />
     <Compile Include="Order\OrderRepo.cs" />

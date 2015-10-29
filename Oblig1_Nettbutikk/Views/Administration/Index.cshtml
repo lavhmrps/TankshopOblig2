@@ -1,0 +1,8 @@
+﻿@using Oblig1_Nettbutikk.Models
+
+@{ 
+    List<CustomerView> Customers = ViewBag.Customers;
+}
+<h2>Administration</h2>
+
+@Html.Partial("Administration_Customer",Customers)

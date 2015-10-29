@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    public class AdminRepo
+    public class AdminRepo : IAdminRepo
     {
         public List<CustomerModel> GetAllCustomers()
         {
@@ -56,6 +56,36 @@ namespace Oblig1_Nettbutikk.DAL
             catch (Exception)
             {
                 return customerList;
+            }
+        }
+
+        public bool DeleteCustomer(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbPerson = db.People.Find(email);
+                    var dbCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
+                    var dbAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
+                    var dbCredentials = db.Credentials.Find(email);
+
+                    if (dbPerson != null)
+                        db.People.Remove(dbPerson);
+                    if (dbCustomer != null)
+                        db.Customers.Remove(dbCustomer);
+                    if (dbAdmin != null)
+                        db.Admins.Remove(dbAdmin);
+                    if (dbCredentials != null) db.Credentials.Remove(dbCredentials);
+
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
         }
     }

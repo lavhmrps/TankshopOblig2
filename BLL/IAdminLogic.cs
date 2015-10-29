@@ -10,5 +10,7 @@ namespace Oblig1_Nettbutikk.BLL
     public interface IAdminLogic
     {
         List<CustomerModel> GetAllCustomers();
+        bool UpdatePerson(PersonModel personUpdate, string email);
+        bool DeleteCustomer(string email);
     }
 }
