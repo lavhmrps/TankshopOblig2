@@ -1,82 +1,34 @@
-﻿
-using Newtonsoft.Json;
-using Nettbutikk.BusinessLogic;
-using Nettbutikk.Model;
+﻿using Nettbutikk.BusinessLogic;
 using Nettbutikk.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private IProductLogic _productBLL;
-
         public HomeController()
         {
-            _productBLL = new ProductBLL();
         }
-
-        public HomeController(IProductLogic stub)
-        {
-            _productBLL = stub;
-        }
-
+        
         public ActionResult Index()
         {
-            var categories = _productBLL.AllCategories().Select(c => new CategoryView()
-            {
-                CategoryId = c.CategoryId,
-                CategoryName = c.CategoryName
-            }
-            ).ToList();
-
-            var products = _productBLL.GetProductsByCategory(1).Select( p => new ProductView()
-            {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                Description = p.Description,
-                Price = p.Price,
-                Stock = p.Stock,
-                ImageUrl = p.ImageUrl,
-                CategoryName = p.CategoryName
-            }).ToList();
-
-            ViewBag.Categories = categories ?? new List<CategoryView>();
-            ViewBag.Products = products ?? new List<ProductView>();
-            ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = _productBLL.GetCategoryName(1);
-
-            return View();
+            return View(new HomeView {
+                Categories = Services.Categories.GetAllMapped<CategoryView>(),
+                Products = Services.Products.GetAllMapped<ProductView>(),
+                LoggedIn = LoginStatus()
+            });
         }
 
         public ActionResult Category(int CategoryId)
         {
-            var categories = _productBLL.AllCategories().Select(c => new CategoryView()
+            new HomeCategoryView()
             {
-                CategoryId = c.CategoryId,
-                CategoryName = c.CategoryName
-            }
-            ).ToList();
-
-            var products = _productBLL.GetProductsByCategory(CategoryId).Select(p => new ProductView()
-            {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                Description = p.Description,
-                Price = p.Price,
-                Stock = p.Stock,
-                ImageUrl = p.ImageUrl,
-                CategoryName = categories.FirstOrDefault(c => c.CategoryId == p.CategoryId).CategoryName
-            }).ToList(); 
-
-            ViewBag.Categories = categories;
-            ViewBag.Products = products;
-            ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = _productBLL.GetCategoryName(CategoryId) ?? "Epler?";
+                Categories = Services.Categories.GetAll<CategoryView>(),
+                Products = Services.Products
+                    .GetMappedProductsByCategoryId<ProductView>(CategoryId),
+                LoggedIn = LoginStatus(),
+                Category = Services.Categories.GetById<CategoryView>(CategoryId)
+            };
 
             return View("Index");
         }
@@ -85,10 +37,12 @@ namespace Nettbutikk.Controllers
         public bool LoginStatus()
         {
             bool LoggedIn = false;
+
             if (Session["LoggedIn"] != null)
             {
-                LoggedIn = (bool)Session["LoggedIn"];
+                LoggedIn = (bool) Session["LoggedIn"];
             }
+
             return LoggedIn;
         }
 

@@ -1,4 +1,4 @@
-﻿using Nettbutikk.DAL;
+﻿using Nettbutikk.DataAccess;
 using Nettbutikk.Model;
 using System;
 using System.Collections.Generic;

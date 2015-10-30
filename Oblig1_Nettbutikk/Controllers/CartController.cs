@@ -1,34 +1,22 @@
 ﻿using Newtonsoft.Json;
-using Nettbutikk.BusinessLogic;
 using Nettbutikk.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
         private const string SHOPPINGCART = "Shoppingcart";
 
-        private IProductLogic _productBLL;
-
         public CartController()
         {
-            _productBLL = new ProductBLL();
         }
-
-        public CartController(IProductLogic stub)
-        {
-            _productBLL = stub;
-        }
-
+        
         public ActionResult Cart(string ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.ShoppingCart = GetCartList();
+            ViewBag.ShoppingCart = GetCartItems();
             ViewBag.LoggedIn = Session["LoggedIn"] ?? false;
             return View("Shoppingcart");
         }
@@ -36,41 +24,27 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public int AddToCart(int ProductId)
         {
-            var ch = new CookieHandler();
-            return ch.AddToCart(ProductId);
+            return CookieHandler.AddToCart(ProductId);
         }
         public void EmptyCart()
         {
-            var ch = new CookieHandler();
-            ch.EmptyCart();
+            CookieHandler.EmptyCart();
         }
-        public string GetCart()
+
+        public string GetCartJson()
         {
-            var cart = GetCartList();
-
-            var jsonCart = JsonConvert.SerializeObject(cart);
-            return jsonCart;
+            return JsonConvert.SerializeObject(GetCartItems());
         }
-        public List<CartItem> GetCartList()
+
+        public IEnumerable<CartItem> GetCartItems()
         {
-            var ch = new CookieHandler();
-            var productIdList = ch.GetCartProductIds();
-            var productModelList = _productBLL.GetProducts(productIdList);
-
-            var cartItemList = productModelList.Select(p => new CartItem()
-            {
-                ProductId = p.ProductId,
-                Name = p.ProductName,
-                Count = ch.GetCount(p.ProductId),
-                Price = p.Price
-            }).ToList();
-
-            return cartItemList;
+            return Services.Products.GetAllMapped<CartItem>(CookieHandler.GetCartProductIds());
         }
+
         public double GetSumTotalCart()
         {
             var sumTotal = 0.0;
-            var cart = GetCartList();
+            var cart = GetCartItems();
 
             foreach (var item in cart)
             {

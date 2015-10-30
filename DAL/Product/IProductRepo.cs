@@ -2,17 +2,41 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Nettbutikk.DAL
+namespace Nettbutikk.DataAccess
 {
-    public interface IProductRepo
+    public interface IProductRepository
     {
-        List<CategoryModel> AllCategories();
-        string GetCategoryName(int categoryId);
-        ProductModel GetProduct(int productId);
-        List<ProductModel> GetProducts(List<int> productIdList);
-        List<ProductModel> GetProductsByCategory(int categoryId);
+        Product Create(Product entity);
+        Task<Product> CreateAsync(Product entity);
+
+        void Delete(Product entity);
+        Task DeleteAsync(Product entity);
+
+        void DeleteById(object entityId);
+        Task DeleteByIdAsync(object entityId);
+
+        IEnumerable<Product> Get(
+            Expression<Func<Product, bool>> filter = null,
+            Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null,
+            string includeProperties = "");
+        Task<IEnumerable<Product>> GetAsync(
+            Expression<Func<Product, bool>> filter = null,
+            Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null,
+            string includeProperties = "");
+
+        IEnumerable<Product> GetAll();
+        Task<IEnumerable<Product>> GetAllAsync();
+
+        Product GetById(object entityId);
+        Task<Product> GetByIdAsync(object entityId);
+
+        void Save();
+        Task SaveAsync();
+
+        Product Update(Product entity);
+        Task<Product> UpdateAsync(Product entity);
     }
 }

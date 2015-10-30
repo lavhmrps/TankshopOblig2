@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace Nettbutikk.DataAccess
 {
     public class AccountRepo : IAccountRepo
     {

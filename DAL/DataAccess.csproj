@@ -7,8 +7,8 @@
     <ProjectGuid>{854590CE-5EA6-4EE8-917F-9AEA3D3DDA27}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAL</RootNamespace>
-    <AssemblyName>DAL</AssemblyName>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -79,12 +83,14 @@
   <ItemGroup>
     <Compile Include="Account\IAccountRepo.cs" />
     <Compile Include="AdminRepo.cs" />
+    <Compile Include="EntityRepository.cs" />
     <Compile Include="Product\IProductRepo.cs" />
     <Compile Include="Order\IOrderRepo.cs" />
     <Compile Include="Order\OrderRepo.cs" />
     <Compile Include="Account\AccountRepoStub.cs" />
     <Compile Include="Account\AccountRepo.cs" />
-    <Compile Include="Product\ProductRepo.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="Product\ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TankshopDbContext.cs" />
   </ItemGroup>

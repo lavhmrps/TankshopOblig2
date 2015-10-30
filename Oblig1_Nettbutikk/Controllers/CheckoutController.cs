@@ -4,23 +4,22 @@ using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
 {
-    public class CheckoutController : Controller
+    public class CheckoutController : BaseController
     {
-        private IOrderLogic _orderBLL;
+        private IOrderLogic orderService;
 
         public CheckoutController()
         {
-            _orderBLL = new OrderBLL();
+            orderService = new OrderBLL();
         }
 
         public CheckoutController(IOrderLogic stub)
         {
-            _orderBLL = stub;
+            orderService = stub;
         }
 
         public ActionResult Checkout()
@@ -29,17 +28,16 @@ namespace Nettbutikk.Controllers
             {
                 if ((bool)Session["LoggedIn"])
                 {
-                    var productBLL = new ProductBLL();
                     var ch = new CookieHandler();
 
                     var Email = (string)Session["Email"];
                     var pidList = ch.GetCartProductIds();
-                    var productModelList = productBLL.GetProducts(pidList);
+                    var productModelList = Services.Products.GetAll(pidList);
 
                     var cart = productModelList.Select(p => new CartItem()
                     {
                         ProductId = p.ProductId,
-                        Name = p.ProductName,
+                        Name = p.Name,
                         Count = ch.GetCount(p.ProductId),
                         Price = p.Price
                     }).ToList();
@@ -74,16 +72,15 @@ namespace Nettbutikk.Controllers
                 if ((bool)Session["LoggedIn"])
 
                 {
-                    var productBLL = new ProductBLL();
                     var ch = new CookieHandler();
 
                     var productIdList = ch.GetCartProductIds();
-                    var productModelList = productBLL.GetProducts(productIdList);
+                    var productModelList = Services.Products.Get(product => productIdList.Contains(product.ProductId));
 
                     var cart = productModelList.Select(p => new CartItem()
                     {
                         ProductId = p.ProductId,
-                        Name = p.ProductName,
+                        Name = p.Name,
                         Count = ch.GetCount(p.ProductId),
                         Price = p.Price
                     }).ToList();
@@ -102,7 +99,7 @@ namespace Nettbutikk.Controllers
                     order.Orderlines = orderlines;
                     order.CustomerId = new AccountBLL().GetCustomer((String)Session["Email"]).CustomerId;
                     order.Date = DateTime.Now;
-                    var OrderId = _orderBLL.PlaceOrder(order);
+                    var OrderId = orderService.PlaceOrder(order);
 
                     if (OrderId > 0)
                     {
@@ -122,7 +119,7 @@ namespace Nettbutikk.Controllers
         public OrderView GetReciept(int OrderId)
         {
            
-            OrderModel reciept = _orderBLL.GetReciept(OrderId);
+            OrderModel reciept = orderService.GetReciept(OrderId);
 
             var orderlines = new List<OrderlineView>();
             foreach(var item in reciept.Orderlines)

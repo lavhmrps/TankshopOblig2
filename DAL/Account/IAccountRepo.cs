@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace Nettbutikk.DataAccess
 {
     public interface IAccountRepo
     {

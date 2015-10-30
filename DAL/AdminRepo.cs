@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nettbutikk.DAL
+namespace Nettbutikk.DataAccess
 {
     public class AdminRepo
     {

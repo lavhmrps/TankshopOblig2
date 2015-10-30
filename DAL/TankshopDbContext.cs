@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
 
 namespace Nettbutikk.Model
 {
@@ -105,8 +103,7 @@ namespace Nettbutikk.Model
         public int CategoryId { get; set; }
         public string Name { get; set; }
 
-        public virtual List<Product> Products { get; set; }
-
+        public virtual IEnumerable<Product> Products { get; set; }
     }
 
     // Product

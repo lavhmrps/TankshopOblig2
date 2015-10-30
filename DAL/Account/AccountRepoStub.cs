@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace Nettbutikk.DataAccess
 {
     // For testing
     public class AccountRepoStub : IAccountRepo
