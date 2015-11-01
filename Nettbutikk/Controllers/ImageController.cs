@@ -1,171 +1,70 @@
 ﻿using Nettbutikk.Model;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-<<<<<<< HEAD
-=======
-using Nettbutikk.Model;
-using BLL.Image;
-using DAL.Image;
-using Nettbutikk.BLL;
->>>>>>> alex_gaard
 
 namespace Nettbutikk.Controllers
 {
     public class ImageController : BaseController
     {
-
-<<<<<<< HEAD
-            ViewBag.Images = Services.Images.GetAll();
-=======
-        private IImageLogic imageBLL;
-        private IProductLogic productBLL;
->>>>>>> alex_gaard
-
-        public ImageController() {
-            
-            imageBLL = new ImageBLL();
-            productBLL = new ProductBLL();
-        
-        }
-
-        public ImageController(IImageLogic imageBLL, IProductLogic productBLL = null) {
-
-            this.imageBLL = imageBLL;
-            this.productBLL = productBLL;
-
-<<<<<<< HEAD
-            List<SelectListItem> productIDs = new List<SelectListItem>();
-            
-            foreach (Product p in Services.Products.GetAll())
-            {
-                string productId = Convert.ToString(p.ProductId);
-                productIDs.Add(new SelectListItem { Text = p.Name, Value = productId });
-            }
-=======
-        }
-
-
         // GET: Image
         public ActionResult Index()
         {
->>>>>>> alex_gaard
-
-            List<Image> allImages = imageBLL.GetAllImages();
-
-            ViewBag.Images = allImages;
+            ViewBag.Images = Services.Images.GetAll();
 
             return View("ListImage");
         }
 
         [HttpPost]
-        public ActionResult Create(string ProductIDs, string ImageUrl) {
+        public ActionResult Create(CreateImage image) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST create");
-            System.Diagnostics.Debug.WriteLine("Got ProductId: " + ProductIDs);
-            System.Diagnostics.Debug.WriteLine("Got url: " + ImageUrl);
-
-            int productId;
-
-            try
+            if (!Services.Images.AddImage(image.ProductId, image.ImageUrl))
             {
-                productId = Convert.ToInt32(ProductIDs);
-            }
-            catch (Exception e)
-            {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid product id";
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            if (!imageBLL.AddImage(productId, ImageUrl)) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not add the image to the database";
-                return View("~/Views/Shared/Result.cshtml");
+            }
+            else
+            {
+                ViewBag.Title = "Success";
+                ViewBag.Message = "Image was added to the database";
             }
 
-         
-            ViewBag.Title = "Success";
-            ViewBag.Message = "Image was added to the database";
             return View("~/Views/Shared/Result.cshtml");
         }
 
 
         [HttpPost]
-        public ActionResult Edit(string ImageId, string ProductIDs, string ImageUrl) {
-
-            System.Diagnostics.Debug.WriteLine("HTTP POST edit");
-            System.Diagnostics.Debug.WriteLine("Got ImageId: " + ImageId);
-            System.Diagnostics.Debug.WriteLine("Got ProductId: " + ProductIDs);
-            System.Diagnostics.Debug.WriteLine("Got url: " + ImageUrl);
-
-            int imageId;
-            int productId;
-
-            try
-            {
-                imageId = Convert.ToInt32(ImageId);
-            }
-            catch (Exception e)
-            {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid image id: " + ImageId;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            try {
-                productId = Convert.ToInt32(ProductIDs);
-            }
-            catch (Exception e) {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid product id: " + ProductIDs;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-
-            if (!imageBLL.UpdateImage(imageId, productId, ImageUrl)) {
+        public ActionResult Edit(EditImage image) {
+            
+            if (!Services.Images.Update(image)) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the image";
-                return View("~/Views/Shared/Result.cshtml");
             }
-
-            ViewBag.Title = "Success";
-            ViewBag.Message = "Image was updated";
+            else
+            {
+                ViewBag.Title = "Success";
+                ViewBag.Message = "Image was updated";
+            }
             return View("~/Views/Shared/Result.cshtml");
         }
 
-        public ActionResult Delete(string ImageId) {
-
-            System.Diagnostics.Debug.WriteLine("HTTP POST delete");
-            System.Diagnostics.Debug.WriteLine("Got ImageId: " + ImageId);
-
-            int imageId;
-
+        public ActionResult Delete(int? ImageId) {
+            
             try
             {
-                imageId = Convert.ToInt32(ImageId);
+                Services.Images.DeleteById(ImageId);
+
+                ViewBag.Title = "Success";
+                ViewBag.Message = "Image was deleted";
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid image id: " + ImageId;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            if (!imageBLL.DeleteImage(imageId)) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not delete the image";
                 return View("~/Views/Shared/Result.cshtml");
             }
-
-
-            ViewBag.Title = "Success";
-            ViewBag.Message = "Image was deleted";
+            
             return View("~/Views/Shared/Result.cshtml");   
         }
 
@@ -174,7 +73,7 @@ namespace Nettbutikk.Controllers
         {
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-            List<Product> allProducts = productBLL.GetAllProducts();
+            IEnumerable<Product> allProducts = Services.Products.GetAll();
 
             foreach (Product p in allProducts)
             {
@@ -190,9 +89,7 @@ namespace Nettbutikk.Controllers
 
 
         public ActionResult EditImage(string imageId) {
-
-            System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
-
+            
             int nImageId;
 
             try {
@@ -205,7 +102,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Image img = imageBLL.GetImage(nImageId);
+            Image img = Services.Images.GetById(nImageId);
 
             if (img == null)
             {
@@ -216,7 +113,7 @@ namespace Nettbutikk.Controllers
 
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-            List<Product> allProducts = productBLL.GetAllProducts();
+            ICollection<Product> allProducts = Services.Products.GetAll();
 
             foreach (Product p in allProducts)
             {
@@ -249,7 +146,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Image img = imageBLL.GetImage(nImageId);
+            Image img = Services.Images.GetById(nImageId);
 
             if (img == null)
             {
@@ -262,6 +159,5 @@ namespace Nettbutikk.Controllers
 
             return View();
         }
-
     }
 }

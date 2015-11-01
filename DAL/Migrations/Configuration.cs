@@ -1,4 +1,4 @@
-﻿namespace Oblig1_Nettbutikk.Migrations
+﻿namespace Nettbutikk.Migrations
 {
     using Model;
     using System;

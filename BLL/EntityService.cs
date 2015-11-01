@@ -151,7 +151,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Returns all the entities in the underlying repository.
          */
-        public IEnumerable<TEntity> GetAll()
+        public ICollection<TEntity> GetAll()
         {
             return Repository.GetAll();
         }

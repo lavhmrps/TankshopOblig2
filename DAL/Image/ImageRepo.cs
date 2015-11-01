@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
 
 namespace DAL.Image
@@ -12,7 +10,7 @@ namespace DAL.Image
     {
 
 
-        public Oblig1_Nettbutikk.Model.Image GetImage(int imageId)
+        public Nettbutikk.Model.Image GetImage(int imageId)
         {
             try {
                 return new TankshopDbContext().Images.FirstOrDefault(i => i.ImageId == imageId);
@@ -24,7 +22,7 @@ namespace DAL.Image
 
         }
 
-        public List<Oblig1_Nettbutikk.Model.Image> GetAllImages()
+        public List<Nettbutikk.Model.Image> GetAllImages()
         {
 
             try {
@@ -32,7 +30,7 @@ namespace DAL.Image
             }
             catch (Exception e) {
                 //LogHandler.WriteToLog(e);
-                return new List<Oblig1_Nettbutikk.Model.Image>();
+                return new List<Nettbutikk.Model.Image>();
             }
             
         }
@@ -44,7 +42,7 @@ namespace DAL.Image
             try
             {
                 var db = new TankshopDbContext();
-                db.Images.Add(new Oblig1_Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
+                db.Images.Add(new Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
                 db.SaveChanges();
                 return true;
             }
@@ -59,7 +57,7 @@ namespace DAL.Image
 
             var db = new TankshopDbContext();
 
-            Oblig1_Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
+            Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
 
             if (img == null)
             {
@@ -81,7 +79,7 @@ namespace DAL.Image
 
             var db = new TankshopDbContext();
 
-            Oblig1_Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
+            Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
 
             if (img == null)
             {

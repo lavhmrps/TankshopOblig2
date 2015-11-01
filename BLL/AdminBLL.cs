@@ -1,10 +1,6 @@
 ﻿using Nettbutikk.DataAccess;
 using Nettbutikk.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -26,7 +22,7 @@ namespace Nettbutikk.BusinessLogic
             return _repo.DeleteCustomer(email);
         }
 
-        public List<CustomerModel> GetAllCustomers()
+        public IEnumerable<CustomerModel> GetAllCustomers()
         {
             return _repo.GetAllCustomers();
         }
@@ -36,7 +32,7 @@ namespace Nettbutikk.BusinessLogic
             return _accountrepo.UpdatePerson(personUpdate, email);
         }
 
-        public List<OrderModel> GetAllOrders()
+        public IEnumerable<OrderModel> GetAllOrders()
         {
             return _orderrepo.GetAllOrders();
         }

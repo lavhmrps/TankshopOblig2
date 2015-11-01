@@ -15,7 +15,7 @@ namespace Nettbutikk.DataAccess
     {
         #region Properties and members
 
-        internal TankshopDbContext Context { get; private set; }
+        internal ITankshopDbContext Context { get; private set; }
 
         protected DbSet<TEntity> Entities
         {
@@ -34,7 +34,7 @@ namespace Nettbutikk.DataAccess
             Context = new TankshopDbContext();
         }
 
-        public EntityRepository(TankshopDbContext context)
+        public EntityRepository(ITankshopDbContext context)
         {
             Context = context;
         }
@@ -99,12 +99,12 @@ namespace Nettbutikk.DataAccess
             return await Entities.FindAsync(id);
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual ICollection<TEntity> GetAll()
         {
             return Entities.ToList();
         }
 
-        public async virtual Task<IEnumerable<TEntity>> GetAllAsync()
+        public async virtual Task<ICollection<TEntity>> GetAllAsync()
         {
             return await Entities.ToListAsync();
         }

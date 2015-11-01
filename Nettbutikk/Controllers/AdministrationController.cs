@@ -1,4 +1,5 @@
-﻿using Nettbutikk.BusinessLogic;
+﻿using AutoMapper;
+using Nettbutikk.BusinessLogic;
 using Nettbutikk.Model;
 using Nettbutikk.Models;
 using System.Collections.Generic;
@@ -27,20 +28,7 @@ namespace Nettbutikk.Controllers
         {
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
-                ViewBag.Customers = _adminBLL.GetAllCustomers()
-                    .ConvertAll((customer) =>
-                {
-                    return new CustomerView()
-                    {
-                        CustomerId = customer.CustomerId,
-                        Email = customer.Email,
-                        Firstname = customer.Firstname,
-                        Lastname = customer.Lastname,
-                        Address = customer.Address,
-                        Zipcode = customer.Zipcode,
-                        City = customer.City
-                    };
-                });
+                ViewBag.Customers = Mapper.Map<CustomerView>(_adminBLL.GetAllCustomers());
                 
                 List<OrderView> orderViewList = new List<OrderView>();
 

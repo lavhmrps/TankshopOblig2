@@ -5,7 +5,7 @@ using System.Web;
 using System.IO;
 using System.Text;
 
-namespace Oblig1_Nettbutikk.App_Code
+namespace Nettbutikk.App_Code
 {
     public class LogHandler
     {

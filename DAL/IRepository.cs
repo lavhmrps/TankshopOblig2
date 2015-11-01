@@ -47,7 +47,7 @@ namespace Nettbutikk.DataAccess
         /***
          *  Gets all the entities from the underlying data-store.
          */
-        IEnumerable<TEntity> GetAll();
+        ICollection<TEntity> GetAll();
 
         /***
          *  Gets an entity with the given {entityId} from the underlying
@@ -103,7 +103,7 @@ namespace Nettbutikk.DataAccess
         /***
          *  Gets all the entities from the underlying data-store.
          */
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<ICollection<TEntity>> GetAllAsync();
 
         /***
          *  Gets an entity with the given {entityId} from the underlying

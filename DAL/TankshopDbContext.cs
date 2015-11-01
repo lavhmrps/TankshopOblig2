@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace Nettbutikk.Model
 {
-    public class TankshopDbContext : DbContext
+    public class TankshopDbContext : DbContext, ITankshopDbContext
     {
         public TankshopDbContext()
             : base("name=TankshopDbContext")

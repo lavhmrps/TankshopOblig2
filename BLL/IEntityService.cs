@@ -43,7 +43,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Fetches all entities in the underlying repository.
          */
-        IEnumerable<TEntity> GetAll();
+        ICollection<TEntity> GetAll();
 
         /***
          *  Fetches all entities in the underlying repository.

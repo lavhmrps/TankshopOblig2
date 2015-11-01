@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DAL.Image;
-using BLL.Image;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Controllers;
+using Nettbutikk.Controllers;
+using DAL.Image;
+using Nettbutikk.BusinessLogic;
+using Nettbutikk.DataAccess;
 
 namespace TankShopUnitTest
 {
@@ -57,8 +58,7 @@ namespace TankShopUnitTest
         {
 
             //Arrange
-            var controller = new ImageController(new ImageBLL(new ImageRepoStub()),
-                new Oblig1_Nettbutikk.BLL.ProductBLL(new Oblig1_Nettbutikk.DAL.ProductRepoStub()));
+            var controller = new ImageController(new ImageBLL(new ImageRepoStub()), new ProductService(new ProductRepository( new TankshopDbContext())));
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
@@ -97,7 +97,7 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()),
-                new Oblig1_Nettbutikk.BLL.ProductBLL(new Oblig1_Nettbutikk.DAL.ProductRepoStub()));
+                new Nettbutikk.BLL.ProductBLL(new Nettbutikk.DAL.ProductRepoStub()));
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {

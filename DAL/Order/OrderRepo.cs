@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.DataAccess
 {
@@ -116,7 +114,7 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public List<OrderModel> GetAllOrders()
+        public IEnumerable<OrderModel> GetAllOrders()
         {
             using(var db = new TankshopDbContext())
             {

@@ -92,15 +92,13 @@
     <Compile Include="Image\ImageRepo.cs" />
     <Compile Include="Image\ImageRepoStub.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Product\IProductRepo.cs" />
     <Compile Include="Order\IOrderRepo.cs" />
     <Compile Include="Order\OrderRepo.cs" />
     <Compile Include="Account\AccountRepoStub.cs" />
     <Compile Include="Account\AccountRepo.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="Product\IProductRepository.cs" />
     <Compile Include="Product\ProductRepository.cs" />
-    <Compile Include="Product\ProductRepo.cs" />
-    <Compile Include="Product\ProductRepoStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TankshopDbContext.cs" />
   </ItemGroup>

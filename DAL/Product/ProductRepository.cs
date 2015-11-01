@@ -4,7 +4,7 @@ namespace Nettbutikk.DataAccess
 {
     public class ProductRepository : EntityRepository<Product>, IProductRepository
     {
-        public ProductRepository(TankshopDbContext context)
+        public ProductRepository(ITankshopDbContext context)
             : base(context)
         {
 
