@@ -2,7 +2,10 @@
 
 @{ 
     List<CustomerView> Customers = ViewBag.Customers;
+    List<OrderView> Orders = ViewBag.Orders;
 }
 <h2>Administration</h2>
 
 @Html.Partial("Administration_Customer",Customers)
+<hr />
+@Html.Partial("Administration_Order", Orders)

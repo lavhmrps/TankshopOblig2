@@ -11,5 +11,9 @@ namespace Nettbutikk.DataAccess
     {
         int PlaceOrder(OrderModel order);
         OrderModel GetReciept(int orderId);
+        List<OrderModel> GetAllOrders();
+        bool UpdateOrderline(OrderlineModel orderline);
+        double GetOrderSumTotal(int orderId);
+        bool DeleteOrder(int orderId);
     }
 }
