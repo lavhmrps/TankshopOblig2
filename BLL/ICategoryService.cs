@@ -9,7 +9,6 @@ namespace Nettbutikk.BusinessLogic
     public interface ICategoryService :
         IEntityService<Category>, IMappedEntityService<Category>
     {
-        IEnumerable<Category> GetAll(IEnumerable<int> idList);
-        Category GetById(int categoryId);
+        IEnumerable<Category> GetAll(ICollection<int> idList);
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using Nettbutikk.Infrastructure;
+﻿using Nettbutikk.BusinessLogic;
+using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
 {

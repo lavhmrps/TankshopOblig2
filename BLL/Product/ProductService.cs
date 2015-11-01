@@ -2,7 +2,6 @@
 using Nettbutikk.Model;
 using Nettbutikk.DataAccess;
 using System.Collections.Generic;
-using System;
 using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic

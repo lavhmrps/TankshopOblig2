@@ -83,6 +83,9 @@
   <ItemGroup>
     <Compile Include="Account\IAccountRepo.cs" />
     <Compile Include="AdminRepo.cs" />
+    <Compile Include="Category\CategoryRepository.cs" />
+    <Compile Include="Category\ICategoryRepository.cs" />
+    <Compile Include="IAdminRepo.cs" />
     <Compile Include="EntityRepository.cs" />
     <Compile Include="Product\IProductRepo.cs" />
     <Compile Include="Order\IOrderRepo.cs" />

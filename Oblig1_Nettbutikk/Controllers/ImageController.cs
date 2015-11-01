@@ -1,19 +1,18 @@
-﻿using System;
+﻿using Nettbutikk.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
-    public class ImageController : Controller
+    public class ImageController : BaseController
     {
         // GET: Image
         public ActionResult Index()
         {
 
-            ViewBag.Images = new TankshopDbContext().Images.ToList();
+            ViewBag.Images = Services.Images.GetAll();
 
             return View("ListImage");
         }
@@ -22,13 +21,11 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult CreateImage() {
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-
-            var db = new TankshopDbContext();
-
-            foreach (Product p in db.Products)
+            
+            foreach (Product p in Services.Products.GetAll())
             {
                 string productId = Convert.ToString(p.ProductId);
-                productIDs.Add(new SelectListItem { Text = productId, Value = productId });
+                productIDs.Add(new SelectListItem { Text = p.Name, Value = productId });
             }
 
             ViewBag.ProductIDs = productIDs;

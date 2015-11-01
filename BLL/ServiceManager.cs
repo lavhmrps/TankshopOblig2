@@ -10,6 +10,7 @@ namespace Nettbutikk.BusinessLogic
 
         public ICategoryService Categories { get; internal set; }
         public IProductService Products { get; internal set; }
+        public IImageService Images { get; internal set; }
 
         public ServiceManager()
         {

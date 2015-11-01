@@ -10,5 +10,7 @@ namespace Nettbutikk.BusinessLogic
     public interface IAdminLogic
     {
         List<CustomerModel> GetAllCustomers();
+        bool UpdatePerson(PersonModel personUpdate, string email);
+        bool DeleteCustomer(string email);
     }
 }

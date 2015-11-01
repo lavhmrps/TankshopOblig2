@@ -1,4 +1,5 @@
 using Nettbutikk.Model;
+using System;
 using System.Data.Entity.Migrations;
 
 namespace Nettbutikk.Migrations
@@ -14,19 +15,6 @@ namespace Nettbutikk.Migrations
 
         protected override void Seed(TankshopDbContext context)
         {
-
-            ////Postals
-            //context.Postals.AddOrUpdate( new Postal {
-            //    Zipcode = "0351",
-            //    City = "Oslo"
-
-            //},
-            
-            //new Postal {
-            //    Zipcode = "0341",
-            //    City = "Oslo"
-            //});
-            
 
             // Categories
             context.Categories.AddOrUpdate(new Category
@@ -84,7 +72,7 @@ namespace Nettbutikk.Migrations
                 Description = "The Sherman Firefly was a tank used by the United Kingdom in World War II. It was based on the US M4 Sherman but fitted with the powerful 3-inch (76.2 mm) calibre British 17-pounder anti-tank gun as its main weapon. Originally conceived as a stopgap until future British tank designs came into service, the Sherman Firefly became the most common vehicle with the 17-pounder in the war.",
                 CategoryId = 1,
                 ImageUrl = "http://cdn-frm-eu.wargaming.net/wot/eu/uploads/monthly_11_2014/post-507347053-0-33442400-1417183077.jpg"
-                
+
             }, new Product
             {
                 ProductId = 5,
@@ -94,7 +82,7 @@ namespace Nettbutikk.Migrations
                 Description = "The Tank, Infantry, Mk IV (A22) was a British heavy infantry tank used in the Second World War, best known for its heavy armour, large longitudinal chassis with all-around tracks with multiple bogies, and its use as the basis of many specialist vehicles. It was one of the heaviest Allied tanks of the war.",
                 CategoryId = 1,
                 ImageUrl = "http://www.strijdbewijs.nl/hinder/C1.jpg"
-                
+
             }, new Product
             {
                 ProductId = 6,
@@ -104,7 +92,7 @@ namespace Nettbutikk.Migrations
                 Description = "The Tank, Light, Mk VI was a British light tank, produced by Vickers-Armstrong in the late 1930s, which saw service during World War II.",
                 CategoryId = 1,
                 ImageUrl = "http://modelsua.com/images/D/A72291.jpg"
-                
+
             }, new Product
             {
                 ProductId = 7,
@@ -114,7 +102,7 @@ namespace Nettbutikk.Migrations
                 Description = "The M4 Sherman, officially Medium Tank, M4, was the most numerous battle tank used by the United States and some other Western Allies in World War II. It proved to be reliable and mobile. In spite of being outclassed in guns and armor thickness by German medium and heavy tanks late in the war, the M4 Sherman was cheaper to produce, more mechanically reliable, more capable of withstanding hostile terrain, faster, and more likely to get the first shot off in combat owing to the fast rotation of the turret.Thousands were distributed through the Lend - Lease program to the British Commonwealth and Soviet Union.The tank was named after the American Civil War General William Tecumseh Sherman by the British.",
                 CategoryId = 1,
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/c/cd/M4_Sherman_at_Utah_Beach.jpg"
-                
+
             }, new Product
             {
                 ProductId = 8,
@@ -258,104 +246,254 @@ namespace Nettbutikk.Migrations
             });
 
 
+            //Postals
+            context.Postals.AddOrUpdate(new Postal
+            {
+                Zipcode = "0351",
+                City = "Oslo"
 
-            ////OrderLines
-            //context.Orderlines.AddOrUpdate(new Orderline
-            //{
-            //    ProductId = 20,
-            //    Count = 3,
-            //    OrderId = 3,
-                
-            //},
+            },
 
-            //new Orderline
-            //{
-            //    ProductId = 10,
-            //    Count = 2,
-            //    OrderId = 3
-            //},
+            new Postal
+            {
+                Zipcode = "0341",
+                City = "Oslo"
+            }, new Postal
+            {
+                Zipcode = "8800",
+                City = "Bodø"
+            }, new Postal
+            {
+                Zipcode = "0772",
+                City = "Oslo"
+            });
 
-            //new Orderline
-            //{
-            //    ProductId = 3,
-            //    Count = 1,
-            //    OrderId = 3
-            //},
+            // Persons
+            context.People.AddOrUpdate(
+                new Person
+                {
+                    Email = "per@gmail.com",
+                    Firstname = "Per",
+                    Lastname = "Persen",
+                    Address = "Persveien 5",
+                    Zipcode = "0341"
+                }, new Person
+                {
+                    Email = "ole@gmail.com",
+                    Firstname = "Ole",
+                    Lastname = "Rolfsrud",
+                    Address = "Nils Oftebrosgate 2",
+                    Zipcode = "0351"
+                }, new Person
+                {
+                    Email = "tyholt@apis.no",
+                    Firstname = "Tyholt",
+                    Lastname = "Apenes",
+                    Address = "Blåsbortveien 21",
+                    Zipcode = "8800"
+                }, new Person
+                {
+                    Email = "admin",
+                    Firstname = "Egil",
+                    Lastname = "Datasupport",
+                    Address = "Blåsbortveien 21",
+                    Zipcode = "0772"
+                });
 
-            //new Orderline
-            //{
-            //    ProductId = 10,
-            //    Count = 2,
-            //    OrderId = 4
+            // Admins
+            context.Admins.AddOrUpdate(new Admin
+            {
+                AdminId = 1,
+                Email = "admin"
+            });
 
-            //},
+            // Customers
+            context.Customers.AddOrUpdate(
+            new Customer
+            {
+                CustomerId = 1,
+                Email = "per@gmail.com"
+            }, new Customer
+            {
+                CustomerId = 2,
+                Email = "ole@gmail.com"
+            }, new Customer
+            {
+                CustomerId = 3,
+                Email = "tyholt@apis.no"
+            }, new Customer
+            {
+                CustomerId = 4,
+                Email = "admin"
+            });
 
-            //new Orderline
-            //{
-            //    ProductId = 19,
-            //    Count = 1,
-            //    OrderId = 4
+            // Credentials
+            context.Credentials.AddOrUpdate(new Credential
+            {
+                Email = "admin",
+                Password = CreateHash("admin")
+            }, new Credential
+            {
+                Email = "per@gmail.com",
+                Password = CreateHash("per")
+            }, new Credential
+            {
+                Email = "ole@gmail.com",
+                Password = CreateHash("ole")
+            }, new Credential
+            {
+                Email = "tyholt@apis.no",
+                Password = CreateHash("kråke")
+            });
 
-            //},
+            // ORders
+            context.Orders.AddOrUpdate(new Order
+            {
+                OrderId = 1,
+                CustomerId = 1,
+                Date = new DateTime(2015, 4, 12, 12, 5, 15)
+            }, new Order
+            {
+                OrderId = 2,
+                CustomerId = 1,
+                Date = new DateTime(2015, 8, 5, 3, 2, 55)
+        },
+            new Order
+            {
+                OrderId = 3,
+                CustomerId = 1,
+                Date = new DateTime(2015, 9, 1, 9, 51, 38)
+            },
+            new Order
+            {
+                OrderId = 4,
+                CustomerId = 2,
+                Date = new DateTime(2015, 8, 29, 8, 16, 51)
+            },
+            new Order
+            {
+                OrderId = 5,
+                CustomerId = 2,
+                Date = new DateTime(2015, 6, 21, 11, 43, 9)
+            }, new Order
+            {
+                OrderId = 6,
+                CustomerId = 3,
+                Date = new DateTime(2015, 8, 29, 8, 16, 51)
+            },
+            new Order
+            {
+                OrderId = 7,
+                CustomerId = 3,
+                Date = new DateTime(2015, 10, 11, 18, 33, 9)
+            });
 
-            //new Orderline
-            //{
-            //    ProductId = 16,
-            //    Count = 1,
-            //    OrderId = 5
+            //OrderLines
+            context.Orderlines.AddOrUpdate(new Orderline
+            {
+                ProductId = 20,
+                Count = 3,
+                OrderId = 3,
 
-            //},
+            },
 
-            //new Orderline
-            //{
-            //    ProductId = 21,
-            //    Count = 2,
-            //    OrderId = 6
+            new Orderline
+            {
+                ProductId = 10,
+                Count = 2,
+                OrderId = 3
+            },
 
-            //},
+            new Orderline
+            {
+                ProductId = 3,
+                Count = 1,
+                OrderId = 3
+            },
 
-            //new Orderline
-            //{
-            //    ProductId = 9,
-            //    Count = 4,
-            //    OrderId = 6
+            new Orderline
+            {
+                ProductId = 10,
+                Count = 2,
+                OrderId = 4
 
-            //},
+            },
 
-            //new Orderline
-            //{
-            //    ProductId = 13,
-            //    Count = 3,
-            //    OrderId = 1
+            new Orderline
+            {
+                ProductId = 19,
+                Count = 1,
+                OrderId = 4
 
-            //},
+            },
+
+            new Orderline
+            {
+                ProductId = 16,
+                Count = 1,
+                OrderId = 3
+
+            },
+
+            new Orderline
+            {
+                ProductId = 21,
+                Count = 2,
+                OrderId = 2
+
+            },
+
+            new Orderline
+            {
+                ProductId = 9,
+                Count = 4,
+                OrderId = 1
+
+            },
+
+            new Orderline
+            {
+                ProductId = 13,
+                Count = 3,
+                OrderId = 1
+
+            },
 
 
-            //new Orderline
-            //{
-            //    ProductId = 12,
-            //    Count = 2,
-            //    OrderId = 1
+            new Orderline
+            {
+                ProductId = 12,
+                Count = 2,
+                OrderId = 1
 
-            //},
+            },
 
-            //new Orderline
-            //{
-            //    ProductId = 4,
-            //    Count = 1,
-            //    OrderId = 2
+            new Orderline
+            {
+                ProductId = 4,
+                Count = 1,
+                OrderId = 2
 
-            //},
+            },
 
-            //new Orderline
-            //{
-            //    ProductId = 12,
-            //    Count = 5,
-            //    OrderId = 2
+            new Orderline
+            {
+                ProductId = 12,
+                Count = 5,
+                OrderId = 2
 
-            //});
+            });
 
         }
+        private byte[] CreateHash(string password)
+        {
+            byte[] inData, outData;
+            var alg = System.Security.Cryptography.SHA256.Create();
+            inData = System.Text.Encoding.Default.GetBytes(password);
+            outData = alg.ComputeHash(inData);
+            return outData;
+        }
+      
     }
 
 }

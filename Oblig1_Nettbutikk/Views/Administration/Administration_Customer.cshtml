@@ -1,4 +1,4 @@
-﻿@model List<Oblig1_Nettbutikk.Models.CustomerView>
+﻿@model List<Nettbutikk.Models.CustomerView>
 
 <h4>Amdinistration_Customer</h4>
 <hr />
@@ -21,26 +21,27 @@
         {
             <tr class="adminRowCustomer">
                 <td>@c.CustomerId</td>
-                <td>  
-                    <input type="text" value="@c.Email" readonly />
+                <td>
+                    <input type="text" value="@c.Email" class="inEmail" email="@c.Email" readonly />
                 </td>
                 <td>
-                    <input type="text" value="@c.Firstname" class="editable inFirstname" readonly />
+                    <input type="text" value="@c.Firstname" class="editable inFirstname" last-save="@c.Firstname" readonly />
                 </td>
                 <td>
-                    <input type="text" value="@c.Lastname" class="editable inLastname" readonly />
+                    <input type="text" value="@c.Lastname" class="editable inLastname" last-save="@c.Lastname" readonly />
                 </td>
                 <td>
-                    <input type="text" value="@c.Address" class="editable inAddress" readonly />
+                    <input type="text" value="@c.Address" class="editable inAddress" last-save="@c.Address" readonly />
                 </td>
                 <td>
-                    <input type="text" value="@c.Zipcode" class="editable inZipcode" readonly />
+                    <input type="text" value="@c.Zipcode" class="editable inZipcode" last-save="@c.Zipcode" readonly />
                 </td>
                 <td>
-                    <input type="text" value="@c.City" class="editable inCity" readonly />
+                    <input type="text" value="@c.City" class="editable inCity" last-save="@c.City" readonly />
                 </td>
                 <td>
                     <a href="#" class="adminEditCustomer" id="editCustId+@c.CustomerId">Endre</a>
+                    <a href="#" class="adminSaveCustomer" id="editCustId+@c.CustomerId" hidden>Lagre</a>
                     <a href="#" class="adminDeleteCustomer" id="delCustId+@c.CustomerId">Slett</a>
                     <a href="#" class="adminCancelCustomer" id="delCustId+@c.CustomerId" hidden>Avbryt</a>
                 </td>
@@ -52,64 +53,245 @@
 
 <script>
     $(document).ready(function () {
-        $("#adminCustomerTable .adminEditCustomer").on("click", function () {
-            var save = $(this).text() == "Lagre";
+        // Edit customer fields
+        $(".adminEditCustomer").on("click", function () {
+
             var row = $(this).closest("tr");
 
+            var btnEdit = row.find(".adminEditCustomer");
+            var btnSave = row.find(".adminSaveCustomer");
             var btnDelete = row.find(".adminDeleteCustomer");
             var btnCancel = row.find(".adminCancelCustomer");
 
-            if (save) {
-
-                var fn = row.find(".inFirstname").val();
-                var ln = row.find(".inLastname").val();
-                var adr = row.find(".inAddress").val();
-                var zip = row.find(".inZipcode").val();
-                var city = row.find(".inCity").val();
-
-                console.log(fn + " - " + ln + " - " + adr + " - " + zip + " - " + city);
-
-                var inputErr = fn === "" || ln === "" || adr === "" || zip === "" || city === "";
-
-                if (fn === "") {
-                    row.find(".inFirstname").addClass("input-error");
-                }
-                if (ln === "") {
-                    row.find(".inLastname").addClass("input-error");
-                }
-                if (adr === "") {
-                    row.find(".inAddress").addClass("input-error");
-                }
-                if (zip === "") {
-                    row.find(".inZipcode").addClass("input-error");
-                }
-                if (city === "") {
-                    row.find(".inCity").addClass("input-error");
-                }
-
-                if (inputErr) {
-                    console.log("inputerr");
-                    return;
-                }
-                // implement ajax-call update customer
-
-                // finally show appropriate buttons
-
-                $(this).text("Endre");
-                btnDelete.attr("hidden", false);
-                btnCancel.attr("hidden", true);
-            }
-            else {
-                $(this).text("Lagre");
-                btnDelete.attr("hidden", true);
-                btnCancel.attr("hidden", false);
-            }
+            btnEdit.hide();
+            btnSave.show();
+            btnDelete.hide();
+            btnCancel.show();
 
             row.find(".editable").each(function () {
-                $(this).removeClass("input-error");
-                $(this).attr("readonly", save);
+                $(this).attr("readonly", false);
             })
 
         })
+
+        $(".adminSaveCustomer").on("click", function () {
+            var row = $(this).closest("tr");
+
+            var btnEdit = row.find(".adminEditCustomer");
+            var btnSave = row.find(".adminSaveCustomer");
+            var btnDelete = row.find(".adminDeleteCustomer");
+            var btnCancel = row.find(".adminCancelCustomer");
+
+            var email = row.find(".inEmail").attr("email");
+            var fn = row.find(".inFirstname").val();
+            var ln = row.find(".inLastname").val();
+            var adr = row.find(".inAddress").val();
+            var zip = row.find(".inZipcode").val();
+            var city = row.find(".inCity").val();
+
+            var inputErr = fn === "" || ln === "" || adr === "" || zip === "" || city === "";
+
+            if (fn === "") {
+                row.find(".inFirstname").addClass("input-error");
+            }
+            if (ln === "") {
+                row.find(".inLastname").addClass("input-error");
+            }
+            if (adr === "") {
+                row.find(".inAddress").addClass("input-error");
+            }
+            if (zip === "") {
+                row.find(".inZipcode").addClass("input-error");
+            }
+            if (city === "") {
+                row.find(".inCity").addClass("input-error");
+            }
+
+            if (inputErr) {
+                console.log("inputerr");
+                return;
+            }
+
+            // No errors, remove class input-error
+            row.find(".editable").each(function () {
+                $(this).removeClass("input-error");
+            })
+
+            var customer = {
+                Email: email,
+                Firstname: fn,
+                Lastname: ln,
+                Address: adr,
+                Zipcode: zip,
+                City: city
+            };
+
+
+
+            $.ajax({
+                url: '@Url.Action("UpdateCustomerInfo", "Administration")',
+                data: customer,
+                type: "POST",
+                success: function (result) {
+                    if (result === "True") {
+
+                        // Updating last-sa
+                        row.find(".inFirstname").attr("last-save",fn);
+                        row.find(".inLastname").attr("last-save",ln);
+                        row.find(".inAddress").attr("last-save",adr);
+                        row.find(".inZipcode").attr("last-save",zip);
+                        row.find(".inCity").attr("last-save",city);
+
+                        row.find(".editable").each(function () {
+                            $(this).removeClass("input-error");
+                            $(this).attr("readonly", true);
+                        })
+
+                        btnSave.hide();
+                        btnEdit.show();
+                        btnCancel.hide();
+                        btnDelete.show();
+                    }
+                    else if (result === "False") {
+                        window.location.reload();
+                        alert("Feil ved lagring");
+                    } else {
+                        alert(result);
+                    }
+                }
+            })
+        })
+
+        // Cancel editing
+        $(".adminCancelCustomer").on("click", function () {
+            var row = $(this).closest("tr");
+
+            var btnEdit = row.find(".adminEditCustomer");
+            var btnSave = row.find(".adminSaveCustomer");
+            var btnDelete = row.find(".adminDeleteCustomer");
+            var btnCancel = row.find(".adminCancelCustomer");
+
+            // Original content
+            var Fn = row.find(".inFirstname").attr("last-save");
+            var Ln = row.find(".inLastname").attr("last-save");
+            var Adr = row.find(".inAddress").attr("last-save");
+            var Zip = row.find(".inZipcode").attr("last-save");
+            var City = row.find(".inCity").attr("last-save");
+
+            row.find(".inFirstname").val(Fn);
+            row.find(".inLastname").val(Ln);
+            row.find(".inAddress").val(Adr);
+            row.find(".inZipcode").val(Zip);
+            row.find(".inCity").val(City);
+
+            row.find(".editable").each(function () {
+                $(this).removeClass("input-error");
+                $(this).attr("readonly", true);
+            })
+
+            btnSave.hide();
+            btnEdit.show();
+            btnCancel.hide();
+            btnDelete.show();
+
+        })
+
+        $(".adminDeleteCustomer").on("click", function () {
+            var row = $(this).closest("tr");
+
+            var btnEdit = row.find(".adminEditCustomer");
+            var btnSave = row.find(".adminSaveCustomer");
+            var btnDelete = row.find(".adminDeleteCustomer");
+            var btnCancel = row.find(".adminCancelCustomer");
+
+            var email = row.find(".inEmail").attr("email");
+
+            $.ajax({
+                url: '@Url.Action("DeleteCustomer","Administration")',
+                data: { email: email },
+                method: "POST",
+                success: function (result) {
+                    if (result === "True") {
+                        row.remove();
+
+                    } else alert(result);
+                }
+            })
+
+        })
+
+
+
+        //$("#adminCustomerTable2 .adminEditCustomer").on("click", function () {
+        //    // Original content
+        //    var Fn = row.find(".inFirstname").val();
+        //    var Ln = row.find(".inLastname").val();
+        //    var Adr = row.find(".inAddress").val();
+        //    var Zip = row.find(".inZipcode").val();
+        //    var City = row.find(".inCity").val();
+
+        //    var save = $(this).text() == "Lagre";
+        //    var row = $(this).closest("tr");
+
+        //    var btnDelete = row.find(".adminDeleteCustomer");
+        //    var btnCancel = row.find(".adminCancelCustomer");
+
+        //    if (save) {
+
+        //        // Cancel changes
+        //        btnCancel.click(function () {
+
+        //        })
+
+        //        var fn = row.find(".inFirstname").val();
+        //        var ln = row.find(".inLastname").val();
+        //        var adr = row.find(".inAddress").val();
+        //        var zip = row.find(".inZipcode").val();
+        //        var city = row.find(".inCity").val();
+
+        //        console.log(fn + " - " + ln + " - " + adr + " - " + zip + " - " + city);
+
+        //        var inputErr = fn === "" || ln === "" || adr === "" || zip === "" || city === "";
+
+        //        if (fn === "") {
+        //            row.find(".inFirstname").addClass("input-error");
+        //        }
+        //        if (ln === "") {
+        //            row.find(".inLastname").addClass("input-error");
+        //        }
+        //        if (adr === "") {
+        //            row.find(".inAddress").addClass("input-error");
+        //        }
+        //        if (zip === "") {
+        //            row.find(".inZipcode").addClass("input-error");
+        //        }
+        //        if (city === "") {
+        //            row.find(".inCity").addClass("input-error");
+        //        }
+
+        //        if (inputErr) {
+        //            console.log("inputerr");
+        //            return;
+        //        }
+        //        // implement ajax-call update customer
+
+        //        // finally show appropriate buttons
+
+        //        $(this).text("Endre");
+        //        btnDelete.attr("hidden", false);
+        //        btnCancel.attr("hidden", true);
+        //    }
+        //    else {
+        //        $(this).text("Lagre");
+        //        btnDelete.attr("hidden", true);
+        //        btnCancel.attr("hidden", false);
+        //    }
+
+        //    row.find(".editable").each(function () {
+        //        $(this).removeClass("input-error");
+        //        $(this).attr("readonly", save);
+        //    })
+
+        //})
     })
 </script>
