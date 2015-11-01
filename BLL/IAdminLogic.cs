@@ -12,5 +12,9 @@ namespace Oblig1_Nettbutikk.BLL
         List<CustomerModel> GetAllCustomers();
         bool UpdatePerson(PersonModel personUpdate, string email);
         bool DeleteCustomer(string email);
+        List<OrderModel> GetAllOrders();
+        bool UpdateOrderline(OrderlineModel orderline);
+        double GetOrderSumTotal(int orderId);
+        bool DeleteOrder(int orderId);
     }
 }

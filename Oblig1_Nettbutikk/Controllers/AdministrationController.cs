@@ -48,8 +48,35 @@ namespace Oblig1_Nettbutikk.Controllers
                     customerViewList.Add(customerView);
                 }
 
+                List<OrderModel> orderModels = _adminBLL.GetAllOrders();
+                List<OrderView> orderViewList = new List<OrderView>();
+
+                foreach (var o in orderModels)
+                {
+                    var order = new OrderView();
+                    order.Date = o.Date;
+                    order.OrderId = o.OrderId;
+                    order.Orderlines = new List<OrderlineView>();
+
+                    foreach (var l in o.Orderlines)
+                    {
+                        var orderline = new OrderlineView();
+                        orderline.Count = l.Count;
+                        orderline.OrderlineId = l.OrderlineId;
+                        orderline.Product = new ProductView()
+                        {
+                            Price = l.ProductPrice,
+                            ProductId = l.ProductId,
+                            ProductName = l.ProductName
+                        };
+
+                        order.Orderlines.Add(orderline);
+                    }
+                    orderViewList.Add(order);
+                }
 
                 ViewBag.Customers = customerViewList;
+                ViewBag.Orders = orderViewList;
 
                 return View();
             }
@@ -82,16 +109,38 @@ namespace Oblig1_Nettbutikk.Controllers
                 {
                     return _adminBLL.DeleteCustomer(email);
                 }
-                else
-                {
-                    if(_adminBLL.DeleteCustomer(email))
-                    {
-                        Session.Abandon();
-                        RedirectToAction("Index", "Home");
-                    }
-                }
             }
             return false;
         }
+
+        [HttpPost]
+        public bool UpdateOrderline(int OrderlineId, int ProductId, int Count)
+        {
+            var orderlineModel = new OrderlineModel()
+            {
+                Count = Count,
+                OrderlineId = OrderlineId,
+                ProductId = ProductId
+            };
+
+            if (_adminBLL.UpdateOrderline(orderlineModel))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public double GetOrderSumTotal(int OrderId)
+        {
+            return _adminBLL.GetOrderSumTotal(OrderId);
+
+        }
+
+        [HttpPost]
+        public bool DeleteOrder(int OrderId)
+        {
+            return _adminBLL.DeleteOrder(OrderId);
+        }
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿@model List<Oblig1_Nettbutikk.Models.CustomerView>
 
-<h4>Amdinistration_Customer</h4>
+<h4>Kunde administrasjon</h4>
 <hr />
 
 <table id="adminCustomerTable">
@@ -16,7 +16,6 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody>
         @foreach (var c in Model)
         {
             <tr class="adminRowCustomer">
@@ -40,28 +39,27 @@
                     <input type="text" value="@c.City" class="editable inCity" last-save="@c.City" readonly />
                 </td>
                 <td>
-                    <a href="#" class="adminEditCustomer" id="editCustId+@c.CustomerId">Endre</a>
-                    <a href="#" class="adminSaveCustomer" id="editCustId+@c.CustomerId" hidden>Lagre</a>
-                    <a href="#" class="adminDeleteCustomer" id="delCustId+@c.CustomerId">Slett</a>
-                    <a href="#" class="adminCancelCustomer" id="delCustId+@c.CustomerId" hidden>Avbryt</a>
+                    <a href="#" class="adminCustomerEdit" id="editCustId+@c.CustomerId">Endre</a>
+                    <a href="#" class="adminCustomerSave" id="editCustId+@c.CustomerId" hidden>Lagre</a>
+                    <a href="#" class="adminCustomerDelete" id="delCustId+@c.CustomerId">Slett</a>
+                    <a href="#" class="adminCustomerCancel" id="delCustId+@c.CustomerId" hidden>Avbryt</a>
                 </td>
             </tr>
         }
-    </tbody>
 
 </table>
 
 <script>
     $(document).ready(function () {
         // Edit customer fields
-        $(".adminEditCustomer").on("click", function () {
+        $(".adminCustomerEdit").on("click", function () {
 
             var row = $(this).closest("tr");
 
-            var btnEdit = row.find(".adminEditCustomer");
-            var btnSave = row.find(".adminSaveCustomer");
-            var btnDelete = row.find(".adminDeleteCustomer");
-            var btnCancel = row.find(".adminCancelCustomer");
+            var btnEdit = row.find(".adminCustomerEdit");
+            var btnSave = row.find(".adminCustomerSave");
+            var btnDelete = row.find(".adminCustomerDelete");
+            var btnCancel = row.find(".adminCustomerCancel");
 
             btnEdit.hide();
             btnSave.show();
@@ -74,13 +72,13 @@
 
         })
 
-        $(".adminSaveCustomer").on("click", function () {
+        $(".adminCustomerSave").on("click", function () {
             var row = $(this).closest("tr");
 
-            var btnEdit = row.find(".adminEditCustomer");
-            var btnSave = row.find(".adminSaveCustomer");
-            var btnDelete = row.find(".adminDeleteCustomer");
-            var btnCancel = row.find(".adminCancelCustomer");
+            var btnEdit = row.find(".adminCustomerEdit");
+            var btnSave = row.find(".adminCustomerSave");
+            var btnDelete = row.find(".adminCustomerDelete");
+            var btnCancel = row.find(".adminCustomerCancel");
 
             var email = row.find(".inEmail").attr("email");
             var fn = row.find(".inFirstname").val();
@@ -163,13 +161,13 @@
         })
 
         // Cancel editing
-        $(".adminCancelCustomer").on("click", function () {
+        $(".adminCustomerCancel").on("click", function () {
             var row = $(this).closest("tr");
 
-            var btnEdit = row.find(".adminEditCustomer");
-            var btnSave = row.find(".adminSaveCustomer");
-            var btnDelete = row.find(".adminDeleteCustomer");
-            var btnCancel = row.find(".adminCancelCustomer");
+            var btnEdit = row.find(".adminCustomerEdit");
+            var btnSave = row.find(".adminCustomerSave");
+            var btnDelete = row.find(".adminCustomerDelete");
+            var btnCancel = row.find(".adminCustomerCancel");
 
             // Original content
             var Fn = row.find(".inFirstname").attr("last-save");
@@ -196,13 +194,16 @@
 
         })
 
-        $(".adminDeleteCustomer").on("click", function () {
+        $(".adminCustomerDelete").on("click", function () {
+            if (!confirm("Slette?"))
+                return;
+
             var row = $(this).closest("tr");
 
-            var btnEdit = row.find(".adminEditCustomer");
-            var btnSave = row.find(".adminSaveCustomer");
-            var btnDelete = row.find(".adminDeleteCustomer");
-            var btnCancel = row.find(".adminCancelCustomer");
+            var btnEdit = row.find(".adminCustomerEdit");
+            var btnSave = row.find(".adminCustomerSave");
+            var btnDelete = row.find(".adminCustomerDelete");
+            var btnCancel = row.find(".adminCustomerCancel");
 
             var email = row.find(".inEmail").attr("email");
 
@@ -211,6 +212,7 @@
                 data: { email: email },
                 method: "POST",
                 success: function (result) {
+                    console.log(result);
                     if (result === "True") {
                         row.remove();
 
@@ -221,8 +223,7 @@
         })
 
 
-
-        //$("#adminCustomerTable2 .adminEditCustomer").on("click", function () {
+        //$("#adminCustomerTable2 .adminCustomerEdit").on("click", function () {
         //    // Original content
         //    var Fn = row.find(".inFirstname").val();
         //    var Ln = row.find(".inLastname").val();
@@ -233,8 +234,8 @@
         //    var save = $(this).text() == "Lagre";
         //    var row = $(this).closest("tr");
 
-        //    var btnDelete = row.find(".adminDeleteCustomer");
-        //    var btnCancel = row.find(".adminCancelCustomer");
+        //    var btnDelete = row.find(".adminCustomerDelete");
+        //    var btnCancel = row.find(".adminCustomerCancel");
 
         //    if (save) {
 
