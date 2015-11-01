@@ -9,7 +9,7 @@ namespace Nettbutikk.DataAccess
 {
     public class OrderRepo : IOrderRepo
     {
-        public List<OrderModel> GetOrders(int customerId)
+        public IList<OrderModel> GetOrders(int customerId)
         {
             using (var db = new TankshopDbContext())
             {

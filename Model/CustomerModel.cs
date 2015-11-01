@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Nettbutikk.Model
 {
@@ -15,6 +11,6 @@ namespace Nettbutikk.Model
         public string Zipcode { get; set; }
         public string City { get; set; }
         public int CustomerId { get; set; }
-        public List<OrderModel> Orders { get; set; }
+        public IEnumerable<OrderModel> Orders { get; set; }
     }
 }

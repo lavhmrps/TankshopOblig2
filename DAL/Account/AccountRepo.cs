@@ -190,19 +190,19 @@ namespace Nettbutikk.DataAccess
                     return true;
                 }
                 catch (Exception)
-                {
+                                {
                     return false;
-                }
-            }
-        }
+                        }
+                        }
+                    }
         public AdminModel GetAdmin(int adminId)
-        {
+                        {
             using (var db = new TankshopDbContext())
-            {
+                            {
                 var dbAdmin = db.Admins.FirstOrDefault(a => a.AdminId == adminId);
                 var dbPerson = GetPerson(dbAdmin.Email);
                 var admin = new AdminModel()
-                {
+                                {
                     AdminId = adminId,
                     Email = dbPerson.Email,
                     Firstname = dbPerson.Firstname,
@@ -210,15 +210,15 @@ namespace Nettbutikk.DataAccess
                     Address = dbPerson.Address,
                     Zipcode = dbPerson.Zipcode,
                     City = dbPerson.City
-                };
+                                };
 
                 return admin;
-            }
-        }
+                            }
+                        }
         public AdminModel GetAdmin(string email)
         {
             using (var db = new TankshopDbContext())
-            {
+                        {
                 var adminId = db.Admins.FirstOrDefault(a => a.Email == email).AdminId;
                 var dbPerson = GetPerson(email);
                 var admin = new AdminModel()
@@ -233,7 +233,7 @@ namespace Nettbutikk.DataAccess
                 };
 
                 return admin;
-            }
+        }
 
         }
         public List<PersonModel> GetAllPeople()
@@ -241,18 +241,18 @@ namespace Nettbutikk.DataAccess
             using (var db = new TankshopDbContext())
             {
                 var people = db.People.Select(p => new PersonModel()
-                {
-                    Email = p.Email,
-                    Firstname = p.Firstname,
-                    Lastname = p.Lastname,
-                    Address = p.Address,
-                    Zipcode = p.Zipcode,
-                    City = p.Postal.City
+                    {
+                        Email = p.Email,
+                        Firstname = p.Firstname,
+                        Lastname = p.Lastname,
+                        Address = p.Address,
+                        Zipcode = p.Zipcode,
+                        City = p.Postal.City
                 }).ToList();
 
                 return people;
-            }
-        }
+                }
+                }
         public CustomerModel GetCustomer(int customerId)
         {
             using (var db = new TankshopDbContext())
@@ -332,11 +332,11 @@ namespace Nettbutikk.DataAccess
                     }).Single();
 
                     return person;
-                }
+            }
                 catch (Exception)
                 {
                     return null;
-                }
+        }
             }
         }
         public bool isAdmin(string email)
@@ -364,7 +364,7 @@ namespace Nettbutikk.DataAccess
                                 var newAdmin = new Admin()
                                 {
                                     Email = email
-                                };
+                };
                                 db.Admins.Add(newAdmin);
                             }
                         }
@@ -454,7 +454,7 @@ namespace Nettbutikk.DataAccess
             outData = alg.ComputeHash(inData);
             return outData;
         }
-        
+
 
     }
 }
