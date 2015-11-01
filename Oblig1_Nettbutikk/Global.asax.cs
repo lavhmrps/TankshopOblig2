@@ -1,5 +1,5 @@
-﻿using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.Models;
+﻿using Nettbutikk.Model;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Oblig1_Nettbutikk
+namespace Nettbutikk
 {
     public class MvcApplication : System.Web.HttpApplication
     {

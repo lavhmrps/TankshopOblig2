@@ -1,14 +1,14 @@
-﻿using Oblig1_Nettbutikk.Models;
+﻿using Nettbutikk.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.BLL;
+using Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
 
     public class AccountController : Controller
