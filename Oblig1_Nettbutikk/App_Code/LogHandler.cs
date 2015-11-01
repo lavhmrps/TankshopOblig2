@@ -25,10 +25,16 @@ namespace Oblig1_Nettbutikk.App_Code
 
         public static void WriteToLog(Exception e) {
 
-            string logStr = "Error @ " + DateTime.Now.ToShortDateString().ToString() +
-                " " + DateTime.Now.ToLongTimeString().ToString() + " --> " + e;
+            if (e == null)
+            {
+                WriteToLog("Error @ " + DateTime.Now.ToShortDateString().ToString() +
+                " " + DateTime.Now.ToLongTimeString().ToString() + " --> " + "NO EXCEPTION INFORMATION");
+            }
+            else {
+                WriteToLog("Error @ " + DateTime.Now.ToShortDateString().ToString() +
+                " " + DateTime.Now.ToLongTimeString().ToString() + " --> " + e);
+            }
 
-            WriteToLog(logStr);
         }
 
 

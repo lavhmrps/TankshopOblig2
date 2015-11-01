@@ -140,10 +140,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510252348511_Initial.cs" />
-    <Compile Include="Migrations\201510252348511_Initial.Designer.cs">
-      <DependentUpon>201510252348511_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CategoryView.cs" />
@@ -234,18 +230,13 @@
       <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{854590CE-5EA6-4EE8-917F-9AEA3D3DDA27}</Project>
+      <Project>{854590ce-5ea6-4ee8-917f-9aea3d3dda27}</Project>
       <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>
       <Name>Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201510252348511_Initial.resx">
-      <DependentUpon>201510252348511_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

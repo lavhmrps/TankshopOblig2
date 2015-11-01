@@ -14,5 +14,6 @@ namespace Oblig1_Nettbutikk.DAL
         ProductModel GetProduct(int productId);
         List<ProductModel> GetProducts(List<int> productIdList);
         List<ProductModel> GetProductsByCategory(int categoryId);
+        List<Product> GetAllProducts();
     }
 }

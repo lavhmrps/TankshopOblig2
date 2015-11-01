@@ -39,6 +39,12 @@ namespace Oblig1_Nettbutikk.DAL
             }
         }
 
+        public List<Product> GetAllProducts() {
+
+            return new TankshopDbContext().Products.ToList();
+
+        }
+
         public ProductModel GetProduct(int ProductId)
         {
             using (var db = new TankshopDbContext())

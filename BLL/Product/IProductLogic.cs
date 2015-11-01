@@ -14,5 +14,6 @@ namespace Oblig1_Nettbutikk.BLL
         List<ProductModel> GetProductsByCategory(int categoryId);
         string GetCategoryName(int categoryId);
         List<CategoryModel> AllCategories();
+        List<Product> GetAllProducts();
     }
 }

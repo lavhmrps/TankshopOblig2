@@ -10,11 +10,15 @@ namespace DAL.Image
     public interface IImageRepo
     {
 
-        void AddImage(int productId, string imageUrl);
-        void UpdateImage(int imageId, int productId, string imageUrl);
-        void DeleteImage(int imageId);
+        bool AddImage(int productId, string imageUrl);
+        bool UpdateImage(int imageId, int productId, string imageUrl);
+        bool DeleteImage(int imageId);
         List<Oblig1_Nettbutikk.Model.Image> GetAllImages();
         Oblig1_Nettbutikk.Model.Image GetImage(int imageId);
+
+
+        //OldImage
+        bool AddOldImage(int productId, string imageUrl, int adminId);
 
 
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Oblig1_Nettbutikk.Model;
 
+
 namespace DAL.Image
 {
     public class ImageRepo : IImageRepo
@@ -13,25 +14,47 @@ namespace DAL.Image
 
         public Oblig1_Nettbutikk.Model.Image GetImage(int imageId)
         {
-            return new TankshopDbContext().Images.Find(imageId);
+            try {
+                return new TankshopDbContext().Images.FirstOrDefault(i => i.ImageId == imageId);
+            }
+            catch (Exception e) {
+                //LogHandler.WriteToLog(e);
+                return null;
+            }
+
         }
 
         public List<Oblig1_Nettbutikk.Model.Image> GetAllImages()
         {
-            return new TankshopDbContext().Images.ToList();
+
+            try {
+                return new TankshopDbContext().Images.ToList();
+            }
+            catch (Exception e) {
+                //LogHandler.WriteToLog(e);
+                return new List<Oblig1_Nettbutikk.Model.Image>();
+            }
+            
         }
 
 
-        public void AddImage(int productId, string imageUrl)
+        public bool AddImage(int productId, string imageUrl)
         {
 
-            var db = new TankshopDbContext();
-            db.Images.Add(new Oblig1_Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
-            db.SaveChanges();
+            try
+            {
+                var db = new TankshopDbContext();
+                db.Images.Add(new Oblig1_Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
 
+            return false;
+            
         }
 
-        public void DeleteImage(int imageId)
+        public bool DeleteImage(int imageId)
         {
 
             var db = new TankshopDbContext();
@@ -40,17 +63,20 @@ namespace DAL.Image
 
             if (img == null)
             {
-                //throw?
-                //Image does not exist
-                return;
+                return false;
             }
 
-            db.Images.Remove(img);
-            db.SaveChanges();
+            try {
+                db.Images.Remove(img);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
 
+            return false;
         }
 
-        public void UpdateImage(int imageId, int productId, string imageUrl)
+        public bool UpdateImage(int imageId, int productId, string imageUrl)
         {
 
             var db = new TankshopDbContext();
@@ -59,15 +85,46 @@ namespace DAL.Image
 
             if (img == null)
             {
-                //throw?
-                return;
+                return false;
             }
 
             img.ProductId = productId;
             img.ImageUrl = imageUrl;
 
-            db.SaveChanges();
+
+            try {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
+
+            return false;
         }
+
+
+        //OldImage
+        public bool AddOldImage(int productId, string imageUrl, int adminId)
+        {
+
+            var db = new TankshopDbContext();
+            OldImage oldImage = new OldImage();
+
+            oldImage.ProductId = productId;
+            oldImage.ImageUrl = imageUrl;
+            oldImage.AdminId = adminId;
+            oldImage.Changed = DateTime.Now;
+
+            db.OldImages.Add(oldImage);
+
+            try {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
+
+            return false;
+        }
+
 
     }
 }

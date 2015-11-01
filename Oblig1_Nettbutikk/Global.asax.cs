@@ -27,8 +27,6 @@ namespace Oblig1_Nettbutikk
         void Application_Error(object sender, EventArgs e)
         {
 
-            System.Diagnostics.Debug.WriteLine("Before");
-
             Exception exception = Server.GetLastError();
             App_Code.LogHandler.WriteToLog(exception);
 

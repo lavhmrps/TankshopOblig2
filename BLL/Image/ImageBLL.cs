@@ -3,26 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Oblig1_Nettbutikk.Model;
 
 namespace BLL.Image
 {
     public class ImageBLL : IImageLogic
     {
 
-        private DAL.Image.ImageRepo repo;
+        private DAL.Image.IImageRepo repo;
 
         public ImageBLL() {
             repo = new DAL.Image.ImageRepo();
         }
 
-        public void AddImage(int productId, string imageUrl)
-        {
-            repo.AddImage(productId,imageUrl);
+        public ImageBLL(DAL.Image.IImageRepo repo) {
+            this.repo = repo;
         }
 
-        public void DeleteImage(int imageId)
+        public bool AddImage(int productId, string imageUrl)
         {
-            repo.DeleteImage(imageId);
+            return repo.AddImage(productId,imageUrl);
+        }
+
+        public bool DeleteImage(int imageId)
+        {
+            Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
+
+            if (img == null)
+                return false;
+
+            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, 1))//Get admin id from session
+                return false; 
+
+            return repo.DeleteImage(imageId);
         }
 
         public List<Oblig1_Nettbutikk.Model.Image> GetAllImages()
@@ -35,9 +48,18 @@ namespace BLL.Image
             return repo.GetImage(imageId);
         }
 
-        public void UpdateImage(int imageId, int productId, string imageUrl)
+        public bool UpdateImage(int imageId, int productId, string imageUrl)
         {
-            repo.UpdateImage(imageId, productId, imageUrl);
+
+            Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
+
+            if (img == null)
+                return false;
+
+            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, 1))//Get admin id from session
+                return false;
+
+            return repo.UpdateImage(imageId, productId, imageUrl);
         }
     }
 }

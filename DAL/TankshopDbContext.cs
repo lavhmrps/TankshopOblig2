@@ -36,6 +36,8 @@ namespace Oblig1_Nettbutikk.Model
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Image> Images { get; set; }
 
+        public virtual DbSet<OldImage> OldImages { get; set; }
+
     }
 
     public class Customer
@@ -165,4 +167,18 @@ namespace Oblig1_Nettbutikk.Model
         public virtual Product Product { get; set; }
     }
 
+    public class OldImage
+    {
+
+        [Key]
+        public int OldImageId { get; set; }
+
+        public int ProductId { get; set; }
+        public string ImageUrl { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
+    }
 }

@@ -22,6 +22,11 @@ namespace Oblig1_Nettbutikk.BLL
             _repo = stub;
         }
 
+        public List<Product> GetAllProducts()
+        {
+            return _repo.GetAllProducts();
+        }
+
         public List<CategoryModel> AllCategories()
         {
             return _repo.AllCategories();
