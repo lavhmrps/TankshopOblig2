@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Nettbutikk.Model
 {
-    public interface ITankshopDbContext
+    public interface ITankshopDbContext : IDisposable
     {
         DbEntityEntry Entry(object entity);
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         DbSet Set(Type entityType);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
+
+        int SaveChanges();
+        Task<int> SaveChangesAsync();
 
         DbSet<Admin> Admins { get; set; }
         DbSet<Category> Categories { get; set; }

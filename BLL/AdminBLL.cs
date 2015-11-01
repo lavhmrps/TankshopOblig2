@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Nettbutikk.BusinessLogic
 {
-    public class AdminBLL :IAdminLogic
+    public class AdminBLL : IAdminLogic
     {
         private AdminRepo _repo;
         private IAccountRepo _accountrepo;
@@ -22,7 +22,7 @@ namespace Nettbutikk.BusinessLogic
             return _repo.DeleteCustomer(email);
         }
 
-        public IEnumerable<CustomerModel> GetAllCustomers()
+        public IList<CustomerModel> GetAllCustomers()
         {
             return _repo.GetAllCustomers();
         }
@@ -32,7 +32,7 @@ namespace Nettbutikk.BusinessLogic
             return _accountrepo.UpdatePerson(personUpdate, email);
         }
 
-        public IEnumerable<OrderModel> GetAllOrders()
+        public IList<OrderModel> GetAllOrders()
         {
             return _orderrepo.GetAllOrders();
         }

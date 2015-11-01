@@ -75,7 +75,9 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="IAdminLogic.cs" />
     <Compile Include="ICategoryService.cs" />
-    <Compile Include="IImageService.cs" />
+    <Compile Include="Image\IImageLogic.cs" />
+    <Compile Include="Image\IImageService.cs" />
+    <Compile Include="ImageBLL.cs" />
     <Compile Include="Order\IOrderLogic.cs" />
     <Compile Include="IEntityService.cs" />
     <Compile Include="IMappingService.cs" />

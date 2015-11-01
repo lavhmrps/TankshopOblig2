@@ -1,4 +1,5 @@
-﻿using Nettbutikk.Model;
+﻿using AutoMapper;
+using Nettbutikk.Model;
 using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Edit(EditImage image) {
             
-            if (!Services.Images.Update(image)) {
+            if (!Services.Images.Update(Mapper.Map<Image>(image))) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the image";
             }
