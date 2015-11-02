@@ -24,7 +24,6 @@ namespace Nettbutikk.BusinessLogic.Tests
         private ICollection<TEntity> Repository;
 
         public readonly Func<TEntity, object> DefaultIdGetterPredicate = (e) => e;
-        private ICollection<TestObject> collection;
         private Func<TEntity, object> idPredicate;
 
         public Func<TEntity, object> IdGetterPredicate
@@ -56,24 +55,24 @@ namespace Nettbutikk.BusinessLogic.Tests
             return Task.Factory.StartNew(() => Add(entity));
         }
 
-        public override void Remove(TEntity entity)
+        public override bool Remove(TEntity entity)
         {
-            Repository.Remove(entity);
+            return Repository.Remove(entity);
         }
 
-        public override Task RemoveAsync(TEntity entity)
+        public override Task<bool> RemoveAsync(TEntity entity)
         {
             return Task.Factory.StartNew(() => Remove(entity));
         }
 
-        public override void RemoveById(object entityId)
+        public override bool RemoveById(object entityId)
         {
-            Repository
+            return Repository
                 .Where(e => IdGetterPredicate(e) == entityId)
                 .Any(entity => Repository.Remove(entity));
         }
 
-        public override Task RemoveByIdAsync(object entityId)
+        public override Task<bool> RemoveByIdAsync(object entityId)
         {
             return Task.Factory.StartNew(() => RemoveById(entityId));
         }

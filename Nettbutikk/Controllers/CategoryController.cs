@@ -80,7 +80,7 @@ namespace Nettbutikk.Controllers
             return View("~/Views/Shared/Result.cshtml");
         }
 
-        public ActionResult delete(int CategoryId)
+        public ActionResult Delete(int CategoryId)
         {
             if (!Services.Categories.RemoveById(CategoryId))
             {
@@ -96,13 +96,13 @@ namespace Nettbutikk.Controllers
             return View("~/Views/Shared/Result.cshtml");   
         }
 
-        public ActionResult EditCategory(string CategoryId)
+        public ActionResult EditCategory(int CategoryId)
         {
-            Category category = db.Categories.Find(Convert.ToInt32(categoryId));
+            Category category = Services.Categories.GetById(CategoryId);
 
             if (category == null)
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return HttpNotFound();
             }
 
             ViewBag.Category = category;

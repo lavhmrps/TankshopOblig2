@@ -127,22 +127,22 @@ namespace Nettbutikk.Controllers.Tests
             throw new NotImplementedException();
         }
 
-        public void Delete(object unmappedEntity)
+        public bool Remove(object unmappedEntity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Category entity)
+        public bool Remove(Category entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(object unmappedEntity)
+        public Task<bool> RemoveAsync(object unmappedEntity)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteById(object entityId)
+        public bool RemoveById(object entityId)
         {
             throw new NotImplementedException();
         }
@@ -254,24 +254,24 @@ namespace Nettbutikk.Controllers.Tests
             return Task.Factory.StartNew(() => Create(unmappedEntity));
         }
 
-        public void Delete(object unmappedEntity)
+        public bool Remove(object unmappedEntity)
         {
-            Delete(unmappedEntity as Product);
+            return Remove(unmappedEntity as Product);
         }
 
-        public void Delete(Product entity)
+        public bool Remove(Product entity)
         {
-            products.Remove(entity);
+            return products.Remove(entity);
         }
 
-        public Task DeleteAsync(object unmappedEntity)
+        public Task<bool> RemoveAsync(object unmappedEntity)
         {
-            return Task.Factory.StartNew(() => Delete(unmappedEntity));
+            return Task.Factory.StartNew(() => Remove(unmappedEntity));
         }
 
-        public void DeleteById(object entityId)
+        public bool RemoveById(object entityId)
         {
-            Delete(products.Where(p => ((int)entityId) == p.ProductId));
+            return Remove(products.Where(p => ((int)entityId) == p.ProductId).FirstOrDefault());
         }
 
         public IEnumerable<Product> Get(Expression<Func<Product, bool>> filter = null, Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null, string includeProperties = "")

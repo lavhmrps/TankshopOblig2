@@ -21,7 +21,7 @@ namespace Nettbutikk.Controllers.Tests
         public HomeController Controller { get; private set; }
 
         [TestInitialize]
-        public void Setup()
+        public new void Setup()
         {
             base.Setup();
 
