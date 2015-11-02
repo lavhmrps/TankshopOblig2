@@ -89,12 +89,12 @@ namespace Nettbutikk.DataAccess
             return await (order != null ? order(query) : query).ToListAsync();
         }
 
-        public TEntity GetById(object id)
+        public virtual TEntity GetById(object id)
         {
             return Entities.Find(id);
         }
 
-        public async Task<TEntity> GetByIdAsync(object id)
+        public virtual async Task<TEntity> GetByIdAsync(object id)
         {
             return await Entities.FindAsync(id);
         }
@@ -104,7 +104,7 @@ namespace Nettbutikk.DataAccess
             return Entities.ToList();
         }
 
-        public async virtual Task<ICollection<TEntity>> GetAllAsync()
+        public virtual async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await Entities.ToListAsync();
         }
@@ -113,12 +113,12 @@ namespace Nettbutikk.DataAccess
 
         #region Create
 
-        public virtual TEntity Create(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             return Entities.Add(entity);
         }
 
-        public async Task<TEntity> CreateAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             return await Task.Factory.StartNew(() => Entities.Add(entity));
         }
@@ -134,7 +134,7 @@ namespace Nettbutikk.DataAccess
             return entity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             await AttachEntityAsync(entity);
             Context.Entry(entity).State = EntityState.Modified;
@@ -145,36 +145,36 @@ namespace Nettbutikk.DataAccess
 
         #region Delete
 
-        public virtual void Delete(TEntity entity)
+        public virtual void Remove(TEntity entity)
         {
             Entities.Remove(entity);
         }
 
-        public virtual async Task DeleteAsync(TEntity entity)
+        public virtual async Task RemoveAsync(TEntity entity)
         {
-            await Task.Factory.StartNew(() => Delete(entity));
+            await Task.Factory.StartNew(() => Remove(entity));
         }
 
-        public virtual void DeleteById(object entityId)
+        public virtual void RemoveById(object entityId)
         {
-            Delete(GetById(entityId));
+            Remove(GetById(entityId));
         }
 
-        public async Task DeleteByIdAsync(object entityId)
+        public virtual async Task RemoveByIdAsync(object entityId)
         {
-            await Task.Factory.StartNew(() => DeleteById(entityId));
+            await Task.Factory.StartNew(() => RemoveById(entityId));
         }
 
         #endregion Delete
 
         #region Save
 
-        public void Save()
+        public virtual void Save()
         {
             Context.SaveChanges();
         }
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             await Context.SaveChangesAsync();
         }

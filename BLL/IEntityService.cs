@@ -11,7 +11,7 @@ namespace Nettbutikk.BusinessLogic
      *  The base idea is for this interface to at the very least
      *  mirror that of the repository, and
      */
-    public interface IEntityService<TEntity> : IDisposable
+    public interface IEntityService<TEntity> : IDisposable, IService
         where TEntity : class, new()
     {
         /***
@@ -43,7 +43,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Fetches all entities in the underlying repository.
          */
-        ICollection<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll();
 
         /***
          *  Fetches all entities in the underlying repository.

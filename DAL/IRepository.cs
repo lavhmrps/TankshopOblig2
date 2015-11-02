@@ -22,18 +22,18 @@ namespace Nettbutikk.DataAccess
         /***
          *  Adds the given entity to the underlying data-store.
          */
-        TEntity Create(TEntity entity);
+        TEntity Add(TEntity entity);
 
         /***
          *  Deletes the entity from the underlying data-store (if it exists).
          */
-        void Delete(TEntity entity);
+        void Remove(TEntity entity);
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  data-store (if it exists).
          */
-        void DeleteById(object entityId);
+        void RemoveById(object entityId);
 
         /***
          *  Gets a set of entities from the underlying data-store, {filter}ed
@@ -76,19 +76,19 @@ namespace Nettbutikk.DataAccess
         /***
          *  Adds the given entity to the underlying data-store.
          */
-        Task<TEntity> CreateAsync(TEntity entity);
+        Task<TEntity> AddAsync(TEntity entity);
 
 
         /***
          *  Deletes the entity from the underlying data-store (if it exists).
          */
-        Task DeleteAsync(TEntity entity);
+        Task RemoveAsync(TEntity entity);
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  data-store (if it exists).
          */
-        Task DeleteByIdAsync(object entityId);
+        Task RemoveByIdAsync(object entityId);
 
 
         /***

@@ -3,15 +3,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nettbutikk.Model;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Nettbutikk.Controllers;
 using DAL.Image;
 using Nettbutikk.BusinessLogic;
 using Nettbutikk.DataAccess;
+using Nettbutikk.Models;
 
-namespace TankShopUnitTest
+namespace Nettbutikk.Controllers.Tests
 {
     [TestClass]
-    public class ImageControllerTest
+    public class ImageControllerTests
     {
         //Lage test om logging fungerer
 
@@ -58,7 +58,7 @@ namespace TankShopUnitTest
         {
 
             //Arrange
-            var controller = new ImageController(new ImageBLL(new ImageRepoStub()), new ProductService(new ProductRepository( new TankshopDbContext())));
+            var controller = new ImageController(new IService[] { new ImageBLL(new ImageRepoStub()), new ProductService(new ProductRepository(new TankshopDbContext())) });
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
@@ -96,8 +96,7 @@ namespace TankShopUnitTest
         {
 
             //Arrange
-            var controller = new ImageController(new ImageBLL(new ImageRepoStub()),
-                new Nettbutikk.BLL.ProductBLL(new Nettbutikk.DAL.ProductRepoStub()));
+            var controller = new ImageController(new IService[] { new ImageBLL(new ImageRepoStub()), new ProductService(new ProductRepository(new TankshopDbContext())) });
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
@@ -241,11 +240,12 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string productId = "1";
-            string imageUrl = "url";
-
+            var image = new CreateImage {
+                ProductId = 1,
+                ImageUrl = "uri"
+            };
             //Act
-            var viewResult = controller.Create(productId, imageUrl) as ViewResult;
+            var viewResult = controller.Create(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Success", controller.ViewBag.Title);
@@ -260,11 +260,13 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string productId = "bad input";
-            string imageUrl = "url";
-
+            var image = new CreateImage()
+            {
+                ProductId = -1,
+                ImageUrl = "url"
+            };
             //Act
-            var viewResult = controller.Create(productId, imageUrl) as ViewResult;
+            var viewResult = controller.Create(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
@@ -279,11 +281,13 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string productId = "-1";
-            string imageUrl = "url";
-
+            var image = new CreateImage
+            {
+                ProductId = -1,
+                ImageUrl = "url"
+            };
             //Act
-            var viewResult = controller.Create(productId, imageUrl) as ViewResult;
+            var viewResult = controller.Create(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
@@ -298,12 +302,16 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "1";
-            string productId = "1";
-            string imageUrl = "url";
+
+            var image = new EditImage
+            {
+                ImageId = 1,
+                ProductId = 1,
+                ImageUrl = "url"
+            };
 
             //Act
-            var viewResult = controller.Edit(imageId, productId, imageUrl) as ViewResult;
+            var viewResult = controller.Edit(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Success", controller.ViewBag.Title);
@@ -319,16 +327,20 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "bad";
-            string productId = "1";
-            string imageUrl = "url";
+
+            var image = new EditImage
+            {
+                ImageId = -1,
+                ProductId = -1,
+                ImageUrl = "url"
+            };
 
             //Act
-            var viewResult = controller.Edit(imageId, productId, imageUrl) as ViewResult;
+            var viewResult = controller.Edit(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Invalid image id: " + imageId, controller.ViewBag.Message);
+            Assert.AreEqual("Invalid image id: " + image.ImageId, controller.ViewBag.Message);
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
@@ -339,16 +351,20 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "1";
-            string productId = "bad";
-            string imageUrl = "url";
+
+            var image = new EditImage
+            {
+                ImageId = 1,
+                ProductId = -1,
+                ImageUrl = "url"
+            };
 
             //Act
-            var viewResult = controller.Edit(imageId, productId, imageUrl) as ViewResult;
+            var viewResult = controller.Edit(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Invalid product id: " + productId, controller.ViewBag.Message);
+            Assert.AreEqual("Invalid product id: " + image.ProductId, controller.ViewBag.Message);
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
@@ -359,12 +375,14 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "-1";
-            string productId = "1";
-            string imageUrl = "url";
-
+            var image = new EditImage
+            {
+                ProductId = 1,
+                ImageId = -1,
+                ImageUrl = "url"
+            };
             //Act
-            var viewResult = controller.Edit(imageId, productId, imageUrl) as ViewResult;
+            var viewResult = controller.Edit(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
@@ -379,12 +397,14 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "1";
-            string productId = "-1";
-            string imageUrl = "url";
-
+            var image = new EditImage
+            {
+                ImageId = 1,
+                ProductId = -1,
+                ImageUrl = "url"
+            };
             //Act
-            var viewResult = controller.Edit(imageId, productId, imageUrl) as ViewResult;
+            var viewResult = controller.Edit(image) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
@@ -399,12 +419,10 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "1";
-
-            Image expectedResult = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
+            var goodImageId = 1;
 
             //Act
-            var viewResult = controller.Delete(imageId) as ViewResult;
+            var viewResult = controller.Delete(goodImageId) as ViewResult;
 
             //Assert
             Assert.AreEqual("Success", controller.ViewBag.Title);
@@ -419,14 +437,14 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "bad input";
+            var badImageId = -1;
 
             //Act
-            var viewResult = controller.Delete(imageId) as ViewResult;
+            var viewResult = controller.Delete(badImageId) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Invalid image id: " + imageId, controller.ViewBag.Message);
+            Assert.AreEqual("Invalid image id: " + badImageId, controller.ViewBag.Message);
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
@@ -437,7 +455,7 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-            string imageId = "-1";
+            var imageId = -1;
 
             //Act
             var viewResult = controller.Delete(imageId) as ViewResult;

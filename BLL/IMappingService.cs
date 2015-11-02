@@ -14,7 +14,7 @@ namespace Nettbutikk.BusinessLogic
      * 
      * <see>Nettbutikk.BusinessLogic.IEntityService</see>
      */
-    public interface IMappedEntityService<TEntity>
+    public interface IMappedEntityService<TEntity> : IService
         where TEntity : class, new()
     {
         IEnumerable<TMappedEntity> GetAll<TMappedEntity>();

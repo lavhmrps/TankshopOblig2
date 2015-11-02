@@ -8,8 +8,8 @@
 
     public class EditImage
     {
-        public string ImageId { get; set; }
-        public string ProductId { get; set; }
+        public int ImageId { get; set; }
+        public int ProductId { get; set; }
         public string ImageUrl { get; set; }
     }
 }

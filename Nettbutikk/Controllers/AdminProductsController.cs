@@ -4,12 +4,16 @@ using Nettbutikk.Models;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Nettbutikk.BusinessLogic;
 
 namespace Nettbutikk.Controllers
 {
     [Authorize(Roles = "Administrator"), RoutePrefix("admin")]
     public class AdminProductsController : BaseController
     {
+        public AdminProductsController(ServiceManager services) : base(services)
+        {
+        }
         #region Create
 
         // GET: Products/Create

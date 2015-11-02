@@ -28,9 +28,15 @@ namespace Nettbutikk.Controllers
             Services = services;
         }
 
-        #endregion
+        public BaseController(params IService[] services)
+        {
+            Services = new ServiceManager(services);
+        }
+
+        #endregion Constructors
+
         #region Helpers
-        
+
         protected ActionResult RedirectToLocal(string returnUrl,
             RedirectToRouteResult defaultUrl = null)
         {
@@ -41,7 +47,19 @@ namespace Nettbutikk.Controllers
 
             return defaultUrl ?? RedirectToAction("Index", "Home");
         }
-        
+
+        protected bool LoginStatus()
+        {
+            bool LoggedIn = false;
+
+            if (Session["LoggedIn"] != null)
+            {
+                LoggedIn = (bool)Session["LoggedIn"];
+            }
+
+            return LoggedIn;
+        }
+
         #endregion
         #region IDisposable Support
 

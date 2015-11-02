@@ -14,5 +14,6 @@ namespace Nettbutikk.Models
         public int Stock { get; set; }
         public string ImageUrl { get; set; }
         public string CategoryName { get; set; }
+        public object CategoryId { get; internal set; }
     }
 }

@@ -4,19 +4,47 @@ using System;
 
 namespace Nettbutikk.BusinessLogic
 {
+    /***
+     *  A central service/BLL layer manager.
+     */
     public class ServiceManager : IDisposable
     {
-        private TankshopDbContext context;
+        /***
+         *  The internal database context/connection to be used by repositories.
+         */
+        protected ITankshopDbContext context;
 
-        public ICategoryService Categories { get; internal set; }
-        public IProductService Products { get; internal set; }
-        public IImageService Images { get; internal set; }
+        public ICategoryService Categories { get; protected set; }
+        public IProductService Products { get; protected set; }
+        public IImageLogic Images { get; protected set; }
+        public IAccountLogic Accounts { get; protected set; }
 
         public ServiceManager()
         {
             context = new TankshopDbContext();
             Categories = new CategoryService(new CategoryRepository(context));
             Products = new ProductService(new ProductRepository(context));
+            Images = new ImageBLL();
+            Accounts = new AccountBLL();
+        }
+
+        public ServiceManager(params IService[] services)
+        {
+            foreach(var service in services)
+            {
+                if(service is IProductService)
+                {
+                    Products = (IProductService) service;
+                }
+                else if(service is IImageLogic)
+                {
+                    Images = (IImageLogic) service;
+                }
+                else if(service is IAccountRepo)
+                {
+                    Accounts = (IAccountLogic) service;
+                }
+            }
         }
 
         #region IDisposable Support

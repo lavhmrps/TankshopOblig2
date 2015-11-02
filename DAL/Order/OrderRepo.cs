@@ -114,7 +114,7 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public IEnumerable<OrderModel> GetAllOrders()
+        public IList<OrderModel> GetAllOrders()
         {
             using(var db = new TankshopDbContext())
             {

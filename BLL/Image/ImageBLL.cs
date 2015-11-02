@@ -1,22 +1,19 @@
-﻿using System;
+﻿using DAL.Image;
+using Nettbutikk.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
 
-namespace BLL.Image
+namespace Nettbutikk.BusinessLogic
 {
     public class ImageBLL : IImageLogic
     {
 
-        private DAL.Image.IImageRepo repo;
+        private IImageRepo repo;
 
         public ImageBLL() {
-            repo = new DAL.Image.ImageRepo();
+            repo = new ImageRepo();
         }
 
-        public ImageBLL(DAL.Image.IImageRepo repo) {
+        public ImageBLL(IImageRepo repo) {
             this.repo = repo;
         }
 
@@ -27,7 +24,7 @@ namespace BLL.Image
 
         public bool DeleteImage(int imageId)
         {
-            Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
+            Image img = repo.GetImage(imageId);
 
             if (img == null)
                 return false;
@@ -38,12 +35,12 @@ namespace BLL.Image
             return repo.DeleteImage(imageId);
         }
 
-        public List<Oblig1_Nettbutikk.Model.Image> GetAllImages()
+        public IList<Image> GetAllImages()
         {
             return repo.GetAllImages();
         }
 
-        public Oblig1_Nettbutikk.Model.Image GetImage(int imageId)
+        public Image GetImage(int imageId)
         {
             return repo.GetImage(imageId);
         }
@@ -51,7 +48,7 @@ namespace BLL.Image
         public bool UpdateImage(int imageId, int productId, string imageUrl)
         {
 
-            Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
+            Image img = repo.GetImage(imageId);
 
             if (img == null)
                 return false;

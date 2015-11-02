@@ -1,37 +1,20 @@
 ﻿using Nettbutikk.Models;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Nettbutikk.BusinessLogic;
 using Nettbutikk.Model;
 
 namespace Nettbutikk.Controllers
 {
 
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private IAccountLogic _accountBLL;
-
-        public AccountController()
-        {
-            _accountBLL = new AccountBLL();
-        }
-
-        public AccountController(IAccountLogic stub)
-        {
-            _accountBLL = stub;
-        }
-        
         [HttpPost]
         public bool Login(string email, string password)
         {
 
-            if (_accountBLL.AttemptLogin(email, password))
+            if (Services.Accounts.AttemptLogin(email, password))
             {
-                if (_accountBLL.isAdmin(email))
+                if (Services.Accounts.isAdmin(email))
                     Session["Admin"] = true;
                 else
                     Session["Admin"] = false;
@@ -68,7 +51,7 @@ namespace Nettbutikk.Controllers
                 City = customer.City
             };
 
-            if (_accountBLL.AddPerson(person, Role.Customer, customer.Password))
+            if (Services.Accounts.AddPerson(person, Role.Customer, customer.Password))
             {
                 Session["LoggedIn"] = true;
                 Session["Email"] = customer.Email;
@@ -87,10 +70,10 @@ namespace Nettbutikk.Controllers
             }
 
             string Email = (string)Session["Email"];
-            var Customer = _accountBLL.GetCustomer(Email);
+            var Customer = Services.Accounts.GetCustomer(Email);
             var customerView = new CustomerView()
             {
-                CustomerId= Customer.CustomerId,
+                CustomerId = Customer.CustomerId,
                 Email = Customer.Email,
                 Firstname = Customer.Firstname,
                 Lastname = Customer.Lastname,
@@ -147,7 +130,7 @@ namespace Nettbutikk.Controllers
                 City = customerEdit.City
             };
 
-            return _accountBLL.UpdatePerson(personUpdate, email);
+            return Services.Accounts.UpdatePerson(personUpdate, email);
         }
 
         [HttpPost]
@@ -166,7 +149,7 @@ namespace Nettbutikk.Controllers
                     City = customerEdit.City
                 };
 
-                if (_accountBLL.UpdatePerson(personUpdate, email))
+                if (Services.Accounts.UpdatePerson(personUpdate, email))
                 {
                     return RedirectToAction("MyPage");
                 }
@@ -180,23 +163,12 @@ namespace Nettbutikk.Controllers
 
             var email = (string)Session["Email"];
 
-            if (_accountBLL.AttemptLogin(email, CurrentPw))
+            if (Services.Accounts.AttemptLogin(email, CurrentPw))
             {
-                if (_accountBLL.ChangePassword(email, NewPassword))
+                if (Services.Accounts.ChangePassword(email, NewPassword))
                     return true;
             }
             return false;
         }
-
-        public bool LoginStatus()
-        {
-            bool LoggedIn = false;
-            if (Session["LoggedIn"] != null)
-            {
-                LoggedIn = (bool)Session["LoggedIn"];
-            }
-            return LoggedIn;
-        }
-
     }
 }

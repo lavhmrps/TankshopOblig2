@@ -1,37 +1,32 @@
 ﻿using Nettbutikk.Models;
 using System.Web.Mvc;
+using Nettbutikk.BusinessLogic;
 
 namespace Nettbutikk.Controllers
 {
     public class ProductController : BaseController
     {
-
-        public ProductController()
+        public ProductController(ServiceManager services)
+            : base(services)
         {
         }
 
         // GET: Product
         public ActionResult Product(int ProductId,string ReturnUrl)
         {
-            var product = Services.Categories.GetById<ProductView>(ProductId);
+            var product = Services.Products.GetById(ProductId);
+
+            if(null == product)
+            {
+                return new HttpNotFoundResult();
+            }
+
             ViewBag.Product = product;
-            ViewBag.Product.Category = Services.Categories.GetById(product.ProductId);
+            ViewBag.Product.Category = Services.Categories.GetById(product.CategoryId);
             ViewBag.ReturnUrl = ReturnUrl;
             ViewBag.LoggedIn = LoginStatus();
 
             return View();
-        }
-
-        public bool LoginStatus()
-        {
-            bool LoggedIn = false;
-
-            if (Session["LoggedIn"] != null)
-            {
-                LoggedIn = (bool)Session["LoggedIn"];
-            }
-
-            return LoggedIn;
         }
     }
 }

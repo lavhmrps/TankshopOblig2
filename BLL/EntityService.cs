@@ -41,7 +41,7 @@ namespace Nettbutikk.BusinessLogic
          */
         public TEntity Create(TEntity entity)
         {
-            return Repository.Create(entity);
+            return Repository.Add(entity);
         }
 
         /***
@@ -49,7 +49,7 @@ namespace Nettbutikk.BusinessLogic
          */
         public async Task<TEntity> CreateAsync(TEntity entity)
         {
-            return await Repository.CreateAsync(entity);
+            return await Repository.AddAsync(entity);
         }
 
         /***
@@ -78,7 +78,7 @@ namespace Nettbutikk.BusinessLogic
          */
         public void Delete(TEntity entity)
         {
-            Repository.Delete(entity);
+            Repository.Remove(entity);
         }
 
         /***
@@ -86,7 +86,7 @@ namespace Nettbutikk.BusinessLogic
          */
         public async Task DeleteAsync(TEntity entity)
         {
-            await Repository.DeleteAsync(entity);
+            await Repository.RemoveAsync(entity);
         }
 
         public void Delete(object unmappedEntity)
@@ -105,7 +105,7 @@ namespace Nettbutikk.BusinessLogic
          */
         public void DeleteById(object entityId)
         {
-            Repository.DeleteById(entityId);
+            Repository.RemoveById(entityId);
         }
 
         /***
@@ -114,7 +114,7 @@ namespace Nettbutikk.BusinessLogic
          */
         public async Task DeleteByIdAsync(object entityId)
         {
-            await Repository.DeleteByIdAsync(entityId);
+            await Repository.RemoveByIdAsync(entityId);
         }
 
         #endregion Delete
@@ -151,7 +151,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Returns all the entities in the underlying repository.
          */
-        public ICollection<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
             return Repository.GetAll();
         }

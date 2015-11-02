@@ -1,18 +1,23 @@
-﻿using AutoMapper;
-using Nettbutikk.Model;
+﻿using Nettbutikk.Model;
 using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Nettbutikk.BusinessLogic;
 
 namespace Nettbutikk.Controllers
 {
     public class ImageController : BaseController
     {
+        public ImageController(params IService[] services)
+            : base(services)
+        {
+        }
+
         // GET: Image
         public ActionResult Index()
         {
-            ViewBag.Images = Services.Images.GetAll();
+            ViewBag.Images = Services.Images.GetAllImages();
 
             return View("ListImage");
         }
@@ -38,7 +43,7 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Edit(EditImage image) {
             
-            if (!Services.Images.Update(Mapper.Map<Image>(image))) {
+            if (!Services.Images.UpdateImage(image.ImageId, image.ProductId, image.ImageUrl)) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the image";
             }
@@ -51,10 +56,16 @@ namespace Nettbutikk.Controllers
         }
 
         public ActionResult Delete(int? ImageId) {
-            
+            int imageId = -1;
+
+            if(null == ImageId)
+            {
+                return new HttpNotFoundResult();
+            }
+
             try
             {
-                Services.Images.DeleteById(ImageId);
+                Services.Images.DeleteImage(imageId);
 
                 ViewBag.Title = "Success";
                 ViewBag.Message = "Image was deleted";
@@ -74,9 +85,8 @@ namespace Nettbutikk.Controllers
         {
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-            IEnumerable<Product> allProducts = Services.Products.GetAll();
 
-            foreach (Product p in allProducts)
+            foreach (Product p in Services.Products.GetAll())
             {
                 string productId = Convert.ToString(p.ProductId);
                 productIDs.Add(new SelectListItem { Text = productId, Value = productId });
@@ -103,7 +113,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Image img = Services.Images.GetById(nImageId);
+            Image img = Services.Images.GetImage(nImageId);
 
             if (img == null)
             {
@@ -114,9 +124,8 @@ namespace Nettbutikk.Controllers
 
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-            ICollection<Product> allProducts = Services.Products.GetAll();
 
-            foreach (Product p in allProducts)
+            foreach (Product p in Services.Products.GetAll())
             {
                 string productId = Convert.ToString(p.ProductId);
                 productIDs.Add(new SelectListItem { Text = productId, Value = productId });
@@ -141,13 +150,12 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Image img = Services.Images.GetById(nImageId);
+            Image img = Services.Images.GetImage(nImageId);
 
             if (img == null)
             {

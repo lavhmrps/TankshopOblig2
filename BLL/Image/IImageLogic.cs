@@ -1,19 +1,16 @@
-﻿using System;
+﻿using Nettbutikk.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BLL.Image
+namespace Nettbutikk.BusinessLogic
 {
-    public interface IImageLogic
+    public interface IImageLogic : IService
     {
 
         bool AddImage(int productId, string imageUrl);
         bool UpdateImage(int imageId, int productId, string imageUrl);
         bool DeleteImage(int imageId);
-        List<Oblig1_Nettbutikk.Model.Image> GetAllImages();
-        Oblig1_Nettbutikk.Model.Image GetImage(int imageId);
+        IList<Image> GetAllImages();
+        Image GetImage(int imageId);
 
     }
 }

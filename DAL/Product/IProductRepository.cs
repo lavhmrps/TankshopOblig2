@@ -2,7 +2,7 @@
 
 namespace Nettbutikk.DataAccess
 {
-    internal interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
     }
 }

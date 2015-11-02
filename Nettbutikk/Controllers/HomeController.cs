@@ -1,12 +1,13 @@
-﻿using Nettbutikk.BusinessLogic;
-using Nettbutikk.Models;
+﻿using Nettbutikk.Models;
 using System.Web.Mvc;
+using Nettbutikk.BusinessLogic;
 
 namespace Nettbutikk.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController()
+        public HomeController(ServiceManager services)
+            : base(services)
         {
         }
 
@@ -21,30 +22,14 @@ namespace Nettbutikk.Controllers
 
         public ActionResult Category(int CategoryId)
         {
-            new HomeCategoryView()
-            {
-                Categories = Services.Categories.GetAll<CategoryView>(),
-                Products = Services.Products
+            return View("Index", new HomeCategoryView()
+                {
+                    Categories = Services.Categories.GetAll<CategoryView>(),
+                    Products = Services.Products
                     .GetMappedProductsByCategoryId<ProductView>(CategoryId),
-                LoggedIn = LoginStatus(),
-                Category = Services.Categories.GetById<CategoryView>(CategoryId)
-            };
-
-            return View("Index");
+                    LoggedIn = LoginStatus(),
+                    Category = Services.Categories.GetById<CategoryView>(CategoryId)
+                });
         }
-
-
-        public bool LoginStatus()
-        {
-            bool LoggedIn = false;
-
-            if (Session["LoggedIn"] != null)
-            {
-                LoggedIn = (bool) Session["LoggedIn"];
-            }
-
-            return LoggedIn;
-        }
-
     }
 }

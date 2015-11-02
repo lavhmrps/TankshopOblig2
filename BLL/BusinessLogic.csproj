@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BusinessLogic</RootNamespace>
     <AssemblyName>BusinessLogic</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,8 +77,8 @@
     <Compile Include="IAdminLogic.cs" />
     <Compile Include="ICategoryService.cs" />
     <Compile Include="Image\IImageLogic.cs" />
-    <Compile Include="Image\IImageService.cs" />
-    <Compile Include="ImageBLL.cs" />
+    <Compile Include="Image\ImageBLL.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="Order\IOrderLogic.cs" />
     <Compile Include="IEntityService.cs" />
     <Compile Include="IMappingService.cs" />
