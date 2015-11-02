@@ -1,0 +1,26 @@
+﻿@model Oblig1_Nettbutikk.Models.Product
+
+<div class="product_listitem">
+    <div class="row">
+        <div class="col-md-5" style="padding-right:0;">
+            <div class="listitem_image">
+              
+                <img id="imgProductID_@Model.ProductID" src="@Model.ImageUrl" alt="Bilde av @Model.Name"/>
+            </div>
+
+        </div>
+        <div class="col-md-7">
+            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Product", new { ProductId = Model.ProductID, ReturnUrl=Request.RawUrl }, null)</h5>
+        </div>
+        </div>
+    <div class="listitem_description_outer">
+        <div class="listitem_description">
+            <p>@Model.Description</p>
+        </div>
+    </div>
+    <p>Antall på lager: @Model.Stock</p>
+    @{ 
+        
+    }
+    <a href="#" id="@Model.ProductID" data-productName="@Model.Name" class="btn btn-success addItemToCart">kr <span class="formatPrice">@String.Format("{0:n}", Model.Price)</span> <span class="glyphicon glyphicon-shopping-cart"></span></a>
+</div>
