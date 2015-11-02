@@ -207,7 +207,7 @@ namespace Nettbutikk.Controllers.Tests
             throw new NotImplementedException();
         }
 
-        public void Save()
+        public void SaveChanges()
         {
             throw new NotImplementedException();
         }
@@ -364,7 +364,7 @@ namespace Nettbutikk.Controllers.Tests
             return Get(product => categoryId == product.CategoryId);
         }
 
-        public void Save()
+        public void SaveChanges()
         {
         }
 

@@ -218,7 +218,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Saves the current Repository state.
          */
-        public void Save()
+        public void SaveChanges()
         {
             Repository.Save();
         }

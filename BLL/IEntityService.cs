@@ -22,12 +22,12 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Deletes the given entity from the underlying repository.
          */
-        void Delete(TEntity entity);
+        bool Delete(TEntity entity);
 
         /***
          *  Deletes an entity, with the given {entityId} from the underlying repository.
          */
-        void DeleteById(object entityId);
+        bool DeleteById(object entityId);
 
         /***
          *  Fetches entities from the underlying repository that match the
@@ -63,7 +63,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Asks the backing repository to save/commit its state to disk.
          */
-        void Save();
+        void SaveChanges();
 
         /***
          *  Updates the repository with the given {entity},
