@@ -35,8 +35,8 @@ namespace Nettbutikk.BusinessLogic
 
         TEntity Create(object unmappedEntity);
         Task<TEntity> CreateAsync(object unmappedEntity);
-        void Delete(object unmappedEntity);
-        Task DeleteAsync(object unmappedEntity);
+        bool Remove(object unmappedEntity);
+        Task<bool> RemoveAsync(object unmappedEntity);
         TEntity Update(object unmappedEntity);
         Task<TEntity> UpdateAsync(object unmappedEntity);
     }

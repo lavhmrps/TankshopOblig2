@@ -27,13 +27,13 @@ namespace Nettbutikk.DataAccess
         /***
          *  Deletes the entity from the underlying data-store (if it exists).
          */
-        void Remove(TEntity entity);
+        bool Remove(TEntity entity);
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  data-store (if it exists).
          */
-        void RemoveById(object entityId);
+        bool RemoveById(object entityId);
 
         /***
          *  Gets a set of entities from the underlying data-store, {filter}ed
@@ -82,13 +82,13 @@ namespace Nettbutikk.DataAccess
         /***
          *  Deletes the entity from the underlying data-store (if it exists).
          */
-        Task RemoveAsync(TEntity entity);
+        Task<bool> RemoveAsync(TEntity entity);
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  data-store (if it exists).
          */
-        Task RemoveByIdAsync(object entityId);
+        Task<bool> RemoveByIdAsync(object entityId);
 
 
         /***

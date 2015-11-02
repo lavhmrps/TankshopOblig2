@@ -82,7 +82,7 @@ namespace Nettbutikk.Controllers
 
         public ActionResult delete(int CategoryId)
         {
-            if (!Services.Categories.DeleteById(CategoryId))
+            if (!Services.Categories.RemoveById(CategoryId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not find an category with id " + CategoryId + " in the database";

@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AdminProductsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CategoryView.cs" />
+    <Compile Include="Models\CustomerEditInfo.cs" />
     <Compile Include="Models\ImageViews.cs" />
     <Compile Include="Models\CreateProduct.cs" />
     <Compile Include="Models\CustomerView.cs" />
@@ -201,7 +203,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Images\Products\Churchill Tank.png" />
+    <Content Include="Images\Products\JagdPanther.png" />
+    <Content Include="Images\Products\Light Tank Mk VI.png" />
     <Content Include="Images\logo-tank.png" />
+    <Content Include="Images\Products\M10 tank destroyer.png" />
+    <Content Include="Images\Products\M26 Pershing.png" />
+    <Content Include="Images\Products\M4 Sherman.png" />
+    <Content Include="Images\Products\Panther.png" />
+    <Content Include="Images\Products\Sherman Firefly.png" />
+    <Content Include="Images\Products\Tiger 1.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />

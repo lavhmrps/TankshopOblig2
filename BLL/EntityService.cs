@@ -76,45 +76,45 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Deletes the given entity from the underlying repository.
          */
-        public void Delete(TEntity entity)
+        public bool Remove(TEntity entity)
         {
-            Repository.Remove(entity);
+            return Repository.Remove(entity);
         }
 
         /***
          *  Deletes the given entity from the underlying repository.
          */
-        public async Task DeleteAsync(TEntity entity)
+        public async Task<bool> RemoveAsync(TEntity entity)
         {
-            await Repository.RemoveAsync(entity);
+            return await Repository.RemoveAsync(entity);
         }
 
-        public void Delete(object unmappedEntity)
+        public bool Remove(object unmappedEntity)
         {
-            Delete(Mapper.Map<TEntity>(unmappedEntity));
+            return Remove(Mapper.Map<TEntity>(unmappedEntity));
         }
 
-        public async Task DeleteAsync(object unmappedEntity)
+        public async Task<bool> RemoveAsync(object unmappedEntity)
         {
-            await DeleteAsync(Mapper.Map<TEntity>(unmappedEntity));
-        }
-
-        /***
-         *  Deletes the entity with the given {entityId} from the underlying
-         *  repository.
-         */
-        public void DeleteById(object entityId)
-        {
-            Repository.RemoveById(entityId);
+            return await RemoveAsync(Mapper.Map<TEntity>(unmappedEntity));
         }
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  repository.
          */
-        public async Task DeleteByIdAsync(object entityId)
+        public bool RemoveById(object entityId)
         {
-            await Repository.RemoveByIdAsync(entityId);
+            return Repository.RemoveById(entityId);
+        }
+
+        /***
+         *  Deletes the entity with the given {entityId} from the underlying
+         *  repository.
+         */
+        public async Task<bool> DeleteByIdAsync(object entityId)
+        {
+            return await Repository.RemoveByIdAsync(entityId);
         }
 
         #endregion Delete
@@ -213,6 +213,7 @@ namespace Nettbutikk.BusinessLogic
         }
 
         #endregion Get
+
         #region Save
 
         /***

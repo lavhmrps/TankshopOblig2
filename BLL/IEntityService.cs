@@ -22,12 +22,12 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Deletes the given entity from the underlying repository.
          */
-        bool Delete(TEntity entity);
+        bool Remove(TEntity entity);
 
         /***
          *  Deletes an entity, with the given {entityId} from the underlying repository.
          */
-        bool DeleteById(object entityId);
+        bool RemoveById(object entityId);
 
         /***
          *  Fetches entities from the underlying repository that match the

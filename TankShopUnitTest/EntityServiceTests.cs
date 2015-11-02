@@ -49,7 +49,7 @@ namespace Nettbutikk.BusinessLogic.Tests
         public void DeleteTest()
         {
             var removedObject = Collection.ElementAt(1);
-            Service.Delete(removedObject);
+            Service.Remove(removedObject);
             Assert.IsFalse(Collection.Contains(removedObject));
         }
 
@@ -57,7 +57,7 @@ namespace Nettbutikk.BusinessLogic.Tests
         public void DeleteAsyncTest()
         {
             var removedObject = Collection.ElementAt(1);
-            Service.DeleteAsync(removedObject).Wait();
+            Service.RemoveAsync(removedObject).Wait();
             Assert.IsFalse(Collection.Contains(removedObject));
         }
         
@@ -65,7 +65,7 @@ namespace Nettbutikk.BusinessLogic.Tests
         public void DeleteByIdTest()
         {
             var removedObject = Collection.ElementAt(1);
-            Service.DeleteById(removedObject.Id);
+            Service.RemoveById(removedObject.Id);
             Assert.IsFalse(Collection.Contains(removedObject));
         }
 

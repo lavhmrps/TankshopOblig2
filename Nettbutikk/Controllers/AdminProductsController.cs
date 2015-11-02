@@ -109,7 +109,7 @@ namespace Nettbutikk.Controllers
         {
             Product product = await Services.Products.GetByIdAsync(id);
 
-            await Services.Products.DeleteAsync(product);
+            await Services.Products.RemoveAsync(product);
 
             return RedirectToAction("Index");
         }

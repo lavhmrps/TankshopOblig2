@@ -143,29 +143,30 @@ namespace Nettbutikk.DataAccess
 
         #endregion Update
 
-        #region Delete
+        #region Remove
 
-        public virtual void Remove(TEntity entity)
+        public virtual bool Remove(TEntity entity)
         {
             Entities.Remove(entity);
+            return 0 < Context.SaveChanges();
         }
 
-        public virtual async Task RemoveAsync(TEntity entity)
+        public virtual async Task<bool> RemoveAsync(TEntity entity)
         {
-            await Task.Factory.StartNew(() => Remove(entity));
+            return await Task.Factory.StartNew(() => Remove(entity));
         }
 
-        public virtual void RemoveById(object entityId)
+        public virtual bool RemoveById(object entityId)
         {
-            Remove(GetById(entityId));
+            return Remove(GetById(entityId));
         }
 
-        public virtual async Task RemoveByIdAsync(object entityId)
+        public virtual async Task<bool> RemoveByIdAsync(object entityId)
         {
-            await Task.Factory.StartNew(() => RemoveById(entityId));
+            return await Task.Factory.StartNew(() => RemoveById(entityId));
         }
 
-        #endregion Delete
+        #endregion Remove
 
         #region Save
 
