@@ -1,15 +1,16 @@
 ﻿@using Nettbutikk.Models;
-@model HomeView
 
 @{
+    List<CategoryView> categories = ViewBag.Categories;
+    List<ProductView> products = ViewBag.Products;
     int counter = 0;
 }
 <div class="categories">
     <ul class="category-list">
-        @foreach (var category in Model.Categories)
+        @foreach (var category in categories)
             {
             <li class="category-listitem">
-                @Html.ActionLink(category.Name, "Category", "Home", new { @CategoryId = category.CategoryId }, null)
+                @Html.ActionLink(category.CategoryName, "Category", "Home", new { @CategoryId = category.CategoryId }, null)
             </li>
 
         }
@@ -19,10 +20,12 @@
 
     <h1>@ViewBag.CategoryName</h1>
 
-    @foreach (var product in Model.Products)
+    @foreach (var product in products)
     {
+        bool startRow = counter++ % 3 == 0;
+        bool endRow = counter % 3 == 0;
 
-        if (counter++ % 3 == 0)
+        if (startRow)
         {
             @Html.Raw("<div class='row'>")
         }
@@ -32,7 +35,7 @@
             @Html.Partial("Product_ListItem", product)
         </div>
 
-        if ((counter % 3 == 0) || Model.Products.Count() == counter)
+        if (endRow || products.Count == counter)
         {
             @Html.Raw("</div>")
         }

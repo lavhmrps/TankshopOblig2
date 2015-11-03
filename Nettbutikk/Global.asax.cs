@@ -11,7 +11,6 @@ namespace Nettbutikk
     {
         protected void Application_Start()
         {
-                        
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<TankshopDbContext>());
 
             AreaRegistration.RegisterAllAreas();
@@ -30,6 +29,5 @@ namespace Nettbutikk
             //TODO: Redirect to error page
 
         }
-
     }
 }

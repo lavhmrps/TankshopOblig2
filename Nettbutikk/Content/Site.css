@@ -405,35 +405,3 @@ section {
      margin:auto;
      background:white;
  }
-
- /* Administration page */
-
- #adminCustomer{
- }
-
- #adminCustomerTable td {
-     padding:2px 5px;
- }
-
- .adminRowCustomer input:enabled{
-     border:none;
-     box-shadow:0 0 1px #000;
-     max-width:150px;
-     padding:2px 5px;
- }
-
- .adminRowCustomer input:read-only{
-     background:inherit;
- }
-
- .tableOrderlines td,.tableOrderlines th{
-      padding:2px 5px;
- }
-
- .linkNoHref{
-     cursor:pointer;
- }
-
- .tableOrderlines select:disabled{
-     background:inherit;
- }

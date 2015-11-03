@@ -7,7 +7,7 @@ namespace Nettbutikk.DataAccess
 {
     public class OrderRepo : IOrderRepo
     {
-        public IList<OrderModel> GetOrders(int customerId)
+        public List<OrderModel> GetOrders(int customerId)
         {
             using (var db = new TankshopDbContext())
             {
@@ -111,102 +111,6 @@ namespace Nettbutikk.DataAccess
                 };
 
                 return orderModel;
-            }
-        }
-
-        public IList<OrderModel> GetAllOrders()
-        {
-            using(var db = new TankshopDbContext())
-            {
-                var dbOrders = db.Orders;
-                var orderModels = new List<OrderModel>();
-
-                foreach(var dbOrder in dbOrders)
-                {
-                    //var orderModel = new OrderModel()
-                    //{
-                    //    CustomerId = dbOrder.CustomerId,
-                    //    Date = dbOrder.Date,
-                    //    OrderId = dbOrder.OrderId,
-                    //    Orderlines = dbOrder.Orderlines.Select(l => new OrderlineModel()
-                    //    {
-                    //        Count = l.Count,
-                    //        OrderlineId = l.OrderlineId,
-                    //        ProductId = l.ProductId,
-                    //        ProductName = l.Product.Name,
-                    //        ProductPrice = l.Product.Price
-                    //    }).ToList()
-                    //};
-                    //orderModels.Add(orderModel);
-                    orderModels.Add(GetOrder(dbOrder.OrderId));
-                }
-
-                return orderModels;
-            }
-        }
-
-        public bool UpdateOrderline(OrderlineModel orderline)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbOrderline = db.Orderlines.Find(orderline.OrderlineId);
-
-                    if (orderline.Count == 0)
-                    {
-                        db.Orderlines.Remove(dbOrderline);
-                    }
-                    else
-                    {
-                        dbOrderline.ProductId = orderline.ProductId;
-                        dbOrderline.Count = orderline.Count;
-                    }
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-
-        public double GetOrderSumTotal(int orderId)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                var sumTotal = 0.0;
-                var dbOrder = db.Orders.Find(orderId);
-
-                foreach (var l in dbOrder.Orderlines)
-                {
-                    var price = l.Product.Price;
-                    var count = l.Count;
-                    sumTotal += price * count;
-                }
-
-                return sumTotal;
-
-            }
-        }
-
-        public bool DeleteOrder(int orderId)
-        {
-            using(var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbOrder = db.Orders.Find(orderId);
-                    db.Orders.Remove(dbOrder);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-
             }
         }
     }

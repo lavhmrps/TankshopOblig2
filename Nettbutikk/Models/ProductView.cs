@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Nettbutikk.Models
+﻿namespace Nettbutikk.Models
 {
     public class ProductView
     {
@@ -14,6 +9,5 @@ namespace Nettbutikk.Models
         public int Stock { get; set; }
         public string ImageUrl { get; set; }
         public string CategoryName { get; set; }
-        public object CategoryId { get; internal set; }
     }
 }

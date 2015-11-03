@@ -64,7 +64,7 @@
     $(document).ready(function () {
         $(".liTableToggle").each(function () {
             var raw = $(this).find("time").attr("raw");
-            $(this).find("time").text(timeConverter(raw));
+            $(this).find("time").text("ca " + timeConverter(raw));
         })
 
         $(".liOrderItem .liOrderDetails").each(function () {
@@ -109,10 +109,7 @@
         if (diff < 24)
             return diff + " time" + (diff == 1 ? "" : "r") + " siden";
         diff = Math.floor(diff / 24);
-        if (diff < 30)
-            return diff + " dag" + (diff == 1 ? "" : "er") + " siden";
-        diff = Math.floor(diff / 7);
-        return diff + " uke" + (diff == 1 ? "" : "r") + " siden";
+        return diff + " dag" + (diff == 1 ? "" : "er") + " siden";
     }
 
 </script>

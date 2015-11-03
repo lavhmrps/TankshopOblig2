@@ -24,7 +24,5 @@ namespace Nettbutikk.DataAccess
         bool DeletePerson(string email);
         bool CreateCredentials(string email, string password);
         bool SetRole(string email, Role role, bool isRole);
-        bool isAdmin(string email);
-        
     }
 }

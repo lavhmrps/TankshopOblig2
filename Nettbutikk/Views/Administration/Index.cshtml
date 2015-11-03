@@ -6,6 +6,10 @@
 }
 <h2>Administration</h2>
 
-@Html.Partial("Administration_Customer",Customers)
-<hr />
-@Html.Partial("Administration_Order", Orders)
+@Html.Partial("Administration_CustomerList", Customers)
+<hr class="hr-dark" />
+@*@Html.Partial("Administration_Order", Orders)*@
+<hr class="hr-dark"/>
+@{Html.RenderAction("OrdersPartial",new { CustomerId = 0 });}
+
+    

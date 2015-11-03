@@ -11,6 +11,6 @@ namespace Nettbutikk.Model
         public string Zipcode { get; set; }
         public string City { get; set; }
         public int CustomerId { get; set; }
-        public IEnumerable<OrderModel> Orders { get; set; }
+        public List<OrderModel> Orders { get; set; }
     }
 }

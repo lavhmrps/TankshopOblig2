@@ -213,6 +213,12 @@
     <Content Include="Views\Checkout\_CheckoutItemsPartial.cshtml" />
     <Content Include="Views\Checkout\_CheckoutAddressPartial.cshtml" />
     <Content Include="Views\Checkout\GetReciept.cshtml" />
+    <Content Include="Views\Administration\Administration_CustomerList.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
+    <Content Include="Views\Administration\AdminCustomerListItem.cshtml" />
+    <Content Include="Views\Administration\Administration_Order.cshtml" />
+    <Content Include="Views\Administration\Administration_Customer.cshtml" />
+    <Content Include="Views\Administration\OrdersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

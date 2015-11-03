@@ -100,12 +100,12 @@
                 success: function (result) {
                     if(result==="True")
                     {
-                        $("#updateCustomerMessage").text("Feltene ble lagret").css("color", "green");
+                        $("#updateCustomerMessage").text("Feltene ble oppdatert").css("color", "green");
                     }
                     else if(result==="False")
                     {
                         window.location.reload();
-                        $("#updateCustomerMessage").text("Feil ved lagring").css("color", "red");
+                        $("#updateCustomerMessage").text("Feil ved oppdatering").css("color", "red");
                     } else {
                         alert(result);
                     }

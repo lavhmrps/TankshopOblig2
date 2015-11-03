@@ -1,8 +1,5 @@
-﻿@using Nettbutikk.Models
-@{
-    bool LoggedIn = (Session["LoggedIn"] == null ? false : (bool)Session["LoggedIn"]);
-    //bool Admin = ViewBag.Admin;
-    bool Admin = (Session["Admin"] == null ? false : (bool)Session["Admin"]);
+﻿@{
+    bool LoggedIn = ViewBag.LoggedIn ?? false;
 }
 
 <div class="backbar-top"></div>
@@ -25,21 +22,6 @@
         </div>
         <div class="header_options">
             <div class="header_login">
-
-                <span>@Html.ActionLink("Images", "Index", "Image")</span>
-                <span> | </span>     
-
-                @*
-    <span>@Html.ActionLink("Create Img", "CreateImage", "Image")</span>
-    <span> | </span>
-
-    <span>@Html.ActionLink("Edit Img", "EditImage", "Image")</span>
-    <span> | </span>
-
-    <span>@Html.ActionLink("Delete Img", "DeleteImage", "Image")</span>
-    <span> | </span>
-                *@
-
                 @if (!LoggedIn)
                 {
                     <a href="#LoginModal" data-toggle="modal">Logg inn</a>
@@ -47,7 +29,6 @@
                     <a href="#RegisterModal" data-toggle="modal">Registrer bruker</a>
                     
                    
-
                 }
                 else
                 {
@@ -57,11 +38,6 @@
                     <span>@Html.ActionLink("Min side", "MyPage", "Account")</span>
                     <span> | </span>
                     <a href="#" id="Logout">Logg ut</a>
-                    if (Admin)
-                    {
-                        <span> | </span>
-                        <span>@Html.ActionLink("Administrer", "Index", "Administration")</span>
-                    }
                 }
             </div>
             <div class="header_shop">
@@ -82,8 +58,8 @@
         </div>
     </div>
 </div>
-@Html.Partial("_LoginModal", new CustomerLoginPartial())
-@Html.Partial("_RegisterModal", new CustomerRegisterPartial())
+@Html.Partial("_LoginModal")
+@Html.Partial("_RegisterModal")
 
 <script>
     $(document).ready(function () {

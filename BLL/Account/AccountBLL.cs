@@ -74,11 +74,5 @@ namespace Nettbutikk.BusinessLogic
         {
             return _repo.UpdatePerson(personUpdate, email);
         }
-
-        public bool isAdmin(string email)
-        {
-            return _repo.isAdmin(email);
-        }
-        
     }
 }

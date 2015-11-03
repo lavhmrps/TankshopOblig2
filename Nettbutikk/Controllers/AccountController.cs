@@ -1,6 +1,7 @@
 ﻿using Nettbutikk.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Nettbutikk.BusinessLogic;
 using Nettbutikk.Model;
 
 namespace Nettbutikk.Controllers
@@ -8,22 +9,25 @@ namespace Nettbutikk.Controllers
 
     public class AccountController : BaseController
     {
-        public AccountController() : base()
-        {
+        private IAccountLogic _accountBLL;
 
+        public AccountController()
+            : base()
+        {
+            _accountBLL = new AccountBLL();
         }
 
+        public AccountController(IAccountLogic stub)
+        {
+            _accountBLL = stub;
+        }
+        
         [HttpPost]
         public bool Login(string email, string password)
         {
 
-            if (Services.Accounts.AttemptLogin(email, password))
+            if (_accountBLL.AttemptLogin(email, password))
             {
-                if (Services.Accounts.isAdmin(email))
-                    Session["Admin"] = true;
-                else
-                    Session["Admin"] = false;
-
                 Session["LoggedIn"] = true;
                 Session["Email"] = email;
                 ViewBag.LoggedIn = true;
@@ -41,6 +45,7 @@ namespace Nettbutikk.Controllers
         {
             Session.Abandon();
             ViewBag.LoggedIn = false;
+
         }
 
         [HttpPost]
@@ -56,7 +61,7 @@ namespace Nettbutikk.Controllers
                 City = customer.City
             };
 
-            if (Services.Accounts.AddPerson(person, Role.Customer, customer.Password))
+            if (_accountBLL.AddPerson(person, Role.Customer, customer.Password))
             {
                 Session["LoggedIn"] = true;
                 Session["Email"] = customer.Email;
@@ -75,10 +80,10 @@ namespace Nettbutikk.Controllers
             }
 
             string Email = (string)Session["Email"];
-            var Customer = Services.Accounts.GetCustomer(Email);
+            var Customer = _accountBLL.GetCustomer(Email);
             var customerView = new CustomerView()
             {
-                CustomerId = Customer.CustomerId,
+                CustomerId= Customer.CustomerId,
                 Email = Customer.Email,
                 Firstname = Customer.Firstname,
                 Lastname = Customer.Lastname,
@@ -114,6 +119,22 @@ namespace Nettbutikk.Controllers
                 customerOrders.Add(order);
             }
 
+            //var customerOrders = Customer.Orders.Select(o => new OrderView()
+            //{
+            //    OrderId = o.OrderId,
+            //    Orderlines = o.Orderlines.Select(l => new OrderlineView()
+            //    {
+            //        OrderlineId = l.OrderlineId,
+            //        Count = l.Count,
+            //        Product = new ProductView()
+            //        {
+            //            ProductId = l.ProductId,
+            //            ProductName = l.ProductName,
+            //            Price = l.ProductPrice
+            //        }
+            //    }).ToList()
+            //}).ToList();
+
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.Customer = customerView;
             ViewBag.CustomerOrders = customerOrders;
@@ -135,7 +156,7 @@ namespace Nettbutikk.Controllers
                 City = customerEdit.City
             };
 
-            return Services.Accounts.UpdatePerson(personUpdate, email);
+            return _accountBLL.UpdatePerson(personUpdate, email);
         }
 
         [HttpPost]
@@ -154,7 +175,7 @@ namespace Nettbutikk.Controllers
                     City = customerEdit.City
                 };
 
-                if (Services.Accounts.UpdatePerson(personUpdate, email))
+                if (_accountBLL.UpdatePerson(personUpdate, email))
                 {
                     return RedirectToAction("MyPage");
                 }
@@ -168,12 +189,23 @@ namespace Nettbutikk.Controllers
 
             var email = (string)Session["Email"];
 
-            if (Services.Accounts.AttemptLogin(email, CurrentPw))
+            if (_accountBLL.AttemptLogin(email, CurrentPw))
             {
-                if (Services.Accounts.ChangePassword(email, NewPassword))
+                if (_accountBLL.ChangePassword(email, NewPassword))
                     return true;
             }
             return false;
         }
+
+        public bool LoginStatus()
+        {
+            bool LoggedIn = false;
+            if (Session["LoggedIn"] != null)
+            {
+                LoggedIn = (bool)Session["LoggedIn"];
+            }
+            return LoggedIn;
+        }
+
     }
 }

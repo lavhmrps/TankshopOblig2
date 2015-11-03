@@ -1,24 +1,25 @@
-﻿@using Oblig1_Nettbutikk.Models
+﻿@using Nettbutikk.Models
 @model List<OrderView>
 <h4>Ordreadministrasjon</h4>
 
-<ul>
+<ul id="adminOrderList">
+    @if (Model.Count == 0)
+    {
+        <li>
+            <span style="color:deeppink">Ingen ordre foretatt</span>
+        </li>
+    }
+            @{
+                }
     @foreach (var order in Model)
     {
-        <li orderid="@order.OrderId">
-            @{
-                var hour = order.Date.Hour.ToString();
-                if (hour.Length == 1)
+        var orderTotal = 0.0;
+        foreach (var line in order.Orderlines)
                 {
-                    hour = "0" + hour;
-                }
-                var min = order.Date.Minute.ToString();
-                if (min.Length == 1)
-                {
-                    min = "0" + min;
-                }
+            orderTotal += line.Product.Price * line.Count;
             }
-            <a class="linkNoHref orderListTitle">ID: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year</a>
+        <li orderid="@order.OrderId">
+            <a class="linkNoHref orderListTitle">OrdreId: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year | Totalpris: kr @string.Format("{0:n}",orderTotal) </a>
 
             <table hidden class="tableOrderlines" border="1">
                 <thead>
@@ -109,9 +110,13 @@
                 data: { OrderId: orderId },
                 type: "POST",
                 success: function (result) {
-                    if(result === "True")
-                    {
+                    if (result === "True") {
                         li.remove();
+                        if ($("#adminOrderList > li").length == 0) {
+                            var emptyList = "<li><span style=\"color:deeppink\">Ingen ordre foretatt</span></li>";
+                            $("#adminOrderList").append(emptyList);
+                        }
+
                     }
                     else {
                         alert("feil ved sletting av ordre");
@@ -229,6 +234,8 @@
                 ProductId: productId,
                 Count: newCount
             }
+
+            console.log(orderline); return;
 
             $.ajax({
                 url: '@Url.Action("UpdateOrderline","Administration")',

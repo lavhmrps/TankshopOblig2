@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     public class ProductRepo : IProductRepo
     {
@@ -28,6 +28,32 @@ namespace Oblig1_Nettbutikk.DAL
                     categoryModels.Add(categoryModel);
                 }
                 return categoryModels;
+            }
+        }
+
+        public List<ProductModel> GetAllProducts()
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbProducts = db.Products.ToList();
+                var productModels = new List<ProductModel>();
+
+                foreach (var dbProduct in dbProducts)
+                {
+                    var productModel = new ProductModel()
+                    {
+                        CategoryId = dbProduct.CategoryId,
+                        CategoryName = dbProduct.Category.Name,
+                        Description = dbProduct.Description,
+                        ImageUrl = dbProduct.ImageUrl,
+                        Price = dbProduct.Price,
+                        ProductId = dbProduct.ProductId,
+                        ProductName = dbProduct.Name,
+                        Stock = dbProduct.Stock
+                    };
+                    productModels.Add(productModel);
+                }
+                return productModels;
             }
         }
 

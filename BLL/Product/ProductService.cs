@@ -8,6 +8,18 @@ namespace Nettbutikk.BusinessLogic
 {
     public class ProductService : EntityService<Product>, IProductService
     {
+        public ProductService()
+            : this(new TankshopDbContext())
+        {
+
+        }
+
+        public ProductService(ITankshopDbContext context)
+            : this(new ProductRepository(context))
+        {
+
+        }
+
         public ProductService(EntityRepository<Product> repository)
             : base(repository)
         {

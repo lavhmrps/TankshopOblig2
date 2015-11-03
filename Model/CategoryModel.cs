@@ -6,6 +6,6 @@ namespace Nettbutikk.Model
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public IEnumerable<ProductModel> Products { get; set; }
+        public List<ProductModel> Products { get; set; }
     }
 }

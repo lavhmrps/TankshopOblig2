@@ -1,122 +1,148 @@
-﻿@model List<Nettbutikk.Models.CustomerView>
+﻿@using Nettbutikk.Models
+@{
+    ViewBag.Title = "Administration_Customer";
 
-<h4>Kunde administrasjon</h4>
-<hr />
-
-<table id="adminCustomerTable">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Email</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Address</th>
-            <th>Zipcode</th>
-            <th>City</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-        @foreach (var c in Model)
-        {
-            <tr class="adminRowCustomer">
-                <td>@c.CustomerId</td>
-                <td>
-                    <input type="text" value="@c.Email" class="inEmail" email="@c.Email" readonly />
-                </td>
-                <td>
-                    <input type="text" value="@c.Firstname" class="editable inFirstname" last-save="@c.Firstname" readonly />
-                </td>
-                <td>
-                    <input type="text" value="@c.Lastname" class="editable inLastname" last-save="@c.Lastname" readonly />
-                </td>
-                <td>
-                    <input type="text" value="@c.Address" class="editable inAddress" last-save="@c.Address" readonly />
-                </td>
-                <td>
-                    <input type="text" value="@c.Zipcode" class="editable inZipcode" last-save="@c.Zipcode" readonly />
-                </td>
-                <td>
-                    <input type="text" value="@c.City" class="editable inCity" last-save="@c.City" readonly />
-                </td>
-                <td>
-                    <a href="#" class="adminCustomerEdit" id="editCustId+@c.CustomerId">Endre</a>
-                    <a href="#" class="adminCustomerSave" id="editCustId+@c.CustomerId" hidden>Lagre</a>
-                    <a href="#" class="adminCustomerDelete" id="delCustId+@c.CustomerId">Slett</a>
-                    <a href="#" class="adminCustomerCancel" id="delCustId+@c.CustomerId" hidden>Avbryt</a>
-                </td>
-            </tr>
+    CustomerView Customer = ViewBag.Customer;
+    string ReturnUrl = ViewBag.ReturnUrl;
         }
 
-</table>
+<a href="@ReturnUrl">Tilbake</a>
+<h2>KundeId: @Customer.CustomerId (@Customer.Email)</h2>
+
+<div class="divAdminUpdateCustomer">
+    <h4>Endre Personalia</h4>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(c => Customer.Firstname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="inFirstname" , class="editable form-control" value="@Customer.Firstname" last-save="@Customer.Firstname" />
+                <span class="val-error text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => Customer.Lastname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="inLastname" , class="editable form-control" value="@Customer.Lastname" last-save="@Customer.Lastname" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => Customer.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="inAddress" , class="editable editable form-control" value="@Customer.Address" last-save="@Customer.Address" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => Customer.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="inZipcode" , class="editable form-control" value="@Customer.Zipcode" last-save="@Customer.Zipcode" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => Customer.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="inCity" , class="editable form-control" value="@Customer.City" last-save="@Customer.City" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnUpdateCustomerInfo" type="button" value="Lagre" class="btn btn-success" />
+                <input id="btnResetCustomerInfo" type="button" value="Tilbakestill" class="btn btn-default" />
+                <span id="updateCustomerMessage"></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="divAdminChangePassword">
+    @model Nettbutikk.Models.CustomerChangePassword
+
+    <div class="form-horizontal">
+        <h4>Endre Passord</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentPassword, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CurrentPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CurrentPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewPassword, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.NewPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RepeatNewPassword, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.RepeatNewPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RepeatNewPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <input id="btnChangePassword" type="button" value="Lagre" class="btn btn-default" />
+                <span id="changePwMessage"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="divAdminCustomerOrders">
+<hr class="hr-dark"/>
+   @{Html.RenderAction("OrdersPartial", new { CustomerId = Customer.CustomerId });}
+
+
+</div>
 
 <script>
     $(document).ready(function () {
-        // Edit customer fields
-        $(".adminCustomerEdit").on("click", function () {
 
-            var row = $(this).closest("tr");
+        $(".divAdminUpdateCustomer #btnUpdateCustomerInfo").unbind("click");
+        $(".divAdminUpdateCustomer #btnUpdateCustomerInfo").on("click", function () {
 
-            var btnEdit = row.find(".adminCustomerEdit");
-            var btnSave = row.find(".adminCustomerSave");
-            var btnDelete = row.find(".adminCustomerDelete");
-            var btnCancel = row.find(".adminCustomerCancel");
+            var fn = $(".divAdminUpdateCustomer #inFirstname").val();
+            var ln = $(".divAdminUpdateCustomer #inLastname").val();
+            var adr = $(".divAdminUpdateCustomer #inAddress").val();
+            var zip = $(".divAdminUpdateCustomer #inZipcode").val();
+            var city = $(".divAdminUpdateCustomer #inCity").val();
 
-            btnEdit.hide();
-            btnSave.show();
-            btnDelete.hide();
-            btnCancel.show();
-
-            row.find(".editable").each(function () {
-                $(this).attr("readonly", false);
-            })
-
-        })
-
-        $(".adminCustomerSave").on("click", function () {
-            var row = $(this).closest("tr");
-
-            var btnEdit = row.find(".adminCustomerEdit");
-            var btnSave = row.find(".adminCustomerSave");
-            var btnDelete = row.find(".adminCustomerDelete");
-            var btnCancel = row.find(".adminCustomerCancel");
-
-            var email = row.find(".inEmail").attr("email");
-            var fn = row.find(".inFirstname").val();
-            var ln = row.find(".inLastname").val();
-            var adr = row.find(".inAddress").val();
-            var zip = row.find(".inZipcode").val();
-            var city = row.find(".inCity").val();
 
             var inputErr = fn === "" || ln === "" || adr === "" || zip === "" || city === "";
-
             if (fn === "") {
-                row.find(".inFirstname").addClass("input-error");
+                $(".divAdminUpdateCustomer #inFirstname").addClass("input-error");
             }
             if (ln === "") {
-                row.find(".inLastname").addClass("input-error");
+                $(".divAdminUpdateCustomer #inLastname").addClass("input-error");
             }
             if (adr === "") {
-                row.find(".inAddress").addClass("input-error");
+                $(".divAdminUpdateCustomer #inAddress").addClass("input-error");
             }
             if (zip === "") {
-                row.find(".inZipcode").addClass("input-error");
+                $(".divAdminUpdateCustomer #inZipcode").addClass("input-error");
             }
             if (city === "") {
-                row.find(".inCity").addClass("input-error");
+                $(".divAdminUpdateCustomer #inCity").addClass("input-error");
             }
 
             if (inputErr) {
                 console.log("inputerr");
+                $(".divAdminUpdateCustomer #updateCustomerMessage").text("Fyll inn alle feltene").css("color", "red");
                 return;
             }
 
             // No errors, remove class input-error
-            row.find(".editable").each(function () {
+            $(".divAdminUpdateCustomer input").each(function () {
                 $(this).removeClass("input-error");
+                $(".divAdminUpdateCustomer #updateCustomerMessage").text("");
             })
 
+
             var customer = {
-                Email: email,
+                Email: "@Customer.Email",
                 Firstname: fn,
                 Lastname: ln,
                 Address: adr,
@@ -124,7 +150,7 @@
                 City: city
             };
 
-
+            // console.log(customer.Email + " " + fn + " " + ln + " " + adr + " " + zip + " " + city); return;
 
             $.ajax({
                 url: '@Url.Action("UpdateCustomerInfo", "Administration")',
@@ -132,167 +158,86 @@
                 type: "POST",
                 success: function (result) {
                     if (result === "True") {
-
-                        // Updating last-sa
-                        row.find(".inFirstname").attr("last-save",fn);
-                        row.find(".inLastname").attr("last-save",ln);
-                        row.find(".inAddress").attr("last-save",adr);
-                        row.find(".inZipcode").attr("last-save",zip);
-                        row.find(".inCity").attr("last-save",city);
-
-                        row.find(".editable").each(function () {
-                            $(this).removeClass("input-error");
-                            $(this).attr("readonly", true);
+                        // updating last-save
+                        $(".divAdminUpdateCustomer .editable").each(function () {
+                            $(this).attr("last-save", $(this).val());
                         })
 
-                        btnSave.hide();
-                        btnEdit.show();
-                        btnCancel.hide();
-                        btnDelete.show();
+                        $(".divAdminUpdateCustomer #updateCustomerMessage").text("Lagret").css("color", "green");
                     }
                     else if (result === "False") {
-                        window.location.reload();
-                        alert("Feil ved lagring");
+                        $(".divAdminUpdateCustomer #updateCustomerMessage").text("Feil ved lagring").css("color", "red");
                     } else {
                         alert(result);
                     }
                 }
             })
+
         })
 
-        // Cancel editing
-        $(".adminCustomerCancel").on("click", function () {
-            var row = $(this).closest("tr");
+        // Resetting inputfields to last saved values
+        $(".divAdminUpdateCustomer #btnResetCustomerInfo").click(function () {
+            $(".divAdminUpdateCustomer #inFirstname").val("@Customer.Firstname");
+            $(".divAdminUpdateCustomer #inLastname").val("@Customer.Lastname");
+            $(".divAdminUpdateCustomer #inAddress").val("@Customer.Address");
+            $(".divAdminUpdateCustomer #inZipcode").val("@Customer.Zipcode");
+            $(".divAdminUpdateCustomer #inCity").val("@Customer.City");
 
-            var btnEdit = row.find(".adminCustomerEdit");
-            var btnSave = row.find(".adminCustomerSave");
-            var btnDelete = row.find(".adminCustomerDelete");
-            var btnCancel = row.find(".adminCustomerCancel");
-
-            // Original content
-            var Fn = row.find(".inFirstname").attr("last-save");
-            var Ln = row.find(".inLastname").attr("last-save");
-            var Adr = row.find(".inAddress").attr("last-save");
-            var Zip = row.find(".inZipcode").attr("last-save");
-            var City = row.find(".inCity").attr("last-save");
-
-            row.find(".inFirstname").val(Fn);
-            row.find(".inLastname").val(Ln);
-            row.find(".inAddress").val(Adr);
-            row.find(".inZipcode").val(Zip);
-            row.find(".inCity").val(City);
-
-            row.find(".editable").each(function () {
+            $(".divAdminUpdateCustomer .editable").each(function () {
                 $(this).removeClass("input-error");
-                $(this).attr("readonly", true);
+                $(this).val($(this).attr("last-save"));
+                $(".divAdminUpdateCustomer #updateCustomerMessage").text("");
             })
 
-            btnSave.hide();
-            btnEdit.show();
-            btnCancel.hide();
-            btnDelete.show();
+            })
 
-        })
+        // Change password
 
-        $(".adminCustomerDelete").on("click", function () {
-            if (!confirm("Slette?"))
+        $(".divAdminChangePassword #btnChangePassword").unbind("click");
+        $(".divAdminChangePassword #btnChangePassword").on("click", function () {
+            var currentPw = $(".divAdminChangePassword #CurrentPassword").val();
+            var newPw = $(".divAdminChangePassword #NewPassword").val();
+            var repNewPw = $(".divAdminChangePassword #RepeatNewPassword").val();
+
+            if (newPw !== repNewPw) {
+                $(".divAdminChangePassword #NewPassword").addClass("input-error");
+                $(".divAdminChangePassword #RepeatNewPassword").addClass("input-error");
+                $(".divAdminChangePassword #changePwMessage").text("Passordene er ikke like").css("color", "red");
                 return;
+            }
 
-            var row = $(this).closest("tr");
+            $(".divAdminChangePassword #NewPassword").removeClass("input-error")
+            $(".divAdminChangePassword #RepeatNewPassword").removeClass("input-error")
+            $("#changePwMessage").text("");
 
-            var btnEdit = row.find(".adminCustomerEdit");
-            var btnSave = row.find(".adminCustomerSave");
-            var btnDelete = row.find(".adminCustomerDelete");
-            var btnCancel = row.find(".adminCustomerCancel");
-
-            var email = row.find(".inEmail").attr("email");
+            //console.log(currentPw + " " + newPw + " " + repNewPw); return;
 
             $.ajax({
-                url: '@Url.Action("DeleteCustomer","Administration")',
-                data: { email: email },
+                url: '@Url.Action("ChangePassword","Account")',
+                data: {
+                    CurrentPw: currentPw,
+                    NewPassword: newPw
+                },
                 method: "POST",
                 success: function (result) {
-                    console.log(result);
                     if (result === "True") {
-                        row.remove();
+                        $(".divAdminChangePassword #CurrentPassword").removeClass("input-error")
+                        $(".divAdminChangePassword #CurrentPassword").val("");
+                        $(".divAdminChangePassword #NewPassword").val("");
+                        $(".divAdminChangePassword #RepeatNewPassword").val("");
+                        $(".divAdminChangePassword #changePwMessage").text("Passordet ble endret").css("color", "green");
+                    }
+                    if (result === "False") {
+                        $(".divAdminChangePassword #CurrentPassword").addClass("input-error");
+                        $(".divAdminChangePassword #changePwMessage").text("Feil passord").css("color", "red");
+                    }
 
-                    } else alert(result);
+                }, error: function (result) {
+                    alert("error: " + JSON.stringify(result));
                 }
             })
 
-        })
+        });
 
-
-        //$("#adminCustomerTable2 .adminCustomerEdit").on("click", function () {
-        //    // Original content
-        //    var Fn = row.find(".inFirstname").val();
-        //    var Ln = row.find(".inLastname").val();
-        //    var Adr = row.find(".inAddress").val();
-        //    var Zip = row.find(".inZipcode").val();
-        //    var City = row.find(".inCity").val();
-
-        //    var save = $(this).text() == "Lagre";
-        //    var row = $(this).closest("tr");
-
-        //    var btnDelete = row.find(".adminCustomerDelete");
-        //    var btnCancel = row.find(".adminCustomerCancel");
-
-        //    if (save) {
-
-        //        // Cancel changes
-        //        btnCancel.click(function () {
-
-        //        })
-
-        //        var fn = row.find(".inFirstname").val();
-        //        var ln = row.find(".inLastname").val();
-        //        var adr = row.find(".inAddress").val();
-        //        var zip = row.find(".inZipcode").val();
-        //        var city = row.find(".inCity").val();
-
-        //        console.log(fn + " - " + ln + " - " + adr + " - " + zip + " - " + city);
-
-        //        var inputErr = fn === "" || ln === "" || adr === "" || zip === "" || city === "";
-
-        //        if (fn === "") {
-        //            row.find(".inFirstname").addClass("input-error");
-        //        }
-        //        if (ln === "") {
-        //            row.find(".inLastname").addClass("input-error");
-        //        }
-        //        if (adr === "") {
-        //            row.find(".inAddress").addClass("input-error");
-        //        }
-        //        if (zip === "") {
-        //            row.find(".inZipcode").addClass("input-error");
-        //        }
-        //        if (city === "") {
-        //            row.find(".inCity").addClass("input-error");
-        //        }
-
-        //        if (inputErr) {
-        //            console.log("inputerr");
-        //            return;
-        //        }
-        //        // implement ajax-call update customer
-
-        //        // finally show appropriate buttons
-
-        //        $(this).text("Endre");
-        //        btnDelete.attr("hidden", false);
-        //        btnCancel.attr("hidden", true);
-        //    }
-        //    else {
-        //        $(this).text("Lagre");
-        //        btnDelete.attr("hidden", true);
-        //        btnCancel.attr("hidden", false);
-        //    }
-
-        //    row.find(".editable").each(function () {
-        //        $(this).removeClass("input-error");
-        //        $(this).attr("readonly", save);
-        //    })
-
-        //})
     })
 </script>

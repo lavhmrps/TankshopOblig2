@@ -1,4 +1,5 @@
 ﻿using Nettbutikk.DataAccess;
+using Nettbutikk.DataAccess;
 using Nettbutikk.Model;
 using System.Collections.Generic;
 
@@ -9,12 +10,14 @@ namespace Nettbutikk.BusinessLogic
         private AdminRepo _repo;
         private IAccountRepo _accountrepo;
         private IOrderRepo _orderrepo;
+        private IProductService _productrepo;
 
         public AdminBLL()
         {
             _repo = new AdminRepo();
             _accountrepo = new AccountRepo();
             _orderrepo = new OrderRepo();
+            _productrepo = new ProductService();
         }
 
         public bool DeleteCustomer(string email)
@@ -50,6 +53,16 @@ namespace Nettbutikk.BusinessLogic
         public bool DeleteOrder(int orderId)
         {
             return _orderrepo.DeleteOrder(orderId);
+        }
+
+        public CustomerModel GetCustomer(int customerId)
+        {
+            return _accountrepo.GetCustomer(customerId);
+        }
+
+        public List<ProductModel> GetAllProducts()
+        {
+            return _productrepo.GetAllProducts();
         }
     }
 }

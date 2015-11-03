@@ -7,7 +7,7 @@ namespace Nettbutikk.Model
     {
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
-        public IEnumerable<OrderlineModel> Orderlines { get; set; }
+        public List<OrderlineModel> Orderlines { get; set; }
         public DateTime Date { get; set; }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nettbutikk.Model;
 
 namespace Nettbutikk.DataAccess
@@ -196,11 +193,6 @@ namespace Nettbutikk.DataAccess
         }
 
         public bool SetRole(string email, Role role, bool isRole)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool isAdmin(string email)
         {
             throw new NotImplementedException();
         }

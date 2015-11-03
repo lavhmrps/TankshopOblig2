@@ -21,7 +21,6 @@ namespace Nettbutikk.Model
         DbSet<Credential> Credentials { get; set; }
         DbSet<Customer> Customers { get; set; }
         DbSet<Image> Images { get; set; }
-        DbSet<OldImage> OldImages { get; set; }
         DbSet<Orderline> Orderlines { get; set; }
         DbSet<Order> Orders { get; set; }
         DbSet<Person> People { get; set; }

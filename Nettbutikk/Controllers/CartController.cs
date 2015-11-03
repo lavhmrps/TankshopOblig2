@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nettbutikk.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
@@ -8,16 +9,16 @@ namespace Nettbutikk.Controllers
     public class CartController : BaseController
     {
         private const string SHOPPINGCART = "Shoppingcart";
-
+        
         public CartController()
             : base()
         {
         }
-
+        
         public ActionResult Cart(string ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.ShoppingCart = GetCartItems();
+            ViewBag.ShoppingCart = GetCartList();
             ViewBag.LoggedIn = Session["LoggedIn"] ?? false;
             return View("Shoppingcart");
         }
@@ -25,27 +26,41 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public int AddToCart(int ProductId)
         {
-            return CookieHandler.AddToCart(ProductId);
+            var ch = new CookieHandler();
+            return ch.AddToCart(ProductId);
         }
         public void EmptyCart()
         {
-            CookieHandler.EmptyCart();
+            var ch = new CookieHandler();
+            ch.EmptyCart();
         }
-
-        public string GetCartJson()
+        public string GetCart()
         {
-            return JsonConvert.SerializeObject(GetCartItems());
-        }
+            var cart = GetCartList();
 
-        public IEnumerable<CartItem> GetCartItems()
+            var jsonCart = JsonConvert.SerializeObject(cart);
+            return jsonCart;
+        }
+        public List<CartItem> GetCartList()
+        {
+            var ch = new CookieHandler();
+            var productIdList = ch.GetCartProductIds();
+            var productModelList = _productBLL.GetProducts(productIdList);
+
+            var cartItemList = productModelList.Select(p => new CartItem()
             {
-            return Services.Products.GetAll<CartItem>(CookieHandler.GetCartProductIds());
-        }
+                ProductId = p.ProductId,
+                Name = p.ProductName,
+                Count = ch.GetCount(p.ProductId),
+                Price = p.Price
+            }).ToList();
 
+            return cartItemList;
+        }
         public double GetSumTotalCart()
         {
             var sumTotal = 0.0;
-            var cart = GetCartItems();
+            var cart = GetCartList();
 
             foreach (var item in cart)
             {
