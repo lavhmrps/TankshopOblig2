@@ -10,13 +10,12 @@ namespace Nettbutikk.BusinessLogic
     public interface IProductService :
         IEntityService<Product>, IMappedEntityService<Product>
     {
-        IEnumerable<Product> GetAll(ICollection<int> productIdList);
-        IEnumerable<TMappedEntity> GetAll<TMappedEntity>(ICollection<int> productIdList);
-        IEnumerable<TMappedEntity> GetAllMapped<TMappedEntity>(ICollection<int> productIdList);
+        ICollection<Product> GetAll(ICollection<int> productIdList);
+        ICollection<TMappedEntity> GetAll<TMappedEntity>(ICollection<int> productIdList);
         Product GetById(int productId);
-        IEnumerable<Product> GetProductsByCategory(Category category);
-        IEnumerable<Product> GetProductsByCategoryId(int categoryId);
-        IEnumerable<TMappedType> GetMappedProductsByCategoryId<TMappedType>(int v);
+        ICollection<Product> GetProductsByCategory(Category category);
+        ICollection<Product> GetProductsByCategoryId(int categoryId);
+        ICollection<TMappedType> GetProductsByCategoryId<TMappedType>(int v);
         Task<TMappedEntity> GetByIdAsync<TMappedEntity>(int? id);
     }
 }

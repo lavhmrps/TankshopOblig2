@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moq;
+using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers.Tests
 {
@@ -15,6 +16,12 @@ namespace Nettbutikk.Controllers.Tests
         {
             Services.Dispose();
             Services = null;
+        }
+
+        protected ControllerContext CreateContextMock()
+        {
+            Mock<ControllerContext> mock = new Mock<ControllerContext>();
+            return mock.Object;
         }
     }
 }

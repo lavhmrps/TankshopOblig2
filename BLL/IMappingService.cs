@@ -17,17 +17,15 @@ namespace Nettbutikk.BusinessLogic
     public interface IMappedEntityService<TEntity> : IService
         where TEntity : class, new()
     {
-        IEnumerable<TMappedEntity> GetAll<TMappedEntity>();
-        IEnumerable<TMappedEntity> GetAllMapped<TMappedEntity>();
+        ICollection<TMappedEntity> GetAll<TMappedEntity>();
         TMappedEntity GetById<TMappedEntity>(object entityId);
-        TMappedEntity GetByIdMapped<TMappedEntity>(object entityId);
 
         /***
          *  Fetches entities from the underlying repository that match the
          *  given filter (if any), in the given order (if any), and includes
          *  the given comma-separated list of related entities (if any).
          */
-        IEnumerable<TMappedEntity> GetMapped<TMappedEntity>(
+        ICollection<TMappedEntity> Get<TMappedEntity>(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,

@@ -175,6 +175,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CategoryView.cs" />
+    <Compile Include="Models\CreateCategory.cs" />
+    <Compile Include="Models\EditCategory.cs" />
     <Compile Include="Models\ImageViews.cs" />
     <Compile Include="Models\CreateProduct.cs" />
     <Compile Include="Models\CustomerView.cs" />

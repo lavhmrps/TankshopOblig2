@@ -34,7 +34,7 @@ namespace Nettbutikk.BusinessLogic
          *  given filter (if any), in the given order (if any), and includes
          *  the given comma-separated list of related entities (if any).
          */
-        IEnumerable<TEntity> Get(
+        ICollection<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,
@@ -43,12 +43,12 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Fetches all entities in the underlying repository.
          */
-        IEnumerable<TEntity> GetAll();
+        ICollection<TEntity> GetAll();
 
         /***
          *  Fetches all entities in the underlying repository.
          */
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<ICollection<TEntity>> GetAllAsync();
 
         /***
          *  Gets an entity with matching {entityId} from the underlying repository.

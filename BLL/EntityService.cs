@@ -112,7 +112,7 @@ namespace Nettbutikk.BusinessLogic
          *  Deletes the entity with the given {entityId} from the underlying
          *  repository.
          */
-        public async Task<bool> DeleteByIdAsync(object entityId)
+        public async Task<bool> RemoveByIdAsync(object entityId)
         {
             return await Repository.RemoveByIdAsync(entityId);
         }
@@ -125,7 +125,7 @@ namespace Nettbutikk.BusinessLogic
          *  ordered with the given {order} and including the list of properties
          *  on the entity in the given comma-separated string.
          */
-        public IEnumerable<TEntity> Get(
+        public ICollection<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,
@@ -139,7 +139,7 @@ namespace Nettbutikk.BusinessLogic
          *  ordered with the given {order} and including the list of properties
          *  on the entity in the given comma-separated string.
          */
-        public async Task<IEnumerable<TEntity>> GetAsync(
+        public async Task<ICollection<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,
@@ -151,7 +151,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Returns all the entities in the underlying repository.
          */
-        public IEnumerable<TEntity> GetAll()
+        public ICollection<TEntity> GetAll()
         {
             return Repository.GetAll();
         }
@@ -159,7 +159,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Returns all the entities in the underlying repository.
          */
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await Repository.GetAllAsync();
         }
@@ -184,31 +184,21 @@ namespace Nettbutikk.BusinessLogic
 
         public TMappedEntity GetById<TMappedEntity>(object entityId)
         {
-            return GetByIdMapped<TMappedEntity>(entityId);
+            return GetById<TMappedEntity>(entityId);
         }
-
-        public TMappedEntity GetByIdMapped<TMappedEntity>(object entityId)
+        
+        public ICollection<TMappedEntity> GetAll<TMappedEntity>()
         {
-            return Mapper.Map<TMappedEntity>(GetById(entityId));
+            return Mapper.Map<ICollection<TMappedEntity>>(GetAll());
         }
 
-        public IEnumerable<TMappedEntity> GetAll<TMappedEntity>()
-        {
-            return GetAllMapped<TMappedEntity>();
-        }
-
-        public IEnumerable<TMappedEntity> GetAllMapped<TMappedEntity>()
-        {
-            return Mapper.Map<IEnumerable<TMappedEntity>>(GetAll());
-        }
-
-        public IEnumerable<TMappedEntity> GetMapped<TMappedEntity>(
+        public ICollection<TMappedEntity> Get<TMappedEntity>(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,
             string includeProperties = "")
         {
-            return Mapper.Map<IEnumerable<TMappedEntity>>(
+            return Mapper.Map<ICollection<TMappedEntity>>(
                 Get(filter, order, includeProperties));
         }
 

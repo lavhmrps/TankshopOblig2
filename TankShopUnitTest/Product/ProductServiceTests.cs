@@ -50,19 +50,7 @@ namespace Nettbutikk.BusinessLogic.Tests
             Repository = new EntityRepositoryStub<Product>(Collection);
             Service = new ProductService(Repository);
         }
-
-        [TestMethod]
-        public void GetMappedProductsByCategoryIdTest()
-        {
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void GetMappedProductsByCategoryTest()
-        {
-            Assert.Inconclusive();
-        }
-
+        
         [TestMethod]
         public void GetProductsByCategoryTest()
         {

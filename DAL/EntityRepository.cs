@@ -43,7 +43,7 @@ namespace Nettbutikk.DataAccess
 
         #region Getters
 
-        public virtual IEnumerable<TEntity> Get(
+        public virtual ICollection<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,
@@ -66,7 +66,7 @@ namespace Nettbutikk.DataAccess
             return (order != null ? order(query) : query).ToList();
         }
 
-        public async virtual Task<IEnumerable<TEntity>> GetAsync(
+        public async virtual Task<ICollection<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>,
                 IOrderedQueryable<TEntity>> order = null,

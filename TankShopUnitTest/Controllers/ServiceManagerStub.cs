@@ -9,7 +9,7 @@ namespace Nettbutikk.Controllers.Tests
 
         }
 
-        public void Configure(IService service)
+        public void Inject(IService service)
         {
             if (service is IProductService)
             {

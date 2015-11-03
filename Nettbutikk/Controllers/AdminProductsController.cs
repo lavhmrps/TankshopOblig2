@@ -21,7 +21,7 @@ namespace Nettbutikk.Controllers
         {
             return View(new CreateProduct
             {
-                Categories = Services.Categories.GetAllMapped<CategoryView>()
+                Categories = Services.Categories.GetAll<CategoryView>()
             });
         }
 
@@ -38,7 +38,7 @@ namespace Nettbutikk.Controllers
             }
 
             if (null == product.Categories)
-                product.Categories = Services.Categories.GetAllMapped<CategoryView>();
+                product.Categories = Services.Categories.GetAll<CategoryView>();
 
             return View(product);
         }

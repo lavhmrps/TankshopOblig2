@@ -77,9 +77,9 @@ namespace Nettbutikk.BusinessLogic.Tests
             return Task.Factory.StartNew(() => RemoveById(entityId));
         }
         
-        public override IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null, string includeProperties = "")
+        public override ICollection<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null, string includeProperties = "")
         {
-            return Repository.Where(filter.Compile());
+            return Repository.Where(filter.Compile()).ToList();
         }
 
         public override ICollection<TEntity> GetAll()
@@ -92,7 +92,7 @@ namespace Nettbutikk.BusinessLogic.Tests
             return Task.Factory.StartNew(() => GetAll());
         }
 
-        public override Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null, string includeProperties = "")
+        public override Task<ICollection<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null, string includeProperties = "")
         {
             return Task.Factory.StartNew(() => Get(filter, order, includeProperties));
         }

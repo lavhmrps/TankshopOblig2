@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Nettbutikk.BusinessLogic;
 using Nettbutikk.Model;
 using Nettbutikk.Models;
 
@@ -8,6 +9,10 @@ namespace Nettbutikk.Controllers
 {
     public class CategoryController : BaseController
     {
+        public CategoryController(ServiceManager services) : base(services)
+        {
+        }
+
         // GET: Category
         public ActionResult Index()
         {
@@ -33,13 +38,13 @@ namespace Nettbutikk.Controllers
         }
 
         [HttpPost]
-        public ActionResult create(string CategoryIds, string CategoryId)
+        public ActionResult Create(CreateCategory c)
         {
             //Sjekke om product id eksisterer?
 
-            int nCategoryId = Convert.ToInt32(CategoryIds);
+            int nCategoryId = Convert.ToInt32(c);
 
-            Category category = new Category() { CategoryId = nCategoryId };
+            Category category = new Category() { CategoryId = c.CategoryId, Name = c.Name };
 
             Services.Categories.Create(category);
 
@@ -47,7 +52,7 @@ namespace Nettbutikk.Controllers
                 Services.Categories.SaveChanges();
             } catch (Exception e) {
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Could not find a product with id " + CategoryIds;
+                ViewBag.Message = "Could not find a product with id " + c.CategoryId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
@@ -59,7 +64,7 @@ namespace Nettbutikk.Controllers
 
 
         [HttpPost]
-        public ActionResult edit(CategoryView c)
+        public ActionResult Edit(CategoryView c)
         {
             Category category = Services.Categories.GetById(c.CategoryId);
 
@@ -111,15 +116,12 @@ namespace Nettbutikk.Controllers
         }
 
 
-        public ActionResult DeleteCategory(string categoryId)
+        public ActionResult DeleteCategory(int categoryId)
         {
-            var db = new TankshopDbContext();
-
-            Category category = db.Categories.Find(Convert.ToInt32(categoryId));
+            Category category = Services.Categories.GetById(categoryId);
 
             if (category == null)
             {
-                System.Diagnostics.Debug.WriteLine("No such category in db");
                 return View("~/Views/Shared/Error.cshtml");
             }
 

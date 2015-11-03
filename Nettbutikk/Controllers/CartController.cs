@@ -38,7 +38,7 @@ namespace Nettbutikk.Controllers
 
         public IEnumerable<CartItem> GetCartItems()
             {
-            return Services.Products.GetAllMapped<CartItem>(CookieHandler.GetCartProductIds());
+            return Services.Products.GetAll<CartItem>(CookieHandler.GetCartProductIds());
         }
 
         public double GetSumTotalCart()

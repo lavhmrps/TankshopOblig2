@@ -11,7 +11,7 @@ namespace Nettbutikk.BusinessLogic
         {
         }
 
-        public IEnumerable<Category> GetAll(ICollection<int> categoryIdList)
+        public ICollection<Category> GetAll(ICollection<int> categoryIdList)
         {
             return Get(category => categoryIdList.Contains(category.CategoryId));
         }

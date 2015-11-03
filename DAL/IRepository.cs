@@ -39,7 +39,7 @@ namespace Nettbutikk.DataAccess
          *  Gets a set of entities from the underlying data-store, {filter}ed
          *  and {order}ed, including properties in {includeProperties}.
          */
-        IEnumerable<TEntity> Get(
+        ICollection<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null,
             string includeProperties = "");
@@ -95,7 +95,7 @@ namespace Nettbutikk.DataAccess
          *  Gets a set of entities from the underlying data-store, {filter}ed
          *  and {order}ed, including properties in {includeProperties}.
          */
-        Task<IEnumerable<TEntity>> GetAsync(
+        Task<ICollection<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null,
             string includeProperties = "");

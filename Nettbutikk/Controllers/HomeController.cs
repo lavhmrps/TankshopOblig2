@@ -14,8 +14,8 @@ namespace Nettbutikk.Controllers
         public ActionResult Index()
         {
             return View(new HomeView {
-                Categories = Services.Categories.GetAllMapped<CategoryView>(),
-                Products = Services.Products.GetAllMapped<ProductView>(),
+                Categories = Services.Categories.GetAll<CategoryView>(),
+                Products = Services.Products.GetAll<ProductView>(),
                 LoggedIn = LoginStatus()
             });
         }
@@ -26,7 +26,7 @@ namespace Nettbutikk.Controllers
                 {
                     Categories = Services.Categories.GetAll<CategoryView>(),
                     Products = Services.Products
-                    .GetMappedProductsByCategoryId<ProductView>(CategoryId),
+                        .GetProductsByCategoryId<ProductView>(CategoryId),
                     LoggedIn = LoginStatus(),
                     Category = Services.Categories.GetById<CategoryView>(CategoryId)
                 });

@@ -73,7 +73,7 @@ namespace Nettbutikk.BusinessLogic.Tests
         public void DeleteByIdAsyncTest()
         {
             var removedObject = Collection.ElementAt(1);
-            Service.DeleteByIdAsync(removedObject.Id).Wait();
+            Service.RemoveByIdAsync(removedObject.Id).Wait();
             Assert.IsFalse(Collection.Contains(removedObject));
         }
 

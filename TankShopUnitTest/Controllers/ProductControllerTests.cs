@@ -18,7 +18,7 @@ namespace Nettbutikk.Controllers.Tests
         private ProductController Controller;
         private AdminProductsController AdminController;
         
-        private readonly Product[] products = new Product[]
+        private readonly List<Product> products = new List<Product>
         {
             new Product
             {
@@ -30,7 +30,7 @@ namespace Nettbutikk.Controllers.Tests
             }
         };
 
-        private readonly Category[] categories = new Category[]
+        private readonly List<Category> categories = new List<Category>
         {
             new Category
             {
@@ -44,8 +44,8 @@ namespace Nettbutikk.Controllers.Tests
         {
             base.Setup();
 
-            Services.Configure(new ProductServiceStub(products));
-            Services.Configure(new CategoryServiceStub(categories));
+            Services.Inject(new ProductServiceStub(products));
+            Services.Inject(new CategoryServiceStub(categories));
 
             Controller = new ProductController(Services);
             AdminController = new AdminProductsController(Services);
@@ -103,138 +103,13 @@ namespace Nettbutikk.Controllers.Tests
 
     }
 
-    internal class CategoryServiceStub : ICategoryService
-    {
-        private Category[] categories;
-
-        public CategoryServiceStub(Category[] categories)
-        {
-            this.categories = categories;
-        }
-
-        public Category Create(object unmappedEntity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category Create(Category entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Category> CreateAsync(object unmappedEntity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(object unmappedEntity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(Category entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> RemoveAsync(object unmappedEntity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveById(object entityId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Category> Get(Expression<Func<Category, bool>> filter = null, Func<IQueryable<Category>, IOrderedQueryable<Category>> order = null, string includeProperties = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Category> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Category> GetAll(ICollection<int> idList)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TMappedEntity> GetAll<TMappedEntity>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Category>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TMappedEntity> GetAllMapped<TMappedEntity>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category GetById(object entityId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TMappedEntity GetById<TMappedEntity>(object entityId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Category> GetByIdAsync(object entityId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TMappedEntity GetByIdMapped<TMappedEntity>(object entityId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TMappedEntity> GetMapped<TMappedEntity>(Expression<Func<Category, bool>> filter = null, Func<IQueryable<Category>, IOrderedQueryable<Category>> order = null, string includeProperties = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category Update(object unmappedEntity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category Update(Category entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Category> UpdateAsync(object unmappedEntity)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     internal class ProductServiceStub : IProductService
     {
         private List<Product> products;
 
-        public ProductServiceStub(Product[] products)
+        public ProductServiceStub(List<Product> products)
         {
-            this.products = products.ToList();
+            this.products = products;
         }
 
         public Product Create(Product entity)
@@ -274,46 +149,36 @@ namespace Nettbutikk.Controllers.Tests
             return Remove(products.Where(p => ((int)entityId) == p.ProductId).FirstOrDefault());
         }
 
-        public IEnumerable<Product> Get(Expression<Func<Product, bool>> filter = null, Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null, string includeProperties = "")
+        public ICollection<Product> Get(Expression<Func<Product, bool>> filter = null, Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null, string includeProperties = "")
         {
-            return products.Where(filter.Compile());
+            return products.Where(filter.Compile()).ToList();
         }
 
-        public IEnumerable<Product> GetAll()
+        public ICollection<Product> GetAll()
         {
             return products;
         }
 
-        public IEnumerable<Product> GetAll(ICollection<int> productIdList)
+        public ICollection<Product> GetAll(ICollection<int> productIdList)
         {
             return Get(p => productIdList.Contains(p.ProductId));
         }
 
-        public IEnumerable<TMappedEntity> GetAll<TMappedEntity>()
+        public ICollection<TMappedEntity> GetAll<TMappedEntity>()
+        {
+            return Mapper.Map<ICollection<TMappedEntity>>(GetAll());
+        }
+
+        public ICollection<TMappedEntity> GetAll<TMappedEntity>(ICollection<int> productIdList)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TMappedEntity> GetAll<TMappedEntity>(ICollection<int> productIdList)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Product>> GetAllAsync()
+        public Task<ICollection<Product>> GetAllAsync()
         {
             return Task.Factory.StartNew(() => GetAll());
         }
-
-        public IEnumerable<TMappedEntity> GetAllMapped<TMappedEntity>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TMappedEntity> GetAllMapped<TMappedEntity>(ICollection<int> productIdList)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Product GetById(object entityId)
         {
             return GetById((int)entityId);
@@ -338,28 +203,23 @@ namespace Nettbutikk.Controllers.Tests
         {
             return Task.Factory.StartNew(() => Mapper.Map<TMappedEntity>(GetById(id)));
         }
-
-        public TMappedEntity GetByIdMapped<TMappedEntity>(object entityId)
+        
+        public ICollection<TMappedEntity> Get<TMappedEntity>(Expression<Func<Product, bool>> filter = null, Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null, string includeProperties = "")
         {
-            return Mapper.Map<TMappedEntity>(GetById(entityId));
+            return Mapper.Map<ICollection<TMappedEntity>>(Get(filter, order, includeProperties));
         }
 
-        public IEnumerable<TMappedEntity> GetMapped<TMappedEntity>(Expression<Func<Product, bool>> filter = null, Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null, string includeProperties = "")
+        public ICollection<TMappedType> GetProductsByCategoryId<TMappedType>(int productId)
         {
-            return Mapper.Map<IEnumerable<TMappedEntity>>(Get(filter, order, includeProperties));
+            return Mapper.Map<ICollection<TMappedType>>(GetProductsByCategoryId(productId));
         }
 
-        public IEnumerable<TMappedType> GetMappedProductsByCategoryId<TMappedType>(int productId)
-        {
-            return Mapper.Map<IEnumerable<TMappedType>>(GetProductsByCategoryId(productId));
-        }
-
-        public IEnumerable<Product> GetProductsByCategory(Category category)
+        public ICollection<Product> GetProductsByCategory(Category category)
         {
             return GetProductsByCategoryId(category.CategoryId);
         }
 
-        public IEnumerable<Product> GetProductsByCategoryId(int categoryId)
+        public ICollection<Product> GetProductsByCategoryId(int categoryId)
         {
             return Get(product => categoryId == product.CategoryId);
         }
