@@ -43,7 +43,7 @@
                     <a class="linkNoHref adminCustomerSave" id="editCustId+@c.CustomerId" hidden>Lagre</a>
                     <a class="linkNoHref adminCustomerDelete" id="delCustId+@c.CustomerId">Slett</a>
                     <a class="linkNoHref adminCustomerCancel" id="delCustId+@c.CustomerId" hidden>Avbryt</a>
-                    @Html.ActionLink("Vis", "ShowCustomer", "Administration", new { CustomerId = c.CustomerId, ReturnUrl = Request.RawUrl }, null)
+                    @Html.ActionLink("Vis", "ShowCustomer", "Customer", new { CustomerId = c.CustomerId, ReturnUrl = Request.RawUrl }, null)
                 </td>
             </tr>
         }
@@ -128,7 +128,7 @@
 
 
             $.ajax({
-                url: '@Url.Action("UpdateCustomerInfo", "Administration")',
+                url: '@Url.Action("UpdateCustomerInfo", "Customer")',
                 data: customer,
                 type: "POST",
                 success: function (result) {
@@ -209,7 +209,7 @@
             var email = row.find(".inEmail").attr("email");
 
             $.ajax({
-                url: '@Url.Action("DeleteCustomer","Administration")',
+                url: '@Url.Action("DeleteCustomer","Customer")',
                 data: { email: email },
                 method: "POST",
                 success: function (result) {

@@ -3,9 +3,7 @@
     List<OrderView> Orders = ViewBag.Orders;
     List<ProductView> Products = ViewBag.Products;
 }
-<h4>Ordreadministrasjon 2</h4>
-<p>ordre: @Orders.Count</p>
-<p>produkter: @Products.Count</p>
+<h4>Ordreadministrasjon for kunde</h4>
 <ul id="adminOrderList">
 
     @if (Orders.Count == 0)
@@ -165,7 +163,7 @@
             var orderId = li.attr("orderid");
 
             $.ajax({
-                url: '@Url.Action("DeleteOrder","Administration")',
+                url: '@Url.Action("DeleteOrder","Customer")',
                 data: { OrderId: orderId },
                 type: "POST",
                 success: function (result) {
@@ -256,7 +254,7 @@
             // console.log(orderline); return;
 
             $.ajax({
-                url: '@Url.Action("UpdateOrderline","Administration")',
+                url: '@Url.Action("UpdateOrderline","Customer")',
                 data: orderline,
                 type: "POST",
                 success: function (result) {
@@ -314,7 +312,7 @@
             //console.log(orderline);return;
 
             $.ajax({
-                url: '@Url.Action("UpdateOrderline","Administration")',
+                url: '@Url.Action("UpdateOrderline","Customer")',
                 data: orderline,
                 type: "POST",
                 success: function (result) {
@@ -362,7 +360,7 @@
             var orderId = li.attr("orderid");
             //var elem = li.find(".sumTotal");
             $.ajax({
-                url: '@Url.Action("GetOrderSumTotal","Administration")',
+                url: '@Url.Action("GetOrderSumTotal","Customer")',
                 data: { OrderId: orderId },
                 success: function (result) {
                     li.find(".sumTotal").each(function () {

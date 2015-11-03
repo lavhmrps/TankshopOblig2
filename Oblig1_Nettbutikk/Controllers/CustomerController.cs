@@ -9,16 +9,16 @@ using System.Web.Mvc;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
-    public class AdministrationController : Controller
+    public class CustomerController : Controller
     {
         private IAdminLogic _adminBLL;
 
-        public AdministrationController()
+        public CustomerController()
         {
             _adminBLL = new AdminBLL();
         }
 
-        public AdministrationController(IAdminLogic stub)
+        public CustomerController(IAdminLogic stub)
         {
             _adminBLL = stub;
         }

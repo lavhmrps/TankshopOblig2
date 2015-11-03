@@ -153,7 +153,7 @@
             // console.log(customer.Email + " " + fn + " " + ln + " " + adr + " " + zip + " " + city); return;
 
             $.ajax({
-                url: '@Url.Action("UpdateCustomerInfo", "Administration")',
+                url: '@Url.Action("UpdateCustomerInfo", "Customer")',
                 data: customer,
                 type: "POST",
                 success: function (result) {

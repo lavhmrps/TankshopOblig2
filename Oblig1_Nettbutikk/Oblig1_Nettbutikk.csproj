@@ -130,7 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,12 +214,10 @@
     <Content Include="Views\Checkout\_CheckoutItemsPartial.cshtml" />
     <Content Include="Views\Checkout\_CheckoutAddressPartial.cshtml" />
     <Content Include="Views\Checkout\GetReciept.cshtml" />
-    <Content Include="Views\Administration\Administration_CustomerList.cshtml" />
-    <Content Include="Views\Administration\Index.cshtml" />
-    <Content Include="Views\Administration\AdminCustomerListItem.cshtml" />
-    <Content Include="Views\Administration\Administration_Order.cshtml" />
-    <Content Include="Views\Administration\Administration_Customer.cshtml" />
-    <Content Include="Views\Administration\OrdersPartial.cshtml" />
+    <Content Include="Views\Customer\Administration_CustomerList.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\Administration_Customer.cshtml" />
+    <Content Include="Views\Customer\OrdersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
