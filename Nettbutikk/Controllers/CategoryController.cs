@@ -9,6 +9,11 @@ namespace Nettbutikk.Controllers
 {
     public class CategoryController : BaseController
     {
+        public CategoryController()
+            : base()
+        {
+
+        }
         public CategoryController(ServiceManager services) : base(services)
         {
         }

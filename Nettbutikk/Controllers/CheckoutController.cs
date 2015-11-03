@@ -12,7 +12,7 @@ namespace Nettbutikk.Controllers
     {
         private IOrderLogic orderService;
 
-        public CheckoutController()
+        public CheckoutController() : base()
         {
             orderService = new OrderBLL();
         }

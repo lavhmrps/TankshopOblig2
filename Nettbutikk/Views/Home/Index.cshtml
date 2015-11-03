@@ -9,7 +9,7 @@
         @foreach (var category in Model.Categories)
             {
             <li class="category-listitem">
-                @Html.ActionLink(category.CategoryName, "Category", "Home", new { @CategoryId = category.CategoryId }, null)
+                @Html.ActionLink(category.Name, "Category", "Home", new { @CategoryId = category.CategoryId }, null)
             </li>
 
         }

@@ -5,128 +5,184 @@ using System;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Linq;
+using AutoMapper;
 
 namespace Nettbutikk.Controllers.Tests
 {
 
     internal class CategoryServiceStub : ICategoryService
     {
-        private IList<Category> categories;
+        private List<Category> products;
 
-        public CategoryServiceStub(IList<Category> categories)
+        public CategoryServiceStub(List<Category> products)
         {
-            this.categories = categories;
-        }
-
-        public Category Create(object unmappedEntity)
-        {
-            throw new NotImplementedException();
+            this.products = products;
         }
 
         public Category Create(Category entity)
         {
-            throw new NotImplementedException();
+            products.Add(entity);
+
+            return entity;
+        }
+
+        public Category Create(object unmappedEntity)
+        {
+            return Create(unmappedEntity as Category);
         }
 
         public Task<Category> CreateAsync(object unmappedEntity)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => Create(unmappedEntity));
         }
 
         public bool Remove(object unmappedEntity)
         {
-            throw new NotImplementedException();
+            return Remove(unmappedEntity as Category);
         }
 
         public bool Remove(Category entity)
         {
-            throw new NotImplementedException();
+            return products.Remove(entity);
         }
 
         public Task<bool> RemoveAsync(object unmappedEntity)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => Remove(unmappedEntity));
         }
 
         public bool RemoveById(object entityId)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            return Remove(products.Where(p => ((int)entityId) == p.CategoryId).FirstOrDefault());
         }
 
         public ICollection<Category> Get(Expression<Func<Category, bool>> filter = null, Func<IQueryable<Category>, IOrderedQueryable<Category>> order = null, string includeProperties = "")
         {
-            throw new NotImplementedException();
+            return products.Where(filter.Compile()).ToList();
         }
 
         public ICollection<Category> GetAll()
         {
-            throw new NotImplementedException();
+            return products;
         }
 
-        public ICollection<Category> GetAll(ICollection<int> idList)
+        public ICollection<Category> GetAll(ICollection<int> productIdList)
         {
-            throw new NotImplementedException();
+            return Get(p => productIdList.Contains(p.CategoryId));
         }
 
         public ICollection<TMappedEntity> GetAll<TMappedEntity>()
+        {
+            return Mapper.Map<ICollection<TMappedEntity>>(GetAll());
+        }
+
+        public ICollection<TMappedEntity> GetAll<TMappedEntity>(ICollection<int> productIdList)
         {
             throw new NotImplementedException();
         }
 
         public Task<ICollection<Category>> GetAllAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<TMappedEntity> GetAllMapped<TMappedEntity>()
-        {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => GetAll());
         }
 
         public Category GetById(object entityId)
         {
-            throw new NotImplementedException();
+            return GetById((int)entityId);
+        }
+
+        public Category GetById(int productId)
+        {
+            return Get(p => productId == p.CategoryId).FirstOrDefault();
         }
 
         public TMappedEntity GetById<TMappedEntity>(object entityId)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<TMappedEntity>(GetById(entityId));
         }
 
         public Task<Category> GetByIdAsync(object entityId)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => GetById(entityId));
         }
-        
+
+        public Task<TMappedEntity> GetByIdAsync<TMappedEntity>(int? id)
+        {
+            return Task.Factory.StartNew(() => Mapper.Map<TMappedEntity>(GetById(id)));
+        }
+
         public ICollection<TMappedEntity> Get<TMappedEntity>(Expression<Func<Category, bool>> filter = null, Func<IQueryable<Category>, IOrderedQueryable<Category>> order = null, string includeProperties = "")
         {
-            throw new NotImplementedException();
+            return Mapper.Map<ICollection<TMappedEntity>>(Get(filter, order, includeProperties));
+        }
+
+        public ICollection<TMappedType> GetProductsByCategoryId<TMappedType>(int productId)
+        {
+            return Mapper.Map<ICollection<TMappedType>>(GetProductsByCategoryId(productId));
+        }
+
+        public ICollection<Category> GetProductsByCategory(Category category)
+        {
+            return GetProductsByCategoryId(category.CategoryId);
+        }
+
+        public ICollection<Category> GetProductsByCategoryId(int categoryId)
+        {
+            return Get(product => categoryId == product.CategoryId);
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
         }
 
         public Category Update(object unmappedEntity)
         {
-            throw new NotImplementedException();
+            return unmappedEntity as Category;
         }
 
         public Category Update(Category entity)
         {
-            throw new NotImplementedException();
+            return entity;
         }
 
         public Task<Category> UpdateAsync(object unmappedEntity)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => Update(unmappedEntity));
         }
-    }
 
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ProductServiceStub() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
 }

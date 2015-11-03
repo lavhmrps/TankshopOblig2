@@ -13,6 +13,7 @@ namespace Nettbutikk.Controllers
         private IAdminLogic _adminBLL;
 
         public AdministrationController()
+            : base()
         {
             _adminBLL = new AdminBLL();
         }

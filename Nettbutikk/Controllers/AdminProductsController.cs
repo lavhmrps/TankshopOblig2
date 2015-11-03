@@ -11,6 +11,11 @@ namespace Nettbutikk.Controllers
     [Authorize(Roles = "Administrator"), RoutePrefix("admin")]
     public class AdminProductsController : BaseController
     {
+        public AdminProductsController() : base()
+        {
+
+        }
+
         public AdminProductsController(ServiceManager services) : base(services)
         {
         }

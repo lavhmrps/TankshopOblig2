@@ -1,18 +1,42 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Nettbutikk.Models;
+using System.Collections;
+using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers.Tests
 {
     [TestClass]
     public class AdminProductsControllerTests : ProductControllerTests
     {
-        [TestMethod]
-        public void CreateTest()
-        {
+        private AdminProductsController Controller;
 
+        [TestInitialize]
+        public new void Setup()
+        {
+            base.Setup();
+
+            Services.Inject(new ProductServiceStub(Products));
+            Services.Inject(new CategoryServiceStub(Categories));
+
+            Controller = new AdminProductsController(Services);
         }
 
         [TestMethod]
-        public void CreateTest1()
+        public void HttpGet_CreateTest()
+        {
+            var result = Controller.Create() as ViewResult;
+
+            Assert.IsNotNull(result.Model);
+
+            var model = result.Model as CreateProduct;
+
+            Assert.IsNotNull(model.Categories);
+
+            CollectionAssert.AreEquivalent(Categories, model.Categories as ICollection);
+        }
+
+        [TestMethod]
+        public void HttpPost_CreateTest()
         {
             Assert.Fail();
         }

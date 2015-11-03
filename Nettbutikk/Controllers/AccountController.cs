@@ -8,6 +8,11 @@ namespace Nettbutikk.Controllers
 
     public class AccountController : BaseController
     {
+        public AccountController() : base()
+        {
+
+        }
+
         [HttpPost]
         public bool Login(string email, string password)
         {

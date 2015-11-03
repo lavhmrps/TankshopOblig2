@@ -4,6 +4,6 @@ namespace Nettbutikk.Models
 {
     public class CreateProduct
     {
-        public IEnumerable<CategoryView> Categories { get; set; }
+        public ICollection<CategoryView> Categories { get; set; }
     }
 }

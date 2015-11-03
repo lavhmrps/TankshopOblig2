@@ -10,6 +10,7 @@ namespace Nettbutikk.Controllers
         private const string SHOPPINGCART = "Shoppingcart";
 
         public CartController()
+            : base()
         {
         }
 

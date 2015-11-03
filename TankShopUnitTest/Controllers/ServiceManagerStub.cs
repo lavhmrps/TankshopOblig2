@@ -15,6 +15,10 @@ namespace Nettbutikk.Controllers.Tests
             {
                 Products = (IProductService)service;
             }
+            if(service is ICategoryService)
+            {
+                Categories = (ICategoryService)service;
+            }
             else if (service is IImageLogic)
             {
                 Images = (IImageLogic)service;

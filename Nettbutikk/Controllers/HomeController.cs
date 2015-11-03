@@ -6,6 +6,12 @@ namespace Nettbutikk.Controllers
 {
     public class HomeController : BaseController
     {
+        public HomeController()
+            : base()
+        {
+
+        }
+
         public HomeController(ServiceManager services)
             : base(services)
         {

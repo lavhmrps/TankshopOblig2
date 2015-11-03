@@ -1,11 +1,16 @@
-﻿using Nettbutikk.Models;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Nettbutikk.BusinessLogic;
 
 namespace Nettbutikk.Controllers
 {
     public class ProductController : BaseController
     {
+        public ProductController()
+            : base()
+        {
+
+        }
+
         public ProductController(ServiceManager services)
             : base(services)
         {

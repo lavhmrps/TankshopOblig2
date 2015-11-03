@@ -16,9 +16,8 @@ namespace Nettbutikk.Controllers.Tests
     public class ProductControllerTests : ControllerTestsBase
     {
         private ProductController Controller;
-        private AdminProductsController AdminController;
         
-        private readonly List<Product> products = new List<Product>
+        protected readonly List<Product> Products = new List<Product>
         {
             new Product
             {
@@ -30,7 +29,7 @@ namespace Nettbutikk.Controllers.Tests
             }
         };
 
-        private readonly List<Category> categories = new List<Category>
+        protected readonly List<Category> Categories = new List<Category>
         {
             new Category
             {
@@ -44,11 +43,10 @@ namespace Nettbutikk.Controllers.Tests
         {
             base.Setup();
 
-            Services.Inject(new ProductServiceStub(products));
-            Services.Inject(new CategoryServiceStub(categories));
+            Services.Inject(new ProductServiceStub(Products));
+            Services.Inject(new CategoryServiceStub(Categories));
 
             Controller = new ProductController(Services);
-            AdminController = new AdminProductsController(Services);
         }
 
         //[TestMethod]
@@ -70,8 +68,8 @@ namespace Nettbutikk.Controllers.Tests
         [TestMethod]
         public void ProductTest()
         {
-            var product = products[0];
-            product.CategoryId = categories[0].CategoryId;
+            var product = Products[0];
+            product.CategoryId = Categories[0].CategoryId;
 
             var result = Controller.Product(product.ProductId, null)
                 as ViewResult;
@@ -92,9 +90,6 @@ namespace Nettbutikk.Controllers.Tests
         [TestCleanup]
         public new void Teardown()
         {
-            AdminController.Dispose();
-            AdminController = null;
-
             Controller.Dispose();
             Controller = null;
 

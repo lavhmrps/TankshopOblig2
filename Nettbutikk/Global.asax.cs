@@ -18,6 +18,7 @@ namespace Nettbutikk
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutoMapperProfiles.Configure();
         }
 
         void Application_Error(object sender, EventArgs e)

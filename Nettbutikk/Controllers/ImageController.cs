@@ -9,6 +9,12 @@ namespace Nettbutikk.Controllers
 {
     public class ImageController : BaseController
     {
+        public ImageController()
+            : base()
+        {
+
+        }
+
         public ImageController(params IService[] services)
             : base(services)
         {
