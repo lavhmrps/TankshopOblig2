@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nettbutikk.Model;
+using Model.RemovedEntities;
 
-
-namespace DAL.Image
+namespace Nettbutikk.DataAccess
 {
     public class ImageRepo : IImageRepo
     {
 
 
-        public Nettbutikk.Model.Image GetImage(int imageId)
+        public Image GetImage(int imageId)
         {
             try {
                 return new TankshopDbContext().Images.FirstOrDefault(i => i.ImageId == imageId);
@@ -22,7 +22,7 @@ namespace DAL.Image
 
         }
 
-        public List<Nettbutikk.Model.Image> GetAllImages()
+        public List<Image> GetAllImages()
         {
 
             try {
@@ -30,7 +30,7 @@ namespace DAL.Image
             }
             catch (Exception e) {
                 //LogHandler.WriteToLog(e);
-                return new List<Nettbutikk.Model.Image>();
+                return new List<Image>();
             }
             
         }
@@ -42,7 +42,7 @@ namespace DAL.Image
             try
             {
                 var db = new TankshopDbContext();
-                db.Images.Add(new Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
+                db.Images.Add(new Image() { ProductId = productId, ImageUrl = imageUrl });
                 db.SaveChanges();
                 return true;
             }
@@ -57,7 +57,7 @@ namespace DAL.Image
 
             var db = new TankshopDbContext();
 
-            Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
+            Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
 
             if (img == null)
             {
@@ -79,7 +79,7 @@ namespace DAL.Image
 
             var db = new TankshopDbContext();
 
-            Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
+            Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
 
             if (img == null)
             {
@@ -103,7 +103,6 @@ namespace DAL.Image
         //OldImage
         public bool AddOldImage(int productId, string imageUrl, int adminId)
         {
-
             var db = new TankshopDbContext();
             OldImage oldImage = new OldImage();
 
@@ -111,9 +110,7 @@ namespace DAL.Image
             oldImage.ImageUrl = imageUrl;
             oldImage.AdminId = adminId;
             oldImage.Changed = DateTime.Now;
-
-            db.OldImages.Add(oldImage);
-
+            
             try {
                 db.SaveChanges();
                 return true;

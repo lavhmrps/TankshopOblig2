@@ -6,6 +6,6 @@ namespace Nettbutikk.DataAccess
     public interface IAdminRepo
     {
         bool DeleteCustomer(string email);
-        List<CustomerModel> GetAllCustomers();
+        List<Customer> GetAllCustomers();
     }
 }

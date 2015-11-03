@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nettbutikk.Model;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using DAL.Image;
 using Nettbutikk.BusinessLogic;
 using Nettbutikk.DataAccess;
 using Nettbutikk.Models;
@@ -62,15 +61,15 @@ namespace Nettbutikk.Controllers.Tests
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
             };
 
             List<SelectListItem> expectedProductIDs = new List<SelectListItem>();
             foreach (Product p in allProducts)
             {
-                string productId = Convert.ToString(p.ProductId);
+                string productId = Convert.ToString(p.Id);
                 expectedProductIDs.Add(new SelectListItem { Text = productId, Value = productId });
             }
 
@@ -100,15 +99,15 @@ namespace Nettbutikk.Controllers.Tests
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
             };
 
             List<SelectListItem> expectedProductIDs = new List<SelectListItem>();
             foreach (Product p in allProducts)
             {
-                string productId = Convert.ToString(p.ProductId);
+                string productId = Convert.ToString(p.Id);
                 expectedProductIDs.Add(new SelectListItem { Text = productId, Value = productId });
             }
 

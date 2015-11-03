@@ -21,11 +21,11 @@ namespace Nettbutikk.Controllers.Tests
         {
             new Product
             {
-                ProductId = 1
+                Id = 1
             },
             new Product
             {
-                ProductId = 2
+                Id = 2
             }
         };
 
@@ -71,14 +71,14 @@ namespace Nettbutikk.Controllers.Tests
             var product = Products[0];
             product.CategoryId = Categories[0].CategoryId;
 
-            var result = Controller.Product(product.ProductId, null)
+            var result = Controller.Product(product.Id, null)
                 as ViewResult;
 
             Assert.IsNotNull(result.ViewBag.Product,
                 "ViewBag should contain a Product.");
             Assert.IsInstanceOfType(result.ViewBag.Product, typeof(ProductView));
             Assert.AreEqual(result.ViewBag.Product.ProductId,
-                product.ProductId,
+                product.Id,
                 "Product not in ViewBag.Product.");
             Assert.IsNotNull(result.ViewBag.Product.Category,
                 "Product should have a Category (loaded).");
@@ -141,7 +141,7 @@ namespace Nettbutikk.Controllers.Tests
 
         public bool RemoveById(object entityId)
         {
-            return Remove(products.Where(p => ((int)entityId) == p.ProductId).FirstOrDefault());
+            return Remove(products.Where(p => ((int)entityId) == p.Id).FirstOrDefault());
         }
 
         public ICollection<Product> Get(Expression<Func<Product, bool>> filter = null, Func<IQueryable<Product>, IOrderedQueryable<Product>> order = null, string includeProperties = "")
@@ -156,7 +156,7 @@ namespace Nettbutikk.Controllers.Tests
 
         public ICollection<Product> GetAll(ICollection<int> productIdList)
         {
-            return Get(p => productIdList.Contains(p.ProductId));
+            return Get(p => productIdList.Contains(p.Id));
         }
 
         public ICollection<TMappedEntity> GetAll<TMappedEntity>()
@@ -181,7 +181,7 @@ namespace Nettbutikk.Controllers.Tests
 
         public Product GetById(int productId)
         {
-            return Get(p => productId == p.ProductId).FirstOrDefault();
+            return Get(p => productId == p.Id).FirstOrDefault();
         }
 
         public TMappedEntity GetById<TMappedEntity>(object entityId)

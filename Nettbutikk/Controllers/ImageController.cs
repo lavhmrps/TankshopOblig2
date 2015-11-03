@@ -94,7 +94,7 @@ namespace Nettbutikk.Controllers
 
             foreach (Product p in Services.Products.GetAll())
             {
-                string productId = Convert.ToString(p.ProductId);
+                string productId = Convert.ToString(p.Id);
                 productIDs.Add(new SelectListItem { Text = productId, Value = productId });
             }
 
@@ -133,7 +133,7 @@ namespace Nettbutikk.Controllers
 
             foreach (Product p in Services.Products.GetAll())
             {
-                string productId = Convert.ToString(p.ProductId);
+                string productId = Convert.ToString(p.Id);
                 productIDs.Add(new SelectListItem { Text = productId, Value = productId });
             }
 

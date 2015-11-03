@@ -19,28 +19,28 @@ namespace Nettbutikk.BusinessLogic
             _repo = stub;
         }
 
-        public bool AddPerson(PersonModel person, Role role, string password)
+        public bool AddPerson(Person person, Role role, string password)
         {
             return _repo.AddPerson(person, role, password);
         }
         
 
-        public AdminModel GetAdmin(int adminId)
+        public Admin GetAdmin(int adminId)
         {
             return _repo.GetAdmin(adminId);
         }
 
-        public List<PersonModel> GetAllPeople()
+        public List<Person> GetAllPeople()
         {
             return _repo.GetAllPeople();
         }
 
-        public CustomerModel GetCustomer(int customerId)
+        public Customer GetCustomer(int customerId)
         {
             return _repo.GetCustomer(customerId);
         }
 
-        public CustomerModel GetCustomer(string email)
+        public Customer GetCustomer(string email)
         {
             return _repo.GetCustomer(email);
         }
@@ -60,17 +60,17 @@ namespace Nettbutikk.BusinessLogic
             return _repo.DeletePerson(email);
         }
 
-        public AdminModel GetAdmin(string email)
+        public Admin GetAdmin(string email)
         {
             return _repo.GetAdmin(email);
         }
 
-        public PersonModel GetPerson(string email)
+        public Person GetPerson(string email)
         {
             return _repo.GetPerson(email);
         }
 
-        public bool UpdatePerson(PersonModel personUpdate, string email)
+        public bool UpdatePerson(Person personUpdate, string email)
         {
             return _repo.UpdatePerson(personUpdate, email);
         }

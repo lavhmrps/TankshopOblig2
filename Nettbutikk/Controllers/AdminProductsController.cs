@@ -39,7 +39,7 @@ namespace Nettbutikk.Controllers
             {
                 Product p = await Services.Products.CreateAsync(product);
 
-                return RedirectToAction("Details", "Products", new { Id = p.ProductId });
+                return RedirectToAction("Details", "Products", new { Id = p.Id });
             }
 
             if (null == product.Categories)

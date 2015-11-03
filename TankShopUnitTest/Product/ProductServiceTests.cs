@@ -3,6 +3,7 @@ using Nettbutikk.Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Nettbutikk.DataAccess;
 
 namespace Nettbutikk.BusinessLogic.Tests
 {
@@ -23,32 +24,32 @@ namespace Nettbutikk.BusinessLogic.Tests
 
             Collection = new List<Product> {
                 new Product {
-                    ProductId = 1,
+                    Id = 1,
                     CategoryId = 1,
                     Category = firstCategory
                 },
                 new Product
                 {
-                    ProductId = 2,
+                    Id = 2,
                     CategoryId = 1,
                     Category = firstCategory
                     },
                 new Product
                 {
-                    ProductId = 3,
+                    Id = 3,
                     CategoryId = 2,
                     Category = secondCategory
                 },
                 new Product
                 {
-                    ProductId = 4,
+                    Id = 4,
                     CategoryId = 2,
                     Category = secondCategory
                 }
             };
 
-            Repository = new EntityRepositoryStub<Product>(Collection);
-            Service = new ProductService(Repository);
+            Repository = new ProductRepositoryStub<Product>(Collection);
+            Service = new ProductService(Repository as IProductRepository);
         }
         
         [TestMethod]
@@ -67,6 +68,13 @@ namespace Nettbutikk.BusinessLogic.Tests
         {
             var result = (Service as ProductService).GetProductsByCategoryId(1);
             CollectionAssert.IsSubsetOf(result as ICollection, Collection as ICollection);
+        }
+
+        private class ProductRepositoryStub<T> : EntityRepositoryStub<Product>, IProductRepository
+        {
+            public ProductRepositoryStub(ICollection<Product> collection) : base(collection)
+            {
+            }
         }
     }
 }

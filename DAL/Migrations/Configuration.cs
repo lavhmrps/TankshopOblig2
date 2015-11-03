@@ -50,7 +50,7 @@ namespace Nettbutikk.Migrations
             context.Products.AddOrUpdate(
             new Product
             {
-                ProductId = 1,
+                Id = 1,
                 Name = "Tiger 1",
                 Price = 500000,
                 Stock = 5,
@@ -59,7 +59,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "http://www.hsgalleries.com/gallery04/images/Tiger%20front1.jpg"
             }, new Product
             {
-                ProductId = 2,
+                Id = 2,
                 Name = "Panther",
                 Price = 760000,
                 Stock = 5,
@@ -68,7 +68,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "http://aviatornut.com/images/Panther_Tank_Red_332.jpg"
             }, new Product
             {
-                ProductId = 3,
+                Id = 3,
                 Name = "JagdPanther",
                 Price = 50000,
                 Stock = 5,
@@ -77,7 +77,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "http://www.themotorpool.net/v/vspfiles/photos/DRR60554-2.jpg"
             }, new Product
             {
-                ProductId = 4,
+                Id = 4,
                 Name = "Sherman Firefly",
                 Price = 50000,
                 Stock = 5,
@@ -87,7 +87,7 @@ namespace Nettbutikk.Migrations
 
             }, new Product
             {
-                ProductId = 5,
+                Id = 5,
                 Name = "Churchill Tank",
                 Price = 50000,
                 Stock = 5,
@@ -97,7 +97,7 @@ namespace Nettbutikk.Migrations
 
             }, new Product
             {
-                ProductId = 6,
+                Id = 6,
                 Name = "Light Tank Mk VI",
                 Price = 50000,
                 Stock = 5,
@@ -107,7 +107,7 @@ namespace Nettbutikk.Migrations
 
             }, new Product
             {
-                ProductId = 7,
+                Id = 7,
                 Name = "M4 Sherman",
                 Price = 50000,
                 Stock = 5,
@@ -117,7 +117,7 @@ namespace Nettbutikk.Migrations
 
             }, new Product
             {
-                ProductId = 8,
+                Id = 8,
                 Name = "M26 Pershing",
                 Price = 50000,
                 Stock = 5,
@@ -127,7 +127,7 @@ namespace Nettbutikk.Migrations
 
             }, new Product
             {
-                ProductId = 9,
+                Id = 9,
                 Name = "M10 tank destroyer",
                 Price = 50000,
                 Stock = 5,
@@ -140,7 +140,7 @@ namespace Nettbutikk.Migrations
             context.Products.AddOrUpdate(
             new Product
             {
-                ProductId = 10,
+                Id = 10,
                 Name = "Wright R-975",
                 Price = 47500,
                 Stock = 8,
@@ -150,7 +150,7 @@ namespace Nettbutikk.Migrations
             },
              new Product
              {
-                 ProductId = 11,
+                 Id = 11,
                  Name = "Chrysler A57 multibank",
                  Price = 68189,
                  Stock = 48,
@@ -160,7 +160,7 @@ namespace Nettbutikk.Migrations
              },
              new Product
              {
-                 ProductId = 12,
+                 Id = 12,
                  Name = "Ford GAA engine",
                  Price = 41688,
                  Stock = 15,
@@ -170,7 +170,7 @@ namespace Nettbutikk.Migrations
              },
              new Product
              {
-                 ProductId = 13,
+                 Id = 13,
                  Name = "Kharkiv model V-2-34",
                  Price = 198689,
                  Stock = 81,
@@ -180,7 +180,7 @@ namespace Nettbutikk.Migrations
              },
              new Product
              {
-                 ProductId = 14,
+                 Id = 14,
                  Name = "Kharkiv model V-2K",
                  Price = 61695,
                  Stock = 25,
@@ -190,7 +190,7 @@ namespace Nettbutikk.Migrations
              },
              new Product
              {
-                 ProductId = 15,
+                 Id = 15,
                  Name = "Kharkiv model V-2",
                  Price = 41789,
                  Stock = 78,
@@ -203,7 +203,7 @@ namespace Nettbutikk.Migrations
             context.Products.AddOrUpdate(
             new Product
             {
-                ProductId = 16,
+                Id = 16,
                 Name = "75 mm gun M2/M3",
                 Price = 1568,
                 Stock = 8,
@@ -212,7 +212,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/c/c5/M3_105mm_Howitzer.jpg"
             }, new Product
             {
-                ProductId = 17,
+                Id = 17,
                 Name = "90 mm Gun M1/M2/M3",
                 Price = 1568,
                 Stock = 8,
@@ -221,7 +221,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/49/90_mm_gun_antitank_1.JPG"
             }, new Product
             {
-                ProductId = 18,
+                Id = 18,
                 Name = "3-inch M1918 gun",
                 Price = 1568,
                 Stock = 8,
@@ -230,7 +230,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a8/Three_Inch_M-5_Gun.jpg"
             }, new Product
             {
-                ProductId = 19,
+                Id = 19,
                 Name = "76 mm tank gun M1940 F-34",
                 Price = 1568,
                 Stock = 8,
@@ -239,7 +239,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a0/T-34-76_RB6.JPG"
             }, new Product
             {
-                ProductId = 20,
+                Id = 20,
                 Name = "152-mm howitzer M1938 (M-10)",
                 Price = 1568,
                 Stock = 8,
@@ -248,7 +248,7 @@ namespace Nettbutikk.Migrations
                 ImageUrl = "http://upload.wikimedia.org/wikipedia/commons/1/12/122-mm_howitzer_M1938_001.jpg"
             }, new Product
             {
-                ProductId = 21,
+                Id = 21,
                 Name = "85 mm air defense gun M1939 (52-K)",
                 Price = 1568,
                 Stock = 8,

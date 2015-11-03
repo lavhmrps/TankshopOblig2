@@ -57,7 +57,7 @@ namespace Nettbutikk.Controllers.Tests
             var model = result.Model as HomeCategoryView;
 
             Assert.IsNotNull(model.Category);
-            Assert.Equals(model.Category.CategoryId, categoryId);
+            Assert.Equals(model.Category.Id, categoryId);
         }
     }
 }

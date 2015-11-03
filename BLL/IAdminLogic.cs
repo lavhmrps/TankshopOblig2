@@ -5,14 +5,14 @@ namespace Nettbutikk.BusinessLogic
 {
     public interface IAdminLogic
     {
-        IList<CustomerModel> GetAllCustomers();
-        bool UpdatePerson(PersonModel personUpdate, string email);
+        IList<Customer> GetAllCustomers();
+        bool UpdatePerson(Person personUpdate, string email);
         bool DeleteCustomer(string email);
-        IList<OrderModel> GetAllOrders();
-        bool UpdateOrderline(OrderlineModel orderline);
+        IList<Order> GetAllOrders();
+        bool UpdateOrderline(Orderline orderline);
         double GetOrderSumTotal(int orderId);
         bool DeleteOrder(int orderId);
-        CustomerModel GetCustomer(int customerId);
-        List<ProductModel> GetAllProducts();
+        Customer GetCustomer(int customerId);
+        ICollection<Product> GetAllProducts();
     }
 }

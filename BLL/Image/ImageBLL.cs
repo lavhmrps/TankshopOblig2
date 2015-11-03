@@ -1,4 +1,4 @@
-﻿using DAL.Image;
+﻿using Nettbutikk.DataAccess;
 using Nettbutikk.Model;
 using System.Collections.Generic;
 

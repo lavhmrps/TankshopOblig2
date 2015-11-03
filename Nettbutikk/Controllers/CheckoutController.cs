@@ -29,18 +29,17 @@ namespace Nettbutikk.Controllers
             {
                 if ((bool)Session["LoggedIn"])
                 {
-                    var productBLL = new ProductBLL();
                     var ch = new CookieHandler();
 
                     var Email = (string)Session["Email"];
                     var pidList = ch.GetCartProductIds();
-                    var productModelList = productBLL.GetProducts(pidList);
+                    var productModelList = Services.Products.GetAll(pidList);
 
                     var cart = productModelList.Select(p => new CartItem()
                     {
-                        ProductId = p.ProductId,
-                        Name = p.ProductName,
-                        Count = ch.GetCount(p.ProductId),
+                        ProductId = p.Id,
+                        Name = p.Name,
+                        Count = ch.GetCount(p.Id),
                         Price = p.Price
                     }).ToList();
 
@@ -52,7 +51,7 @@ namespace Nettbutikk.Controllers
                         Address = customerModel.Address,
                         Zipcode = customerModel.Zipcode,
                         City = customerModel.City,
-                        CustomerId = customerModel.CustomerId,
+                        Id = customerModel.CustomerId,
                         Email = customerModel.Email
 
                     };
@@ -74,33 +73,32 @@ namespace Nettbutikk.Controllers
                 if ((bool)Session["LoggedIn"])
 
                 {
-                    var productBLL = new ProductBLL();
                     var ch = new CookieHandler();
 
                     var productIdList = ch.GetCartProductIds();
-                    var productModelList = productBLL.GetProducts(productIdList);
+                    var productModelList = Services.Products.GetAll(productIdList);
 
-                    var cart = productModelList.Select(p => new CartItem()
+                    var cart = productModelList.Select(product => new CartItem()
                     {
-                        ProductId = p.ProductId,
-                        Name = p.ProductName,
-                        Count = ch.GetCount(p.ProductId),
-                        Price = p.Price
+                        ProductId = product.Id,
+                        Name = product.Name,
+                        Count = ch.GetCount(product.Id),
+                        Price = product.Price
                     }).ToList();
                     
-                    var order = new OrderModel();
-                    var orderlines = new List<OrderlineModel>();
+                    var order = new Order();
+                    var orderlines = new List<Orderline>();
 
                     foreach (var item in cart)
                     {
-                        orderlines.Add(new OrderlineModel()
+                        orderlines.Add(new Orderline()
                         {
                             Count = item.Count,
                             ProductId = item.ProductId
                         });
                     }
                     order.Orderlines = orderlines;
-                    order.CustomerId = new AccountBLL().GetCustomer((String)Session["Email"]).CustomerId;
+                    order.CustomerId = new AccountBLL().GetCustomer(Session["Email"] as string).CustomerId;
                     order.Date = DateTime.Now;
                     var OrderId = _orderBLL.PlaceOrder(order);
 
@@ -122,15 +120,15 @@ namespace Nettbutikk.Controllers
         public OrderView GetReciept(int OrderId)
         {
            
-            OrderModel reciept = _orderBLL.GetReciept(OrderId);
+            Order reciept = _orderBLL.GetReciept(OrderId);
 
             var orderlines = new List<OrderlineView>();
             foreach(var item in reciept.Orderlines)
             {
                 var product = new ProductView()
                 {
-                    ProductId = item.ProductId,
-                    ProductName = item.ProductName,
+                    Id = item.ProductId,
+                    Name = item.ProductName,
                     Price = item.ProductPrice,
 
                 };
@@ -153,16 +151,5 @@ namespace Nettbutikk.Controllers
 
             return orderView ;
         }
-
-        public bool LoginStatus()
-        {
-            bool LoggedIn = false;
-            if (Session["LoggedIn"] != null)
-            {
-                LoggedIn = (bool)Session["LoggedIn"];
-            }
-            return LoggedIn;
-        }
-
     }
 }

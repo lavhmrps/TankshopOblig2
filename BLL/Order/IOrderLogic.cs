@@ -4,7 +4,7 @@ namespace Nettbutikk.BusinessLogic
 {
     public interface IOrderLogic
     {
-        int PlaceOrder(OrderModel order);
-        OrderModel GetReciept(int orderId);
+        int PlaceOrder(Order order);
+        Order GetReciept(int orderId);
     }
 }

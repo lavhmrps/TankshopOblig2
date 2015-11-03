@@ -45,13 +45,13 @@ namespace Nettbutikk.Controllers
         {
             var ch = new CookieHandler();
             var productIdList = ch.GetCartProductIds();
-            var productModelList = _productBLL.GetProducts(productIdList);
+            var productModelList = Services.Products.GetAll(productIdList);
 
             var cartItemList = productModelList.Select(p => new CartItem()
             {
-                ProductId = p.ProductId,
-                Name = p.ProductName,
-                Count = ch.GetCount(p.ProductId),
+                ProductId = p.Id,
+                Name = p.Name,
+                Count = ch.GetCount(p.Id),
                 Price = p.Price
             }).ToList();
 

@@ -15,24 +15,24 @@ namespace Nettbutikk.BusinessLogic
         }
 
         public ProductService(ITankshopDbContext context)
-            : this(new ProductRepository(context))
+            : base(new ProductRepository(context))
         {
 
         }
 
-        public ProductService(EntityRepository<Product> repository)
+        public ProductService(IProductRepository repository)
             : base(repository)
         {
         }
-
+        
         public ICollection<Product> GetAll(ICollection<int> productIdList)
         {
-            return Get(p => productIdList.Contains(p.ProductId));
+            return Get(p => productIdList.Contains(p.Id));
         }
 
         public ICollection<TMappedEntity> GetAll<TMappedEntity>(ICollection<int> productIdList)
         {
-            return Get<TMappedEntity>(p => productIdList.Contains(p.ProductId));
+            return Get<TMappedEntity>(p => productIdList.Contains(p.Id));
         }
 
         public Product GetById(int productId)

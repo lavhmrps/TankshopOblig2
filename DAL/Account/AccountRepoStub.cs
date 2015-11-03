@@ -7,7 +7,7 @@ namespace Nettbutikk.DataAccess
     // For testing
     public class AccountRepoStub : IAccountRepo
     {
-        public bool AddPerson(PersonModel person, Role role, string password)
+        public bool AddPerson(Person person, Role role, string password)
         {
             if (person.Email == "")
                 return false;
@@ -23,11 +23,11 @@ namespace Nettbutikk.DataAccess
             return true;
         }
 
-        public AdminModel GetAdmin(int adminId)
+        public Admin GetAdmin(int adminId)
         {
             if (adminId == 0)
             {
-                var admin = new AdminModel()
+                var admin = new Admin()
                 {
                     Email=""
                 };
@@ -35,31 +35,37 @@ namespace Nettbutikk.DataAccess
             }
             else
             {
-                var admin = new AdminModel()
+                var admin = new Admin()
                 {
+                    Id = 1,
                     Email = "Test@test.cz",
                     Firstname = "Test",
                     Lastname = "Test",
                     Address = "Test",
-                    Zipcode = "1234",
-                    City = "Test",
-                    AdminId = 1
+                    Postal = new Postal
+                    {
+                        Zipcode = "1234",
+                        City = "Test"
+                    }
                 };
                 return admin;
             }
         }
 
-        public List<PersonModel> GetAllPeople()
+        public List<Person> GetAllPeople()
         {
-            var list = new List<PersonModel>();
-            var person = new PersonModel()
+            var list = new List<Person>();
+            var person = new Person()
             {
                 Email = "Test@test.cz",
                 Firstname = "Test",
                 Lastname = "Test",
                 Address = "Test",
-                Zipcode = "1234",
-                City = "Test"
+                Postal = new Postal
+                {
+                    Zipcode = "1234",
+                    City = "Test"
+                }
             };
 
             list.Add(person);
@@ -69,11 +75,11 @@ namespace Nettbutikk.DataAccess
             return list;
         }
 
-        public CustomerModel GetCustomer(int customerId)
+        public Customer GetCustomer(int customerId)
         {
             if (customerId == 0)
             {
-                var customer = new CustomerModel()
+                var customer = new Customer()
                 {
                     Email = ""
                 };
@@ -81,14 +87,17 @@ namespace Nettbutikk.DataAccess
             }
             else
             {
-                var customer = new CustomerModel()
+                var customer = new Customer()
                 {
                     Email = "Test@test.cz",
                     Firstname = "Test",
                     Lastname = "Test",
                     Address = "Test",
-                    Zipcode = "1234",
-                    City = "Test",
+                    Postal = new Postal
+                    {
+                        Zipcode = "1234",
+                        City = "Test"
+                    },
                     CustomerId = 1
                 };
 
@@ -96,11 +105,11 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public PersonModel GetPerson(string email)
+        public Person GetPerson(string email)
         {
             if (email == "")
             {
-                var person = new PersonModel()
+                var person = new Person()
                 {
                     Email=""
                 };
@@ -108,20 +117,23 @@ namespace Nettbutikk.DataAccess
             }
             else
             {
-                var person = new PersonModel()
+                var person = new Person()
                 {
                     Email = "Test@test.cz",
                     Firstname = "Test",
                     Lastname = "Test",
                     Address = "Test",
-                    Zipcode = "1234",
-                    City = "Test"
+                    Postal = new Postal
+                    {
+                        Zipcode = "1234",
+                        City = "Test"
+                    }
                 };
                 return person;
             }
         }
 
-        public bool UpdatePerson(PersonModel personUpdate, int personId)
+        public bool UpdatePerson(Person personUpdate, int personId)
         {
             if (personId == 0)
                 return false;
@@ -152,7 +164,7 @@ namespace Nettbutikk.DataAccess
             throw new NotImplementedException();
         }
 
-        public CustomerModel GetCustomer(string email)
+        public Customer GetCustomer(string email)
         {
             throw new NotImplementedException();
         }
@@ -172,12 +184,12 @@ namespace Nettbutikk.DataAccess
             throw new NotImplementedException();
         }
 
-        public AdminModel GetAdmin(string email)
+        public Admin GetAdmin(string email)
         {
             throw new NotImplementedException();
         }
 
-        public bool UpdatePerson(PersonModel personUpdate, string email)
+        public bool UpdatePerson(Person personUpdate, string email)
         {
             throw new NotImplementedException();
         }

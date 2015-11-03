@@ -51,14 +51,17 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public bool Register(CustomerRegisterPartial customer, string returnUrl)
         {
-            var person = new PersonModel()
+            var person = new Person()
             {
                 Email = customer.Email,
                 Firstname = customer.Firstname,
                 Lastname = customer.Lastname,
                 Address = customer.Address,
-                Zipcode = customer.Zipcode,
-                City = customer.City
+                Postal = new Postal
+                {
+                    Zipcode = customer.Zipcode,
+                    City = customer.City
+                }
             };
 
             if (_accountBLL.AddPerson(person, Role.Customer, customer.Password))
@@ -83,7 +86,7 @@ namespace Nettbutikk.Controllers
             var Customer = _accountBLL.GetCustomer(Email);
             var customerView = new CustomerView()
             {
-                CustomerId= Customer.CustomerId,
+                Id= Customer.CustomerId,
                 Email = Customer.Email,
                 Firstname = Customer.Firstname,
                 Lastname = Customer.Lastname,
@@ -110,8 +113,8 @@ namespace Nettbutikk.Controllers
                     orderline.Product = new ProductView()
                     {
                         Price = l.ProductPrice,
-                        ProductId = l.ProductId,
-                        ProductName = l.ProductName
+                        Id = l.ProductId,
+                        Name = l.ProductName
                     };
 
                     order.Orderlines.Add(orderline);
@@ -147,13 +150,16 @@ namespace Nettbutikk.Controllers
         {
             var email = (string)Session["Email"];
 
-            var personUpdate = new PersonModel()
+            var personUpdate = new Person()
             {
                 Firstname = customerEdit.Firstname,
                 Lastname = customerEdit.Lastname,
                 Address = customerEdit.Address,
-                Zipcode = customerEdit.Zipcode,
-                City = customerEdit.City
+                Postal = new Postal
+                {
+                    Zipcode = customerEdit.Zipcode,
+                    City = customerEdit.City
+                }
             };
 
             return _accountBLL.UpdatePerson(personUpdate, email);
@@ -166,13 +172,16 @@ namespace Nettbutikk.Controllers
             {
                 var email = customerEdit.Email;
 
-                var personUpdate = new PersonModel()
+                var personUpdate = new Person()
                 {
                     Firstname = customerEdit.Firstname,
                     Lastname = customerEdit.Lastname,
                     Address = customerEdit.Address,
-                    Zipcode = customerEdit.Zipcode,
-                    City = customerEdit.City
+                    Postal = new Postal
+                    {
+                        Zipcode = customerEdit.Zipcode,
+                        City = customerEdit.City
+                    }
                 };
 
                 if (_accountBLL.UpdatePerson(personUpdate, email))

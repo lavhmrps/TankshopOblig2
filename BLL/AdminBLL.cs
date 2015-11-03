@@ -1,5 +1,4 @@
 ﻿using Nettbutikk.DataAccess;
-using Nettbutikk.DataAccess;
 using Nettbutikk.Model;
 using System.Collections.Generic;
 
@@ -25,22 +24,22 @@ namespace Nettbutikk.BusinessLogic
             return _repo.DeleteCustomer(email);
         }
 
-        public IList<CustomerModel> GetAllCustomers()
+        public IList<Customer> GetAllCustomers()
         {
             return _repo.GetAllCustomers();
         }
 
-        public bool UpdatePerson(PersonModel personUpdate, string email)
+        public bool UpdatePerson(Person personUpdate, string email)
         {
             return _accountrepo.UpdatePerson(personUpdate, email);
         }
 
-        public IList<OrderModel> GetAllOrders()
+        public IList<Order> GetAllOrders()
         {
             return _orderrepo.GetAllOrders();
         }
 
-        public bool UpdateOrderline(OrderlineModel orderline)
+        public bool UpdateOrderline(Orderline orderline)
         {
             return _orderrepo.UpdateOrderline(orderline);
         }
@@ -55,14 +54,14 @@ namespace Nettbutikk.BusinessLogic
             return _orderrepo.DeleteOrder(orderId);
         }
 
-        public CustomerModel GetCustomer(int customerId)
+        public Customer GetCustomer(int customerId)
         {
             return _accountrepo.GetCustomer(customerId);
         }
 
-        public List<ProductModel> GetAllProducts()
+        public ICollection<Product> GetAllProducts()
         {
-            return _productrepo.GetAllProducts();
+            return _productrepo.GetAll<Product>();
         }
     }
 }

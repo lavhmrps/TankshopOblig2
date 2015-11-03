@@ -69,17 +69,17 @@ namespace Nettbutikk.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(CategoryView c)
+        public ActionResult Edit(CategoryView categoryVM)
         {
-            Category category = Services.Categories.GetById(c.CategoryId);
+            Category category = Services.Categories.GetById(categoryVM.Id);
 
             if (category == null) {
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Could not find an Category with id " + c.CategoryId + " in the database";
+                ViewBag.Message = "Could not find an Category with id " + categoryVM.Id + " in the database";
             }
             else
             {
-                category.Name = c.Name;
+                category.Name = categoryVM.Name;
 
                 Services.Categories.Update(category);
 

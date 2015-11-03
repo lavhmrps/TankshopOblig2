@@ -20,9 +20,9 @@ namespace Nettbutikk.Controllers.Tests
         };
 
         private List<Product> Products = new List<Product> {
-            new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-            new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-            new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
+            new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+            new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+            new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
         };
 
         [TestInitialize]
@@ -64,7 +64,7 @@ namespace Nettbutikk.Controllers.Tests
             for (int i = 0; i < actualProductIDs.Count; i++)
             {
                 Assert.AreEqual(Products[i].Name, actualProductIDs[i].Text);
-                Assert.AreEqual(Products[i].ProductId, actualProductIDs[i].Value);
+                Assert.AreEqual(Products[i].Id, actualProductIDs[i].Value);
             }
 
             Assert.AreEqual("", viewResult.ViewName);
@@ -80,15 +80,15 @@ namespace Nettbutikk.Controllers.Tests
 
             var expectedCategory = new Category { CategoryId = 1, Name = "test" };
             var allProducts = new List<Product> {
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { Id = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
             };
 
             List<SelectListItem> expectedProductIDs = new List<SelectListItem>();
             foreach (Product p in allProducts)
             {
-                string productId = Convert.ToString(p.ProductId);
+                string productId = Convert.ToString(p.Id);
                 expectedProductIDs.Add(new SelectListItem { Text = productId, Value = productId });
             }
             
@@ -199,7 +199,7 @@ namespace Nettbutikk.Controllers.Tests
             string categoryName = "name";
 
             //Act
-            var viewResult = Controller.Edit(new CategoryView { CategoryId = categoryId, Name = categoryName}) as ViewResult;
+            var viewResult = Controller.Edit(new CategoryView { Id = categoryId, Name = categoryName}) as ViewResult;
 
             //Assert
             Assert.AreEqual("Success", Controller.ViewBag.Title);
@@ -215,7 +215,7 @@ namespace Nettbutikk.Controllers.Tests
             int CategoryId = -1;
 
             //Act
-            var viewResult = Controller.Edit(new CategoryView {CategoryId = CategoryId}) as ViewResult;
+            var viewResult = Controller.Edit(new CategoryView {Id = CategoryId}) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", Controller.ViewBag.Title);
@@ -233,7 +233,7 @@ namespace Nettbutikk.Controllers.Tests
             string categoryName = "name";
 
             //Act
-            var viewResult = Controller.Edit(new CategoryView {CategoryId = categoryId, Name = categoryName}) as ViewResult;
+            var viewResult = Controller.Edit(new CategoryView {Id = categoryId, Name = categoryName}) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", Controller.ViewBag.Title);

@@ -30,6 +30,7 @@ namespace Nettbutikk.Controllers
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
                 ViewBag.Customers = Mapper.Map<CustomerView>(_adminBLL.GetAllCustomers());
+                ViewBag.Products = Services.Products.GetAll<ProductView>();
 
                 List<OrderView> orderViewList = new List<OrderView>();
 
@@ -48,18 +49,16 @@ namespace Nettbutikk.Controllers
                         orderline.Product = new ProductView()
                         {
                             Price = l.ProductPrice,
-                            ProductId = l.ProductId,
-                            ProductName = l.ProductName
+                            Id = l.ProductId,
+                            Name = l.ProductName
                         };
 
                         order.Orderlines.Add(orderline);
                     }
                     orderViewList.Add(order);
                 }
-
-                ViewBag.Customers = customerViewList;
+                
                 ViewBag.Orders = orderViewList;
-                ViewBag.Products = productViews;
 
                 return View();
             }
@@ -74,7 +73,7 @@ namespace Nettbutikk.Controllers
 
                 var customerView = new CustomerView()
                 {
-                    CustomerId = customerModel.CustomerId,
+                    Id = customerModel.CustomerId,
                     Email = customerModel.Email,
                     Firstname = customerModel.Firstname,
                     Lastname = customerModel.Lastname,
@@ -126,7 +125,7 @@ namespace Nettbutikk.Controllers
         {
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
-                List<OrderModel> orderModels;
+                IList<Order> orderModels;
                 if (CustomerId > 0)
                     orderModels = _adminBLL.GetCustomer(CustomerId).Orders;
                 else
@@ -149,8 +148,8 @@ namespace Nettbutikk.Controllers
                         orderline.Product = new ProductView()
                         {
                             Price = l.ProductPrice,
-                            ProductId = l.ProductId,
-                            ProductName = l.ProductName
+                            Id = l.ProductId,
+                            Name = l.ProductName
                         };
 
                         order.Orderlines.Add(orderline);
@@ -165,13 +164,13 @@ namespace Nettbutikk.Controllers
                 {
                     var productview = new ProductView()
                     {
-                        ProductId = productModel.ProductId,
-                        ProductName = productModel.ProductName,
+                        Id = productModel.Id,
+                        Name = productModel.Name,
                         Description = productModel.Description,
                         Price = productModel.Price,
                         Stock = productModel.Stock,
                         ImageUrl = productModel.ImageUrl,
-                        CategoryName = productModel.CategoryName
+                        CategoryName = productModel.Category.Name
                     };
                     productViews.Add(productview);
                 }
@@ -192,13 +191,16 @@ namespace Nettbutikk.Controllers
         {
             var email = customerEdit.Email;
 
-            var personUpdate = new PersonModel()
+            var personUpdate = new Person()
             {
                 Firstname = customerEdit.Firstname,
                 Lastname = customerEdit.Lastname,
                 Address = customerEdit.Address,
-                Zipcode = customerEdit.Zipcode,
-                City = customerEdit.City
+                Postal = new Postal
+                {
+                    Zipcode = customerEdit.Zipcode,
+                    City = customerEdit.City
+                }
             };
 
             return _adminBLL.UpdatePerson(personUpdate, email);
@@ -220,7 +222,7 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public bool UpdateOrderline(int OrderlineId, int ProductId, int Count)
         {
-            var orderlineModel = new OrderlineModel()
+            var orderlineModel = new Orderline()
             {
                 Count = Count,
                 OrderlineId = OrderlineId,

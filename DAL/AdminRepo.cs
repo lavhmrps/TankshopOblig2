@@ -7,9 +7,9 @@ namespace Nettbutikk.DataAccess
 {
     public class AdminRepo : IAdminRepo
     {
-        public List<CustomerModel> GetAllCustomers()
+        public List<Customer> GetAllCustomers()
         {
-            var customerList = new List<CustomerModel>();
+            var customerList = new List<Customer>();
 
             try
             {
@@ -21,21 +21,24 @@ namespace Nettbutikk.DataAccess
                     foreach (var c in dbCustomers)
                     {
                         var p = db.People.Find(c.Email);
-                        var customer = new CustomerModel()
+                        var customer = new Customer()
                         {
                             Email = p.Email,
                             Firstname = p.Firstname,
                             Lastname = p.Lastname,
                             Address = p.Address,
-                            Zipcode = p.Zipcode,
-                            City = p.Postal.City,
+                            Postal = new Postal
+                            {
+                                Zipcode = p.Zipcode,
+                                City = p.Postal.City
+                            },
                             CustomerId = c.CustomerId,
-                            Orders = c.Orders.Select(o => new OrderModel()
+                            Orders = c.Orders.Select(o => new Order()
                             {
                                 CustomerId = o.CustomerId,
                                 Date = o.Date,
                                 OrderId = o.OrderId,
-                                Orderlines = o.Orderlines.Select(l => new OrderlineModel()
+                                Orderlines = o.Orderlines.Select(l => new Orderline()
                                 {
                                     Count = l.Count,
                                     OrderId = l.OrderId,

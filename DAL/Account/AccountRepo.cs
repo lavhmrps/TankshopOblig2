@@ -8,19 +8,11 @@ namespace Nettbutikk.DataAccess
     public class AccountRepo : IAccountRepo
     {
 
-        public List<PersonModel> GetAllPeople()
+        public List<Person> GetAllPeople()
         {
             using (var db = new TankshopDbContext())
             {
-                var people = db.People.Select(p => new PersonModel()
-                {
-                    Email = p.Email,
-                    Firstname = p.Firstname,
-                    Lastname = p.Lastname,
-                    Address = p.Address,
-                    Zipcode = p.Zipcode,
-                    City = p.Postal.City
-                }).ToList();
+                var people = db.People.ToList();
 
                 // 
                 //foreach (var person in people)
@@ -46,18 +38,9 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public bool AddPerson(PersonModel person, Role role, string password)
+        public bool AddPerson(Person person, Role role, string password)
         {
             var email = person.Email;
-            var newPerson = new Person()
-            {
-                Email = email,
-                Firstname = person.Firstname,
-                Lastname = person.Lastname,
-                Address = person.Address,
-                Zipcode = person.Zipcode,
-
-            };
             using (var db = new TankshopDbContext())
             {
                 using (var transaction = db.Database.BeginTransaction())
@@ -73,8 +56,8 @@ namespace Nettbutikk.DataAccess
                                 City = person.City
                             };
                         }
-                        personPostal.People.Add(newPerson);
-                        newPerson.Postal = personPostal;
+                        personPostal.People.Add(person);
+                        person.Postal = personPostal;
 
 
                         // Create email / password - combination
@@ -120,7 +103,7 @@ namespace Nettbutikk.DataAccess
 
                         }
 
-                        db.People.Add(newPerson);
+                        db.People.Add(person);
 
                         db.SaveChanges();
                         transaction.Commit();
@@ -221,21 +204,20 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public PersonModel GetPerson(string email)
+        public Person GetPerson(string email)
         {
             using (var db = new TankshopDbContext())
             {
                 try
                 {
 
-                    var person = db.People.Where(p => p.Email == email).Select(p => new PersonModel()
+                    var person = db.People.Where(p => p.Email == email).Select(p => new Person()
                     {
                         Email = p.Email,
                         Firstname = p.Firstname,
                         Lastname = p.Lastname,
                         Address = p.Address,
-                        Zipcode = p.Zipcode,
-                        City = p.Postal.City
+                        Postal = p.Postal
                     }).Single();
 
                     return person;
@@ -247,7 +229,7 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public CustomerModel GetCustomer(int customerId)
+        public Customer GetCustomer(int customerId)
         {
             using (var db = new TankshopDbContext())
             {
@@ -257,15 +239,14 @@ namespace Nettbutikk.DataAccess
                     var dbPerson = GetPerson(dbCustomer.Email);
                     var orderRepo = new OrderRepo();
 
-                    var customer = new CustomerModel()
+                    var customer = new Customer()
                     {
                         CustomerId = customerId,
                         Email = dbPerson.Email,
                         Firstname = dbPerson.Firstname,
                         Lastname = dbPerson.Lastname,
                         Address = dbPerson.Address,
-                        Zipcode = dbPerson.Zipcode,
-                        City = dbPerson.City,
+                        Postal = dbPerson.Postal,
                         Orders = orderRepo.GetOrders(customerId)
                     };
 
@@ -278,7 +259,7 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public CustomerModel GetCustomer(string email)
+        public Customer GetCustomer(string email)
         {
             using (var db = new TankshopDbContext())
             {
@@ -289,15 +270,14 @@ namespace Nettbutikk.DataAccess
 
                     var orderRepo = new OrderRepo();
 
-                    var customer = new CustomerModel()
+                    var customer = new Customer()
                     {
                         CustomerId = customerId,
                         Email = dbPerson.Email,
                         Firstname = dbPerson.Firstname,
                         Lastname = dbPerson.Lastname,
                         Address = dbPerson.Address,
-                        Zipcode = dbPerson.Zipcode,
-                        City = dbPerson.City,
+                        Postal = dbPerson.Postal,
                         Orders = orderRepo.GetOrders(customerId)
                     };
 
@@ -310,21 +290,20 @@ namespace Nettbutikk.DataAccess
             }
         }
 
-        public AdminModel GetAdmin(int adminId)
+        public Admin GetAdmin(int adminId)
         {
             using (var db = new TankshopDbContext())
             {
                 var dbAdmin = db.Admins.FirstOrDefault(a => a.AdminId == adminId);
                 var dbPerson = GetPerson(dbAdmin.Email);
-                var admin = new AdminModel()
+                var admin = new Admin()
                 {
                     AdminId = adminId,
                     Email = dbPerson.Email,
                     Firstname = dbPerson.Firstname,
                     Lastname = dbPerson.Lastname,
                     Address = dbPerson.Address,
-                    Zipcode = dbPerson.Zipcode,
-                    City = dbPerson.City
+                    Postal = dbPerson.Postal
                 };
 
                 return admin;
@@ -332,21 +311,20 @@ namespace Nettbutikk.DataAccess
         }
 
 
-        public AdminModel GetAdmin(string email)
+        public Admin GetAdmin(string email)
         {
             using (var db = new TankshopDbContext())
             {
                 var adminId = db.Admins.FirstOrDefault(a => a.Email == email).AdminId;
                 var dbPerson = GetPerson(email);
-                var admin = new AdminModel()
+                var admin = new Admin()
                 {
                     AdminId = adminId,
                     Email = dbPerson.Email,
                     Firstname = dbPerson.Firstname,
                     Lastname = dbPerson.Lastname,
                     Address = dbPerson.Address,
-                    Zipcode = dbPerson.Zipcode,
-                    City = dbPerson.City
+                    Postal = dbPerson.Postal
                 };
 
                 return admin;
@@ -354,7 +332,7 @@ namespace Nettbutikk.DataAccess
 
         }
 
-        public bool UpdatePerson(PersonModel personUpdate, string email)
+        public bool UpdatePerson(Person personUpdate, string email)
         {
             // TODO: update admin/customer -id
             using (var db = new TankshopDbContext())

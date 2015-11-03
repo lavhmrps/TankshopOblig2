@@ -17,12 +17,12 @@ namespace Nettbutikk.BusinessLogic
             _repo = stub;
         }
 
-        public OrderModel GetReciept(int orderId)
+        public Order GetReciept(int orderId)
         {
             return _repo.GetReciept(orderId);
         }
 
-        public int PlaceOrder(OrderModel order)
+        public int PlaceOrder(Order order)
         {
             return _repo.PlaceOrder(order);
         }

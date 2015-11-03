@@ -7,111 +7,121 @@ namespace Nettbutikk.DataAccess
 {
     public class OrderRepo : IOrderRepo
     {
-        public List<OrderModel> GetOrders(int customerId)
+        private ITankshopDbContext _db;
+
+        private ITankshopDbContext db { get { return _db?? (_db = new TankshopDbContext()); } set { _db = value; } }
+        public List<Order> GetOrders(int customerId)
         {
-            using (var db = new TankshopDbContext())
+            var customerOrders = new List<Order>();
+            var dbOrders = db.Orders.OrderByDescending(o => o.Date);
+
+            foreach (var order in dbOrders)
             {
-                var customerOrders = new List<OrderModel>();
-                var dbOrders = db.Orders.OrderByDescending(o => o.Date);
-
-                foreach (var order in dbOrders)
-                {
-                    if (order.CustomerId == customerId)
-                        customerOrders.Add(GetOrder(order.OrderId));
-                }
-
-                return customerOrders;
-
+                if (order.CustomerId == customerId)
+                    customerOrders.Add(GetOrder(order.OrderId));
             }
+
+            return customerOrders;
         }
 
-        public OrderModel GetOrder(int orderId)
+        public Order GetOrder(int orderId)
         {
-            using (var db = new TankshopDbContext())
+            var dbOrder = db.Orders.Find(orderId);
+            if (dbOrder == null)
+                return null;
+
+            var order = new Order()
             {
-                var dbOrder = db.Orders.Find(orderId);
-                if (dbOrder == null)
-                    return null;
-
-                var order = new OrderModel()
+                CustomerId = dbOrder.CustomerId,
+                OrderId = dbOrder.OrderId,
+                Orderlines = db.Orderlines.Where(l => l.OrderId == dbOrder.OrderId).Select(l => new Orderline()
                 {
-                    CustomerId = dbOrder.CustomerId,
-                    OrderId = dbOrder.OrderId,
-                    Orderlines = db.Orderlines.Where(l => l.OrderId == dbOrder.OrderId).Select(l => new OrderlineModel()
-                    {
-                        OrderlineId = l.OrderlineId,
-                        OrderId = l.OrderId,
-                        ProductId = l.ProductId,
-                        Count = l.Count,
-                        ProductName = l.Product.Name,
-                        ProductPrice = l.Product.Price
+                    OrderlineId = l.OrderlineId,
+                    OrderId = l.OrderId,
+                    ProductId = l.ProductId,
+                    Count = l.Count,
+                    ProductName = l.Product.Name,
+                    ProductPrice = l.Product.Price
 
-                    }).ToList(),
-                    Date = dbOrder.Date
+                }).ToList(),
+                Date = dbOrder.Date
+            };
+
+            return order;
+        }
+
+        public int PlaceOrder(Order order)
+        {
+            try
+            {
+                var newOrder = new Order()
+                {
+                    CustomerId = order.CustomerId,
+                    Date = order.Date
                 };
 
-                return order;
-            }
-        }
-
-        public int PlaceOrder(OrderModel order)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
+                foreach (var item in order.Orderlines)
                 {
-                    var newOrder = new Order()
+                    var product = db.Products.Find(item.ProductId);
+                    var orderline = new Orderline()
                     {
-                        CustomerId = order.CustomerId,
-                        Date = order.Date
+                        Product = product,
+                        Count = item.Count,
+                        ProductId = item.ProductId
                     };
 
-                    foreach (var item in order.Orderlines)
-                    {
-                        var product = db.Products.Find(item.ProductId);
-                        var orderline = new Orderline()
-                        {
-                            Product = product,
-                            Count = item.Count,
-                            ProductId = item.ProductId
-                        };
-
-                        newOrder.Orderlines.Add(orderline);
-                    }
-
-                    db.Orders.Add(newOrder);
-                    db.SaveChanges();
-                    return newOrder.OrderId;
+                    newOrder.Orderlines.Add(orderline);
                 }
-                catch (Exception)
-                {
-                    return 0;
-                }
+
+                db.Orders.Add(newOrder);
+                db.SaveChanges();
+                return newOrder.OrderId;
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
 
-        public OrderModel GetReciept(int orderId)
+        public Order GetReciept(int orderId)
         {
-            using (var db = new TankshopDbContext())
+            var dbOrder = db.Orders.Find(orderId);
+            var orderModel = new Order()
             {
-                var dbOrder = db.Orders.Find(orderId);
-                var orderModel = new OrderModel()
+                CustomerId = dbOrder.CustomerId,
+                Date = dbOrder.Date,
+                OrderId = dbOrder.OrderId,
+                Orderlines = dbOrder.Orderlines.Select(l => new Orderline()
                 {
-                    CustomerId = dbOrder.CustomerId,
-                    Date = dbOrder.Date,
-                    OrderId = dbOrder.OrderId,
-                    Orderlines = dbOrder.Orderlines.Select(l => new OrderlineModel()
-                    {
-                        Count = l.Count,
-                        OrderlineId = l.OrderlineId,
-                        ProductId = l.ProductId,
-                        ProductName = l.Product.Name,
-                        ProductPrice = l.Product.Price
-                    }).ToList()
-                };
+                    Count = l.Count,
+                    OrderlineId = l.OrderlineId,
+                    ProductId = l.ProductId,
+                    ProductName = l.Product.Name,
+                    ProductPrice = l.Product.Price
+                }).ToList()
+            };
 
-                return orderModel;
-            }
+            return orderModel;
+        }
+
+        public IList<Order> GetAllOrders()
+        {
+            return db.Orders.ToList();
+        }
+
+        public bool UpdateOrderline(Orderline orderline)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetOrderSumTotal(int orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteOrder(int orderId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
