@@ -14,12 +14,24 @@ namespace Oblig1_Nettbutikk.DAL
             using (var db = new TankshopDbContext())
             {
                 var customerOrders = new List<OrderModel>();
-                var dbOrders = db.Orders.OrderByDescending(o => o.Date);
+                var dbOrders = db.Orders.ToList(); ;
 
-                foreach (var order in dbOrders)
+                foreach (var dbOrder in dbOrders)
                 {
-                    if (order.CustomerId == customerId)
-                        customerOrders.Add(GetOrder(order.OrderId));
+                    if (dbOrder.CustomerId == customerId)
+                    {
+                        try
+                        {
+                            var order = GetOrder(dbOrder.OrderId);
+                            var count = order.Orderlines.Count;
+                            if (count > 0)
+                                customerOrders.Add(GetOrder(dbOrder.OrderId));
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
                 }
 
                 return customerOrders;
@@ -120,27 +132,22 @@ namespace Oblig1_Nettbutikk.DAL
         {
             using(var db = new TankshopDbContext())
             {
-                var dbOrders = db.Orders;
+                var dbOrders = db.Orders.ToList();
                 var orderModels = new List<OrderModel>();
 
                 foreach(var dbOrder in dbOrders)
                 {
-                    //var orderModel = new OrderModel()
-                    //{
-                    //    CustomerId = dbOrder.CustomerId,
-                    //    Date = dbOrder.Date,
-                    //    OrderId = dbOrder.OrderId,
-                    //    Orderlines = dbOrder.Orderlines.Select(l => new OrderlineModel()
-                    //    {
-                    //        Count = l.Count,
-                    //        OrderlineId = l.OrderlineId,
-                    //        ProductId = l.ProductId,
-                    //        ProductName = l.Product.Name,
-                    //        ProductPrice = l.Product.Price
-                    //    }).ToList()
-                    //};
-                    //orderModels.Add(orderModel);
-                    orderModels.Add(GetOrder(dbOrder.OrderId));
+                    try
+                    {
+                        var order = GetOrder(dbOrder.OrderId);
+                        var count = order.Orderlines.Count;
+                        if (count > 0)
+                            orderModels.Add(order);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                 }
 
                 return orderModels;

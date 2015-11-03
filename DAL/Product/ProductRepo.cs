@@ -31,6 +31,32 @@ namespace Oblig1_Nettbutikk.DAL
             }
         }
 
+        public List<ProductModel> GetAllProducts()
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbProducts = db.Products.ToList();
+                var productModels = new List<ProductModel>();
+
+                foreach (var dbProduct in dbProducts)
+                {
+                    var productModel = new ProductModel()
+                    {
+                        CategoryId = dbProduct.CategoryId,
+                        CategoryName = dbProduct.Category.Name,
+                        Description = dbProduct.Description,
+                        ImageUrl = dbProduct.ImageUrl,
+                        Price = dbProduct.Price,
+                        ProductId = dbProduct.ProductId,
+                        ProductName = dbProduct.Name,
+                        Stock = dbProduct.Stock
+                    };
+                    productModels.Add(productModel);
+                }
+                return productModels;
+            }
+        }
+
         public string GetCategoryName(int categoryId)
         {
             using (var db = new TankshopDbContext())

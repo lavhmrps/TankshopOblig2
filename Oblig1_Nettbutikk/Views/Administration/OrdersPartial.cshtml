@@ -1,17 +1,20 @@
 ﻿@using Oblig1_Nettbutikk.Models
-@model List<OrderView>
-<h4>Ordreadministrasjon</h4>
-
+@{
+    List<OrderView> Orders = ViewBag.Orders;
+    List<ProductView> Products = ViewBag.Products;
+}
+<h4>Ordreadministrasjon 2</h4>
+<p>ordre: @Orders.Count</p>
+<p>produkter: @Products.Count</p>
 <ul id="adminOrderList">
-    @if (Model.Count == 0)
+
+    @if (Orders.Count == 0)
     {
         <li>
             <span style="color:deeppink">Ingen ordre foretatt</span>
         </li>
     }
-    @{
-    }
-    @foreach (var order in Model)
+    @foreach (var order in Orders)
     {
         var orderTotal = 0.0;
         foreach (var line in order.Orderlines)
@@ -19,7 +22,7 @@
             orderTotal += line.Product.Price * line.Count;
         }
         <li orderid="@order.OrderId">
-            <a class="linkNoHref orderListTitle">OrdreId: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year | Totalpris: kr @string.Format("{0:n}",orderTotal) </a>
+            <a class="linkNoHref orderListTitle">OrdreId: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year | Totalpris: kr <span class="sumTotal">@string.Format("{0:n}", orderTotal)</span> </a>
 
             <table hidden class="tableOrderlines" border="1">
                 <thead>
@@ -44,13 +47,36 @@
                                 @line.OrderlineId
                             </td>
                             <td>
-                                @Html.ActionLink(@line.Product.ProductName, "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)
-                                @*<select id="ddSelectProduct">
+                                <select class="adminSelectChangeProduct" last-save="@line.Product.ProductId" disabled>
+                                    @foreach (var product in Products)
+                                    {
+                                        var o = order.Orderlines.FirstOrDefault(l => l.Product.ProductId == product.ProductId);
+                                        if (line.Product.ProductId == product.ProductId)
+                                        {
+                                            <option value="@product.ProductId" data-price="@product.Price" selected>
+                                                @product.ProductName
+                                            </option>
+                                        }
+                                        else if (o != null)
+                                        {
+                                            <option value="@product.ProductId" data-price="@product.Price" disabled>
+                                                @product.ProductName
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@product.ProductId" data-price="@product.Price">
+                                                @product.ProductName
+                                            </option>
 
-                                    </select>*@
+                                        }
+                                    }
+                                </select>
+                                @*@Html.ActionLink(@line.Product.ProductName, "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)*@
+                                @Html.ActionLink("Gå til", "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)
                             </td>
                             <td>
-                                <select productid="@line.Product.ProductId" class="adminSelectChangeCountItem" last-save="@line.Count" disabled>
+                                <select class="adminSelectChangeCount" last-save="@line.Count" disabled>
                                     @for (int i = 0; i < 10; i++)
                                     {
                                         if (i == line.Count)
@@ -64,11 +90,11 @@
                                     }
                                 </select>
                             </td>
-                            <td class="productprice" productprice="@line.Product.Price">
+                            <td class="productprice" last-save="@line.Product.Price">
                                 @String.Format("{0:n}", @line.Product.Price)
                             </td>
                             <td>
-                                <span class="productTotal" style="font-weight:bold;">@String.Format("{0:n}", productTotal)</span>
+                                <span class="productTotal" last-save="@productTotal" style="font-weight:bold;">@String.Format("{0:n}", productTotal)</span>
                             </td>
                             <td>
                                 <a class="linkNoHref adminOrderlineEdit">Endre</a>
@@ -84,7 +110,7 @@
                         <td></td>
                         <td></td>
                         <td>
-                            <span class="sumTotal" style="color:forestgreen;font-weight:bold">@String.Format("{0:n}", sumTotal)</span>
+                            <span class="sumTotal" last-save="@sumTotal" style="color:forestgreen;font-weight:bold">@String.Format("{0:n}", sumTotal)</span>
                         </td>
                         <td><a class="linkNoHref adminOrderDelete">Slett hele</a></td>
                     </tr>
@@ -96,6 +122,39 @@
 
 <script>
     $(document).ready(function () {
+
+        // Update prices on product changes
+        $(".adminSelectChangeProduct").change(function () {
+            var productId = $(this).val();
+            var productPrice = $(this).find(':selected').data('price');
+            var count = $(".adminSelectChangeCount").val();
+
+            var row = $(this).closest("tr");
+            var showPrice = row.find(".productprice");
+            var showTotal = row.find(".productTotal");
+
+            var productTotal = productPrice * count;
+
+            showPrice.text(formatPrice(productPrice));
+            showTotal.text(formatPrice(productTotal));
+
+        })
+
+        // Update prices on count changes
+        $(".adminSelectChangeCount").change(function () {
+            var count = $(this).val();
+            var productId = $(".adminSelectChangeProduct").val();
+            var productPrice = $(".adminSelectChangeProduct").find(':selected').data('price');
+
+            var row = $(this).closest("tr");
+            var showPrice = row.find(".productprice");
+            var showTotal = row.find(".productTotal");
+
+            var productTotal = productPrice * count;
+
+            showPrice.text(formatPrice(productPrice));
+            showTotal.text(formatPrice(productTotal));
+        })
 
         $(".adminOrderDelete").click(function () {
             if (!confirm("Slette hele orderen?"))
@@ -116,16 +175,12 @@
                             var emptyList = "<li><span style=\"color:deeppink\">Ingen ordre foretatt</span></li>";
                             $("#adminOrderList").append(emptyList);
                         }
-
                     }
                     else {
                         alert("feil ved sletting av ordre");
                     }
                 }
             })
-
-
-
         })
 
         $(".adminOrderlineEdit").click(function () {
@@ -154,12 +209,23 @@
             var btnSave = row.find(".adminOrderlineSave");
             var btnCancel = row.find(".adminOrderlineCancel");
 
-            var select = row.find("select");
+            var selectProduct = row.find(".adminSelectChangeProduct");
+            var selectCount = row.find(".adminSelectChangeCount");
+            var showPrice = row.find(".productprice");
+            var showTotal = row.find(".productTotal");
 
-            var savedCount = select.attr("last-save");
-            select.val(savedCount);
+            var savedProduct = selectProduct.attr("last-save");
+            var savedCount = selectCount.attr("last-save");
+            var savedPrice = showPrice.attr("last-save");
+            var savedTotal = showTotal.attr("last-save");
 
-            select.attr("disabled", true);
+            selectProduct.val(savedProduct);
+            selectCount.val(savedCount);
+            showPrice.text(formatPrice(savedPrice));
+            showTotal.text(formatPrice(savedTotal));
+
+            selectProduct.attr("disabled", true);
+            selectCount.attr("disabled", true);
 
             btnEdit.show();
             btnDelete.show();
@@ -181,13 +247,13 @@
             var btnCancel = row.find(".adminOrderlineCancel");
 
             var orderlineId = row.attr("orderlineid");
-            var productId = row.find("select").attr("productid");
-
+            var productId = row.find(".adminSelectChangeProduct").val()
             var orderline = {
                 OrderlineId: orderlineId,
                 ProductId: productId,
                 Count: 0
             }
+            // console.log(orderline); return;
 
             $.ajax({
                 url: '@Url.Action("UpdateOrderline","Administration")',
@@ -196,6 +262,14 @@
                 success: function (result) {
                     if (result === "True") {
                         row.remove();
+                        if (li.find("tr").length == 2)
+                            li.remove();
+
+                        //  remove disabled on selectproduct
+                        li.find(".adminSelectChangeProduct").find(":disabled").each(function () {
+                            if ($(this).val() == productId)
+                                $(this).attr("disabled", false);
+                        })
                         updateOrderTotal(li);
 
                     } else {
@@ -209,6 +283,7 @@
 
         $(".adminOrderlineSave").click(function () {
             var row = $(this).closest("tr");
+            var ul = row.closest("ul");
             var li = row.closest("li");
 
             var btnEdit = row.find(".adminOrderlineEdit");
@@ -216,14 +291,15 @@
             var btnSave = row.find(".adminOrderlineSave");
             var btnCancel = row.find(".adminOrderlineCancel");
 
-            var select = row.find("select");
+            var selectProduct = row.find(".adminSelectChangeProduct");
+            var selectCount = row.find(".adminSelectChangeCount");
+            var showPrice = row.find(".productprice");
+            var showTotal = row.find(".productTotal");
 
             var orderlineId = row.attr("orderlineid");
-            var productId = select.attr("productid");
-            var newCount = select.val();
-
-            var productPrice = row.find(".productprice").attr("productprice");
-            var productTotalElem = row.find(".productTotal")
+            var productId = selectProduct.val();
+            var newCount = selectCount.val();
+            var productPrice = selectProduct.find(':selected').data('price');
 
             if (newCount == 0)
                 if (!confirm("Slette ordrelinjen?"))
@@ -235,7 +311,7 @@
                 Count: newCount
             }
 
-            console.log(orderline); return;
+            //console.log(orderline);return;
 
             $.ajax({
                 url: '@Url.Action("UpdateOrderline","Administration")',
@@ -245,22 +321,33 @@
                     if (result === "True") {
                         if (newCount == 0) {
                             row.remove();
+                            if (li.find("tr").length == 2)
+                                li.remove();
+
                         }
                         else {
-                            var newProductTotal = productPrice * newCount;
-                            productTotalElem.text(formatPrice(newProductTotal));
+                            var productTotal = productPrice * newCount;
+                            showTotal.text(formatPrice(productTotal));
 
+                            selectProduct.attr("last-save", productId);
+                            selectCount.attr("last-save", newCount);
+                            showPrice.attr("last-save", productPrice);
+                            showTotal.attr("last-save", productTotal);
 
-                            select.attr("productid", productId);
-                            select.attr("last-save", newCount);
-
-                            select.attr("disabled", true);
+                            selectProduct.attr("disabled", true);
+                            selectCount.attr("disabled", true);
 
                             btnEdit.show();
                             btnDelete.show();
                             btnSave.hide();
                             btnCancel.hide();
                         }
+
+                        //  remove disabled on selectproduct
+                        li.find(".adminSelectChangeProduct").find(":disabled").each(function () {
+                            if ($(this).val() == productId)
+                                $(this).attr("disabled", false);
+                        })
                         updateOrderTotal(li);
                     } else {
                         alert("feil ved lagring");
@@ -273,12 +360,14 @@
 
         function updateOrderTotal(li) {
             var orderId = li.attr("orderid");
-            var elem = li.find(".sumTotal");
+            //var elem = li.find(".sumTotal");
             $.ajax({
                 url: '@Url.Action("GetOrderSumTotal","Administration")',
                 data: { OrderId: orderId },
                 success: function (result) {
-                    elem.text(formatPrice(result));
+                    li.find(".sumTotal").each(function () {
+                        $(this).text(formatPrice(result));
+                    })
                 }
             })
 

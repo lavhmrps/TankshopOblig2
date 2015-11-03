@@ -16,5 +16,7 @@ namespace Oblig1_Nettbutikk.BLL
         bool UpdateOrderline(OrderlineModel orderline);
         double GetOrderSumTotal(int orderId);
         bool DeleteOrder(int orderId);
+        CustomerModel GetCustomer(int customerId);
+        List<ProductModel> GetAllProducts();
     }
 }

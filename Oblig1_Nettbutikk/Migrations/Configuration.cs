@@ -269,7 +269,7 @@ namespace Oblig1_Nettbutikk.Migrations
                 City = "Oslo"
             });
 
-            // Persons
+            // People
             context.People.AddOrUpdate(
                 new Person
                 {
@@ -297,7 +297,7 @@ namespace Oblig1_Nettbutikk.Migrations
                     Email = "admin",
                     Firstname = "Egil",
                     Lastname = "Datasupport",
-                    Address = "Blåsbortveien 21",
+                    Address = "Hesteneset 58",
                     Zipcode = "0772"
                 });
 
@@ -347,7 +347,7 @@ namespace Oblig1_Nettbutikk.Migrations
                 Password = CreateHash("kråke")
             });
 
-            // ORders
+            // Orders
             context.Orders.AddOrUpdate(new Order
             {
                 OrderId = 1,

@@ -31,6 +31,10 @@ section {
 
 }
 
+.hr-dark{
+    border-color:#777;
+}
+
 /* bootstrap override / extention */
 .row {
     margin-top: 15px;
@@ -388,12 +392,12 @@ section {
         color:#777;
     }
 
-    #divUpdateCustomer{
+    .divUpdateCustomer, .divAdminUpdateCustomer{
         float:left;
         width:50%;
     }
 
-    #divChangePassword{
+    .divChangePassword, .divAdminChangePassword{
         float:right;
         width:50%;
     }
@@ -436,4 +440,8 @@ section {
 
  .tableOrderlines select:disabled{
      background:inherit;
+ }
+
+ .divAdminCustomerOrders{
+     clear:both;
  }

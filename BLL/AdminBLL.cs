@@ -13,12 +13,14 @@ namespace Oblig1_Nettbutikk.BLL
         private AdminRepo _repo;
         private IAccountRepo _accountrepo;
         private IOrderRepo _orderrepo;
+        private IProductRepo _productrepo;
 
         public AdminBLL()
         {
             _repo = new AdminRepo();
             _accountrepo = new AccountRepo();
             _orderrepo = new OrderRepo();
+            _productrepo = new ProductRepo();
         }
 
         public bool DeleteCustomer(string email)
@@ -54,6 +56,16 @@ namespace Oblig1_Nettbutikk.BLL
         public bool DeleteOrder(int orderId)
         {
             return _orderrepo.DeleteOrder(orderId);
+        }
+
+        public CustomerModel GetCustomer(int customerId)
+        {
+            return _accountrepo.GetCustomer(customerId);
+        }
+
+        public List<ProductModel> GetAllProducts()
+        {
+            return _productrepo.GetAllProducts();
         }
     }
 }
