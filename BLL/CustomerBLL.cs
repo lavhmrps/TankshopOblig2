@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.BLL
 {
-    public class AdminBLL :IAdminLogic
+    public class CustomerBLL :ICustomerLogic
     {
         private AdminRepo _repo;
         private IAccountRepo _accountrepo;
         private IOrderRepo _orderrepo;
         private IProductRepo _productrepo;
 
-        public AdminBLL()
+        public CustomerBLL()
         {
             _repo = new AdminRepo();
             _accountrepo = new AccountRepo();

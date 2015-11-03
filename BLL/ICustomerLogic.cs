@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.BLL
 {
-    public interface IAdminLogic
+    public interface ICustomerLogic
     {
         List<CustomerModel> GetAllCustomers();
         bool UpdatePerson(PersonModel personUpdate, string email);

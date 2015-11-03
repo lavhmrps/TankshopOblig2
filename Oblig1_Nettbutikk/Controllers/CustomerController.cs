@@ -11,14 +11,14 @@ namespace Oblig1_Nettbutikk.Controllers
 {
     public class CustomerController : Controller
     {
-        private IAdminLogic _adminBLL;
+        private ICustomerLogic _adminBLL;
 
         public CustomerController()
         {
-            _adminBLL = new AdminBLL();
+            _adminBLL = new CustomerBLL();
         }
 
-        public CustomerController(IAdminLogic stub)
+        public CustomerController(ICustomerLogic stub)
         {
             _adminBLL = stub;
         }
