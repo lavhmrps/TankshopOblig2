@@ -1,15 +1,8 @@
-﻿@using Oblig1_Nettbutikk.Models
-
-@{ 
-    List<CustomerView> Customers = ViewBag.Customers;
-    List<OrderView> Orders = ViewBag.Orders;
-}
+﻿
 <h2>Administration</h2>
 
-@Html.Partial("Administration_CustomerList", Customers)
+@{Html.RenderAction("CustomerlistPartial"); }
 <hr class="hr-dark" />
-@*@Html.Partial("Administration_Order", Orders)*@
-<hr class="hr-dark"/>
 @{Html.RenderAction("OrdersPartial",new { CustomerId = 0 });}
 
     

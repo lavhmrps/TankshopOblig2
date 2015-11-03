@@ -214,7 +214,7 @@
     <Content Include="Views\Checkout\_CheckoutItemsPartial.cshtml" />
     <Content Include="Views\Checkout\_CheckoutAddressPartial.cshtml" />
     <Content Include="Views\Checkout\GetReciept.cshtml" />
-    <Content Include="Views\Customer\Administration_CustomerList.cshtml" />
+    <Content Include="Views\Customer\CustomerlistPartial.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Administration_Customer.cshtml" />
     <Content Include="Views\Customer\OrdersPartial.cshtml" />

@@ -2,8 +2,9 @@
 @{
     List<OrderView> Orders = ViewBag.Orders;
     List<ProductView> Products = ViewBag.Products;
+    string Title = ViewBag.Title;
 }
-<h4>Ordreadministrasjon for kunde</h4>
+<h4>@Title</h4>
 <ul id="adminOrderList">
 
     @if (Orders.Count == 0)

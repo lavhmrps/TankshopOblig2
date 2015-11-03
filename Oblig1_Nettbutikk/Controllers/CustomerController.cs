@@ -24,8 +24,46 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
 
-        // GET: Administration
+        // GET: Customer administration
         public ActionResult Index()
+        {
+            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ShowCustomer(int CustomerId, string ReturnUrl)
+        {
+            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
+            {
+                var customerModel = _adminBLL.GetCustomer(CustomerId);
+
+                var customerView = new CustomerView()
+                {
+                    CustomerId = customerModel.CustomerId,
+                    Email = customerModel.Email,
+                    Firstname = customerModel.Firstname,
+                    Lastname = customerModel.Lastname,
+                    Address = customerModel.Address,
+                    Zipcode = customerModel.Zipcode,
+                    City = customerModel.City
+                };
+                
+
+                ViewBag.Customer = customerView;
+                ViewBag.ReturnUrl = ReturnUrl;
+
+                return View("Administration_Customer");
+
+
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [ChildActionOnly]
+        public ActionResult CustomerlistPartial()
         {
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
@@ -48,114 +86,10 @@ namespace Oblig1_Nettbutikk.Controllers
                     customerViewList.Add(customerView);
                 }
 
-                List<OrderModel> orderModels = _adminBLL.GetAllOrders();
-                List<OrderView> orderViewList = new List<OrderView>();
-
-                foreach (var o in orderModels)
-                {
-                    var order = new OrderView();
-                    order.Date = o.Date;
-                    order.OrderId = o.OrderId;
-                    order.Orderlines = new List<OrderlineView>();
-
-                    foreach (var l in o.Orderlines)
-                    {
-                        var orderline = new OrderlineView();
-                        orderline.Count = l.Count;
-                        orderline.OrderlineId = l.OrderlineId;
-                        orderline.Product = new ProductView()
-                        {
-                            Price = l.ProductPrice,
-                            ProductId = l.ProductId,
-                            ProductName = l.ProductName
-                        };
-
-                        order.Orderlines.Add(orderline);
-                    }
-                    orderViewList.Add(order);
-                }
-
-                var productModels = _adminBLL.GetAllProducts();
-                var productViews = new List<ProductView>();
-
-                foreach(var productModel in productModels)
-                {
-                    var productview = new ProductView()
-                    {
-                        ProductId = productModel.ProductId,
-                        ProductName = productModel.ProductName,
-                        Description = productModel.Description,
-                        Price = productModel.Price,
-                        Stock = productModel.Stock,
-                        ImageUrl = productModel.ImageUrl,
-                        CategoryName = productModel.CategoryName
-                    };
-                    productViews.Add(productview);
-                }
-
-
                 ViewBag.Customers = customerViewList;
-                ViewBag.Orders = orderViewList;
-                ViewBag.Products = productViews;
-
-                return View();
+                return PartialView();
             }
-            return RedirectToAction("Index", "Home");
-        }
-
-        public ActionResult ShowCustomer(int CustomerId, string ReturnUrl)
-        {
-            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
-            {
-                var customerModel = _adminBLL.GetCustomer(CustomerId);
-
-                var customerView = new CustomerView()
-                {
-                    CustomerId = customerModel.CustomerId,
-                    Email = customerModel.Email,
-                    Firstname = customerModel.Firstname,
-                    Lastname = customerModel.Lastname,
-                    Address = customerModel.Address,
-                    Zipcode = customerModel.Zipcode,
-                    City = customerModel.City
-                };
-
-                //var orderModels = customerModel.Orders;
-                //var orderViews = new List<OrderView>();
-
-                //foreach (var o in orderModels)
-                //{
-                //    var order = new OrderView();
-                //    order.Date = o.Date;
-                //    order.OrderId = o.OrderId;
-                //    order.Orderlines = new List<OrderlineView>();
-
-                //    foreach (var l in o.Orderlines)
-                //    {
-                //        var orderline = new OrderlineView();
-                //        orderline.Count = l.Count;
-                //        orderline.OrderlineId = l.OrderlineId;
-                //        orderline.Product = new ProductView()
-                //        {
-                //            Price = l.ProductPrice,
-                //            ProductId = l.ProductId,
-                //            ProductName = l.ProductName
-                //        };
-
-                //        order.Orderlines.Add(orderline);
-                //    }
-                //    orderViews.Add(order);
-                //}
-
-                ViewBag.Customer = customerView;
-                //ViewBag.Orders = orderViews;
-                ViewBag.ReturnUrl = ReturnUrl;
-
-                return View("Administration_Customer");
-
-
-            }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Home", "Index");
         }
 
         [ChildActionOnly]
@@ -212,17 +146,18 @@ namespace Oblig1_Nettbutikk.Controllers
                     };
                     productViews.Add(productview);
                 }
+
+                string Title = CustomerId == 0 ? "Ordreadministrasjon - Alle ordre" : "Ordreadministrasjon - Kunde";
                 
                 ViewBag.Orders = orderViews;
                 ViewBag.Products= productViews;
+                ViewBag.Title = Title;
 
 
                 return PartialView();
             }
             return RedirectToAction("Home", "Index");
         }
-
-
 
         [HttpPost]
         public bool UpdateCustomerInfo(CustomerView customerEdit)
