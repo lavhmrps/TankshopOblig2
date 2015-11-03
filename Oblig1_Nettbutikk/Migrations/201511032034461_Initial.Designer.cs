@@ -13,7 +13,7 @@ namespace Oblig1_Nettbutikk.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201510252348511_Initial"; }
+            get { return "201511032034461_Initial"; }
         }
         
         string IMigrationMetadata.Source

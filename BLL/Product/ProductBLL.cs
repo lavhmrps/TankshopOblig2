@@ -27,6 +27,11 @@ namespace Oblig1_Nettbutikk.BLL
             return _repo.AllCategories();
         }
 
+        public List<ProductModel> GetAllProducts()
+        {
+            return _repo.GetAllProducts();
+        }
+
         public string GetCategoryName(int categoryId)
         {
             return _repo.GetCategoryName(categoryId);

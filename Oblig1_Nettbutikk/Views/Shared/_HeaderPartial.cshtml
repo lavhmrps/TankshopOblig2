@@ -1,6 +1,5 @@
 ﻿@{
     bool LoggedIn = (Session["LoggedIn"] == null ? false : (bool)Session["LoggedIn"]);
-    //bool Admin = ViewBag.Admin;
     bool Admin = (Session["Admin"] == null ? false : (bool)Session["Admin"]);
 }
 
@@ -44,7 +43,9 @@
                     if (Admin)
                     {
                         <span> | </span>
-                        <span>@Html.ActionLink("Administrer", "Index", "Customer")</span>
+                        <span>@Html.ActionLink("Kunder", "Index", "Customer")</span>
+                        <span> | </span>
+                        <span>@Html.ActionLink("Images", "Index", "Image")</span>
                     }
                 }
             </div>
