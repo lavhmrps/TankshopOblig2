@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Oblig1_Nettbutikk.Model;
 using BLL.Image;
-using DAL.Image;
 using Oblig1_Nettbutikk.BLL;
+using Logging;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
@@ -30,8 +30,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
         }
 
-
-        // GET: Image
         public ActionResult Index()
         {
 
@@ -45,10 +43,6 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Create(string ProductIDs, string ImageUrl) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST create");
-            System.Diagnostics.Debug.WriteLine("Got ProductId: " + ProductIDs);
-            System.Diagnostics.Debug.WriteLine("Got url: " + ImageUrl);
-
             int productId;
 
             try
@@ -57,7 +51,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid product id";
                 return View("~/Views/Shared/Result.cshtml");
@@ -79,11 +73,6 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Edit(string ImageId, string ProductIDs, string ImageUrl) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST edit");
-            System.Diagnostics.Debug.WriteLine("Got ImageId: " + ImageId);
-            System.Diagnostics.Debug.WriteLine("Got ProductId: " + ProductIDs);
-            System.Diagnostics.Debug.WriteLine("Got url: " + ImageUrl);
-
             int imageId;
             int productId;
 
@@ -93,7 +82,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + ImageId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -103,7 +92,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 productId = Convert.ToInt32(ProductIDs);
             }
             catch (Exception e) {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid product id: " + ProductIDs;
                 return View("~/Views/Shared/Result.cshtml");
@@ -123,9 +112,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult Delete(string ImageId) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST delete");
-            System.Diagnostics.Debug.WriteLine("Got ImageId: " + ImageId);
-
             int imageId;
 
             try
@@ -134,7 +120,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + ImageId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -174,15 +160,13 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult EditImage(string imageId) {
 
-            System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
-
             int nImageId;
 
             try {
                 nImageId = Convert.ToInt32(imageId);
             }
             catch (Exception e) {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -216,8 +200,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult DeleteImage(string imageId) {
 
-            System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
-
             int nImageId;
 
             try
@@ -226,7 +208,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");

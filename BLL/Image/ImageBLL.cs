@@ -51,6 +51,7 @@ namespace BLL.Image
         public bool UpdateImage(int imageId, int productId, string imageUrl)
         {
 
+            
             Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
 
             if (img == null)

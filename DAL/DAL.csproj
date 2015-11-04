@@ -97,6 +97,10 @@
     <Compile Include="TankshopDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{696f113c-863e-4807-8953-15391b5fbc3a}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>
       <Name>Model</Name>

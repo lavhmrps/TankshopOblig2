@@ -11,7 +11,7 @@ using System.Web.Routing;
 
 namespace Oblig1_Nettbutikk
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -28,7 +28,7 @@ namespace Oblig1_Nettbutikk
         {
 
             Exception exception = Server.GetLastError();
-            App_Code.LogHandler.WriteToLog(exception);
+            Logging.LogHandler.WriteToLog(exception);
 
             //TODO: Redirect to error page
 
