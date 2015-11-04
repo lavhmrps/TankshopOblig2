@@ -1,0 +1,312 @@
+﻿@using Nettbutikk.Models
+@model List<OrderView>
+<h4>Ordreadministrasjon</h4>
+
+<ul id="adminOrderList">
+    @if (Model.Count == 0)
+    {
+        <li>
+            <span style="color:deeppink">Ingen ordre foretatt</span>
+        </li>
+    }
+            @{
+                }
+    @foreach (var order in Model)
+    {
+        var orderTotal = 0.0;
+        foreach (var line in order.Orderlines)
+                {
+            orderTotal += line.Product.Price * line.Count;
+            }
+        <li orderid="@order.OrderId">
+            <a class="linkNoHref orderListTitle">OrdreId: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year | Totalpris: kr @string.Format("{0:n}",orderTotal) </a>
+
+            <table hidden class="tableOrderlines" border="1">
+                <thead>
+                    <tr>
+                        <th>LinjeId</th>
+                        <th>Produkt</th>
+                        <th>Antall</th>
+                        <th>Produktpris</th>
+                        <th>Produktsum</th>
+                        <th></th>
+                    </tr>
+                <tbody>
+                    @{
+                        var sumTotal = 0.0;
+                    }
+                    @foreach (var line in order.Orderlines)
+                    {
+                        var productTotal = @line.Product.Price * @line.Count;
+                        sumTotal += productTotal;
+                        <tr orderlineid="@line.OrderlineId">
+                            <td>
+                                @line.OrderlineId
+                            </td>
+                            <td>
+                                @Html.ActionLink(@line.Product.ProductName, "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)
+                                @*<select id="ddSelectProduct">
+
+                                    </select>*@
+                            </td>
+                            <td>
+                                <select productid="@line.Product.ProductId" class="adminSelectChangeCountItem" last-save="@line.Count" disabled>
+                                    @for (int i = 0; i < 10; i++)
+                                    {
+                                        if (i == line.Count)
+                                        {
+                                            <option value="@i" selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                            <td class="productprice" productprice="@line.Product.Price">
+                                @String.Format("{0:n}", @line.Product.Price)
+                            </td>
+                            <td>
+                                <span class="productTotal" style="font-weight:bold;">@String.Format("{0:n}", productTotal)</span>
+                            </td>
+                            <td>
+                                <a class="linkNoHref adminOrderlineEdit">Endre</a>
+                                <a class="linkNoHref adminOrderlineDelete">Slett</a>
+                                <a class="linkNoHref adminOrderlineSave" hidden>Lagre</a>
+                                <a class="linkNoHref adminOrderlineCancel" hidden>Avbryt</a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <span class="sumTotal" style="color:forestgreen;font-weight:bold">@String.Format("{0:n}", sumTotal)</span>
+                        </td>
+                        <td><a class="linkNoHref adminOrderDelete">Slett hele</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+                        }
+</ul>
+
+<script>
+    $(document).ready(function () {
+
+        $(".adminOrderDelete").click(function () {
+            if (!confirm("Slette hele orderen?"))
+                return;
+
+            var row = $(this).closest("tr");
+            var li = row.closest("li");
+            var orderId = li.attr("orderid");
+
+            $.ajax({
+                url: '@Url.Action("DeleteOrder","Administration")',
+                data: { OrderId: orderId },
+                type: "POST",
+                success: function (result) {
+                    if (result === "True") {
+                        li.remove();
+                        if ($("#adminOrderList > li").length == 0) {
+                            var emptyList = "<li><span style=\"color:deeppink\">Ingen ordre foretatt</span></li>";
+                            $("#adminOrderList").append(emptyList);
+                        }
+
+                    }
+                    else {
+                        alert("feil ved sletting av ordre");
+                    }
+                }
+            })
+
+
+
+        })
+
+        $(".adminOrderlineEdit").click(function () {
+            var row = $(this).closest("tr");
+
+            var btnEdit = row.find(".adminOrderlineEdit");
+            var btnDelete = row.find(".adminOrderlineDelete");
+            var btnSave = row.find(".adminOrderlineSave");
+            var btnCancel = row.find(".adminOrderlineCancel");
+
+            var select = row.find("select");
+            select.attr("disabled", false);
+
+            btnEdit.hide();
+            btnDelete.hide();
+            btnSave.show();
+            btnCancel.show();
+
+        })
+
+        $(".adminOrderlineCancel").click(function () {
+            var row = $(this).closest("tr");
+
+            var btnEdit = row.find(".adminOrderlineEdit");
+            var btnDelete = row.find(".adminOrderlineDelete");
+            var btnSave = row.find(".adminOrderlineSave");
+            var btnCancel = row.find(".adminOrderlineCancel");
+
+            var select = row.find("select");
+
+            var savedCount = select.attr("last-save");
+            select.val(savedCount);
+
+            select.attr("disabled", true);
+
+            btnEdit.show();
+            btnDelete.show();
+            btnSave.hide();
+            btnCancel.hide();
+
+        })
+
+        $(".adminOrderlineDelete").click(function () {
+            if (!confirm("Slette ordrelinjen?"))
+                return;
+
+            var row = $(this).closest("tr");
+            var li = row.closest("li");
+
+            var btnEdit = row.find(".adminOrderlineEdit");
+            var btnDelete = row.find(".adminOrderlineDelete");
+            var btnSave = row.find(".adminOrderlineSave");
+            var btnCancel = row.find(".adminOrderlineCancel");
+
+            var orderlineId = row.attr("orderlineid");
+            var productId = row.find("select").attr("productid");
+
+            var orderline = {
+                OrderlineId: orderlineId,
+                ProductId: productId,
+                Count: 0
+            }
+
+            $.ajax({
+                url: '@Url.Action("UpdateOrderline","Administration")',
+                data: orderline,
+                type: "POST",
+                success: function (result) {
+                    if (result === "True") {
+                        row.remove();
+                        updateOrderTotal(li);
+
+                    } else {
+                        alert("feil ved sletting");
+                    }
+                }
+            })
+
+
+        })
+
+        $(".adminOrderlineSave").click(function () {
+            var row = $(this).closest("tr");
+            var li = row.closest("li");
+
+            var btnEdit = row.find(".adminOrderlineEdit");
+            var btnDelete = row.find(".adminOrderlineDelete");
+            var btnSave = row.find(".adminOrderlineSave");
+            var btnCancel = row.find(".adminOrderlineCancel");
+
+            var select = row.find("select");
+
+            var orderlineId = row.attr("orderlineid");
+            var productId = select.attr("productid");
+            var newCount = select.val();
+
+            var productPrice = row.find(".productprice").attr("productprice");
+            var productTotalElem = row.find(".productTotal")
+
+            if (newCount == 0)
+                if (!confirm("Slette ordrelinjen?"))
+                    return;
+
+            var orderline = {
+                OrderlineId: orderlineId,
+                ProductId: productId,
+                Count: newCount
+            }
+
+            console.log(orderline); return;
+
+            $.ajax({
+                url: '@Url.Action("UpdateOrderline","Administration")',
+                data: orderline,
+                type: "POST",
+                success: function (result) {
+                    if (result === "True") {
+                        if (newCount == 0) {
+                            row.remove();
+                        }
+                        else {
+                            var newProductTotal = productPrice * newCount;
+                            productTotalElem.text(formatPrice(newProductTotal));
+
+
+                            select.attr("productid", productId);
+                            select.attr("last-save", newCount);
+
+                            select.attr("disabled", true);
+
+                            btnEdit.show();
+                            btnDelete.show();
+                            btnSave.hide();
+                            btnCancel.hide();
+                        }
+                        updateOrderTotal(li);
+                    } else {
+                        alert("feil ved lagring");
+                    }
+                }
+            })
+
+
+        })
+
+        function updateOrderTotal(li) {
+            var orderId = li.attr("orderid");
+            var elem = li.find(".sumTotal");
+            $.ajax({
+                url: '@Url.Action("GetOrderSumTotal","Administration")',
+                data: { OrderId: orderId },
+                success: function (result) {
+                    elem.text(formatPrice(result));
+                }
+            })
+
+        }
+
+
+        $(".orderListTitle").click(function () {
+            var li = $(this).closest("li");
+            var tbl = li.find(".tableOrderlines");
+            tbl.attr("hidden", !tbl.attr("hidden"));
+
+        })
+    })
+
+    function formatPrice(price) {
+        price = price + "";
+        var formatted = "";
+        var counter = 0;
+        for (var i = (price.length - 1) ; i >= 0; i--) {
+            if (counter % 3 == 0 && counter > 0)
+                formatted = " " + formatted;
+            formatted = price.charAt(i) + formatted;
+            counter++;
+        }
+        formatted = formatted + ",00";
+
+        return formatted;
+    }
+
+
+</script>
