@@ -17,11 +17,13 @@ namespace Oblig1_Nettbutikk.BLL
         public AccountBLL()
         {
             _repo = new AccountRepo();
+            _customerrepo = new CustomerRepo();
         }
 
         public AccountBLL(IAccountRepo stub)
         {
             _repo = stub;
+            _customerrepo = new CustomerRepoStub();
         }
 
         public bool AddPerson(PersonModel person, Role role, string password)

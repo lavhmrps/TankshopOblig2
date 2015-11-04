@@ -36,6 +36,8 @@ section {
 }
 
 /* bootstrap override / extention */
+
+
 .row {
     margin-top: 15px;
 }
