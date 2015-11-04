@@ -78,6 +78,7 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
+                Logger.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not delete the image";
                 return View("~/Views/Shared/Result.cshtml");
@@ -113,7 +114,7 @@ namespace Nettbutikk.Controllers
                 nImageId = Convert.ToInt32(imageId);
             }
             catch (Exception e) {
-                //App_Code.LogHandler.WriteToLog(e);
+                Logger.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -156,6 +157,7 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
+                Logger.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");

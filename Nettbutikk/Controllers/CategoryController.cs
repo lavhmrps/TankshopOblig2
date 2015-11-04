@@ -1,157 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Nettbutikk.BusinessLogic;
+using Nettbutikk.Model;
+using Nettbutikk.Models;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Model;
-using BLL.Category;
-using DAL.Category;
-using Oblig1_Nettbutikk.BLL;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
-
-        private CategoryLogic categoryBLL;
-      
-
         public CategoryController()
+            : base()
         {
-
-            categoryBLL = new CategoryBLL();
-      
         }
 
-        public CategoryController(CategoryLogic categoryBLL)
+        public CategoryController(ServiceManager services)
+            : base(services)
         {
-
-            this.categoryBLL = categoryBLL;
+        }
         
-
-        }
-
-
         // GET: Image
         public ActionResult Index()
         {
-
-            List<Category> allCategories = categoryBLL.GetAllCategories();
-
-            ViewBag.Categories = allCategories;
+            ViewBag.Categories = Services.Categories.GetAll();
 
             return View("ListCategory");
         }
 
         [HttpPost]
-        public ActionResult Create(string Name)
+        public ActionResult Create(CreateCategory category)
         {
 
-            if (!categoryBLL.AddCategory(Name))
+            if (!Services.Categories.Create(category))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not add the category to the database";
-                return View("~/Views/Shared/Result.cshtml");
             }
-
-
-            ViewBag.Title = "Success";
-            ViewBag.Message = "Category was added to the database";
+            else
+            {
+                ViewBag.Title = "Success";
+                ViewBag.Message = "Category was added to the database";
+            }
             return View("~/Views/Shared/Result.cshtml");
         }
-
-
+        
         [HttpPost]
-        public ActionResult Edit(string CategoryId,  string Name)
+        public ActionResult Edit(EditCategory model)
         {
-
-            int categoryId;
-
-            try
-            {
-                categoryId = Convert.ToInt32(CategoryId);
-            }
-            catch (Exception e)
-            {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid category id: " + CategoryId;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            if (!categoryBLL.UpdateCategory(categoryId, Name))
+            if (!Services.Categories.Update(model))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the category";
-                return View("~/Views/Shared/Result.cshtml");
             }
-
-            ViewBag.Title = "Success";
-            ViewBag.Message = "Category was updated";
+            else
+            {
+                ViewBag.Title = "Success";
+                ViewBag.Message = "Category was updated";
+            }
             return View("~/Views/Shared/Result.cshtml");
         }
 
-        public ActionResult Delete(string CategoryId)
+        public ActionResult Delete(int categoryId)
         {
-
-            System.Diagnostics.Debug.WriteLine("HTTP POST delete");
-
-            int categoryId;
-
-            try
-            {
-                categoryId = Convert.ToInt32(CategoryId);
-            }
-            catch (Exception e)
-            {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid image id: " + CategoryId;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            if (!categoryBLL.DeleteCategory(categoryId))
+            if (!Services.Categories.RemoveById(categoryId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not delete the category";
-                return View("~/Views/Shared/Result.cshtml");
+            }
+            else
+            {
+                ViewBag.Title = "Success";
+                ViewBag.Message = "Category was deleted";
             }
 
-
-            ViewBag.Title = "Success";
-            ViewBag.Message = "Category was deleted";
             return View("~/Views/Shared/Result.cshtml");
         }
-
-
+        
         public ActionResult CreateCategory()
         {
-
             return View();
         }
-
-
-
-        public ActionResult EditCategory(string categoryId)
+        
+        public ActionResult EditCategory(int categoryId)
         {
-
-            System.Diagnostics.Debug.WriteLine("Got value: " + categoryId);
-
-            int nCategoryId;
-
-            try
-            {
-                nCategoryId = Convert.ToInt32(categoryId);
-            }
-            catch (Exception e)
-            {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid category id: " + categoryId;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            Category category = categoryBLL.GetCategory(nCategoryId);
+            Category category = Services.Categories.GetById(categoryId);
 
             if (category == null)
             {
@@ -164,33 +94,15 @@ namespace Oblig1_Nettbutikk.Controllers
 
             return View();
         }
-
-
-        public ActionResult DeleteCategory(string CategoryId)
+        
+        public ActionResult DeleteCategory(int categoryId)
         {
-
-            System.Diagnostics.Debug.WriteLine("Got value: " + CategoryId);
-
-            int nCategoryId;
-
-            try
-            {
-                nCategoryId = Convert.ToInt32(CategoryId);
-            }
-            catch (Exception e)
-            {
-                //App_Code.LogHandler.WriteToLog(e);
-                ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid category id: " + CategoryId;
-                return View("~/Views/Shared/Result.cshtml");
-            }
-
-            Category category = categoryBLL.GetCategory(nCategoryId);
+            Category category = Services.Categories.GetById(categoryId);
 
             if (category == null)
             {
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Could find a category with the id: " + CategoryId;
+                ViewBag.Message = "Could find a category with the id: " + categoryId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
@@ -198,6 +110,5 @@ namespace Oblig1_Nettbutikk.Controllers
 
             return View();
         }
-
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Nettbutikk.DataAccess;
 using Nettbutikk.Model;
-using Nettbutikk.DataAccess;
+using System.Collections.Generic;
 
 namespace Nettbutikk.BusinessLogic
 {

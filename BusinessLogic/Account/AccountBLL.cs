@@ -7,73 +7,74 @@ namespace Nettbutikk.BusinessLogic
     public class AccountBLL : IAccountLogic
     {
       
-        private IAccountRepository _repo;
-        private ICustomerRepository _customerrepo;
+        private IAccountRepository AccountRepository;
+        private ICustomerRepository CustomerRepository;
 
         public AccountBLL()
         {
-            _repo = new AccountRepository();
+            AccountRepository = new AccountRepository();
         }
 
-        public AccountBLL(IAccountRepository stub)
+        public AccountBLL(IAccountRepository accountRepository, ICustomerRepository customerRepository)
         {
-            _repo = stub;
+            AccountRepository = accountRepository;
+            CustomerRepository = customerRepository;
         }
 
         public bool AddPerson(Person person, Role role, string password)
         {
-            return _repo.AddPerson(person, role, password);
+            return AccountRepository.AddPerson(person, role, password);
         }
         
 
         public Admin GetAdmin(int adminId)
         {
-            return _repo.GetAdmin(adminId);
+            return AccountRepository.GetAdmin(adminId);
         }
 
         public List<Person> GetAllPeople()
         {
-            return _repo.GetAllPeople();
+            return AccountRepository.GetAllPeople();
         }
 
         public Customer GetCustomer(int customerId)
         {
-            return _customerrepo.GetCustomer(customerId);
+            return CustomerRepository.GetCustomer(customerId);
         }
 
         public Customer GetCustomer(string email)
         {
-            return _customerrepo.GetCustomer(email);
+            return CustomerRepository.GetCustomer(email);
         }
 
         public bool AttemptLogin(string email, string password)
         {
-            return _repo.AttemptLogin(email, password);
+            return AccountRepository.AttemptLogin(email, password);
         }
 
         public bool ChangePassword(string email, string newPassword)
         {
-            return _repo.ChangePassword(email, newPassword);
+            return AccountRepository.ChangePassword(email, newPassword);
         }
 
         public bool DeletePerson(string email)
         {
-            return _repo.DeletePerson(email);
+            return AccountRepository.DeletePerson(email);
         }
 
         public Admin GetAdmin(string email)
         {
-            return _repo.GetAdmin(email);
+            return AccountRepository.GetAdmin(email);
         }
 
         public Person GetPerson(string email)
         {
-            return _repo.GetPerson(email);
+            return AccountRepository.GetPerson(email);
         }
 
         public bool UpdatePerson(Person personUpdate, string email)
         {
-            return _repo.UpdatePerson(personUpdate, email);
+            return AccountRepository.UpdatePerson(personUpdate, email);
         }
     }
 }

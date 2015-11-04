@@ -1,4 +1,4 @@
-﻿namespace Oblig1_Nettbutikk.DAL
+﻿namespace Nettbutikk.DAL
 {
     public interface ICustomerRepo
     {

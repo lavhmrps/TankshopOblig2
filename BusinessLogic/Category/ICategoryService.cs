@@ -1,5 +1,5 @@
-﻿using Nettbutikk.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Nettbutikk.Model;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -11,4 +11,5 @@ namespace Nettbutikk.BusinessLogic
     {
         ICollection<Category> GetAll(ICollection<int> idList);
     }
+
 }

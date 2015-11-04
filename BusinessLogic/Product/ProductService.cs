@@ -71,20 +71,18 @@ namespace Nettbutikk.BusinessLogic
          */
         public new bool Remove(Product entity)
         {
-            try {
-                Repository.Remove(entity);
-                Repository.Save();
+            Repository.Remove(entity);
+
+            if(SaveChanges())
+            {
                 LogRemoval(entity);
                 return true;
             }
-            catch(Exception e)
-            {
 
-            }
             return false;
         }
         
-        public bool Remove(object unmappedEntity)
+        public new bool Remove(object unmappedEntity)
         {
             return Remove(Mapper.Map<Product>(unmappedEntity));
         }
@@ -104,20 +102,5 @@ namespace Nettbutikk.BusinessLogic
         }
         
         #endregion Remove
-
-        #region Helpers
-
-        protected void LogRemoval<IChangedEntity>(IChangedEntity entity)
-        {
-            //TODO: Implement
-        }
-
-        protected void LogEntityChange<IChangedEntity>(IChangedEntity entity)
-        {
-            //TODO: Implement
-        }
-
-        #endregion Helpers
-
     }
 }

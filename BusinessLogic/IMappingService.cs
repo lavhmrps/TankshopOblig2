@@ -30,8 +30,8 @@ namespace Nettbutikk.BusinessLogic
                 IOrderedQueryable<TEntity>> order = null,
             string includeProperties = "");
 
-        TEntity Create(object unmappedEntity);
+        bool Create(object unmappedEntity);
         bool Remove(object unmappedEntity);
-        TEntity Update(object unmappedEntity);
+        bool Update(object unmappedEntity);
     }
 }
