@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
 using Nettbutikk.BusinessLogic;
 using Nettbutikk.Model;
 using System;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
+using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
+using System.Linq.Expressions;
 
 namespace Nettbutikk.Controllers.Tests
 {
@@ -19,23 +18,18 @@ namespace Nettbutikk.Controllers.Tests
             this.products = products;
         }
 
-        public Category Create(Category entity)
+        public bool Create(Category entity)
         {
             products.Add(entity);
 
             return entity;
         }
 
-        public Category Create(object unmappedEntity)
+        public bool Create(object unmappedEntity)
         {
             return Create(unmappedEntity as Category);
         }
-
-        public Task<Category> CreateAsync(object unmappedEntity)
-        {
-            return Task.Factory.StartNew(() => Create(unmappedEntity));
-        }
-
+        
         public bool Remove(object unmappedEntity)
         {
             return Remove(unmappedEntity as Category);
@@ -45,12 +39,7 @@ namespace Nettbutikk.Controllers.Tests
         {
             return products.Remove(entity);
         }
-
-        public Task<bool> RemoveAsync(object unmappedEntity)
-        {
-            return Task.Factory.StartNew(() => Remove(unmappedEntity));
-        }
-
+        
         public bool RemoveById(object entityId)
         {
             return Remove(products.Where(p => ((int)entityId) == p.CategoryId).FirstOrDefault());
@@ -80,12 +69,7 @@ namespace Nettbutikk.Controllers.Tests
         {
             throw new NotImplementedException();
         }
-
-        public Task<ICollection<Category>> GetAllAsync()
-        {
-            return Task.Factory.StartNew(() => GetAll());
-        }
-
+        
         public Category GetById(object entityId)
         {
             return GetById((int)entityId);
@@ -100,17 +84,7 @@ namespace Nettbutikk.Controllers.Tests
         {
             return Mapper.Map<TMappedEntity>(GetById(entityId));
         }
-
-        public Task<Category> GetByIdAsync(object entityId)
-        {
-            return Task.Factory.StartNew(() => GetById(entityId));
-        }
-
-        public Task<TMappedEntity> GetByIdAsync<TMappedEntity>(int? id)
-        {
-            return Task.Factory.StartNew(() => Mapper.Map<TMappedEntity>(GetById(id)));
-        }
-
+        
         public ICollection<TMappedEntity> Get<TMappedEntity>(Expression<Func<Category, bool>> filter = null, Func<IQueryable<Category>, IOrderedQueryable<Category>> order = null, string includeProperties = "")
         {
             return Mapper.Map<ICollection<TMappedEntity>>(Get(filter, order, includeProperties));
@@ -131,25 +105,21 @@ namespace Nettbutikk.Controllers.Tests
             return Get(product => categoryId == product.CategoryId);
         }
 
-        public void SaveChanges()
+        public bool SaveChanges()
         {
+            return true;
         }
 
-        public Category Update(object unmappedEntity)
+        public bool Update(object unmappedEntity)
         {
-            return unmappedEntity as Category;
+            return true;
         }
 
-        public Category Update(Category entity)
+        public bool Update(Category entity)
         {
-            return entity;
+            return true;
         }
-
-        public Task<Category> UpdateAsync(object unmappedEntity)
-        {
-            return Task.Factory.StartNew(() => Update(unmappedEntity));
-        }
-
+        
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

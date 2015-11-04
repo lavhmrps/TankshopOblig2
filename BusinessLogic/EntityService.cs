@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -20,6 +19,8 @@ namespace Nettbutikk.BusinessLogic
          *  The main repository of entities this service targets.
          */
         protected IRepository<TEntity> Repository { get; private set; }
+
+
 
         private EntityService()
         {
@@ -39,29 +40,24 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Creates the given entity in the underlying repository.
          */
-        public TEntity Create(TEntity entity)
+        public bool Create(TEntity entity)
         {
-            try {
-                return Repository.Add(entity);
-            }
-            catch(Exception e)
-            {
+            Repository.Add(entity);
 
-            }
-
-            return null;
+            return SaveChanges();
         }
         
         /***
          *  Creates the given {unmappedEntity} as an instance of {TEntity}
          *  through AutoMapper in the underlying repository.
          */
-        public TEntity Create(object unmappedEntity)
+        public bool Create(object unmappedEntity)
         {
             return Create(Mapper.Map<TEntity>(unmappedEntity));
         }
         
         #endregion Create
+
         #region Remove
 
         /***
@@ -69,18 +65,9 @@ namespace Nettbutikk.BusinessLogic
          */
         public bool Remove(TEntity entity)
         {
-            try {
-                Repository.Remove(entity);
-                Repository.Save();
+            Repository.Remove(entity);
 
-                return true;
-            }
-            catch (Exception e)
-            {
-
-            }
-            //If we get here, something went wrong, so return false
-            return false;
+            return SaveChanges();
         }
         
         public bool Remove(object unmappedEntity)
@@ -94,22 +81,13 @@ namespace Nettbutikk.BusinessLogic
          */
         public bool RemoveById(object entityId)
         {
-            try
-            {
-                Repository.RemoveById(entityId);
-                Repository.Save();
+            Repository.RemoveById(entityId);
 
-                return true;
-            }
-            catch(Exception e)
-            {
-
-            }
-
-            return false;
+            return SaveChanges();
         }
         
         #endregion Remove
+
         #region Get
 
         /***
@@ -170,26 +148,44 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Saves the current Repository state.
          */
-        public void SaveChanges()
+        public bool SaveChanges()
         {
-            Repository.Save();
+            try
+            {
+                Repository.Save();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Logger.WriteToLog(e);
+            }
+            return false;
         }
         
         #endregion Save
+        
         #region Update
 
         /***
          *  Updates the property of the entity in the repository.
          */
-        public TEntity Update(TEntity entity)
+        public bool Update(TEntity entity)
         {
-            return Repository.Update(entity);
+            try {
+                Repository.Update(entity);
+                SaveChanges();
+            }
+            catch(Exception e)
+            {
+
+            }
+            return false;
         }
         
         /***
          *  Updates the property of the entity in the repository.
          */
-        public TEntity Update(object unmappedEntity)
+        public bool Update(object unmappedEntity)
         {
             return Update(Mapper.Map<TEntity>(unmappedEntity));
         }
@@ -232,6 +228,5 @@ namespace Nettbutikk.BusinessLogic
             // GC.SuppressFinalize(this);
         }
         #endregion
-
     }
 }

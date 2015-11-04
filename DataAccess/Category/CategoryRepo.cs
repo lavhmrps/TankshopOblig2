@@ -34,7 +34,7 @@ namespace Nettbutikk.DataAccess
         }
 
 
-        public bool AddCategory(int productId, string CategoryId)
+        public bool AddCategory(string CategoryId)
         {
 
             try

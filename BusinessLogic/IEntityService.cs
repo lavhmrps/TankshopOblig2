@@ -16,7 +16,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Creates an entity in the underlying repository.
          */
-        TEntity Create(TEntity entity);
+        bool Create(TEntity entity);
 
         /***
          *  Deletes the given entity from the underlying repository.
@@ -52,12 +52,12 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  Asks the backing repository to save/commit its state to disk.
          */
-        void SaveChanges();
+        bool SaveChanges();
 
         /***
          *  Updates the repository with the given {entity},
          *  marking it modified/dirty.
          */
-        TEntity Update(TEntity entity);
+        bool Update(TEntity entity);
     }
 }

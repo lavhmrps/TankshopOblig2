@@ -72,13 +72,12 @@
   <ItemGroup>
     <Compile Include="Account\IAccountLogic.cs" />
     <Compile Include="Account\AccountBLL.cs" />
-    <Compile Include="CategoryService.cs" />
-    <Compile Include="Category\CategoryBLL.cs" />
-    <Compile Include="Category\CategoryLogic.cs" />
-    <Compile Include="ICategoryService.cs" />
+    <Compile Include="Category\CategoryService.cs" />
+    <Compile Include="Category\ICategoryService.cs" />
     <Compile Include="Image\IImageLogic.cs" />
     <Compile Include="Image\ImageBLL.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="Infrastructure\Logger.cs" />
     <Compile Include="Order\IOrderLogic.cs" />
     <Compile Include="IEntityService.cs" />
     <Compile Include="IMappingService.cs" />

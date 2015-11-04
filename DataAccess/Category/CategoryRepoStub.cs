@@ -5,9 +5,9 @@ namespace Nettbutikk.DataAccess
 {
     public class CategoryRepoStub : ICategoryRepo
     {
-        public bool AddCategory(int categoryId, string CategoryName)
+        public bool AddCategory(string CategoryName)
         {
-            return categoryId != -1;
+            return true;
         }
         
         public bool DeleteCategory(int CategoryId)

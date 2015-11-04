@@ -35,9 +35,9 @@ namespace Nettbutikk.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product p = Services.Products.Create(product);
+                Services.Products.Create(product);
 
-                return RedirectToAction("Details", "Products", new { Id = p.Id });
+                return RedirectToAction("Details", "Products", new { Id = product.Id });
             }
 
             if (null == product.Categories)

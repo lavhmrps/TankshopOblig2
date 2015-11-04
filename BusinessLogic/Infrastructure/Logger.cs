@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Web;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Nettbutikk
 {
-    public static class Logger
+    public class Logger
     {
-        private const string LOG_PATH = "~\\Logs";
-        private const string LOG_FILE = "log.txt";
+        public const string LOG_PATH = "~\\Logs";
+        public const string LOG_FILE = "log.txt";
 
-        static Logger()
+        private static StreamWriter LogFileStream;
+
+        public static void Initialize(string logPath)
         {
-
-            var folder = HttpContext.Current.Server.MapPath(LOG_PATH);
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
+            LogFileStream = new StreamWriter(logPath + "\\" + LOG_FILE, true);
+            LogFileStream.AutoFlush = true;
         }
 
         public static void WriteToLog(Exception e)
@@ -39,15 +36,13 @@ namespace Nettbutikk
 
         private static void WriteToLog(string str)
         {
-            string fullPath = HttpContext.Current.Server.MapPath(LOG_PATH) + "\\" + LOG_FILE;
+            Task.Run(() =>
+            {
+                LogFileStream.WriteLine(str);
+                LogFileStream.WriteLine();
 
-            StreamWriter sw = new StreamWriter(fullPath, true);
-            sw.WriteLine(str);
-            sw.WriteLine();
-            sw.WriteLine();
-
-            sw.Flush();
-            sw.Close();
+                LogFileStream.Flush();
+            });
         }
 
     }

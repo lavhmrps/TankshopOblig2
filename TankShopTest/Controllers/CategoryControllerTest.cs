@@ -111,26 +111,7 @@ namespace Nettbutikk.Controllers.Tests
 
             Assert.AreEqual("", viewResult.ViewName);
         }
-
-        [TestMethod]
-        public void EditCategoryNoCategoryFound()
-        {
-
-            //Arrange
-            int badCategoryId = -1;
-
-            //Act
-            var viewResult = Controller.EditCategory(badCategoryId) as ViewResult;
-
-
-            //Assert
-            Assert.AreEqual("Error", viewResult.ViewBag.Title);
-            Assert.AreEqual("Couldnt find an Category with id: " + badCategoryId, viewResult.ViewBag.Message);
-            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
-
-        }
-
-
+        
         [TestMethod]
         public void DeleteCategoryGoodInput()
         {
@@ -179,7 +160,6 @@ namespace Nettbutikk.Controllers.Tests
             //Act
             var viewResult = Controller.Create(new CreateCategory
             {
-                CategoryId = categoryId,
                 Name = categoryName
             }) as ViewResult;
 
@@ -199,7 +179,7 @@ namespace Nettbutikk.Controllers.Tests
             string categoryName = "name";
 
             //Act
-            var viewResult = Controller.Edit(new CategoryView { Id = categoryId, Name = categoryName}) as ViewResult;
+            var viewResult = Controller.Edit(new EditCategory { CategoryId = categoryId, Name = categoryName}) as ViewResult;
 
             //Assert
             Assert.AreEqual("Success", Controller.ViewBag.Title);
@@ -215,7 +195,7 @@ namespace Nettbutikk.Controllers.Tests
             int CategoryId = -1;
 
             //Act
-            var viewResult = Controller.Edit(new CategoryView {Id = CategoryId}) as ViewResult;
+            var viewResult = Controller.Edit(new EditCategory {CategoryId = CategoryId}) as ViewResult;
 
             //Assert
             Assert.AreEqual("Error", Controller.ViewBag.Title);
@@ -223,25 +203,7 @@ namespace Nettbutikk.Controllers.Tests
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
-
-        [TestMethod]
-        public void EditInvalidProductId()
-        {
-
-            //Arrange
-            int categoryId = 1;
-            string categoryName = "name";
-
-            //Act
-            var viewResult = Controller.Edit(new CategoryView {Id = categoryId, Name = categoryName}) as ViewResult;
-
-            //Assert
-            Assert.AreEqual("Error", Controller.ViewBag.Title);
-            Assert.AreEqual("Could not update the Category", Controller.ViewBag.Message);
-            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
-        }
-
-
+        
         [TestMethod]
         public void DeleteGoodInput()
         {

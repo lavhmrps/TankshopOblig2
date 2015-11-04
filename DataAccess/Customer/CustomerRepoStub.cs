@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     public class CustomerRepoStub : ICustomerRepo
     {
