@@ -17,7 +17,11 @@
         </dt>
 
         <dd>
-            @ViewBag.Image.ImageUrl
+            @{
+                string url = ViewBag.Image.ImageUrl.Length >= 40 ? ViewBag.Image.ImageUrl.Substring(0, 40) + "..." : ViewBag.Image.ImageUrl.ImageUrl;
+            }
+
+            @url
         </dd>
 
     </dl>

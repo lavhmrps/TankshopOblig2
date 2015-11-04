@@ -23,7 +23,11 @@
                 @image.ProductId
             </td>
             <td>
-                @image.ImageUrl
+                @{
+                    string url = image.ImageUrl.Length >= 40 ? image.ImageUrl.Substring(0, 40) + "..." : image.ImageUrl;
+                }
+
+                @url
             </td>
             <td>
 

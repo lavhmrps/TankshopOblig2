@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Nettbutikk
+namespace Oblig1_Nettbutikk
 {
     public class RouteConfig
     {

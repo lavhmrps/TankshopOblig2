@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Oblig1_Nettbutikk.Model.Product>
+
+<p>
+    @Html.ActionLink("Create New", "CreateProduct")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var product in ViewBag.Products)
+{
+    <tr>
+        <td>
+            @product.Name
+        </td>
+        <td>
+            @string.Format("{0:n}", product.Price) kr
+        </td>
+        <td>
+            @product.Stock
+        </td>
+        <td>
+            @{
+                string description = product.Description.Length >= 20 ? product.Description.Substring(0, 20) + "..." : product.Description;
+            }
+
+            @description
+        </td>
+        <td>
+            @{ 
+                string url = product.ImageUrl.Length >= 20 ? product.ImageUrl.Substring(0, 20) + "..." : product.ImageUrl;
+            }
+
+            @url
+        </td>
+        <td>
+            @product.Category.Name
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditProduct", new { ProductId = product.ProductId }) |
+            @Html.ActionLink("Details", "NOT_IMPLEMENTED_YET", new { ProductId = product.ProductId }) |
+            @Html.ActionLink("Delete", "DeleteProduct", new { ProductId = product.ProductId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,12 +1,12 @@
-﻿using Nettbutikk.Model;
-using Nettbutikk.Models;
+﻿using Oblig1_Nettbutikk.Model;
+using Oblig1_Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Nettbutikk
+namespace Oblig1_Nettbutikk
 {
     public class CookieHandler
     {

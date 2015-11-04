@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nettbutikk.Model;
-using Nettbutikk.DAL;
+using Oblig1_Nettbutikk.Model;
+using Oblig1_Nettbutikk.DAL;
 
-namespace Nettbutikk.BLL
+namespace Oblig1_Nettbutikk.BLL
 {
     public class AccountBLL : IAccountLogic
     {

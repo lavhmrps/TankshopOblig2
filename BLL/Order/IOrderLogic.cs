@@ -1,11 +1,11 @@
-﻿using Nettbutikk.Model;
+﻿using Oblig1_Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nettbutikk.BLL
+namespace Oblig1_Nettbutikk.BLL
 {
     public interface IOrderLogic
     {

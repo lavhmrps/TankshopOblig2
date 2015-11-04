@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Linq;
 
-namespace Nettbutikk.Model
+namespace Oblig1_Nettbutikk.Model
 {
     public class TankshopDbContext : DbContext
     {

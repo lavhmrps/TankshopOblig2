@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Nettbutikk.Model;
+using Oblig1_Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace Oblig1_Nettbutikk.DAL
 {
     public interface IAccountRepo
     {

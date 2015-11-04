@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Nettbutikk.Models
+namespace Oblig1_Nettbutikk.Models
 {
     public class CustomerLoginPartial
     {
