@@ -1,13 +1,13 @@
-﻿using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.Models;
+﻿using Nettbutikk.BLL;
+using Nettbutikk.Model;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class CustomerController : Controller
     {
@@ -57,15 +57,12 @@ namespace Oblig1_Nettbutikk.Controllers
 
                 return View("Administration_Customer");
 
-
             }
             return RedirectToAction("Index", "Home");
         }
 
         [ChildActionOnly]
-        public ActionResult CustomerlistPartial()
-        {
-            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
+        public PartialViewResult CustomerlistPartial()
             {
                 var customerViewList = new List<CustomerView>();
                 var customerModels = _adminBLL.GetAllCustomers();
@@ -86,17 +83,12 @@ namespace Oblig1_Nettbutikk.Controllers
                     customerViewList.Add(customerView);
                 }
 
-                ViewBag.Customers = customerViewList;
-                return PartialView();
+                return PartialView(customerViewList);
             }
-            return RedirectToAction("Home", "Index");
-        }
 
         [ChildActionOnly]
-        public ActionResult OrdersPartial(int CustomerId)
+        public PartialViewResult OrdersPartial(int CustomerId)
         {
-            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
-            {
                 List<OrderModel> orderModels;
                 if (CustomerId > 0)
                     orderModels = _adminBLL.GetCustomer(CustomerId).Orders;
@@ -156,8 +148,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
                 return PartialView();
             }
-            return RedirectToAction("Home", "Index");
-        }
 
         [HttpPost]
         public bool UpdateCustomerInfo(CustomerView customerEdit)

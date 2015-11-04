@@ -205,16 +205,5 @@ namespace Nettbutikk.Controllers
             }
             return false;
         }
-
-        public bool LoginStatus()
-        {
-            bool LoggedIn = false;
-            if (Session["LoggedIn"] != null)
-            {
-                LoggedIn = (bool)Session["LoggedIn"];
-            }
-            return LoggedIn;
-        }
-
     }
 }

@@ -5,12 +5,12 @@
         <div class="col-md-5" style="padding-right:0;">
             <div class="listitem_image">
               
-                <img id="imgProductID_@Model.ProductId" src="@Model.ImageUrl" alt="Bilde av @Model.ProductName"/>
+                <img id="imgProductID_@Model.Id" src="@Model.ImageUrl" alt="Bilde av @Model.Name"/>
             </div>
 
         </div>
         <div class="col-md-7">
-            <h5 style="font-weight:bold">@Html.ActionLink(@Model.ProductName, "Product", "Product", new { ProductId = Model.ProductId, ReturnUrl=Request.RawUrl }, null)</h5>
+            <h5 style="font-weight:bold">@Html.ActionLink(@Model.Name, "Product", "Product", new { ProductId = Model.Id, ReturnUrl=Request.RawUrl }, null)</h5>
         </div>
         </div>
     <div class="listitem_description_outer">
@@ -22,5 +22,5 @@
     @{ 
         
     }
-    <a href="#" id="@Model.ProductId" data-productName="@Model.ProductName" class="btn btn-success addItemToCart">kr <span class="formatPrice">@String.Format("{0:n}", Model.Price)</span> <span class="glyphicon glyphicon-shopping-cart"></span></a>
+    <a href="#" id="@Model.Id" data-productName="@Model.Name" class="btn btn-success addItemToCart">kr <span class="formatPrice">@String.Format("{0:n}", Model.Price)</span> <span class="glyphicon glyphicon-shopping-cart"></span></a>
 </div>

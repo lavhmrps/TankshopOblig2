@@ -24,7 +24,8 @@ namespace Nettbutikk
         {
 
             Exception exception = Server.GetLastError();
-            App_Code.LogHandler.WriteToLog(exception);
+
+            Logger.WriteToLog(exception);
 
             //TODO: Redirect to error page
 
