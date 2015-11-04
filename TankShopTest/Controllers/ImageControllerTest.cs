@@ -12,7 +12,6 @@ namespace Nettbutikk.Controllers.Tests
     [TestClass]
     public class ImageControllerTests
     {
-        //Lage test om logging fungerer
 
         //GoodInput = input of correct type and value
         //BadInput = input of wrong type. For example "abc123" being sent instead of an int

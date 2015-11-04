@@ -22,13 +22,30 @@
         </div>
         <div class="header_options">
             <div class="header_login">
+
+                <span>@Html.ActionLink("Images", "Index", "Image")</span>
+                <span> | </span>    
+                <span>@Html.ActionLink("Categories", "Index", "Category")</span>
+                <span> | </span>   
+
+                @*
+    <span>@Html.ActionLink("Create Img", "CreateImage", "Image")</span>
+    <span> | </span>
+
+    <span>@Html.ActionLink("Edit Img", "EditImage", "Image")</span>
+    <span> | </span>
+
+    <span>@Html.ActionLink("Delete Img", "DeleteImage", "Image")</span>
+    <span> | </span>
+                *@
+
                 @if (!LoggedIn)
                 {
                     <a href="#LoginModal" data-toggle="modal">Logg inn</a>
                     <span> | </span>
                     <a href="#RegisterModal" data-toggle="modal">Registrer bruker</a>
-                    
-                   
+
+
                 }
                 else
                 {
