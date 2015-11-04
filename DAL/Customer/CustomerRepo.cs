@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Oblig1_Nettbutikk.DAL
 {
-    public class AdminRepo : IAdminRepo
+    public class CustomerRepo : ICustomerRepo
     {
         public List<CustomerModel> GetAllCustomers()
         {
@@ -85,6 +85,93 @@ namespace Oblig1_Nettbutikk.DAL
                 catch (Exception)
                 {
                     return false;
+                }
+            }
+        }
+        public CustomerModel GetCustomer(int customerId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+                    var dbPerson = GetPerson(dbCustomer.Email);
+                    var orderRepo = new OrderRepo();
+
+                    var customer = new CustomerModel()
+                    {
+                        CustomerId = customerId,
+                        Email = dbPerson.Email,
+                        Firstname = dbPerson.Firstname,
+                        Lastname = dbPerson.Lastname,
+                        Address = dbPerson.Address,
+                        Zipcode = dbPerson.Zipcode,
+                        City = dbPerson.City,
+                        Orders = orderRepo.GetOrders(customerId)
+                    };
+
+                    return customer;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+        public CustomerModel GetCustomer(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbPerson = GetPerson(email);
+                    var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
+
+                    var orderRepo = new OrderRepo();
+
+                    var customer = new CustomerModel()
+                    {
+                        CustomerId = customerId,
+                        Email = dbPerson.Email,
+                        Firstname = dbPerson.Firstname,
+                        Lastname = dbPerson.Lastname,
+                        Address = dbPerson.Address,
+                        Zipcode = dbPerson.Zipcode,
+                        City = dbPerson.City,
+                        Orders = orderRepo.GetOrders(customerId)
+                    };
+
+                    return customer;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        private PersonModel GetPerson(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+
+                    var person = db.People.Where(p => p.Email == email).Select(p => new PersonModel()
+                    {
+                        Email = p.Email,
+                        Firstname = p.Firstname,
+                        Lastname = p.Lastname,
+                        Address = p.Address,
+                        Zipcode = p.Zipcode,
+                        City = p.Postal.City
+                    }).Single();
+
+                    return person;
+                }
+                catch (Exception)
+                {
+                    return null;
                 }
             }
         }

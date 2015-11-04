@@ -253,67 +253,67 @@ namespace Oblig1_Nettbutikk.DAL
                 return people;
             }
         }
-        public CustomerModel GetCustomer(int customerId)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
-                    var dbPerson = GetPerson(dbCustomer.Email);
-                    var orderRepo = new OrderRepo();
+        //public CustomerModel GetCustomer(int customerId)
+        ////{
+        ////    using (var db = new TankshopDbContext())
+        ////    {
+        ////        try
+        ////        {
+        ////            var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+        ////            var dbPerson = GetPerson(dbCustomer.Email);
+        ////            var orderRepo = new OrderRepo();
 
-                    var customer = new CustomerModel()
-                    {
-                        CustomerId = customerId,
-                        Email = dbPerson.Email,
-                        Firstname = dbPerson.Firstname,
-                        Lastname = dbPerson.Lastname,
-                        Address = dbPerson.Address,
-                        Zipcode = dbPerson.Zipcode,
-                        City = dbPerson.City,
-                        Orders = orderRepo.GetOrders(customerId)
-                    };
+        ////            var customer = new CustomerModel()
+        ////            {
+        ////                CustomerId = customerId,
+        ////                Email = dbPerson.Email,
+        ////                Firstname = dbPerson.Firstname,
+        ////                Lastname = dbPerson.Lastname,
+        ////                Address = dbPerson.Address,
+        ////                Zipcode = dbPerson.Zipcode,
+        ////                City = dbPerson.City,
+        ////                Orders = orderRepo.GetOrders(customerId)
+        ////            };
 
-                    return customer;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-        public CustomerModel GetCustomer(string email)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbPerson = GetPerson(email);
-                    var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
+        ////            return customer;
+        ////        }
+        ////        catch (Exception)
+        ////        {
+        ////            return null;
+        ////        }
+        ////    }
+        ////}
+        //public CustomerModel GetCustomer(string email)
+        //{
+        //    using (var db = new TankshopDbContext())
+        //    {
+        //        try
+        //        {
+        //            var dbPerson = GetPerson(email);
+        //            var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
 
-                    var orderRepo = new OrderRepo();
+        //            var orderRepo = new OrderRepo();
 
-                    var customer = new CustomerModel()
-                    {
-                        CustomerId = customerId,
-                        Email = dbPerson.Email,
-                        Firstname = dbPerson.Firstname,
-                        Lastname = dbPerson.Lastname,
-                        Address = dbPerson.Address,
-                        Zipcode = dbPerson.Zipcode,
-                        City = dbPerson.City,
-                        Orders = orderRepo.GetOrders(customerId)
-                    };
+        //            var customer = new CustomerModel()
+        //            {
+        //                CustomerId = customerId,
+        //                Email = dbPerson.Email,
+        //                Firstname = dbPerson.Firstname,
+        //                Lastname = dbPerson.Lastname,
+        //                Address = dbPerson.Address,
+        //                Zipcode = dbPerson.Zipcode,
+        //                City = dbPerson.City,
+        //                Orders = orderRepo.GetOrders(customerId)
+        //            };
 
-                    return customer;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
+        //            return customer;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
         public PersonModel GetPerson(string email)
         {
             using (var db = new TankshopDbContext())

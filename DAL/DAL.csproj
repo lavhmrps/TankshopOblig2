@@ -78,8 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\IAccountRepo.cs" />
-    <Compile Include="CustomerRepo.cs" />
-    <Compile Include="ICustomerRepo.cs" />
+    <Compile Include="Customer\CustomerRepo.cs" />
+    <Compile Include="Customer\CustomerRepoStub.cs" />
+    <Compile Include="Customer\ICustomerRepo.cs" />
     <Compile Include="Image\IImageRepo.cs" />
     <Compile Include="Image\ImageRepo.cs" />
     <Compile Include="Image\ImageRepoStub.cs" />

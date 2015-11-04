@@ -12,6 +12,7 @@ namespace Oblig1_Nettbutikk.BLL
     {
       
         private IAccountRepo _repo;
+        private ICustomerRepo _customerrepo;
 
         public AccountBLL()
         {
@@ -41,12 +42,12 @@ namespace Oblig1_Nettbutikk.BLL
 
         public CustomerModel GetCustomer(int customerId)
         {
-            return _repo.GetCustomer(customerId);
+            return _customerrepo.GetCustomer(customerId);
         }
 
         public CustomerModel GetCustomer(string email)
         {
-            return _repo.GetCustomer(email);
+            return _customerrepo.GetCustomer(email);
         }
 
         public bool AttemptLogin(string email, string password)

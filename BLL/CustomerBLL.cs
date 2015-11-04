@@ -10,14 +10,14 @@ namespace Oblig1_Nettbutikk.BLL
 {
     public class CustomerBLL :ICustomerLogic
     {
-        private AdminRepo _repo;
+        private CustomerRepo _repo;
         private IAccountRepo _accountrepo;
         private IOrderRepo _orderrepo;
         private IProductRepo _productrepo;
 
         public CustomerBLL()
         {
-            _repo = new AdminRepo();
+            _repo = new CustomerRepo();
             _accountrepo = new AccountRepo();
             _orderrepo = new OrderRepo();
             _productrepo = new ProductRepo();
@@ -60,7 +60,7 @@ namespace Oblig1_Nettbutikk.BLL
 
         public CustomerModel GetCustomer(int customerId)
         {
-            return _accountrepo.GetCustomer(customerId);
+            return _repo.GetCustomer(customerId);
         }
 
         public List<ProductModel> GetAllProducts()
