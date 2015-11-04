@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 using BLL.Image;
+<<<<<<< HEAD
 using Oblig1_Nettbutikk.BLL;
 using Logging;
+=======
+using DAL.Image;
+using Nettbutikk.BLL;
+>>>>>>> origin/alex_gaard
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class ImageController : Controller
     {
