@@ -12,7 +12,6 @@ namespace TankShopUnitTest
     [TestClass]
     public class ImageControllerTest
     {
-        //Lage test om logging fungerer
 
         //GoodInput = input of correct type and value
         //BadInput = input of wrong type. For example "abc123" being sent instead of an int

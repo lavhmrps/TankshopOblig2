@@ -79,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\IAccountRepo.cs" />
+    <Compile Include="Category\CategoryRepo.cs" />
+    <Compile Include="Category\CategoryRepoStub.cs" />
+    <Compile Include="Category\ICategoryRepo.cs" />
     <Compile Include="Image\IImageRepo.cs" />
     <Compile Include="Image\ImageRepo.cs" />
     <Compile Include="Image\ImageRepoStub.cs" />
@@ -103,6 +106,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

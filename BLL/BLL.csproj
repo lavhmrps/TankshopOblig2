@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Account\IAccountLogic.cs" />
     <Compile Include="Account\AccountBLL.cs" />
+    <Compile Include="Category\CategoryBLL.cs" />
+    <Compile Include="Category\CategoryLogic.cs" />
     <Compile Include="Image\IImageLogic.cs" />
     <Compile Include="Image\ImageBLL.cs" />
     <Compile Include="Order\IOrderLogic.cs" />
@@ -74,6 +76,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

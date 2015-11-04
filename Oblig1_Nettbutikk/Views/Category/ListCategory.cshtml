@@ -1,0 +1,38 @@
+﻿<p>
+    @Html.ActionLink("Create New", "CreateCategory")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Category Id
+        </th>
+        <th>
+            Category Name
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+
+    @foreach (var category in ViewBag.Categories)
+    {
+        <tr>
+            <td>
+                @category.CategoryId
+            </td>
+            <td>
+                @category.Name
+            </td>
+            <td>
+
+                @Html.ActionLink("Edit", "EditCategory", new { categoryId = category.CategoryId }) |
+                @Html.ActionLink("Details", "NOT_IMPLEMENTED_YET", new { categoryId = category.CategoryId }) |
+                @Html.ActionLink("Delete", "DeleteCategory", new { categoryId = category.CategoryId })
+
+            </td>
+        </tr>
+    }
+
+</table>
