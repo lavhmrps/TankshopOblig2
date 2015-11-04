@@ -1,7 +1,4 @@
-﻿@using Oblig1_Nettbutikk.Models
-@{ 
-    List<CustomerView> Customers = ViewBag.Customers;
-}
+﻿@model List<Oblig1_Nettbutikk.Models.CustomerView>
 
 <h4>Kunde administrasjon</h4>
 <hr />
@@ -19,7 +16,7 @@
             <th>Action</th>
         </tr>
     </thead>
-        @foreach (var c in Customers)
+        @foreach (var c in Model)
         {
             <tr class="adminRowCustomer">
                 <td>@c.CustomerId</td>

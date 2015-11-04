@@ -9,6 +9,36 @@ namespace Oblig1_Nettbutikk.DAL
 {
     public class CustomerRepo : ICustomerRepo
     {
+        public bool DeleteCustomer(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbPerson = db.People.Find(email);
+                    var dbCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
+                    var dbAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
+                    var dbCredentials = db.Credentials.Find(email);
+
+                    if (dbPerson != null)
+                        db.People.Remove(dbPerson);
+                    if (dbCustomer != null)
+                        db.Customers.Remove(dbCustomer);
+                    if (dbAdmin != null)
+                        db.Admins.Remove(dbAdmin);
+                    if (dbCredentials != null) db.Credentials.Remove(dbCredentials);
+
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public List<CustomerModel> GetAllCustomers()
         {
             var customerList = new List<CustomerModel>();
@@ -59,43 +89,15 @@ namespace Oblig1_Nettbutikk.DAL
             }
         }
 
-        public bool DeleteCustomer(string email)
+        public CustomerModel GetCustomer(string email)
         {
             using (var db = new TankshopDbContext())
             {
                 try
                 {
-                    var dbPerson = db.People.Find(email);
-                    var dbCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
-                    var dbAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
-                    var dbCredentials = db.Credentials.Find(email);
+                    var dbPerson = GetPerson(email);
+                    var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
 
-                    if (dbPerson != null)
-                        db.People.Remove(dbPerson);
-                    if (dbCustomer != null)
-                        db.Customers.Remove(dbCustomer);
-                    if (dbAdmin != null)
-                        db.Admins.Remove(dbAdmin);
-                    if (dbCredentials != null) db.Credentials.Remove(dbCredentials);
-
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-        public CustomerModel GetCustomer(int customerId)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
-                    var dbPerson = GetPerson(dbCustomer.Email);
                     var orderRepo = new OrderRepo();
 
                     var customer = new CustomerModel()
@@ -118,15 +120,15 @@ namespace Oblig1_Nettbutikk.DAL
                 }
             }
         }
-        public CustomerModel GetCustomer(string email)
+
+        public CustomerModel GetCustomer(int customerId)
         {
             using (var db = new TankshopDbContext())
             {
                 try
                 {
-                    var dbPerson = GetPerson(email);
-                    var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
-
+                    var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+                    var dbPerson = GetPerson(dbCustomer.Email);
                     var orderRepo = new OrderRepo();
 
                     var customer = new CustomerModel()

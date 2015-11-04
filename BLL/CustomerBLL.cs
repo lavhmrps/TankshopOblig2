@@ -10,7 +10,7 @@ namespace Oblig1_Nettbutikk.BLL
 {
     public class CustomerBLL :ICustomerLogic
     {
-        private CustomerRepo _repo;
+        private ICustomerRepo _repo;
         private IAccountRepo _accountrepo;
         private IOrderRepo _orderrepo;
         private IProductRepo _productrepo;
@@ -21,6 +21,14 @@ namespace Oblig1_Nettbutikk.BLL
             _accountrepo = new AccountRepo();
             _orderrepo = new OrderRepo();
             _productrepo = new ProductRepo();
+        }
+
+        public CustomerBLL(ICustomerRepo stub)
+        {
+            _repo = stub;
+            _accountrepo = new AccountRepoStub();
+            _orderrepo = new OrderRepoStub();
+            _productrepo = new ProductRepoStub();
         }
 
         public bool DeleteCustomer(string email)

@@ -57,16 +57,13 @@ namespace Oblig1_Nettbutikk.Controllers
 
                 return View("Administration_Customer");
 
-
             }
             return RedirectToAction("Index", "Home");
         }
 
         [ChildActionOnly]
-        public ActionResult CustomerlistPartial()
+        public PartialViewResult CustomerlistPartial()
         {
-            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
-            {
                 var customerViewList = new List<CustomerView>();
                 var customerModels = _adminBLL.GetAllCustomers();
 
@@ -85,19 +82,14 @@ namespace Oblig1_Nettbutikk.Controllers
 
                     customerViewList.Add(customerView);
                 }
-
-                ViewBag.Customers = customerViewList;
-                return PartialView();
-            }
-            return RedirectToAction("Home", "Index");
+                
+                return PartialView(customerViewList);
         }
 
         [ChildActionOnly]
-        public ActionResult OrdersPartial(int CustomerId)
+        public PartialViewResult OrdersPartial(int CustomerId)
         {
-            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
-            {
-                List<OrderModel> orderModels;
+               List<OrderModel> orderModels;
                 if (CustomerId > 0)
                     orderModels = _adminBLL.GetCustomer(CustomerId).Orders;
                 else
@@ -155,8 +147,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
 
                 return PartialView();
-            }
-            return RedirectToAction("Home", "Index");
         }
 
         [HttpPost]
