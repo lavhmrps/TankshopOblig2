@@ -11,16 +11,16 @@ namespace Oblig1_Nettbutikk.Controllers
 {
     public class CustomerController : Controller
     {
-        private ICustomerLogic _adminBLL;
+        private ICustomerLogic _customerBLL;
 
         public CustomerController()
         {
-            _adminBLL = new CustomerBLL();
+            _customerBLL = new CustomerBLL();
         }
 
         public CustomerController(ICustomerLogic stub)
         {
-            _adminBLL = stub;
+            _customerBLL = stub;
         }
 
 
@@ -38,7 +38,7 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
-                var customerModel = _adminBLL.GetCustomer(CustomerId);
+                var customerModel = _customerBLL.GetCustomer(CustomerId);
 
                 var customerView = new CustomerView()
                 {
@@ -65,7 +65,7 @@ namespace Oblig1_Nettbutikk.Controllers
         public PartialViewResult CustomerlistPartial()
         {
                 var customerViewList = new List<CustomerView>();
-                var customerModels = _adminBLL.GetAllCustomers();
+                var customerModels = _customerBLL.GetAllCustomers();
 
                 foreach (var Customer in customerModels)
                 {
@@ -91,9 +91,9 @@ namespace Oblig1_Nettbutikk.Controllers
         {
                List<OrderModel> orderModels;
                 if (CustomerId > 0)
-                    orderModels = _adminBLL.GetCustomer(CustomerId).Orders;
+                    orderModels = _customerBLL.GetCustomer(CustomerId).Orders;
                 else
-                    orderModels = _adminBLL.GetAllOrders();
+                    orderModels = _customerBLL.GetAllOrders();
 
                 var orderViews = new List<OrderView>();
 
@@ -121,7 +121,7 @@ namespace Oblig1_Nettbutikk.Controllers
                     orderViews.Add(order);
                 }
 
-                var productModels = _adminBLL.GetAllProducts();
+                var productModels = _customerBLL.GetAllProducts();
                 var productViews = new List<ProductView>();
 
                 foreach (var productModel in productModels)
@@ -163,17 +163,17 @@ namespace Oblig1_Nettbutikk.Controllers
                 City = customerEdit.City
             };
 
-            return _adminBLL.UpdatePerson(personUpdate, email);
+            return _customerBLL.UpdatePerson(personUpdate, email);
         }
 
         [HttpPost]
         public bool DeleteCustomer(string email)
         {
-            if (Session["Email"] != null)
+            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
                 if ((string)Session["Email"] != email)
                 {
-                    return _adminBLL.DeleteCustomer(email);
+                    return _customerBLL.DeleteCustomer(email);
                 }
             }
             return false;
@@ -189,7 +189,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 ProductId = ProductId
             };
 
-            if (_adminBLL.UpdateOrderline(orderlineModel))
+            if (_customerBLL.UpdateOrderline(orderlineModel))
             {
                 return true;
             }
@@ -198,14 +198,14 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public double GetOrderSumTotal(int OrderId)
         {
-            return _adminBLL.GetOrderSumTotal(OrderId);
+            return _customerBLL.GetOrderSumTotal(OrderId);
 
         }
 
         [HttpPost]
         public bool DeleteOrder(int OrderId)
         {
-            return _adminBLL.DeleteOrder(OrderId);
+            return _customerBLL.DeleteOrder(OrderId);
         }
     }
 

@@ -163,5 +163,104 @@ namespace TankShopUnitTest
             }
         }
 
+        [TestMethod]
+        public void OrderPartial_List()
+        {
+            // Arrange
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+
+            // Act
+            var result = (PartialViewResult)Controller.OrdersPartial(1);
+
+            // Assert
+            Assert.AreEqual("", result.ViewName);
+        }
+
+        [TestMethod]
+        public void UpdateCustomer_ok()
+        {
+            // Arrange
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            var customerView = new CustomerView()
+            {
+                CustomerId = 1,
+                Email = "ole@gmail.com",
+                Firstname = "Ole",
+                Lastname = "Olsen",
+                Address = "Persveien 5",
+                Zipcode = "0123",
+                City = "Oslo"
+            };
+
+            // Act
+            var result = (bool)Controller.UpdateCustomerInfo(customerView);
+
+            // Assert
+            Assert.IsTrue(result);
+
+        }
+
+
+        [TestMethod]
+        public void UpdateCustomer_modelerror()
+        {
+            // Arrange
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            var customerView = new CustomerView()
+            {
+                CustomerId = 1,
+                Email = "",
+                Firstname = "Ole",
+                Lastname = "Olsen",
+                Address = "Persveien 5",
+                Zipcode = "0123",
+                City = "Oslo"
+            };
+
+            // Act
+            var result = (bool)Controller.UpdateCustomerInfo(customerView);
+
+            // Assert
+            Assert.IsFalse(result);
+
+        }
+
+
+        [TestMethod]
+        public void DeleteCustomer_ok()
+        {
+            // Arrange
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            var email = "ole@gmail.com";
+
+            // Act
+            var result = (bool)Controller.DeleteCustomer(email);
+
+            // Assert
+            Assert.IsTrue(result);
+
+
+        }
+
+        [TestMethod]
+        public void DeleteCustomer_No_EmailSession()
+        {
+            // Arrange
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+            Controller.Session["Email"] = false;
+            var email = "ole@gmail.com";
+
+            // Act
+            var result = (bool)Controller.DeleteCustomer(email);
+
+            // Assert
+            Assert.IsFalse(result);
+
+
+        }
+
+       
     }
 }

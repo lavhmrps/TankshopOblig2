@@ -157,7 +157,10 @@ namespace Oblig1_Nettbutikk.DAL
 
         public bool UpdatePerson(PersonModel personUpdate, string email)
         {
-            throw new NotImplementedException();
+            if (email == "")
+                return false;
+
+            return true;
         }
 
         public bool DeletePerson(string email)
