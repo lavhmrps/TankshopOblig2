@@ -4,121 +4,122 @@
     List<ProductView> Products = ViewBag.Products;
     string Title = ViewBag.Title;
 }
-<h4>@Title</h4>
-<ul id="adminOrderList">
+<div id="adminOrder">
+    <h4>@Title</h4>
+    <ul id="adminOrderList">
 
-    @if (Orders.Count == 0)
-    {
-        <li>
-            <span style="color:deeppink">Ingen ordre foretatt</span>
-        </li>
-    }
-    @foreach (var order in Orders)
-    {
-        var orderTotal = 0.0;
-        foreach (var line in order.Orderlines)
+        @if (Orders.Count == 0)
         {
-            orderTotal += line.Product.Price * line.Count;
+            <li>
+                <span style="color:deeppink">Ingen ordre foretatt</span>
+            </li>
         }
-        <li orderid="@order.OrderId">
-            <a class="linkNoHref orderListTitle">OrdreId: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year | Totalpris: kr <span class="sumTotal">@string.Format("{0:n}", orderTotal)</span> </a>
+        @foreach (var order in Orders)
+        {
+            var orderTotal = 0.0;
+            foreach (var line in order.Orderlines)
+            {
+                orderTotal += line.Product.Price * line.Count;
+            }
+            <li orderid="@order.OrderId">
+                <a class="linkNoHref orderListTitle">OrdreId: @order.OrderId | Dato: @order.Date.Day/@order.Date.Month-@order.Date.Year | Totalpris: kr <span class="sumTotal">@string.Format("{0:n}", orderTotal)</span> </a>
 
-            <table hidden class="tableOrderlines" border="1">
-                <thead>
-                    <tr>
-                        <th>LinjeId</th>
-                        <th>Produkt</th>
-                        <th>Antall</th>
-                        <th>Produktpris</th>
-                        <th>Produktsum</th>
-                        <th></th>
-                    </tr>
-                <tbody>
-                    @{
-                        var sumTotal = 0.0;
-                    }
-                    @foreach (var line in order.Orderlines)
-                    {
-                        var productTotal = @line.Product.Price * @line.Count;
-                        sumTotal += productTotal;
-                        <tr orderlineid="@line.OrderlineId">
-                            <td>
-                                @line.OrderlineId
-                            </td>
-                            <td>
-                                <select class="adminSelectChangeProduct" last-save="@line.Product.ProductId" disabled>
-                                    @foreach (var product in Products)
-                                    {
-                                        var o = order.Orderlines.FirstOrDefault(l => l.Product.ProductId == product.ProductId);
-                                        if (line.Product.ProductId == product.ProductId)
-                                        {
-                                            <option value="@product.ProductId" data-price="@product.Price" selected>
-                                                @product.ProductName
-                                            </option>
-                                        }
-                                        else if (o != null)
-                                        {
-                                            <option value="@product.ProductId" data-price="@product.Price" disabled>
-                                                @product.ProductName
-                                            </option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@product.ProductId" data-price="@product.Price">
-                                                @product.ProductName
-                                            </option>
-
-                                        }
-                                    }
-                                </select>
-                                @*@Html.ActionLink(@line.Product.ProductName, "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)*@
-                                @Html.ActionLink("Gå til", "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)
-                            </td>
-                            <td>
-                                <select class="adminSelectChangeCount" last-save="@line.Count" disabled>
-                                    @for (int i = 0; i < 10; i++)
-                                    {
-                                        if (i == line.Count)
-                                        {
-                                            <option value="@i" selected>@i</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@i">@i</option>
-                                        }
-                                    }
-                                </select>
-                            </td>
-                            <td class="productprice" last-save="@line.Product.Price">
-                                @String.Format("{0:n}", @line.Product.Price)
-                            </td>
-                            <td>
-                                <span class="productTotal" last-save="@productTotal" style="font-weight:bold;">@String.Format("{0:n}", productTotal)</span>
-                            </td>
-                            <td>
-                                <a class="linkNoHref adminOrderlineEdit">Endre</a>
-                                <a class="linkNoHref adminOrderlineDelete">Slett</a>
-                                <a class="linkNoHref adminOrderlineSave" hidden>Lagre</a>
-                                <a class="linkNoHref adminOrderlineCancel" hidden>Avbryt</a>
-                            </td>
+                <table hidden class="tableOrderlines" border="1">
+                    <thead>
+                        <tr>
+                            <th>LinjeId</th>
+                            <th>Produkt</th>
+                            <th>Antall</th>
+                            <th>Produktpris</th>
+                            <th>Produktsum</th>
+                            <th></th>
                         </tr>
-                    }
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <span class="sumTotal" last-save="@sumTotal" style="color:forestgreen;font-weight:bold">@String.Format("{0:n}", sumTotal)</span>
-                        </td>
-                        <td><a class="linkNoHref adminOrderDelete">Slett hele</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </li>
+                    <tbody>
+                        @{
+                            var sumTotal = 0.0;
                         }
-</ul>
+                        @foreach (var line in order.Orderlines)
+                        {
+                            var productTotal = @line.Product.Price * @line.Count;
+                            sumTotal += productTotal;
+                            <tr orderlineid="@line.OrderlineId">
+                                <td>
+                                    @line.OrderlineId
+                                </td>
+                                <td>
+                                    <select class="adminSelectChangeProduct" last-save="@line.Product.ProductId" disabled>
+                                        @foreach (var product in Products)
+                                        {
+                                            var o = order.Orderlines.FirstOrDefault(l => l.Product.ProductId == product.ProductId);
+                                            if (line.Product.ProductId == product.ProductId)
+                                            {
+                                                <option value="@product.ProductId" data-price="@product.Price" selected>
+                                                    @product.ProductName
+                                                </option>
+                                            }
+                                            else if (o != null)
+                                            {
+                                                <option value="@product.ProductId" data-price="@product.Price" disabled>
+                                                    @product.ProductName
+                                                </option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@product.ProductId" data-price="@product.Price">
+                                                    @product.ProductName
+                                                </option>
 
+                                            }
+                                        }
+                                    </select>
+                                    @*@Html.ActionLink(@line.Product.ProductName, "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)*@
+                                    @Html.ActionLink("Gå til", "Product", "Product", new { ProductId = line.Product.ProductId, ReturnUrl = Request.RawUrl }, null)
+                                </td>
+                                <td>
+                                    <select class="adminSelectChangeCount" last-save="@line.Count" disabled>
+                                        @for (int i = 0; i < 10; i++)
+                                        {
+                                            if (i == line.Count)
+                                            {
+                                                <option value="@i" selected>@i</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                                <td class="productprice" last-save="@line.Product.Price">
+                                    @String.Format("{0:n}", @line.Product.Price)
+                                </td>
+                                <td>
+                                    <span class="productTotal" last-save="@productTotal" style="font-weight:bold;">@String.Format("{0:n}", productTotal)</span>
+                                </td>
+                                <td>
+                                    <a class="linkNoHref adminOrderlineEdit">Endre</a>
+                                    <a class="linkNoHref adminOrderlineDelete">Slett</a>
+                                    <a class="linkNoHref adminOrderlineSave" hidden>Lagre</a>
+                                    <a class="linkNoHref adminOrderlineCancel" hidden>Avbryt</a>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="sumTotal" last-save="@sumTotal" style="color:forestgreen;font-weight:bold">@String.Format("{0:n}", sumTotal)</span>
+                            </td>
+                            <td><a class="linkNoHref adminOrderDelete">Slett hele</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+                            }
+    </ul>
+</div>
 <script>
     $(document).ready(function () {
 

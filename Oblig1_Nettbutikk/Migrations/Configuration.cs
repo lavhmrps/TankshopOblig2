@@ -2,6 +2,7 @@ namespace Oblig1_Nettbutikk.Migrations
 {
     using Model;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -43,8 +44,8 @@ namespace Oblig1_Nettbutikk.Migrations
             {
                 ProductId = 1,
                 Name = "Tiger 1",
-                Price = gen.Next(300,900)*1000,
-                Stock = gen.Next(5,15),
+                Price = gen.Next(300, 900) * 1000,
+                Stock = gen.Next(5, 15),
                 Description = "Tiger I is the common name of a German heavy tank developed in 1942 and used in World War II. The final official German designation was Panzerkampfwagen VI Tiger Ausf. E, often shortened to Tiger. The Tiger I gave the Wehrmacht its first tank which mounted a KwK 36 88mm gun in an armoured fighting vehicle. The KwK 36 is not to be confused with the earlier and similar 8.8 cm Flak 36, a different weapon designed in parallel with the KwK 36 and firing the same ammunition (\"KwK\" denotes an armored vehicle gun, while \"Flak\" denotes anti-aircraft artillery). During the course of the war, the Tiger I saw combat on all German battlefronts. It was usually deployed in independent heavy tank battalions, which proved highly effective",
                 CategoryId = 1,
                 ImageUrl = "http://www.hsgalleries.com/gallery04/images/Tiger%20front1.jpg"
@@ -269,6 +270,22 @@ namespace Oblig1_Nettbutikk.Migrations
             {
                 Zipcode = "0772",
                 City = "Oslo"
+            }, new Postal
+            {
+                Zipcode = "0123",
+                City = "Oslo"
+            }, new Postal
+            {
+                Zipcode = "5020",
+                City = "Bergen"
+            }, new Postal
+            {
+                Zipcode = "3048",
+                City = "Brummunddal"
+            }, new Postal
+            {
+                Zipcode = "0599",
+                City = "Oslo"
             });
 
             // People
@@ -301,7 +318,43 @@ namespace Oblig1_Nettbutikk.Migrations
                     Lastname = "Datasupport",
                     Address = "Hesteneset 58",
                     Zipcode = "0772"
-                });
+                }, new Person
+                {
+                    Email = "ola@nordmann.no",
+                    Firstname = "Ola",
+                    Lastname = "Nordmann",
+                    Address = "Osloveien 8",
+                    Zipcode = "0123"
+                }, new Person
+                {
+                    Email = "kari@nordmann.no",
+                    Firstname = "Kari",
+                    Lastname = "Nordmann",
+                    Address = "Osloveien 8",
+                    Zipcode = "0123"
+                }, new Person
+                {
+                    Email = "stalin@gmail.ru",
+                    Firstname = "Josef",
+                    Lastname = "Stalin",
+                    Address = "Fisketorget 1",
+                    Zipcode = "5020"
+                }, new Person
+                {
+                    Email = "jan@setesdal.no",
+                    Firstname = "Jan",
+                    Lastname = "Skrotnes",
+                    Address = "Blomsterkvasten 9",
+                    Zipcode = "3048"
+                }, new Person
+                {
+                    Email = "knut@nrk.no",
+                    Firstname = "Knut",
+                    Lastname = "Borge",
+                    Address = "Kastanjefaret 99",
+                    Zipcode = "0599"
+                }
+            );
 
             // Admins
             context.Admins.AddOrUpdate(new Admin
@@ -328,6 +381,26 @@ namespace Oblig1_Nettbutikk.Migrations
             {
                 CustomerId = 4,
                 Email = "admin"
+            }, new Customer
+            {
+                CustomerId = 5,
+                Email = "ola@nordmann.no"
+            }, new Customer
+            {
+                CustomerId = 6,
+                Email = "kari@nordmann.no"
+            }, new Customer
+            {
+                CustomerId = 7,
+                Email = "jan@setesdal.no"
+            }, new Customer
+            {
+                CustomerId = 8,
+                Email = "knut@nrk.no"
+            }, new Customer
+            {
+                CustomerId = 9,
+                Email = "stalin@gmail.ru"
             });
 
             // Credentials
@@ -347,152 +420,86 @@ namespace Oblig1_Nettbutikk.Migrations
             {
                 Email = "tyholt@apis.no",
                 Password = CreateHash("kråke")
-            });
-
-            // Orders
-            context.Orders.AddOrUpdate(new Order
+            }, new Credential
             {
-                OrderId = 1,
-                CustomerId = 1,
-                Date = new DateTime(2015, 4, 12, 12, 5, 15)
-            }, new Order
+                Email = "ola@nordmann.no",
+                Password = CreateHash("ola")
+            }, new Credential
             {
-                OrderId = 2,
-                CustomerId = 1,
-                Date = new DateTime(2015, 8, 5, 3, 2, 55)
-        },
-            new Order
+                Email = "kari@nordmann.no",
+                Password = CreateHash("hesterbest")
+            }, new Credential
             {
-                OrderId = 3,
-                CustomerId = 1,
-                Date = new DateTime(2015, 9, 1, 9, 51, 38)
-            },
-            new Order
+                Email = "jan@setesdal.no",
+                Password = CreateHash("helluu")
+            }, new Credential
             {
-                OrderId = 4,
-                CustomerId = 2,
-                Date = new DateTime(2015, 8, 29, 8, 16, 51)
-            },
-            new Order
+                Email = "knut@nrk.no",
+                Password = CreateHash("publikuuum")
+            }, new Credential
             {
-                OrderId = 5,
-                CustomerId = 2,
-                Date = new DateTime(2015, 6, 21, 11, 43, 9)
-            }, new Order
-            {
-                OrderId = 6,
-                CustomerId = 3,
-                Date = new DateTime(2015, 8, 29, 8, 16, 51)
-            },
-            new Order
-            {
-                OrderId = 7,
-                CustomerId = 3,
-                Date = new DateTime(2015, 10, 11, 18, 33, 9)
+                Email = "stalin@gmail.ru",
+                Password = CreateHash("bart")
             });
 
 
-
-
-
-
-            //OrderLines
-            context.Orderlines.AddOrUpdate(new Orderline
+            // auto genererte ordre 
+            for (int i = 1; i < 30; i++)
             {
-                ProductId = 20,
-                Count = 3,
-                OrderId = 3,
+                var order = new Order()
+                {
+                    OrderId = i,
+                    CustomerId = gen.Next(1, 10),
+                    Date = new DateTime(2015, gen.Next(8, 10), gen.Next(1, 30), gen.Next(1, 23), gen.Next(1, 59), gen.Next(1, 59))
+                };
 
-            },
+                var orderlines = new List<Orderline>();
+                int numOrderlines = gen.Next(4, 9);
+                int[] productId = populateIds(numOrderlines);
 
-            new Orderline
-            {
-                ProductId = 10,
-                Count = 2,
-                OrderId = 3
-            },
+                for (int j = 0; j < numOrderlines; j++)
+                {
+                    var orderline = new Orderline()
+                    {
+                        Count = gen.Next(1, 9),
+                        OrderId = i,
+                        ProductId = productId[j]
+                    };
+                    orderlines.Add(orderline);
+                }
+                order.Orderlines = orderlines;
 
-            new Orderline
-            {
-                ProductId = 3,
-                Count = 1,
-                OrderId = 3
-            },
+                context.Orders.AddOrUpdate(order);
 
-            new Orderline
-            {
-                ProductId = 10,
-                Count = 2,
-                OrderId = 4
-
-            },
-
-            new Orderline
-            {
-                ProductId = 19,
-                Count = 1,
-                OrderId = 4
-
-            },
-
-            new Orderline
-            {
-                ProductId = 16,
-                Count = 1,
-                OrderId = 3
-
-            },
-
-            new Orderline
-            {
-                ProductId = 21,
-                Count = 2,
-                OrderId = 2
-
-            },
-
-            new Orderline
-            {
-                ProductId = 9,
-                Count = 4,
-                OrderId = 1
-
-            },
-
-            new Orderline
-            {
-                ProductId = 13,
-                Count = 3,
-                OrderId = 1
-
-            },
+            }
 
 
-            new Orderline
-            {
-                ProductId = 12,
-                Count = 2,
-                OrderId = 1
-
-            },
-
-            new Orderline
-            {
-                ProductId = 4,
-                Count = 1,
-                OrderId = 2
-
-            },
-
-            new Orderline
-            {
-                ProductId = 12,
-                Count = 5,
-                OrderId = 2
-
-            });
 
         }
+
+        private int[] populateIds(int numOrderlines)
+        {
+            Random gen = new Random();
+            var list = new List<int>();
+
+            for (int i = 0; i < numOrderlines; i++)
+            {
+                var inserted = false;
+                while (!inserted)
+                {
+                    // 21 products (1-21)
+                    var testId = gen.Next(1, 21);
+                    if (!list.Contains(testId))
+                    {
+                        list.Add(testId);
+                        inserted = true;
+                    }
+                }
+            } // list populated with unique product-ids
+
+            return list.ToArray();
+        }
+
         private byte[] CreateHash(string password)
         {
             byte[] inData, outData;
@@ -501,7 +508,7 @@ namespace Oblig1_Nettbutikk.Migrations
             outData = alg.ComputeHash(inData);
             return outData;
         }
-      
+
     }
 
 }

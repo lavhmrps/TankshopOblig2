@@ -1,8 +1,9 @@
 ﻿
 <h2>Administration</h2>
-
-@{Html.RenderAction("CustomerlistPartial"); }
+<div id="adminCustomer">
+    @{Html.RenderAction("CustomerlistPartial"); }
+</div>
 <hr class="hr-dark" />
-@{Html.RenderAction("OrdersPartial",new { CustomerId = 0 });}
-
-    
+<div >
+    @{Html.RenderAction("OrdersPartial", new { CustomerId = 0 });}
+</div>
