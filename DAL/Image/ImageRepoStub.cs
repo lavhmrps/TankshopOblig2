@@ -10,7 +10,7 @@ namespace Nettbutikk.DataAccess
             return productId != -1;
         }
 
-        public bool AddOldImage(int productId, string imageUrl, int adminId)
+        public bool AddOldImage(int productId, string imageUrl, Admin changer)
         {
             return productId != -1;
         }

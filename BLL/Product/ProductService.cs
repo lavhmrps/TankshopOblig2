@@ -2,7 +2,6 @@
 using Nettbutikk.Model;
 using Nettbutikk.DataAccess;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -14,7 +13,7 @@ namespace Nettbutikk.BusinessLogic
 
         }
 
-        public ProductService(ITankshopDbContext context)
+        public ProductService(TankshopDbContext context)
             : base(new ProductRepository(context))
         {
 
@@ -25,6 +24,8 @@ namespace Nettbutikk.BusinessLogic
         {
         }
         
+        #region Getters
+
         public ICollection<Product> GetAll(ICollection<int> productIdList)
         {
             return Get(p => productIdList.Contains(p.Id));
@@ -60,9 +61,54 @@ namespace Nettbutikk.BusinessLogic
             return Repository.Get(product => product.CategoryId == categoryId);
         }
         
-        public async Task<TMappedEntity> GetByIdAsync<TMappedEntity>(int? id)
+        #endregion Getters
+
+        #region Remove
+
+        /***
+         *  Deletes the given entity from the underlying repository.
+         */
+        public bool Remove(Product entity)
         {
-            return Mapper.Map<TMappedEntity>(await GetByIdAsync(id));
+            Repository.Remove(entity);
+            Repository.Save();
+            LogRemoval(entity);
         }
+        
+        public bool Remove(object unmappedEntity)
+        {
+            return Remove(Mapper.Map<Product>(unmappedEntity));
+        }
+        
+        /***
+         *  Deletes the entity with the given {entityId} from the underlying
+         *  repository.
+         */
+        public new bool RemoveById(object productId)
+        {
+            var product = GetById(productId);
+
+            if (null == product)
+                return false;
+
+            return Remove(product);
+        }
+        
+        #endregion Remove
+
+        #region Helpers
+
+        protected void LogRemoval<IChangedEntity>(IChangedEntity entity)
+        {
+            //TODO: Implement
+        }
+
+        protected void LogEntityChange<IChangedEntity>(IChangedEntity entity)
+        {
+            //TODO: Implement
+        }
+
+        #endregion Helpers
+
     }
 }

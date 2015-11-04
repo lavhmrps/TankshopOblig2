@@ -15,7 +15,7 @@ namespace Nettbutikk.DataAccess
     {
         #region Properties and members
 
-        internal ITankshopDbContext Context { get; private set; }
+        internal TankshopDbContext Context { get; private set; }
 
         protected DbSet<TEntity> Entities
         {
@@ -34,7 +34,7 @@ namespace Nettbutikk.DataAccess
             Context = new TankshopDbContext();
         }
 
-        public EntityRepository(ITankshopDbContext context)
+        public EntityRepository(TankshopDbContext context)
         {
             Context = context;
         }
@@ -145,25 +145,24 @@ namespace Nettbutikk.DataAccess
 
         #region Remove
 
-        public virtual bool Remove(TEntity entity)
+        public virtual void Remove(TEntity entity)
         {
             Entities.Remove(entity);
-            return 0 < Context.SaveChanges();
         }
 
-        public virtual async Task<bool> RemoveAsync(TEntity entity)
+        public virtual async Task RemoveAsync(TEntity entity)
         {
-            return await Task.Factory.StartNew(() => Remove(entity));
+            await Task.Factory.StartNew(() => Remove(entity));
         }
 
-        public virtual bool RemoveById(object entityId)
+        public virtual void RemoveById(object entityId)
         {
-            return Remove(GetById(entityId));
+            Remove(GetById(entityId));
         }
 
-        public virtual async Task<bool> RemoveByIdAsync(object entityId)
+        public virtual async Task RemoveByIdAsync(object entityId)
         {
-            return await Task.Factory.StartNew(() => RemoveById(entityId));
+            await Task.Factory.StartNew(() => RemoveById(entityId));
         }
 
         #endregion Remove
@@ -181,6 +180,23 @@ namespace Nettbutikk.DataAccess
         }
 
         #endregion Save
+
+        #region Transaction
+
+        public void Transaction(Action<IRepository<TEntity>> transaction)
+        {
+            transaction.Invoke(this) ;
+            Context.SaveChanges();
+        }
+
+        public async Task TransactionAsync(Action<IRepository<TEntity>> transaction)
+        {
+            transaction.Invoke(this);
+
+            await Context.SaveChangesAsync();
+        }
+
+        #endregion Transaction
 
         #region Helpers
 

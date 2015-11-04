@@ -50,14 +50,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminModel.cs" />
-    <Compile Include="CategoryModel.cs" />
+    <Compile Include="Admin.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="Credential.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="RemovedEntities\IChangedEntity.cs" />
     <Compile Include="RemovedEntities\OldImage.cs" />
     <Compile Include="RemovedEntities\OldProduct.cs" />
-    <Compile Include="OrderlineModel.cs" />
+    <Compile Include="Orderline.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Postal.cs" />

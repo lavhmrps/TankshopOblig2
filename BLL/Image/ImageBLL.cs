@@ -29,7 +29,7 @@ namespace Nettbutikk.BusinessLogic
             if (img == null)
                 return false;
 
-            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, 1))//Get admin id from session
+            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, new Admin { Id = 1 }))//Get admin id from session
                 return false; 
 
             return repo.DeleteImage(imageId);
@@ -53,7 +53,7 @@ namespace Nettbutikk.BusinessLogic
             if (img == null)
                 return false;
 
-            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, 1))//Get admin id from session
+            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, new Admin { Id = 1 }))//Get admin id from session
                 return false;
 
             return repo.UpdateImage(imageId, productId, imageUrl);

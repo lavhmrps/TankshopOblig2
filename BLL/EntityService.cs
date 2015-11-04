@@ -41,17 +41,17 @@ namespace Nettbutikk.BusinessLogic
          */
         public TEntity Create(TEntity entity)
         {
-            return Repository.Add(entity);
-        }
+            try {
+                return Repository.Add(entity);
+            }
+            catch(Exception e)
+            {
 
-        /***
-         *  Creates the given entity in the underlying repository.
-         */
-        public async Task<TEntity> CreateAsync(TEntity entity)
-        {
-            return await Repository.AddAsync(entity);
-        }
+            }
 
+            return null;
+        }
+        
         /***
          *  Creates the given {unmappedEntity} as an instance of {TEntity}
          *  through AutoMapper in the underlying repository.
@@ -60,64 +60,56 @@ namespace Nettbutikk.BusinessLogic
         {
             return Create(Mapper.Map<TEntity>(unmappedEntity));
         }
-
-        /***
-         *  Creates the given {unmappedEntity} as an instance of {TEntity}
-         *  through AutoMapper in the underlying repository.
-         */
-        public async Task<TEntity> CreateAsync(object unmappedEntity)
-        {
-            return await CreateAsync(Mapper.Map<TEntity>(unmappedEntity));
-        }
-
+        
         #endregion Create
-        #region Delete
+        #region Remove
 
         /***
          *  Deletes the given entity from the underlying repository.
          */
         public bool Remove(TEntity entity)
         {
-            return Repository.Remove(entity);
-        }
+            try {
+                Repository.Remove(entity);
+                Repository.Save();
 
-        /***
-         *  Deletes the given entity from the underlying repository.
-         */
-        public async Task<bool> RemoveAsync(TEntity entity)
-        {
-            return await Repository.RemoveAsync(entity);
-        }
+                return true;
+            }
+            catch (Exception e)
+            {
 
+            }
+            //If we get here, something went wrong, so return false
+            return false;
+        }
+        
         public bool Remove(object unmappedEntity)
         {
             return Remove(Mapper.Map<TEntity>(unmappedEntity));
         }
-
-        public async Task<bool> RemoveAsync(object unmappedEntity)
-        {
-            return await RemoveAsync(Mapper.Map<TEntity>(unmappedEntity));
-        }
-
+        
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  repository.
          */
         public bool RemoveById(object entityId)
         {
-            return Repository.RemoveById(entityId);
-        }
+            try
+            {
+                Repository.RemoveById(entityId);
+                Repository.Save();
 
-        /***
-         *  Deletes the entity with the given {entityId} from the underlying
-         *  repository.
-         */
-        public async Task<bool> RemoveByIdAsync(object entityId)
-        {
-            return await Repository.RemoveByIdAsync(entityId);
-        }
+                return true;
+            }
+            catch(Exception e)
+            {
 
-        #endregion Delete
+            }
+
+            return false;
+        }
+        
+        #endregion Remove
         #region Get
 
         /***
@@ -133,21 +125,7 @@ namespace Nettbutikk.BusinessLogic
         {
             return Repository.Get(filter, order, includeProperties);
         }
-
-        /***
-         *  Gets all entities from the repository matching the given {filter},
-         *  ordered with the given {order} and including the list of properties
-         *  on the entity in the given comma-separated string.
-         */
-        public async Task<ICollection<TEntity>> GetAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>,
-                IOrderedQueryable<TEntity>> order = null,
-            string includeProperties = "")
-        {
-            return await Repository.GetAsync(filter, order, includeProperties);
-        }
-
+        
         /***
          *  Returns all the entities in the underlying repository.
          */
@@ -155,15 +133,7 @@ namespace Nettbutikk.BusinessLogic
         {
             return Repository.GetAll();
         }
-
-        /***
-         *  Returns all the entities in the underlying repository.
-         */
-        public async Task<ICollection<TEntity>> GetAllAsync()
-        {
-            return await Repository.GetAllAsync();
-        }
-
+        
         /***
          * Gets an entity with the given {entityId} from the backing
          * repository.
@@ -172,16 +142,7 @@ namespace Nettbutikk.BusinessLogic
         {
             return Repository.GetById(entityId);
         }
-
-        /***
-         * Gets an entity with the given {entityId} from the backing
-         * repository.
-         */
-        public async Task<TEntity> GetByIdAsync(object entityId)
-        {
-            return await Repository.GetByIdAsync(entityId);
-        }
-
+        
         public TMappedEntity GetById<TMappedEntity>(object entityId)
         {
             return GetById<TMappedEntity>(entityId);
@@ -213,15 +174,7 @@ namespace Nettbutikk.BusinessLogic
         {
             Repository.Save();
         }
-
-        /***
-         *  Saves the current Repository state.
-         */
-        public async Task SaveAsync()
-        {
-            await Repository.SaveAsync();
-        }
-
+        
         #endregion Save
         #region Update
 
@@ -232,15 +185,7 @@ namespace Nettbutikk.BusinessLogic
         {
             return Repository.Update(entity);
         }
-
-        /***
-         *  Updates the property of the entity in the repository.
-         */
-        public async Task<TEntity> UpdateAsync(TEntity entity)
-        {
-            return await Repository.UpdateAsync(entity);
-        }
-
+        
         /***
          *  Updates the property of the entity in the repository.
          */
@@ -249,16 +194,10 @@ namespace Nettbutikk.BusinessLogic
             return Update(Mapper.Map<TEntity>(unmappedEntity));
         }
 
-        /***
-         *  Updates the property of the entity in the repository.
-         */
-        public async Task<TEntity> UpdateAsync(object unmappedEntity)
-        {
-            return await UpdateAsync(Mapper.Map<TEntity>(unmappedEntity));
-        }
         #endregion Update
-        
+
         #region IDisposable Support
+
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -267,7 +206,7 @@ namespace Nettbutikk.BusinessLogic
             {
                 if (disposing)
                 {
-                    Repository.Dispose();
+                    Repository?.Dispose();
                     Repository = null;
                 }
 

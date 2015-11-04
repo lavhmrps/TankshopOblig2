@@ -12,7 +12,7 @@ namespace Nettbutikk.BusinessLogic
         /***
          *  The internal database context/connection to be used by repositories.
          */
-        protected ITankshopDbContext context;
+        protected TankshopDbContext context;
 
         public ICategoryService Categories { get; protected set; }
         public IProductService Products { get; protected set; }

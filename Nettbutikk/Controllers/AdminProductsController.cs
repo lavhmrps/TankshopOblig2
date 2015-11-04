@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Nettbutikk.Model;
+﻿using Nettbutikk.Model;
 using Nettbutikk.Models;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Nettbutikk.BusinessLogic;
 
@@ -32,12 +30,12 @@ namespace Nettbutikk.Controllers
 
         // POST: Products/Create
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(
+        public ActionResult Create(
             CreateProduct product)
         {
             if (ModelState.IsValid)
             {
-                Product p = await Services.Products.CreateAsync(product);
+                Product p = Services.Products.Create(product);
 
                 return RedirectToAction("Details", "Products", new { Id = p.Id });
             }
@@ -52,37 +50,37 @@ namespace Nettbutikk.Controllers
         #region Edit
 
         // GET: Products/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpBadRequest();
             }
 
-            EditProduct product = await Services.Products.GetByIdAsync<EditProduct>(id);
+            EditProduct product = Services.Products.GetById<EditProduct>(id);
 
             if (product == null)
             {
                 return HttpNotFound();
             }
 
-            product.Categories = await Services.Categories.GetAllAsync();
+            product.Categories = Services.Categories.GetAll();
 
             return View(product);
         }
 
         // POST: Products/Edit/5
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditProduct product)
+        public ActionResult Edit(EditProduct product)
         {
             if (ModelState.IsValid)
             {
-                await Services.Products.UpdateAsync(product);
+                Services.Products.Update(product);
 
                 return RedirectToAction("Index");
             }
 
-            product.Categories = await Services.Categories.GetAllAsync();
+            product.Categories = Services.Categories.GetAll();
 
             return View(product);
         }
@@ -91,14 +89,14 @@ namespace Nettbutikk.Controllers
         #region Delete
 
         // GET: Products/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpBadRequest();
             }
 
-            Product product = await Services.Products.GetByIdAsync(id);
+            Product product = Services.Products.GetById(id);
 
             if (product == null)
             {
@@ -110,11 +108,12 @@ namespace Nettbutikk.Controllers
 
         // POST: Products/Delete/5
         [ActionName("Delete"), HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Product product = await Services.Products.GetByIdAsync(id);
-
-            await Services.Products.RemoveAsync(product);
+            if (!Services.Products.RemoveById(id))
+            {
+                return HttpBadRequest();
+            }
 
             return RedirectToAction("Index");
         }

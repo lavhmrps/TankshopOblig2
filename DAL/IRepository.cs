@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace Nettbutikk.DataAccess
 {
     public interface IRepository<TEntity>
-        : IBasicRepository<TEntity>, IAsyncRepository<TEntity>, IDisposable
+        : IBasicRepository<TEntity>, IDisposable
         where TEntity : class, new()
     {
-
     }
 
     /***
@@ -27,13 +26,13 @@ namespace Nettbutikk.DataAccess
         /***
          *  Deletes the entity from the underlying data-store (if it exists).
          */
-        bool Remove(TEntity entity);
+        void Remove(TEntity entity);
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  data-store (if it exists).
          */
-        bool RemoveById(object entityId);
+        void RemoveById(object entityId);
 
         /***
          *  Gets a set of entities from the underlying data-store, {filter}ed
@@ -82,13 +81,13 @@ namespace Nettbutikk.DataAccess
         /***
          *  Deletes the entity from the underlying data-store (if it exists).
          */
-        Task<bool> RemoveAsync(TEntity entity);
+        Task RemoveAsync(TEntity entity);
 
         /***
          *  Deletes the entity with the given {entityId} from the underlying
          *  data-store (if it exists).
          */
-        Task<bool> RemoveByIdAsync(object entityId);
+        Task RemoveByIdAsync(object entityId);
 
 
         /***
@@ -121,5 +120,7 @@ namespace Nettbutikk.DataAccess
          *  Flushes data to the underlying data-store.
          */
         Task SaveAsync();
+
+        Task TransactionAsync(Action<IRepository<TEntity>> transaction);
     }
 }

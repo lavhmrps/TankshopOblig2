@@ -1,3 +1,4 @@
+using Nettbutikk.Model.RemovedEntities;
 using System;
 using System.Data.Entity;
 
@@ -31,5 +32,7 @@ namespace Nettbutikk.Model
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<OldProduct> OldProducts { get; set; }
+        public virtual DbSet<OldImage> OldImages { get; set; }
     }
 }

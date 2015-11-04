@@ -55,24 +55,24 @@ namespace Nettbutikk.BusinessLogic.Tests
             return Task.Factory.StartNew(() => Add(entity));
         }
 
-        public override bool Remove(TEntity entity)
+        public override void Remove(TEntity entity)
         {
             return Repository.Remove(entity);
         }
 
-        public override Task<bool> RemoveAsync(TEntity entity)
+        public override Task RemoveAsync(TEntity entity)
         {
             return Task.Factory.StartNew(() => Remove(entity));
         }
 
-        public override bool RemoveById(object entityId)
+        public override void RemoveById(object entityId)
         {
             return Repository
                 .Where(e => IdGetterPredicate(e) == entityId)
                 .Any(entity => Repository.Remove(entity));
         }
 
-        public override Task<bool> RemoveByIdAsync(object entityId)
+        public override Task RemoveByIdAsync(object entityId)
         {
             return Task.Factory.StartNew(() => RemoveById(entityId));
         }

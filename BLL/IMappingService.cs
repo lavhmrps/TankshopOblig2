@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -32,10 +31,7 @@ namespace Nettbutikk.BusinessLogic
             string includeProperties = "");
 
         TEntity Create(object unmappedEntity);
-        Task<TEntity> CreateAsync(object unmappedEntity);
         bool Remove(object unmappedEntity);
-        Task<bool> RemoveAsync(object unmappedEntity);
         TEntity Update(object unmappedEntity);
-        Task<TEntity> UpdateAsync(object unmappedEntity);
     }
 }

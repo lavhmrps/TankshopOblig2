@@ -1,11 +1,10 @@
 ﻿using System;
-using Nettbutikk.Model;
 
-namespace Model.RemovedEntities
+namespace Nettbutikk.Model.RemovedEntities
 {
-    public class OldImage : Image
+    public class OldImage : Image, IChangedEntity
     {
-        public int AdminId { get; set; }
+        public Admin Changer { get; set; }
         public DateTime Changed { get; set; }
     }
 }

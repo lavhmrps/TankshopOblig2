@@ -1,6 +1,5 @@
 ﻿using Nettbutikk.Model;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -16,6 +15,5 @@ namespace Nettbutikk.BusinessLogic
         ICollection<Product> GetProductsByCategory(Category category);
         ICollection<Product> GetProductsByCategoryId(int categoryId);
         ICollection<TMappedType> GetProductsByCategoryId<TMappedType>(int v);
-        Task<TMappedEntity> GetByIdAsync<TMappedEntity>(int? id);
     }
 }

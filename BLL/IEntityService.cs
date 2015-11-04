@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Nettbutikk.BusinessLogic
 {
@@ -44,22 +43,12 @@ namespace Nettbutikk.BusinessLogic
          *  Fetches all entities in the underlying repository.
          */
         ICollection<TEntity> GetAll();
-
-        /***
-         *  Fetches all entities in the underlying repository.
-         */
-        Task<ICollection<TEntity>> GetAllAsync();
-
+        
         /***
          *  Gets an entity with matching {entityId} from the underlying repository.
          */
         TEntity GetById(object entityId);
-
-        /***
-         *  Gets an entity with matching {entityId} from the underlying repository.
-         */
-        Task<TEntity> GetByIdAsync(object entityId);
-
+        
         /***
          *  Asks the backing repository to save/commit its state to disk.
          */

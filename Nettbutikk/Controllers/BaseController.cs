@@ -1,4 +1,5 @@
 ﻿using Nettbutikk.BusinessLogic;
+using System.Net;
 using System.Web.Mvc;
 
 namespace Nettbutikk.Controllers
@@ -36,6 +37,11 @@ namespace Nettbutikk.Controllers
         #endregion Constructors
 
         #region Helpers
+
+        protected ActionResult HttpBadRequest()
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
 
         protected ActionResult RedirectToLocal(string returnUrl,
             RedirectToRouteResult defaultUrl = null)

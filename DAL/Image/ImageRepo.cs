@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nettbutikk.Model;
-using Model.RemovedEntities;
+using Nettbutikk.Model.RemovedEntities;
 
 namespace Nettbutikk.DataAccess
 {
@@ -101,14 +101,14 @@ namespace Nettbutikk.DataAccess
 
 
         //OldImage
-        public bool AddOldImage(int productId, string imageUrl, int adminId)
+        public bool AddOldImage(int productId, string imageUrl, Admin admin)
         {
             var db = new TankshopDbContext();
             OldImage oldImage = new OldImage();
 
             oldImage.ProductId = productId;
             oldImage.ImageUrl = imageUrl;
-            oldImage.AdminId = adminId;
+            oldImage.Changer = admin;
             oldImage.Changed = DateTime.Now;
             
             try {

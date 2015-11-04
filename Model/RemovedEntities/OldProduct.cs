@@ -1,17 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
 namespace Nettbutikk.Model.RemovedEntities
 {
-    public class OldProduct : Product
+    public class OldProduct : Product, IChangedEntity
     {
-        [Key]
-        public new int Id { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public int OldId
-        {
-            get { return base.Id; }
-            set { base.Id = value; }
-        }
+        public Admin Changer { get; set; }
+        public DateTime Changed { get; set; }
     }
 }
