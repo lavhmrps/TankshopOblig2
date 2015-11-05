@@ -93,7 +93,7 @@
 
 <div class="divAdminCustomerOrders">
 <hr class="hr-dark"/>
-   @{Html.RenderAction("OrdersPartial", new { CustomerId = Customer.CustomerId });}
+   @{Html.RenderAction("OrdersPartial","Order", new { CustomerId = Customer.CustomerId });}
    
    
 </div>

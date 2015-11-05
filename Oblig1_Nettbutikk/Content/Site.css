@@ -432,6 +432,7 @@ section {
     box-shadow: 0 0 1px #777;
     overflow-y: scroll;
     margin-top: 30px;
+    margin-bottom:100px;
 }
 
 #adminCustomerTable {

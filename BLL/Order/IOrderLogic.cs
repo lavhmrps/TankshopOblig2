@@ -1,15 +1,17 @@
-﻿using Oblig1_Nettbutikk.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Oblig1_Nettbutikk.Model;
 
 namespace Oblig1_Nettbutikk.BLL
 {
     public interface IOrderLogic
     {
-        int PlaceOrder(OrderModel order);
+        bool DeleteOrder(int orderId);
+        List<OrderModel> GetAllOrders();
+        double GetOrderSumTotal(int orderId);
         OrderModel GetReciept(int orderId);
+        int PlaceOrder(OrderModel order);
+        bool UpdateOrderline(OrderlineModel orderline);
+        List<ProductModel> GetAllProducts();
+        CustomerModel GetCustomer(int customerId);
     }
 }

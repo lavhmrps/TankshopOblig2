@@ -163,18 +163,18 @@ namespace TankShopUnitTest
             }
         }
 
-        [TestMethod]
-        public void OrderPartial_List()
-        {
-            // Arrange
-            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+        //[TestMethod]
+        //public void OrderPartial_List()
+        //{
+        //    // Arrange
+        //    var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
 
-            // Act
-            var result = (PartialViewResult)Controller.OrdersPartial(1);
+        //    // Act
+        //    var result = (PartialViewResult)Controller.OrdersPartial(1);
 
-            // Assert
-            Assert.AreEqual("", result.ViewName);
-        }
+        //    // Assert
+        //    Assert.AreEqual("", result.ViewName);
+        //}
 
         [TestMethod]
         public void UpdateCustomer_ok()

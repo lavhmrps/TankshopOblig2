@@ -165,7 +165,7 @@
             var orderId = li.attr("orderid");
 
             $.ajax({
-                url: '@Url.Action("DeleteOrder","Customer")',
+                url: '@Url.Action("DeleteOrder","Order")',
                 data: { OrderId: orderId },
                 type: "POST",
                 success: function (result) {
@@ -256,7 +256,7 @@
             // console.log(orderline); return;
 
             $.ajax({
-                url: '@Url.Action("UpdateOrderline","Customer")',
+                url: '@Url.Action("UpdateOrderline", "Order")',
                 data: orderline,
                 type: "POST",
                 success: function (result) {
@@ -314,7 +314,7 @@
             //console.log(orderline);return;
 
             $.ajax({
-                url: '@Url.Action("UpdateOrderline","Customer")',
+                url: '@Url.Action("UpdateOrderline", "Order")',
                 data: orderline,
                 type: "POST",
                 success: function (result) {
@@ -362,7 +362,7 @@
             var orderId = li.attr("orderid");
             //var elem = li.find(".sumTotal");
             $.ajax({
-                url: '@Url.Action("GetOrderSumTotal","Customer")',
+                url: '@Url.Action("GetOrderSumTotal", "Order")',
                 data: { OrderId: orderId },
                 success: function (result) {
                     li.find(".sumTotal").each(function () {

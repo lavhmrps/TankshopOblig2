@@ -136,6 +136,7 @@
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="CookieHandler.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,7 +220,7 @@
     <Content Include="Views\Customer\CustomerlistPartial.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Administration_Customer.cshtml" />
-    <Content Include="Views\Customer\OrdersPartial.cshtml" />
+    <Content Include="Views\Order\OrdersPartial.cshtml" />
     <Content Include="Views\Image\CreateImage.cshtml" />
     <Content Include="Views\Image\DeleteImage.cshtml" />
     <Content Include="Views\Image\EditImage.cshtml" />

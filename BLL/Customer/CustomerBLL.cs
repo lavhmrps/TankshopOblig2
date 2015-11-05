@@ -46,25 +46,25 @@ namespace Oblig1_Nettbutikk.BLL
             return _accountrepo.UpdatePerson(personUpdate, email);
         }
 
-        public List<OrderModel> GetAllOrders()
-        {
-            return _orderrepo.GetAllOrders();
-        }
+        //public List<OrderModel> GetAllOrders()
+        //{
+        //    return _orderrepo.GetAllOrders();
+        //}
 
-        public bool UpdateOrderline(OrderlineModel orderline)
-        {
-            return _orderrepo.UpdateOrderline(orderline);
-        }
+        //public bool UpdateOrderline(OrderlineModel orderline)
+        //{
+        //    return _orderrepo.UpdateOrderline(orderline);
+        //}
 
-        public double GetOrderSumTotal(int orderId)
-        {
-            return _orderrepo.GetOrderSumTotal(orderId);
-        }
+        //public double GetOrderSumTotal(int orderId)
+        //{
+        //    return _orderrepo.GetOrderSumTotal(orderId);
+        //}
 
-        public bool DeleteOrder(int orderId)
-        {
-            return _orderrepo.DeleteOrder(orderId);
-        }
+        //public bool DeleteOrder(int orderId)
+        //{
+        //    return _orderrepo.DeleteOrder(orderId);
+        //}
 
         public CustomerModel GetCustomer(int customerId)
         {

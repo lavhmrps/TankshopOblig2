@@ -42,13 +42,13 @@
   <ItemGroup>
     <Compile Include="Account\IAccountLogic.cs" />
     <Compile Include="Account\AccountBLL.cs" />
-    <Compile Include="CustomerBLL.cs" />
-    <Compile Include="ICustomerLogic.cs" />
+    <Compile Include="Customer\CustomerBLL.cs" />
+    <Compile Include="Customer\ICustomerLogic.cs" />
     <Compile Include="Image\IImageLogic.cs" />
     <Compile Include="Image\ImageBLL.cs" />
     <Compile Include="Order\IOrderLogic.cs" />
-    <Compile Include="Product\IProductLogic.cs" />
     <Compile Include="Order\OrderBLL.cs" />
+    <Compile Include="Product\IProductLogic.cs" />
     <Compile Include="Product\ProductBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
