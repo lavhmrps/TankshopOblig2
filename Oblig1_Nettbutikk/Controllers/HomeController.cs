@@ -8,27 +8,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BLL.Category;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
     public class HomeController : Controller
     {
         private IProductLogic _productBLL;
+        private ICategoryLogic _categoryBLL;
 
         public HomeController()
         {
             _productBLL = new ProductBLL();
+            _categoryBLL = new CategoryBLL();
         }
 
-        public HomeController(IProductLogic stub)
+        public HomeController(IProductLogic productStub, ICategoryLogic categoryStub)
         {
-            _productBLL = stub;
+            _productBLL = productStub;
+            _categoryBLL = categoryStub;
         }
 
         public ActionResult Index()
         {
 
-            var categories = _productBLL.AllCategories().Select(c => new CategoryView()
+            var categories = _categoryBLL.GetAllCategoryModels().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName
@@ -49,14 +53,14 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories ?? new List<CategoryView>();
             ViewBag.Products = products ?? new List<ProductView>();
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = _productBLL.GetCategoryName(1);
+            ViewBag.CategoryName = _categoryBLL.GetCategoryName(1);
 
             return View();
         }
 
         public ActionResult Category(int CategoryId)
         {
-            var categories = _productBLL.AllCategories().Select(c => new CategoryView()
+            var categories = _categoryBLL.GetAllCategoryModels().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName
@@ -77,7 +81,7 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Categories = categories;
             ViewBag.Products = products;
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = _productBLL.GetCategoryName(CategoryId) ?? "Epler?";
+            ViewBag.CategoryName = _categoryBLL.GetCategoryName(CategoryId) ?? "Epler?";
 
             return View("Index");
         }

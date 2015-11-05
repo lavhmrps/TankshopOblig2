@@ -5,47 +5,132 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oblig1_Nettbutikk.Model;
+using Logging;
 
 namespace Oblig1_Nettbutikk.DAL
 {
     public class ProductRepo : IProductRepo
     {
-        public List<CategoryModel> AllCategories()
+        public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
         {
-            using (var db = new TankshopDbContext())
+            try
             {
-                var dbCategories = db.Categories.ToList();
-                var categoryModels = new List<CategoryModel>();
-                foreach (var c in dbCategories)
-                {
-                    var categoryModel = new CategoryModel()
-                    {
-                        CategoryId = c.CategoryId,
-                        CategoryName = c.Name,
-                        Products = GetProductsByCategory(c.CategoryId)
-
-                    };
-                    categoryModels.Add(categoryModel);
-                }
-                return categoryModels;
+                var db = new TankshopDbContext();
+                db.Products.Add(new Product() { Name = Name, Price = Price, Stock = Stock, Description = Description, ImageUrl = ImageUrl, CategoryId = CategoryId });
+                db.SaveChanges();
+                return true;
             }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
         }
 
+        public bool DeleteProduct(int ProductId)
+        {
+            var db = new TankshopDbContext();
+
+            Product product = (from p in db.Products where p.ProductId == ProductId select p).FirstOrDefault();
+
+            if (product == null)
+                return false;
+            
+
+            try
+            {
+                db.Products.Remove(product);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
+        }
+
+
+        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        {
+            var db = new TankshopDbContext();
+
+            Product product = (from p in db.Products where p.ProductId == ProductId select p).FirstOrDefault();
+
+            if (product== null)
+                return false;
+
+
+            product.Name = Name;
+            product.Price = Price;
+            product.Stock = Stock;
+            product.Description = Description;
+            product.ImageUrl = ImageUrl;
+            product.CategoryId = CategoryId;
+           
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
+        }
+
+        /*
         public string GetCategoryName(int categoryId)
         {
+
+            try {
+                Category c = new TankshopDbContext().Categories.FirstOrDefault();
+                if (c == null)
+                    throw new Exception(); 
+            }
+            catch (Exception e) {
+
+            }
             using (var db = new TankshopDbContext())
             {
                 return db.Categories.Find(categoryId).Name;
             }
         }
+        */
 
         public List<Product> GetAllProducts() {
 
-            return new TankshopDbContext().Products.ToList();
+            try
+            {
+                return new TankshopDbContext().Products.ToList();
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                return new List<Product>();
+            }
 
         }
 
-        public ProductModel GetProduct(int ProductId)
+        public Product GetProduct(int ProductId) {
+
+            try
+            {
+                return new TankshopDbContext().Products.Find(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                return null;
+            }
+
+        }
+
+        public ProductModel GetProductModel(int ProductId)
         {
             using (var db = new TankshopDbContext())
             {
@@ -126,6 +211,36 @@ namespace Oblig1_Nettbutikk.DAL
                 return productModels;
                 
             }
+        }
+
+        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+        {
+            var db = new TankshopDbContext();
+            OldProduct oldProduct = new OldProduct();
+
+            oldProduct.Name = Name;
+            oldProduct.Price = Price;
+            oldProduct.Stock = Stock;
+            oldProduct.Description = Description;
+            oldProduct.ImageUrl = ImageUrl;
+            oldProduct.CategoryId = CategoryId;
+
+            oldProduct.AdminId = AdminId;
+            oldProduct.Changed = DateTime.Now;
+
+            db.OldProducts.Add(oldProduct);
+
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
         }
     }
 }

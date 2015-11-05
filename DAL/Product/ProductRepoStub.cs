@@ -9,27 +9,37 @@ namespace Oblig1_Nettbutikk.DAL
 {
     public class ProductRepoStub : IProductRepo
     {
+        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<CategoryModel> AllCategories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteProduct(int ProductId)
         {
             throw new NotImplementedException();
         }
 
         public List<Product> GetAllProducts()
         {
-            return new List<Product> {
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
-            };
-
+            throw new NotImplementedException();
         }
 
-        public string GetCategoryName(int categoryId)
+        public Product GetProduct(int ProductId)
         {
             throw new NotImplementedException();
         }
 
-        public ProductModel GetProduct(int productId)
+        public ProductModel GetProductModel(int productId)
         {
             throw new NotImplementedException();
         }
@@ -40,6 +50,11 @@ namespace Oblig1_Nettbutikk.DAL
         }
 
         public List<ProductModel> GetProductsByCategory(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
         {
             throw new NotImplementedException();
         }

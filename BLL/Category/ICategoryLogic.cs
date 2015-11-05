@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Oblig1_Nettbutikk.Model;
 
 namespace BLL.Category
 {
-    public interface CategoryLogic
+    public interface ICategoryLogic
     {
 
         bool AddCategory(string Name);
@@ -14,7 +15,8 @@ namespace BLL.Category
         bool DeleteCategory(int CategoryId);
         List<Oblig1_Nettbutikk.Model.Category> GetAllCategories();
         Oblig1_Nettbutikk.Model.Category GetCategory(int CategoryId);
-        
+        List<CategoryModel> GetAllCategoryModels();
+        string GetCategoryName(int CategoryId);
 
     }
 }

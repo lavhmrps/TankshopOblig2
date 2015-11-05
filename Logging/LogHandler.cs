@@ -39,15 +39,18 @@ namespace Logging
         private static void WriteToLog(string str)
         {
 
-            StreamWriter sw = new StreamWriter(fullPath, true);
-            sw.WriteLine(str);
-            sw.WriteLine();
-            sw.WriteLine();
+            try {
+                StreamWriter sw = new StreamWriter(fullPath, true);
+                sw.WriteLine(str);
+                sw.WriteLine();
+                sw.WriteLine();
 
-            sw.Flush();
-            sw.Close();
-
+                sw.Flush();
+                sw.Close();
+            }
+            catch (Exception) { }
         }
+
 
     }
 }

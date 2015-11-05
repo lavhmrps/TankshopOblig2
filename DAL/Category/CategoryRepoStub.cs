@@ -36,6 +36,10 @@ namespace DAL.Category
             return allCategories;
         }
 
+        public List<CategoryModel> GetAllCategoryModels()
+        {
+            throw new NotImplementedException();
+        }
 
         public Oblig1_Nettbutikk.Model.Category GetCategory(int categoryId)
         {
@@ -43,6 +47,10 @@ namespace DAL.Category
             return categoryId == -1 ? null : new Oblig1_Nettbutikk.Model.Category { CategoryId = categoryId, Name = "test"};
         }
 
+        public string GetCategoryName(int CategoryId)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool UpdateCategory(int CategoryId, string Name)
         {

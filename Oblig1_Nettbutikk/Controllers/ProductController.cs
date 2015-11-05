@@ -6,31 +6,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BLL.Category;
+using Logging;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
     public class ProductController : Controller
     {
         private IProductLogic _productBLL;
+        private ICategoryLogic _categoryBLL;
 
         public ProductController()
         {
             _productBLL = new ProductBLL();
+            _categoryBLL = new CategoryBLL();
         }
 
-        public ProductController(IProductLogic stub)
+        public ProductController(IProductLogic productStub, ICategoryLogic categoryStub)
         {
-            _productBLL = stub;
+            _productBLL = productStub;
+            _categoryBLL = categoryStub;
         }
 
 
         public ActionResult Index() {
 
-            var db = new TankshopDbContext();
-
-            List<Product> allProducts = db.Products.ToList();
-
-            ViewBag.Products = allProducts;
+            ViewBag.Products = _productBLL.GetAllProducts();
 
             return View("ListProduct");
         }
@@ -38,11 +39,8 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult CreateProduct()
         {
 
-            var db = new TankshopDbContext();
-
             List<SelectListItem> categoryIds = new List<SelectListItem>();
-            List<Category> allCategories = db.Categories.ToList();
-
+            List<Category> allCategories = _categoryBLL.GetAllCategories();
 
             foreach (Category c in allCategories)
             {
@@ -57,10 +55,9 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult EditProduct(string ProductId)
         {
-            var db = new TankshopDbContext();
 
             List<SelectListItem> categoryIds = new List<SelectListItem>();
-            List<Category> allCategories = db.Categories.ToList();
+            List<Category> allCategories = _categoryBLL.GetAllCategories();
 
             foreach (Category c in allCategories)
             {
@@ -70,7 +67,28 @@ namespace Oblig1_Nettbutikk.Controllers
 
             ViewBag.CategoryIds = categoryIds;
 
-            Product p = db.Products.Find(Convert.ToInt32(ProductId));
+
+            int nProductId;
+
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid prodct id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            Product p = _productBLL.GetProduct(nProductId);
+
+            if (p == null) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Could not find a product with the id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             ViewBag.Product = p;
 
@@ -79,9 +97,28 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult DeleteProduct(string ProductId)
         {
-            var db = new TankshopDbContext();
 
-            Product p = db.Products.Find(Convert.ToInt32(ProductId));
+            int nProductId;
+
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid prodct id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            Product p = _productBLL.GetProduct(nProductId);
+
+            if (p == null) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Could not find a product with id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             ViewBag.Product = p;
 
@@ -92,13 +129,57 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Create(string Name, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
         {
 
-            var db = new TankshopDbContext();
 
-            Product p = new Product() { Name = Name, Price = Convert.ToDouble(Price), Stock = Convert.ToInt32(Stock),
-                Description = Description, ImageUrl = ImageUrl, CategoryId = Convert.ToInt32(CategoryIds)};
+            double dPrice;
 
-            db.Products.Add(p);
-            db.SaveChanges();
+            try
+            {
+                dPrice = Convert.ToDouble(Price);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid price: " + Price;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            int nStock;
+
+            try
+            {
+                nStock= Convert.ToInt32(Stock);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid stock: " + Stock;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            int nCategoryId;
+
+            try
+            {
+                nCategoryId = Convert.ToInt32(CategoryIds);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid category id: " + CategoryIds; 
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            //Check for invalid int/doubles
+            if (!_productBLL.AddProduct(Name,dPrice, nStock, Description, ImageUrl, nCategoryId)) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Product was not added to the database";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+            
 
             ViewBag.Title = "Success";
             ViewBag.Message = "Product was added to the database";
@@ -109,18 +190,71 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Edit(string ProductId, string Name, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
         {
 
-            var db = new TankshopDbContext();
+            int nProductId;
 
-            Product p = db.Products.Find(Convert.ToInt32(ProductId));
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid product id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
-            p.Name = Name;
-            p.Price = Convert.ToDouble(Price);
-            p.Stock = Convert.ToInt32(Stock);
-            p.Description = Description;
-            p.ImageUrl = ImageUrl;
-            p.CategoryId = Convert.ToInt32(CategoryIds);
 
-            db.SaveChanges();
+            double dPrice;
+
+            try
+            {
+                dPrice = Convert.ToDouble(Price);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid price: " + Price;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            int nStock;
+
+            try
+            {
+                nStock = Convert.ToInt32(Stock);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid stock: " + Stock;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            int nCategoryId;
+
+            try
+            {
+                nCategoryId = Convert.ToInt32(CategoryIds);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid category id: " + CategoryIds;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (!_productBLL.UpdateProduct(nProductId, Name, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Product was not updated";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
 
             ViewBag.Title = "Success";
             ViewBag.Message = "Product was successfully updated";
@@ -131,12 +265,26 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Delete(string ProductId)
         {
 
-            var db = new TankshopDbContext();
+            int nProductId;
 
-            Product p = db.Products.Find(Convert.ToInt32(ProductId));
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid product id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
-            db.Products.Remove(p);
-            db.SaveChanges();
+            if (!_productBLL.DeleteProduct(nProductId)) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Product could not be deleted from the database";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
 
             ViewBag.Title = "Success";
             ViewBag.Message = "Product was deleted from the database";
@@ -147,12 +295,14 @@ namespace Oblig1_Nettbutikk.Controllers
         // GET: Product
         public ActionResult Product(int ProductId,string ReturnUrl)
         {
+            
             var productmodel = _productBLL.GetProduct(ProductId);
-            var categoryname = _productBLL.GetCategoryName(productmodel.CategoryId);
+            var categoryname = _categoryBLL.GetCategoryName(productmodel.CategoryId);
+
             var productview = new ProductView()
             {
                 ProductId = productmodel.ProductId,
-                ProductName = productmodel.ProductName,
+                ProductName = productmodel.Name,
                 Description = productmodel.Description,
                 Price = productmodel.Price,
                 Stock = productmodel.Stock,

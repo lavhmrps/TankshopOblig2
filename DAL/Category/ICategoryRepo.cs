@@ -15,6 +15,8 @@ namespace DAL.Category
         bool DeleteCategory(int CategoryId);
         List<Oblig1_Nettbutikk.Model.Category> GetAllCategories();
         Oblig1_Nettbutikk.Model.Category GetCategory(int CategoryId);
+        List<CategoryModel> GetAllCategoryModels();
+        string GetCategoryName(int CategoryId);
 
 
         //OldCategory

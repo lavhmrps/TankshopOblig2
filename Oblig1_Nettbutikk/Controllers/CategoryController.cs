@@ -5,15 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using Oblig1_Nettbutikk.Model;
 using BLL.Category;
-using DAL.Category;
-using Oblig1_Nettbutikk.BLL;
+using Logging;
 
 namespace Oblig1_Nettbutikk.Controllers
 {
     public class CategoryController : Controller
     {
 
-        private CategoryLogic categoryBLL;
+        private ICategoryLogic categoryBLL;
       
 
         public CategoryController()
@@ -23,7 +22,7 @@ namespace Oblig1_Nettbutikk.Controllers
       
         }
 
-        public CategoryController(CategoryLogic categoryBLL)
+        public CategoryController(ICategoryLogic categoryBLL)
         {
 
             this.categoryBLL = categoryBLL;
@@ -73,7 +72,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid category id: " + CategoryId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -104,7 +103,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + CategoryId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -145,7 +144,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid category id: " + categoryId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -179,7 +178,7 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid category id: " + CategoryId;
                 return View("~/Views/Shared/Result.cshtml");

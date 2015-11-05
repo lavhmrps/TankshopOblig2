@@ -7,7 +7,7 @@ using Oblig1_Nettbutikk.Model;
 
 namespace BLL.Category
 {
-    public class CategoryBLL : CategoryLogic
+    public class CategoryBLL : ICategoryLogic
     {
 
         private DAL.Category.ICategoryRepo repo;
@@ -20,6 +20,10 @@ namespace BLL.Category
             this.repo = repo;
         }
 
+        public List<CategoryModel> GetAllCategoryModels() {
+            return repo.GetAllCategoryModels();
+        }
+
         public bool AddCategory(string Name)
         {
             return repo.AddCategory(Name);
@@ -29,18 +33,11 @@ namespace BLL.Category
         {
             Oblig1_Nettbutikk.Model.Category category = repo.GetCategory(CategoryId);
 
-
-            System.Diagnostics.Debug.WriteLine("1");
-
             if (category== null)
                 return false;
 
-            System.Diagnostics.Debug.WriteLine("2");
-
             if (!repo.AddOldCategory(category.Name, 1))//Get admin id from session
                 return false;
-
-            System.Diagnostics.Debug.WriteLine("3");
 
             return repo.DeleteCategory(CategoryId);
         }
@@ -67,6 +64,11 @@ namespace BLL.Category
                 return false;
 
             return repo.UpdateCategory(CategoryId, Name);
+        }
+
+        public string GetCategoryName(int CategoryId)
+        {
+            return repo.GetCategoryName(CategoryId);
         }
     }
 }

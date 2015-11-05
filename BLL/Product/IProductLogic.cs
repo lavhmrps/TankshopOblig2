@@ -9,11 +9,14 @@ namespace Oblig1_Nettbutikk.BLL
 {
     public interface IProductLogic
     {
+        Product GetProduct(int ProductId);
+        ProductModel GetProductModel(int productId);
         List<ProductModel> GetProducts(List<int> productIdList);
-        ProductModel GetProduct(int productId);
         List<ProductModel> GetProductsByCategory(int categoryId);
-        string GetCategoryName(int categoryId);
-        List<CategoryModel> AllCategories();
         List<Product> GetAllProducts();
+
+        bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId);
+        bool DeleteProduct(int ProductId);
+        bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId);
     }
 }
