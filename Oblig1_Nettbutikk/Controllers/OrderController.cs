@@ -83,22 +83,24 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Products = productViews;
             ViewBag.Title = Title;
 
-
             return PartialView();
         }
+
         [HttpPost]
         public bool UpdateOrderline(int OrderlineId, int ProductId, int Count)
         {
-            var orderlineModel = new OrderlineModel()
+            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
-                Count = Count,
-                OrderlineId = OrderlineId,
-                ProductId = ProductId
-            };
+                var orderlineModel = new OrderlineModel()
+                {
+                    Count = Count,
+                    OrderlineId = OrderlineId,
+                    ProductId = ProductId
+                };
 
-            if (_orderBLL.UpdateOrderline(orderlineModel))
-            {
-                return true;
+
+                return _orderBLL.UpdateOrderline(orderlineModel);
+
             }
             return false;
         }
@@ -112,7 +114,11 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public bool DeleteOrder(int OrderId)
         {
-            return _orderBLL.DeleteOrder(OrderId);
+            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
+            {
+                return _orderBLL.DeleteOrder(OrderId);
+            }
+            return false;
         }
     }
 }
