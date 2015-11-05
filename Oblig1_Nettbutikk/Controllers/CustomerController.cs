@@ -24,7 +24,7 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
 
-        // GET: Customer administration
+        // GET: Customer / Order administration
         public ActionResult Index()
         {
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
@@ -50,7 +50,7 @@ namespace Oblig1_Nettbutikk.Controllers
                     Zipcode = customerModel.Zipcode,
                     City = customerModel.City
                 };
-                
+
 
                 ViewBag.Customer = customerView;
                 ViewBag.ReturnUrl = ReturnUrl;
@@ -64,45 +64,51 @@ namespace Oblig1_Nettbutikk.Controllers
         [ChildActionOnly]
         public PartialViewResult CustomerlistPartial()
         {
-                var customerViewList = new List<CustomerView>();
-                var customerModels = _customerBLL.GetAllCustomers();
+            var customerViewList = new List<CustomerView>();
+            var customerModels = _customerBLL.GetAllCustomers();
 
-                foreach (var Customer in customerModels)
+            foreach (var Customer in customerModels)
+            {
+                var customerView = new CustomerView()
                 {
-                    var customerView = new CustomerView()
-                    {
-                        CustomerId = Customer.CustomerId,
-                        Email = Customer.Email,
-                        Firstname = Customer.Firstname,
-                        Lastname = Customer.Lastname,
-                        Address = Customer.Address,
-                        Zipcode = Customer.Zipcode,
-                        City = Customer.City
-                    };
+                    CustomerId = Customer.CustomerId,
+                    Email = Customer.Email,
+                    Firstname = Customer.Firstname,
+                    Lastname = Customer.Lastname,
+                    Address = Customer.Address,
+                    Zipcode = Customer.Zipcode,
+                    City = Customer.City
+                };
 
-                    customerViewList.Add(customerView);
-                }
-                
-                return PartialView(customerViewList);
+                customerViewList.Add(customerView);
+            }
+
+            return PartialView(customerViewList);
         }
 
-       
+
 
         [HttpPost]
         public bool UpdateCustomerInfo(CustomerView customerEdit)
         {
-            var email = customerEdit.Email;
-
-            var personUpdate = new PersonModel()
+            if (Session["Email"] != null)
             {
-                Firstname = customerEdit.Firstname,
-                Lastname = customerEdit.Lastname,
-                Address = customerEdit.Address,
-                Zipcode = customerEdit.Zipcode,
-                City = customerEdit.City
-            };
+                var email = customerEdit.Email;
+                var personUpdate = new PersonModel()
+                {
+                    Firstname = customerEdit.Firstname,
+                    Lastname = customerEdit.Lastname,
+                    Address = customerEdit.Address,
+                    Zipcode = customerEdit.Zipcode,
+                    City = customerEdit.City
+                };
+                if ((string)Session["Email"] == email || Session["Admin"] != null)
+                {
+                    return _customerBLL.UpdatePerson(personUpdate, email);
+                }
+            }
+            return false;
 
-            return _customerBLL.UpdatePerson(personUpdate, email);
         }
 
         [HttpPost]
@@ -118,34 +124,7 @@ namespace Oblig1_Nettbutikk.Controllers
             return false;
         }
 
-        //[HttpPost]
-        //public bool UpdateOrderline(int OrderlineId, int ProductId, int Count)
-        //{
-        //    var orderlineModel = new OrderlineModel()
-        //    {
-        //        Count = Count,
-        //        OrderlineId = OrderlineId,
-        //        ProductId = ProductId
-        //    };
 
-        //    if (_customerBLL.UpdateOrderline(orderlineModel))
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public double GetOrderSumTotal(int OrderId)
-        //{
-        //    return _customerBLL.GetOrderSumTotal(OrderId);
-
-        //}
-
-        //[HttpPost]
-        //public bool DeleteOrder(int OrderId)
-        //{
-        //    return _customerBLL.DeleteOrder(OrderId);
-        //}
     }
 
 }
