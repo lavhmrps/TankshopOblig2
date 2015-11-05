@@ -12,5 +12,10 @@ namespace Oblig1_Nettbutikk.Model
         public int CustomerId { get; set; }
         public List<OrderlineModel> Orderlines { get; set; }
         public DateTime Date { get; set; }
+
+        public static explicit operator OrderModel(Model.Orderline v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
