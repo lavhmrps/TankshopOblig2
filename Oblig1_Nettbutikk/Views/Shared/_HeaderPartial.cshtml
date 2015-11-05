@@ -1,6 +1,7 @@
 ﻿@{
     bool LoggedIn = (Session["LoggedIn"] == null ? false : (bool)Session["LoggedIn"]);
     bool Admin = (Session["Admin"] == null ? false : (bool)Session["Admin"]);
+    string Message = ViewBag.Message;
 }
 
 <div class="backbar-top"></div>
@@ -13,6 +14,7 @@
             </a>
         </div>
         <div class="header_search">
+            <span class="pull-right text-danger header-message" hidden>@Message</span>
             <div class="searchfield">
                 <input id="inputProductSearch" type="search" class="form-control" placeholder="Søk i produkter" />
                 <span class="glyphicon glyphicon-search search_icon"></span>
@@ -73,6 +75,11 @@
 <script>
     $(document).ready(function () {
         updateNumItemsInCart();
+
+        if ("@Message" !== "")
+        {
+            $(".header-message").attr("hidden", false);
+        }
 
         function updateNumItemsInCart() {
             $.ajax({

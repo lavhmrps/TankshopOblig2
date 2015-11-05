@@ -60,10 +60,11 @@ namespace Oblig1_Nettbutikk.Controllers
                     ViewBag.Cart = cart;
                     ViewBag.Customer = customer;
                     ViewBag.LoggedIn = LoginStatus();
-
+                    TempData["Message"] = "";
                     return View();
                 }
             }
+            TempData["Message"] = "Logg inn for å betale";
             return RedirectToAction("Index", "Home");
         }
 

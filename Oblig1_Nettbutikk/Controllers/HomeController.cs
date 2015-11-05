@@ -25,6 +25,7 @@ namespace Oblig1_Nettbutikk.Controllers
             _productBLL = stub;
         }
 
+
         public ActionResult Index()
         {
             var categories = _productBLL.AllCategories().Select(c => new CategoryView()
@@ -49,7 +50,7 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Products = products ?? new List<ProductView>();
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.CategoryName = _productBLL.GetCategoryName(1);
-
+            ViewBag.Message = TempData["Message"] != null ? TempData["Message"] : "";
             return View();
         }
 

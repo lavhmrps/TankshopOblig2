@@ -53,6 +53,7 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             Session.Abandon();
             ViewBag.LoggedIn = false;
+            TempData.Clear();
         }
 
         [HttpPost]
