@@ -13,21 +13,21 @@ namespace Nettbutikk.Model
     {
 
 
-        public Nettbutikk.Model.Category GetCategory(int CategoryId)
-        {
-            try
-            {
-                return new TankshopDbContext().Categories.FirstOrDefault(c => c.CategoryId == CategoryId);
-            }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-                return null;
-            }
+        //public Category GetCategory(int CategoryId)
+        //{
+        //    try
+        //    {
+        //        return new TankshopDbContext().Categories.FirstOrDefault(c => c.CategoryId == CategoryId);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogHandler.WriteToLog(e);
+        //        return null;
+        //    }
 
-        }
+        //}
 
-        public List<CategoryModel> GetAllCategoryModels()
+        public List<CategoryModel> GetAllCategories()
         {
 
             var db = new TankshopDbContext();
@@ -40,32 +40,30 @@ namespace Nettbutikk.Model
                 var categoryModel = new CategoryModel()
                 {
                     CategoryId = c.CategoryId,
-                    CategoryName = c.Name,
+                    CategoryName = c.Name
                     //Products = c.Products;
                 };
 
                 categoryModels.Add(categoryModel);
 
             }
-
-
             return categoryModels;
         }
 
-        public List<Nettbutikk.Model.Category> GetAllCategories()
-        {
+        //public List<Category> GetAllCategories()
+        //{
 
-            try
-            {
-                return new TankshopDbContext().Categories.ToList();
-            }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-                return new List<Nettbutikk.Model.Category>();
-            }
+        //    try
+        //    {
+        //        return new TankshopDbContext().Categories.ToList();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogHandler.WriteToLog(e);
+        //        return new List<Category>();
+        //    }
 
-        }
+        //}
 
 
         public bool AddCategory(string name)
@@ -74,7 +72,7 @@ namespace Nettbutikk.Model
             try
             {
                 var db = new TankshopDbContext();
-                db.Categories.Add(new Nettbutikk.Model.Category() { Name = name });
+                db.Categories.Add(new Category() { Name = name });
                 db.SaveChanges();
                 return true;
             }
@@ -92,7 +90,7 @@ namespace Nettbutikk.Model
 
             var db = new TankshopDbContext();
 
-            Nettbutikk.Model.Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
+            Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
 
             if (category == null)
                 return false;
@@ -117,7 +115,7 @@ namespace Nettbutikk.Model
 
             var db = new TankshopDbContext();
 
-            Nettbutikk.Model.Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
+            Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
 
             if (category == null)
                 return false;
@@ -169,12 +167,56 @@ namespace Nettbutikk.Model
         public string GetCategoryName(int CategoryId)
         {
 
-            Nettbutikk.Model.Category c = new TankshopDbContext().Categories.Find(CategoryId);
+            Category c = new TankshopDbContext().Categories.Find(CategoryId);
 
             return c == null ? null : c.Name;
 
         }
 
+        //public string GetCategoryName(int categoryId)
+        //{
+        //    using (var db = new TankshopDbContext())
+        //    {
+        //        return db.Categories.Find(categoryId).Name;
+        //    }
+        //}
+
+        public List<CategoryModel> AllCategories()
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbCategories = db.Categories.ToList();
+                var categoryModels = new List<CategoryModel>();
+                foreach (var c in dbCategories)
+                {
+                    var categoryModel = new CategoryModel()
+                    {
+                        CategoryId = c.CategoryId,
+                        CategoryName = c.Name,
+                        //Products = GetProductsByCategory(c.CategoryId)
+
+                    };
+                    categoryModels.Add(categoryModel);
+                }
+                return categoryModels;
+            }
+        }
+
+        public CategoryModel GetCategory(int CategoryId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbCategory = db.Categories.Find(CategoryId);
+                var categoryModel = new CategoryModel();
+                if(dbCategory != null)
+                {
+                    categoryModel.CategoryId = dbCategory.CategoryId;
+                    categoryModel.CategoryName = dbCategory.Name;
+                }
+
+                return categoryModel;
+            }
+        }
     }
 
 }

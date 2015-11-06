@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TankShopUnitTest", "TankShopUnitTest\TankShopUnitTest.csproj", "{4D42C023-659E-425A-918F-9A26BBFA7565}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Logging\Logging.csproj", "{323FFFFC-0A38-405A-BE8E-20DD2FBB055E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4D42C023-659E-425A-918F-9A26BBFA7565}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D42C023-659E-425A-918F-9A26BBFA7565}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D42C023-659E-425A-918F-9A26BBFA7565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{323FFFFC-0A38-405A-BE8E-20DD2FBB055E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{323FFFFC-0A38-405A-BE8E-20DD2FBB055E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{323FFFFC-0A38-405A-BE8E-20DD2FBB055E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{323FFFFC-0A38-405A-BE8E-20DD2FBB055E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

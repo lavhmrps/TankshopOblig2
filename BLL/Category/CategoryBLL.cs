@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
+using Nettbutikk.DAL;
 
 namespace Nettbutikk.BLL
 {
@@ -14,18 +15,18 @@ namespace Nettbutikk.BLL
 
         public CategoryBLL()
         {
-            repo = new DAL.Category.CategoryRepo();
+            repo = new CategoryRepo();
         }
 
-        public CategoryBLL(DAL.Category.ICategoryRepo repo)
+        public CategoryBLL(ICategoryRepo repo)
         {
             this.repo = repo;
         }
 
-        public List<CategoryModel> GetAllCategoryModels()
-        {
-            return repo.GetAllCategoryModels();
-        }
+        //public List<CategoryModel> GetAllCategoryModels()
+        //{
+        //    return repo.GetAllCategoryModels();
+        //}
 
         public bool AddCategory(string Name)
         {
@@ -34,37 +35,37 @@ namespace Nettbutikk.BLL
 
         public bool DeleteCategory(int CategoryId)
         {
-            Nettbutikk.Model.Category category = repo.GetCategory(CategoryId);
+            //Category category = repo.GetCategory(CategoryId);
 
-            if (category == null)
-                return false;
+            //if (category == null)
+            //    return false;
 
-            if (!repo.AddOldCategory(category.Name, 1))//Get admin id from session
-                return false;
+            //if (!repo.AddOldCategory(category.Name, 1))//Get admin id from session
+            //    return false;
 
             return repo.DeleteCategory(CategoryId);
         }
 
-        public List<Nettbutikk.Model.Category> GetAllCategories()
-        {
-            return repo.GetAllCategories();
-        }
+        //public List<Category> GetAllCategories()
+        //{
+        //    return repo.GetAllCategories();
+        //}
 
-        public Nettbutikk.Model.Category GetCategory(int CategoryId)
-        {
-            return repo.GetCategory(CategoryId);
-        }
+        //public Category GetCategory(int CategoryId)
+        //{
+        //    return repo.GetCategory(CategoryId);
+        //}
 
         public bool UpdateCategory(int CategoryId, string Name)
         {
 
-            Nettbutikk.Model.Category category = repo.GetCategory(CategoryId);
+            //Category category = repo.GetCategory(CategoryId);
 
-            if (category == null)
-                return false;
+            //if (category == null)
+            //    return false;
 
-            if (!repo.AddOldCategory(category.Name, 1))//Get admin id from session
-                return false;
+            //if (!repo.AddOldCategory(category.Name, 1))//Get admin id from session
+            //    return false;
 
             return repo.UpdateCategory(CategoryId, Name);
         }
@@ -72,6 +73,16 @@ namespace Nettbutikk.BLL
         public string GetCategoryName(int CategoryId)
         {
             return repo.GetCategoryName(CategoryId);
+        }
+
+        public List<CategoryModel> GetAllCategories()
+        {
+            return repo.GetAllCategories();
+        }
+
+        public CategoryModel GetCategory(int CategoryId)
+        {
+            return repo.GetCategory(CategoryId);
         }
     }
 }

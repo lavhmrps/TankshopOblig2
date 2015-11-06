@@ -33,6 +33,8 @@
                     <a href="#LoginModal" data-toggle="modal">Logg inn</a>
                     <span> | </span>
                     <a href="#RegisterModal" data-toggle="modal">Registrer bruker</a>
+                    <span> | </span>
+                    <span>@Html.ActionLink("Produkter", "Index", "Product")</span>
 
 
 
@@ -97,10 +99,10 @@
                 }
             })
         }
-       
+
 
         $("#inputProductSearch").on("keyup", function (e) {
-          
+
             if ($(this).val().length > 0) {
                 $("#searchResultList").attr("hidden", false);
                 $.ajax({
@@ -109,13 +111,18 @@
                     method: "POST",
                     success: function (result) {
                         var obj = JSON.parse(result);
+                       
                         var html = "";
                         for (var i = 0; i < obj.length; i++) {
                             var product = obj[i].ProductName;
                             html += "<li id='" + obj[i].ProductId + "'>" +
-                                "<a href='Product/Product?ProductId=" + obj[i].ProductId + "'&ReturnUrl=%2FNettbutikk%2F'>" + product + "</a>" +
+                                "<a href='Product/Product?ProductId=" + obj[i].ProductId + "&ReturnUrl= "+"@Request.RawUrl"+"'>" + product + "</a>" +
                                 "</li>";
                         }
+                        console.log("@Request.RawUrl");
+
+
+                        //&ReturnUrl=%2FNettbutikk%2F
                         if (html === "") {
                             html = "<li style='color:#999'> Ingen resultater </li>";
                         }
@@ -126,6 +133,10 @@
                 // empty searchfield
                 $("#searchResultList").attr("hidden", true);
             }
+        })
+
+        $("body").click(function () {
+            $("#searchResultList").attr("hidden", true);
         })
 
         $("#Logout").click(function () {

@@ -126,11 +126,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\LogHandler.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -142,9 +142,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511032034461_Initial.cs" />
-    <Compile Include="Migrations\201511032034461_Initial.Designer.cs">
-      <DependentUpon>201511032034461_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201511061841109_Init.cs" />
+    <Compile Include="Migrations\201511061841109_Init.Designer.cs">
+      <DependentUpon>201511061841109_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -226,9 +226,14 @@
     <Content Include="Views\Image\EditImage.cshtml" />
     <Content Include="Views\Image\ListImage.cshtml" />
     <Content Include="Views\Shared\Result.cshtml" />
+    <Content Include="Views\Product\CreateProduct.cshtml" />
+    <Content Include="Views\Product\DeleteProduct.cshtml" />
+    <Content Include="Views\Product\EditProduct.cshtml" />
+    <Content Include="Views\Product\ListProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -243,14 +248,18 @@
       <Project>{854590CE-5EA6-4EE8-917F-9AEA3D3DDA27}</Project>
       <Name>DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{323ffffc-0a38-405a-be8e-20dd2fbb055e}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511032034461_Initial.resx">
-      <DependentUpon>201511032034461_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511061841109_Init.resx">
+      <DependentUpon>201511061841109_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

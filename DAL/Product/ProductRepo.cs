@@ -5,65 +5,132 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
+using Logging;
 
 namespace Nettbutikk.DAL
 {
     public class ProductRepo : IProductRepo
     {
-        public List<CategoryModel> AllCategories()
-        {
-            using (var db = new TankshopDbContext())
-            {
-                var dbCategories = db.Categories.ToList();
-                var categoryModels = new List<CategoryModel>();
-                foreach (var c in dbCategories)
-                {
-                    var categoryModel = new CategoryModel()
-                    {
-                        CategoryId = c.CategoryId,
-                        CategoryName = c.Name,
-                        Products = GetProductsByCategory(c.CategoryId)
 
-                    };
-                    categoryModels.Add(categoryModel);
-                }
-                return categoryModels;
+        public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        {
+            try
+            {
+                var db = new TankshopDbContext();
+                db.Products.Add(new Product() { Name = Name, Price = Price, Stock = Stock, Description = Description, ImageUrl = ImageUrl, CategoryId = CategoryId });
+                db.SaveChanges();
+                return true;
             }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
+        }
+
+        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+        {
+            var db = new TankshopDbContext();
+            OldProduct oldProduct = new OldProduct();
+
+            oldProduct.Name = Name;
+            oldProduct.Price = Price;
+            oldProduct.Stock = Stock;
+            oldProduct.Description = Description;
+            oldProduct.ImageUrl = ImageUrl;
+            oldProduct.CategoryId = CategoryId;
+
+            oldProduct.AdminId = AdminId;
+            oldProduct.Changed = DateTime.Now;
+
+            db.OldProducts.Add(oldProduct);
+
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
+        }
+
+        public bool DeleteProduct(int ProductId)
+        {
+            var db = new TankshopDbContext();
+
+            Product product = (from p in db.Products where p.ProductId == ProductId select p).FirstOrDefault();
+
+            if (product == null)
+                return false;
+
+
+            try
+            {
+                db.Products.Remove(product);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
         }
 
         public List<ProductModel> GetAllProducts()
         {
-            using (var db = new TankshopDbContext())
+            var productModels = new List<ProductModel>();
+            try
             {
-                var dbProducts = db.Products.ToList();
-                var productModels = new List<ProductModel>();
-
-                foreach (var dbProduct in dbProducts)
+                using (var db = new TankshopDbContext())
                 {
-                    var productModel = new ProductModel()
+                    var dbProducts = db.Products.ToList();
+
+                    foreach (var dbProduct in dbProducts)
                     {
-                        CategoryId = dbProduct.CategoryId,
-                        CategoryName = dbProduct.Category.Name,
-                        Description = dbProduct.Description,
-                        ImageUrl = dbProduct.ImageUrl,
-                        Price = dbProduct.Price,
-                        ProductId = dbProduct.ProductId,
-                        ProductName = dbProduct.Name,
-                        Stock = dbProduct.Stock
-                    };
-                    productModels.Add(productModel);
+                        var productModel = new ProductModel()
+                        {
+                            CategoryId = dbProduct.CategoryId,
+                            CategoryName = dbProduct.Category.Name,
+                            Description = dbProduct.Description,
+                            ImageUrl = dbProduct.ImageUrl,
+                            Price = dbProduct.Price,
+                            ProductId = dbProduct.ProductId,
+                            ProductName = dbProduct.Name,
+                            Stock = dbProduct.Stock
+                        };
+                        productModels.Add(productModel);
+                    }
+                    return productModels;
                 }
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
                 return productModels;
             }
         }
 
-        public string GetCategoryName(int categoryId)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                return db.Categories.Find(categoryId).Name;
-            }
-        }
+        //public Product GetProduct(int ProductId)
+        //{
+
+        //    try
+        //    {
+        //        return new TankshopDbContext().Products.Find(ProductId);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogHandler.WriteToLog(e);
+        //        return null;
+        //    }
+
+        //}
 
         public ProductModel GetProduct(int ProductId)
         {
@@ -184,5 +251,41 @@ namespace Nettbutikk.DAL
 
             }
         }
+
+        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        {
+            var db = new TankshopDbContext();
+
+            Product product = (from p in db.Products where p.ProductId == ProductId select p).FirstOrDefault();
+
+            if (product == null)
+                return false;
+
+
+            product.Name = Name;
+            product.Price = Price;
+            product.Stock = Stock;
+            product.Description = Description;
+            product.ImageUrl = ImageUrl;
+            product.CategoryId = CategoryId;
+
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
+        }
+
+
+
+
+
+       
     }
 }

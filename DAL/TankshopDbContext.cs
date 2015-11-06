@@ -35,7 +35,10 @@ namespace Nettbutikk.Model
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Image> Images { get; set; }
+
+        public virtual DbSet<OldCategory> OldCategories{ get; set; }
         public virtual DbSet<OldImage> OldImages { get; set; }
+        public virtual DbSet<OldProduct> OldProducts { get; set; }
 
     }
 
@@ -178,6 +181,40 @@ namespace Nettbutikk.Model
         public int AdminId { get; set; }
 
         public virtual Admin Admin { get; set; }
+    }
+
+    public class OldCategory
+    {
+
+        [Key]
+        public int OldCategoryId { get; set; }
+
+        public string Name { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
+    }
+
+    public class OldProduct
+    {
+
+        [Key]
+        public int OldProductId { get; set; }
+
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public int Stock { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public int CategoryId { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
+
     }
 
 }

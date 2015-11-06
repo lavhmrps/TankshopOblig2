@@ -1,4 +1,5 @@
-﻿using Nettbutikk.BLL;
+﻿using Logging;
+using Nettbutikk.BLL;
 using Nettbutikk.Models;
 using Newtonsoft.Json;
 using System;
@@ -12,22 +13,26 @@ namespace Nettbutikk.Controllers
     public class ProductController : Controller
     {
         private IProductLogic _productBLL;
+        private ICategoryLogic _categoryBLL;
 
         public ProductController()
         {
             _productBLL = new ProductBLL();
+            _categoryBLL = new CategoryBLL();
         }
 
-        public ProductController(IProductLogic stub)
+        public ProductController(IProductLogic productStub, ICategoryLogic categoryStub)
         {
-            _productBLL = stub;
+            _productBLL = productStub;
+            _categoryBLL = categoryStub;
         }
+
 
         // GET: Product
         public ActionResult Product(int ProductId,string ReturnUrl)
         {
             var productmodel = _productBLL.GetProduct(ProductId);
-            var categoryname = _productBLL.GetCategoryName(productmodel.CategoryId);
+            //var categoryname = _categoryBLL.GetCategoryName(productmodel.CategoryId);
             var productview = new ProductView()
             {
                 ProductId = productmodel.ProductId,
@@ -36,9 +41,9 @@ namespace Nettbutikk.Controllers
                 Price = productmodel.Price,
                 Stock = productmodel.Stock,
                 ImageUrl = productmodel.ImageUrl,
-                CategoryName = categoryname
+                CategoryName = productmodel.CategoryName
             };
-            
+           
 
             ViewBag.Product = productview;
             ViewBag.ReturnUrl = ReturnUrl;
@@ -46,13 +51,322 @@ namespace Nettbutikk.Controllers
             return View();
         }
 
+        public ActionResult Index()
+        {
+            var productmodels = _productBLL.GetAllProducts();
+            var productViews = new List<ProductView>();
+
+            foreach(var productmodel in productmodels)
+            {
+                var productview = new ProductView()
+                {
+                    ProductId = productmodel.ProductId,
+                    ProductName = productmodel.ProductName,
+                    Description = productmodel.Description,
+                    Price = productmodel.Price,
+                    Stock = productmodel.Stock,
+                    ImageUrl = productmodel.ImageUrl,
+                    CategoryName = productmodel.CategoryName
+                };
+                productViews.Add(productview);
+            }
+
+            ViewBag.Products = productViews;
+
+            return View("ListProduct");
+        }
+
+        public ActionResult CreateProduct()
+        {
+
+            List<SelectListItem> categoryIds = new List<SelectListItem>();
+            var allCategories = _categoryBLL.GetAllCategories();
+
+            foreach (var c in allCategories)
+            {
+                string categoryId = Convert.ToString(c.CategoryId);
+                categoryIds.Add(new SelectListItem { Text = c.CategoryName, Value = categoryId });
+            }
+
+            ViewBag.CategoryIds = categoryIds;
+
+            return View();
+        }
+
+        public ActionResult EditProduct(string ProductId)
+        {
+
+            List<SelectListItem> categoryIds = new List<SelectListItem>();
+            var allCategories = _categoryBLL.GetAllCategories();
+
+            foreach (var c in allCategories)
+            {
+                string categoryId = Convert.ToString(c.CategoryId);
+                categoryIds.Add(new SelectListItem { Text = c.CategoryName, Value = categoryId });
+            }
+
+            ViewBag.CategoryIds = categoryIds;
+
+
+            int nProductId;
+
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid prodct id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            var productmodel = _productBLL.GetProduct(nProductId);
+
+            if (productmodel == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Could not find a product with the id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            var productview = new ProductView()
+            {
+                ProductId = productmodel.ProductId,
+                ProductName = productmodel.ProductName,
+                Description = productmodel.Description,
+                Price = productmodel.Price,
+                Stock = productmodel.Stock,
+                ImageUrl = productmodel.ImageUrl,
+                CategoryId = productmodel.CategoryId,
+                CategoryName = productmodel.CategoryName
+            };
+
+            ViewBag.Product = productview;
+
+            return View();
+        }
+
+        public ActionResult DeleteProduct(string ProductId)
+        {
+
+            int nProductId;
+
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid prodct id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            var productmodel = _productBLL.GetProduct(nProductId);
+
+            if (productmodel == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Could not find a product with the id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            var productview = new ProductView()
+            {
+                ProductId = productmodel.ProductId,
+                ProductName = productmodel.ProductName,
+                Description = productmodel.Description,
+                Price = productmodel.Price,
+                Stock = productmodel.Stock,
+                ImageUrl = productmodel.ImageUrl,
+                CategoryId = productmodel.CategoryId,
+                CategoryName = productmodel.CategoryName
+            };
+
+            ViewBag.Product = productview;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(string ProductName, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
+        {
+
+
+            double dPrice;
+
+            try
+            {
+                dPrice = Convert.ToDouble(Price);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid price: " + Price;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            int nStock;
+
+            try
+            {
+                nStock = Convert.ToInt32(Stock);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid stock: " + Stock;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            int nCategoryId;
+
+            try
+            {
+                nCategoryId = Convert.ToInt32(CategoryIds);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid category id: " + CategoryIds;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            //Check for invalid int/doubles
+            if (!_productBLL.AddProduct(ProductName, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Product was not added to the database";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            ViewBag.Title = "Success";
+            ViewBag.Message = "Product was added to the database";
+            return View("~/Views/Shared/Result.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string ProductId, string ProductName, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
+        {
+
+            int nProductId;
+
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid product id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            double dPrice;
+
+            try
+            {
+                dPrice = Convert.ToDouble(Price);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid price: " + Price;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            int nStock;
+
+            try
+            {
+                nStock = Convert.ToInt32(Stock);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid stock: " + Stock;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            int nCategoryId;
+
+            try
+            {
+                nCategoryId = Convert.ToInt32(CategoryIds);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid category id: " + CategoryIds;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (!_productBLL.UpdateProduct(nProductId, ProductName, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Product was not updated";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            ViewBag.Title = "Success";
+            ViewBag.Message = "Product was successfully updated";
+            return View("~/Views/Shared/Result.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string ProductId)
+        {
+
+            int nProductId;
+
+            try
+            {
+                nProductId = Convert.ToInt32(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Invalid product id: " + ProductId;
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (!_productBLL.DeleteProduct(nProductId))
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Product could not be deleted from the database";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+
+            ViewBag.Title = "Success";
+            ViewBag.Message = "Product was deleted from the database";
+            return View("~/Views/Shared/Result.cshtml");
+        }
+        
         public string Products(string searchstr)
         {
             var result = _productBLL.GetProducts(searchstr);
             var jsonResult  = JsonConvert.SerializeObject(result);
             return jsonResult;
         }
-
 
         public bool LoginStatus()
         {
@@ -63,5 +377,6 @@ namespace Nettbutikk.Controllers
             }
             return LoggedIn;
         }
+
     }
 }

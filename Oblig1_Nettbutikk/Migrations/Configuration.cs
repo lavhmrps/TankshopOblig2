@@ -11,7 +11,7 @@ namespace Nettbutikk.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "TankshopDbContext";
         }
 
