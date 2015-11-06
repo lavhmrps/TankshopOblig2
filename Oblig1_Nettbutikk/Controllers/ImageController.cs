@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 using BLL.Image;
 using DAL.Image;
-using Oblig1_Nettbutikk.BLL;
+using Nettbutikk.BLL;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class ImageController : Controller
     {

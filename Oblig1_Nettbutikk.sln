@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oblig1_Nettbutikk", "Oblig1_Nettbutikk\Oblig1_Nettbutikk.csproj", "{B7116255-7FF7-403F-A362-C03800043DE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nettbutikk", "Oblig1_Nettbutikk\Nettbutikk.csproj", "{B7116255-7FF7-403F-A362-C03800043DE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{854590CE-5EA6-4EE8-917F-9AEA3D3DDA27}"
 EndProject

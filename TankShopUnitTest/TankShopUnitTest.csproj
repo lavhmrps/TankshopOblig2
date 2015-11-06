@@ -106,9 +106,9 @@
       <Project>{ae5b9bb5-1c61-41f2-a940-e62f4e2c7baf}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Oblig1_Nettbutikk\Oblig1_Nettbutikk.csproj">
+    <ProjectReference Include="..\Oblig1_Nettbutikk\Nettbutikk.csproj">
       <Project>{b7116255-7ff7-403f-a362-c03800043de6}</Project>
-      <Name>Oblig1_Nettbutikk</Name>
+      <Name>Nettbutikk</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

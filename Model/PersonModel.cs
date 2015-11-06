@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oblig1_Nettbutikk.Model
+namespace Nettbutikk.Model
 {
     public class PersonModel
     {
@@ -14,6 +14,5 @@ namespace Oblig1_Nettbutikk.Model
         public string Address { get; set; }
         public string Zipcode { get; set; }
         public string City { get; set; }
-        
     }
 }

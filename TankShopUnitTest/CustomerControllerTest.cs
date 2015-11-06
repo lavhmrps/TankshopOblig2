@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
-using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Controllers;
-using Oblig1_Nettbutikk.DAL;
-using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.Models;
+using Nettbutikk.BLL;
+using Nettbutikk.Controllers;
+using Nettbutikk.DAL;
+using Nettbutikk.Model;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
