@@ -9,11 +9,12 @@ namespace Nettbutikk.DAL
 {
     public interface IProductRepo
     {
-        List<CategoryModel> AllCategories();
-        string GetCategoryName(int categoryId);
-        ProductModel GetProduct(int productId);
         List<ProductModel> GetProducts(List<int> productIdList);
+        List<ProductModel> GetProducts(string searchstr);
+        ProductModel GetProduct(int productId);
         List<ProductModel> GetProductsByCategory(int categoryId);
+        string GetCategoryName(int categoryId);
+        List<CategoryModel> AllCategories();
         List<ProductModel> GetAllProducts();
     }
 }

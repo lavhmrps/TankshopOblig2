@@ -42,6 +42,11 @@ namespace Nettbutikk.BLL
             return _repo.GetProduct(productId);
         }
 
+        public List<ProductModel> GetProducts(string searchstr)
+        {
+            return _repo.GetProducts(searchstr);
+        }
+
         public List<ProductModel> GetProducts(List<int> productIdList)
         {
             return _repo.GetProducts(productIdList);

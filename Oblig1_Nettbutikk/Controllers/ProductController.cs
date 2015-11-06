@@ -1,5 +1,6 @@
 ﻿using Nettbutikk.BLL;
 using Nettbutikk.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,14 @@ namespace Nettbutikk.Controllers
             ViewBag.LoggedIn = LoginStatus();
             return View();
         }
+
+        public string Products(string searchstr)
+        {
+            var result = _productBLL.GetProducts(searchstr);
+            var jsonResult  = JsonConvert.SerializeObject(result);
+            return jsonResult;
+        }
+
 
         public bool LoginStatus()
         {

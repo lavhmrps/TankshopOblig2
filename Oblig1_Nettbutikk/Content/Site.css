@@ -52,12 +52,11 @@ section {
     background: lightgrey;
 }
 
-.header-message{
-    font-weight:bold;
-    margin-right:10px;
-    padding:1px 5px;
-    background:#f7f58b;
-    transform:uppercase;
+.header-message {
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 1px 5px;
+    background: #f7f58b;
 }
 
 .header, .header_logo, .header_logo img, .header_search, .header_options {
@@ -78,6 +77,37 @@ section {
     position: relative;
     float: left;
     width: 55%;
+}
+
+#searchResults {
+    z-index: 1000;
+    position: absolute;
+    top: 40px;
+    left: 30px;
+}
+
+#searchResultList {
+    list-style: none;
+    background: #fafafa;
+    box-shadow: 0 0 1px #555;
+    padding: 15px 10px;
+}
+
+#searchResultList li {
+    line-height: 2em;
+    color: #555;
+}
+
+    #searchResultList li:hover {
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+.hlight {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .header_options {
@@ -407,7 +437,7 @@ section {
 .divUpdateCustomer, .divAdminUpdateCustomer {
     float: left;
     width: 50%;
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .divChangePassword, .divAdminChangePassword {
@@ -439,7 +469,7 @@ section {
     box-shadow: 0 0 1px #777;
     overflow-y: scroll;
     margin-top: 30px;
-    margin-bottom:100px;
+    margin-bottom: 100px;
 }
 
 #adminCustomerTable {

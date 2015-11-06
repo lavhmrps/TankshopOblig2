@@ -10,6 +10,7 @@ namespace Nettbutikk.BLL
     public interface IProductLogic
     {
         List<ProductModel> GetProducts(List<int> productIdList);
+        List<ProductModel> GetProducts(string searchstr);
         ProductModel GetProduct(int productId);
         List<ProductModel> GetProductsByCategory(int categoryId);
         string GetCategoryName(int categoryId);

@@ -34,6 +34,11 @@ namespace Nettbutikk.DAL
             throw new NotImplementedException();
         }
 
+        public List<ProductModel> GetProducts(string searchstr)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<ProductModel> GetProducts(List<int> productIdList)
         {
             throw new NotImplementedException();

@@ -85,6 +85,40 @@ namespace Nettbutikk.DAL
             }
         }
 
+        public List<ProductModel> GetProducts(string searchstr)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var productList = new List<ProductModel>();
+                try
+                {
+                    var dbProducts = db.Products.Where(p => p.Name.Contains(searchstr)).ToList();
+                    foreach (var product in dbProducts)
+                    {
+                        var productModel = new ProductModel()
+                        {
+                            ProductId = product.ProductId,
+                            ProductName = product.Name,
+                            Description = product.Description,
+                            Price = product.Price,
+                            Stock = product.Stock,
+                            ImageUrl = product.ImageUrl,
+                            CategoryId = product.CategoryId,
+                            CategoryName = product.Category.Name
+                        };
+
+                        productList.Add(productModel);
+                    }
+
+                    return productList;
+                }
+                catch (Exception)
+                {
+                    return productList;
+                }
+            }
+        }
+
         public List<ProductModel> GetProducts(List<int> productIdList)
         {
             var productList = new List<ProductModel>();
@@ -125,11 +159,11 @@ namespace Nettbutikk.DAL
 
         public List<ProductModel> GetProductsByCategory(int categoryId)
         {
-            using(var db = new TankshopDbContext())
+            using (var db = new TankshopDbContext())
             {
                 var dbProducts = db.Products.Where(p => p.CategoryId == categoryId).ToList();
                 var productModels = new List<ProductModel>();
-                foreach(var product in dbProducts)
+                foreach (var product in dbProducts)
                 {
                     productModels.Add(new ProductModel()
                     {
@@ -144,7 +178,7 @@ namespace Nettbutikk.DAL
                     });
                 }
                 return productModels;
-                
+
             }
         }
     }
