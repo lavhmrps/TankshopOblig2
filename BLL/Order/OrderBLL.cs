@@ -62,9 +62,14 @@ namespace Oblig1_Nettbutikk.BLL
             return _productrepo.GetAllProducts();
         }
 
-        public CustomerModel GetCustomer(int customerId)
+        public OrderModel GetOrder(int OrderId)
         {
-            return _customerrepo.GetCustomer(customerId);
+            return _repo.GetOrder(OrderId);
+        }
+
+        public List<OrderModel> GetOrders(int CustomerId)
+        {
+            return _repo.GetOrders(CustomerId);
         }
     }
 }

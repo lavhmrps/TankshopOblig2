@@ -7,13 +7,12 @@ namespace Oblig1_Nettbutikk.BLL
     {
         bool DeleteOrder(int orderId);
         List<OrderModel> GetAllOrders();
-        //List<Order> GetAllOrders();
+        List<ProductModel> GetAllProducts();
+        OrderModel GetOrder(int OrderId);
+        List<OrderModel> GetOrders(int CustomerId);
         double GetOrderSumTotal(int orderId);
         OrderModel GetReciept(int orderId);
-        //Order GetReciept(int orderId);
         int PlaceOrder(OrderModel order);
         bool UpdateOrderline(OrderlineModel orderline);
-        List<ProductModel> GetAllProducts();
-        CustomerModel GetCustomer(int customerId);
     }
 }

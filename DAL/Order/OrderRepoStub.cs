@@ -89,6 +89,24 @@ namespace Oblig1_Nettbutikk.DAL
             return orderModels;
         }
 
+        public OrderModel GetOrder(int orderId)
+        {
+            if (orderId == 0)
+                return new OrderModel()
+                {
+                    OrderId = 0
+                };
+            return orderModel;
+        }
+
+        public List<OrderModel> GetOrders(int customerId)
+        {
+            if (customerId == 0)
+                return new List<OrderModel>();
+            return orderModels;
+
+        }
+
         public double GetOrderSumTotal(int orderId)
         {
             if (orderId == 0)

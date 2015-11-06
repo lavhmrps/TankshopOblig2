@@ -29,7 +29,7 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             List<OrderModel> orderModels;
             if (CustomerId > 0)
-                orderModels = _orderBLL.GetCustomer(CustomerId).Orders;
+                orderModels = _orderBLL.GetOrders(CustomerId);
             else
                 orderModels = _orderBLL.GetAllOrders();
 
