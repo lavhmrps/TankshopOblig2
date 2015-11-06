@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Account\IAccountLogic.cs" />
     <Compile Include="Account\AccountBLL.cs" />
+    <Compile Include="Category\CategoryBLL.cs" />
+    <Compile Include="Category\ICategoryLogic.cs" />
     <Compile Include="Customer\CustomerBLL.cs" />
     <Compile Include="Customer\ICustomerLogic.cs" />
     <Compile Include="Image\IImageLogic.cs" />
