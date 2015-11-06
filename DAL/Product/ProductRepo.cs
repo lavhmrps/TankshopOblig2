@@ -92,7 +92,10 @@ namespace Nettbutikk.DAL
                 var productList = new List<ProductModel>();
                 try
                 {
-                    var dbProducts = db.Products.Where(p => p.Name.Contains(searchstr)).ToList();
+                    var dbProducts = db.Products.Where(p => p.Name.Contains(searchstr) 
+                                                        || p.Category.Name.Contains(searchstr)
+                                                        //|| p.Description.Contains(searchstr)
+                                                        ).ToList();
                     foreach (var product in dbProducts)
                     {
                         var productModel = new ProductModel()

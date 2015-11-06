@@ -79,6 +79,10 @@ section {
     width: 55%;
 }
 
+#inputProductSearch{
+    box-shadow:0 0 2px #000;
+}
+
 #searchResults {
     z-index: 1000;
     position: absolute;
@@ -91,6 +95,7 @@ section {
     background: #fafafa;
     box-shadow: 0 0 1px #555;
     padding: 15px 10px;
+    width:270px;
 }
 
 #searchResultList li {
