@@ -30,8 +30,18 @@ namespace Nettbutikk.Controllers
         {
 
             var allCategories = categoryBLL.GetAllCategories();
+            var categoryViews = new List<CategoryView>();
 
-            ViewBag.Categories = allCategories;
+            foreach (var category in allCategories)
+            {
+                var categoryView = new CategoryView()
+                {
+                    CategoryId = category.CategoryId,
+                    CategoryName = category.CategoryName
+                };
+            }
+
+            ViewBag.Categories = categoryViews;
 
             return View("ListCategory");
         }

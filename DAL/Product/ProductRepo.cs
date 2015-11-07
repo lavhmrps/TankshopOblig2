@@ -281,11 +281,6 @@ namespace Nettbutikk.DAL
 
             return false;
         }
-
-
-
-
-
        
     }
 }
