@@ -217,6 +217,15 @@ namespace Nettbutikk.Model
                 return categoryModel;
             }
         }
+
+        public int FirstCategoryWithProducts()
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var FirstCategoryWithProducts = db.Categories.Where(c => c.Products.Count > 0).FirstOrDefault();
+                return FirstCategoryWithProducts == null ? 0 : FirstCategoryWithProducts.CategoryId;
+            }
+        }
     }
 
 }

@@ -15,5 +15,6 @@ namespace Nettbutikk.BLL
         CategoryModel GetCategory(int CategoryId);
         string GetCategoryName(int CategoryId);
         bool UpdateCategory(int CategoryId, string Name);
+        int FirstCategoryWithProducts();
     }
 }

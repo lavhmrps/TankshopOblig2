@@ -34,7 +34,6 @@ namespace Nettbutikk.Controllers
         // GET: Image
         public ActionResult Index()
         {
-
             List<Image> allImages = imageBLL.GetAllImages();
 
             ViewBag.Images = allImages;

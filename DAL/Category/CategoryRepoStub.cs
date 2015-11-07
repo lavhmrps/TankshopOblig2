@@ -63,5 +63,10 @@ namespace Nettbutikk.DAL
         {
             throw new NotImplementedException();
         }
+
+        public int FirstCategoryWithProducts()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

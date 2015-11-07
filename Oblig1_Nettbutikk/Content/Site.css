@@ -79,8 +79,8 @@ section {
     width: 55%;
 }
 
-#inputProductSearch{
-    box-shadow:0 0 2px #000;
+#inputProductSearch {
+    box-shadow: 0 0 2px #000;
 }
 
 #searchResults {
@@ -95,19 +95,19 @@ section {
     background: #fafafa;
     box-shadow: 0 0 1px #555;
     padding: 15px 10px;
-    width:270px;
+    width: 270px;
 }
 
-#searchResultList li {
-    line-height: 2em;
-    color: #555;
-}
-
-    #searchResultList li:hover {
-        color: blue;
-        cursor: pointer;
-        text-decoration: underline;
+    #searchResultList li {
+        line-height: 2em;
+        color: #555;
     }
+
+        #searchResultList li:hover {
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
 
 .hlight {
     color: blue;
@@ -135,6 +135,31 @@ section {
     width: 50%;
     height: 100%;
 }
+
+.adminControls {
+    text-align:center;
+}
+
+    .adminControls span {
+        font-size:1.2em;
+        display:inline-block;
+        padding:2px 5px;
+    }
+
+    .adminControls span:hover {
+        //background:#7fe443;
+    }
+
+        .adminControls span a {
+            color:#ee7419;
+            font-weight:bold;
+        }
+
+        .adminControls span a:hover {
+            color:rgba(241, 34, 34, 0.91);
+            text-decoration:none;
+        }
+
 
 .table-modal td {
     height: 60px;

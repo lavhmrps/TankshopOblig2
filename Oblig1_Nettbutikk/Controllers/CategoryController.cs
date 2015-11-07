@@ -1,5 +1,6 @@
 ﻿using Logging;
 using Nettbutikk.BLL;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,7 @@ namespace Nettbutikk.Controllers
 
         public CategoryController()
         {
-
             categoryBLL = new CategoryBLL();
-
         }
 
         public CategoryController(ICategoryLogic categoryBLL)
@@ -26,8 +25,7 @@ namespace Nettbutikk.Controllers
             this.categoryBLL = categoryBLL;
             
         }
-
-        // GET: Image
+        
         public ActionResult Index()
         {
 
@@ -57,7 +55,7 @@ namespace Nettbutikk.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(string CategoryId, string Name)
+        public ActionResult Edit(string CategoryId, string CategoryName)
         {
 
             int categoryId;
@@ -74,7 +72,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!categoryBLL.UpdateCategory(categoryId, Name))
+            if (!categoryBLL.UpdateCategory(categoryId, CategoryName))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the category";
@@ -86,11 +84,9 @@ namespace Nettbutikk.Controllers
             return View("~/Views/Shared/Result.cshtml");
         }
 
+        [HttpPost]
         public ActionResult Delete(string CategoryId)
         {
-
-            System.Diagnostics.Debug.WriteLine("HTTP POST delete");
-
             int categoryId;
 
             try
@@ -121,7 +117,6 @@ namespace Nettbutikk.Controllers
 
         public ActionResult CreateCategory()
         {
-
             return View();
         }
 
@@ -155,7 +150,13 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            ViewBag.Category = category;
+            var categoryView = new CategoryView()
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+
+            ViewBag.Category = categoryView;
 
             return View();
         }
@@ -189,7 +190,13 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            ViewBag.Category = category;
+            var categoryView = new CategoryView()
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+
+            ViewBag.Category = categoryView;
 
             return View();
         }

@@ -12,7 +12,8 @@ namespace Nettbutikk.DAL
         CategoryModel GetCategory(int CategoryId);
         string GetCategoryName(int CategoryId);
         bool UpdateCategory(int CategoryId, string Name);
-       
+        int FirstCategoryWithProducts();
+
         // List<Category> GetAllCategories();
         // List<CategoryModel> GetAllCategoryModels();
         // Category GetCategory(int CategoryId);

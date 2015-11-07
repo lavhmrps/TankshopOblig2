@@ -39,7 +39,9 @@ namespace Nettbutikk.Controllers
             }
             ).ToList();
 
-            var products = _productBLL.GetProductsByCategory(1).Select( p => new ProductView()
+            int firstCategoryWithProducts = _categoryBLL.FirstCategoryWithProducts();
+
+            var products = _productBLL.GetProductsByCategory(firstCategoryWithProducts).Select( p => new ProductView()
             {
                 ProductId = p.ProductId,
                 ProductName = p.ProductName,
@@ -53,7 +55,7 @@ namespace Nettbutikk.Controllers
             ViewBag.Categories = categories ?? new List<CategoryView>();
             ViewBag.Products = products ?? new List<ProductView>();
             ViewBag.LoggedIn = LoginStatus();
-            ViewBag.CategoryName = _categoryBLL.GetCategoryName(1);
+            ViewBag.CategoryName = _categoryBLL.GetCategoryName(firstCategoryWithProducts);
             ViewBag.Message = TempData["Message"] != null ? TempData["Message"] : "";
             return View();
         }

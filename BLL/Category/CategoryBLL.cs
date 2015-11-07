@@ -84,5 +84,10 @@ namespace Nettbutikk.BLL
         {
             return repo.GetCategory(CategoryId);
         }
+
+        public int FirstCategoryWithProducts()
+        {
+            return repo.FirstCategoryWithProducts();
+        }
     }
 }
