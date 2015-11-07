@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
-namespace Oblig1_Nettbutikk.Model
+namespace Nettbutikk.Model
 {
     public class TankshopDbContext : DbContext
     {
@@ -36,9 +36,12 @@ namespace Oblig1_Nettbutikk.Model
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Image> Images { get; set; }
 
+        public virtual DbSet<OldCategory> OldCategories{ get; set; }
         public virtual DbSet<OldImage> OldImages { get; set; }
-        public virtual DbSet<OldCategory> OldCategories { get; set; }
         public virtual DbSet<OldProduct> OldProducts { get; set; }
+        public virtual DbSet<OldPerson> OldPeople { get; set; }
+        public virtual DbSet<OldOrderLine> OldOrderLines { get; set; }
+
 
     }
 
@@ -169,30 +172,8 @@ namespace Oblig1_Nettbutikk.Model
         public virtual Product Product { get; set; }
     }
 
-
-    public class OldProduct {
-
-        [Key]
-        public int OldProductId { get; set; }
-
-        public string Name { get; set; }
-        public double Price { get; set; }
-        public int Stock { get; set; }
-        public string Description { get; set; }
-        public string ImageUrl { get; set; }
-        public int CategoryId { get; set; }
-
-        public DateTime Changed { get; set; }
-        public int AdminId { get; set; }
-
-        public virtual Admin Admin { get; set; }
-
-    }
-
-
     public class OldImage
     {
-
         [Key]
         public int OldImageId { get; set; }
 
@@ -218,4 +199,59 @@ namespace Oblig1_Nettbutikk.Model
 
         public virtual Admin Admin { get; set; }
     }
+
+    public class OldPerson{
+
+        [Key]
+        public int OldPersonId { get; set; }
+
+        public string Email { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Address { get; set; }
+        public string Zipcode { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
+
+    }
+
+    public class OldOrderLine {
+
+        [Key]
+        public int OldOrderLineId { get; set; }
+
+        public int ProductId { get; set; }
+        public int OrderId { get; set; }
+        public int Count { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
+
+    }
+
+    public class OldProduct
+    {
+
+        [Key]
+        public int OldProductId { get; set; }
+
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public int Stock { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public int CategoryId { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
+
+    }
+
 }

@@ -1,7 +1,7 @@
-﻿using Oblig1_Nettbutikk.Model;
+﻿using Nettbutikk.Model;
 using System.Collections.Generic;
 
-namespace Oblig1_Nettbutikk.BLL
+namespace Nettbutikk.BLL
 {
     public interface IAccountLogic
     {
@@ -17,6 +17,8 @@ namespace Oblig1_Nettbutikk.BLL
         List<PersonModel> GetAllPeople();
         CustomerModel GetCustomer(int customerId);
         CustomerModel GetCustomer(string email);
+        bool isAdmin(string email);
+
         // PersonModel GetPerson(int personId);
         PersonModel GetPerson(string email);
         // int GetPersonId(string email);

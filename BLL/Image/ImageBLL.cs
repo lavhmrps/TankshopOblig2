@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
 namespace BLL.Image
 {
@@ -27,7 +27,7 @@ namespace BLL.Image
 
         public bool DeleteImage(int imageId)
         {
-            Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
+            Nettbutikk.Model.Image img = repo.GetImage(imageId);
 
             if (img == null)
                 return false;
@@ -38,12 +38,12 @@ namespace BLL.Image
             return repo.DeleteImage(imageId);
         }
 
-        public List<Oblig1_Nettbutikk.Model.Image> GetAllImages()
+        public List<Nettbutikk.Model.Image> GetAllImages()
         {
             return repo.GetAllImages();
         }
 
-        public Oblig1_Nettbutikk.Model.Image GetImage(int imageId)
+        public Nettbutikk.Model.Image GetImage(int imageId)
         {
             return repo.GetImage(imageId);
         }
@@ -51,8 +51,7 @@ namespace BLL.Image
         public bool UpdateImage(int imageId, int productId, string imageUrl)
         {
 
-            
-            Oblig1_Nettbutikk.Model.Image img = repo.GetImage(imageId);
+            Nettbutikk.Model.Image img = repo.GetImage(imageId);
 
             if (img == null)
                 return false;

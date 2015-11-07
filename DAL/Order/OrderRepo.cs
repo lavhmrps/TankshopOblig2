@@ -1,11 +1,12 @@
-﻿using Oblig1_Nettbutikk.Model;
+﻿using Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Logging;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     public class OrderRepo : IOrderRepo
     {
@@ -14,12 +15,24 @@ namespace Oblig1_Nettbutikk.DAL
             using (var db = new TankshopDbContext())
             {
                 var customerOrders = new List<OrderModel>();
-                var dbOrders = db.Orders.OrderByDescending(o => o.Date);
+                var dbOrders = db.Orders.ToList(); ;
 
-                foreach (var order in dbOrders)
+                foreach (var dbOrder in dbOrders)
                 {
-                    if (order.CustomerId == customerId)
-                        customerOrders.Add(GetOrder(order.OrderId));
+                    if (dbOrder.CustomerId == customerId)
+                    {
+                        try
+                        {
+                            var order = GetOrder(dbOrder.OrderId);
+                            var count = order.Orderlines.Count;
+                            if (count > 0)
+                                customerOrders.Add(GetOrder(dbOrder.OrderId));
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
                 }
 
                 return customerOrders;
@@ -115,5 +128,97 @@ namespace Oblig1_Nettbutikk.DAL
                 return orderModel;
             }
         }
+
+        public List<OrderModel> GetAllOrders()
+        {
+            using(var db = new TankshopDbContext())
+            {
+                var dbOrders = db.Orders.ToList();
+                var orderModels = new List<OrderModel>();
+
+                foreach(var dbOrder in dbOrders)
+                {
+                    try
+                    {
+                        var order = GetOrder(dbOrder.OrderId);
+                        var count = order.Orderlines.Count;
+                        if (count > 0)
+                            orderModels.Add(order);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+
+                return orderModels;
+            }
+        }
+
+        public bool UpdateOrderline(OrderlineModel orderline)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbOrderline = db.Orderlines.Find(orderline.OrderlineId);
+
+                    if (orderline.Count == 0)
+                    {
+                        db.Orderlines.Remove(dbOrderline);
+                    }
+                    else
+                    {
+                        dbOrderline.ProductId = orderline.ProductId;
+                        dbOrderline.Count = orderline.Count;
+                    }
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public double GetOrderSumTotal(int orderId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var sumTotal = 0.0;
+                var dbOrder = db.Orders.Find(orderId);
+
+                foreach (var l in dbOrder.Orderlines)
+                {
+                    var price = l.Product.Price;
+                    var count = l.Count;
+                    sumTotal += price * count;
+                }
+
+                return sumTotal;
+
+            }
+        }
+
+        public bool DeleteOrder(int orderId)
+        {
+            using(var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbOrder = db.Orders.Find(orderId);
+                    db.Orders.Remove(dbOrder);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+
+            }
+        }
+
     }
 }

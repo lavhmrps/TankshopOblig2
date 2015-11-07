@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+﻿using System.Collections.Generic;
+using Nettbutikk.Model;
+using Nettbutikk.DAL;
 
-namespace BLL.Category
+namespace Nettbutikk.BLL
 {
     public interface ICategoryLogic
     {
-
         bool AddCategory(string Name);
-        bool UpdateCategory(int CategoryId, string Name);
         bool DeleteCategory(int CategoryId);
-        List<Oblig1_Nettbutikk.Model.Category> GetAllCategories();
-        Oblig1_Nettbutikk.Model.Category GetCategory(int CategoryId);
-        List<CategoryModel> GetAllCategoryModels();
+        //List<Category> GetAllCategories();
+        //List<CategoryModel> GetAllCategoryModels();
+        List<CategoryModel> GetAllCategories();
+        //Category GetCategory(int CategoryId);
+        CategoryModel GetCategory(int CategoryId);
         string GetCategoryName(int CategoryId);
-
+        bool UpdateCategory(int CategoryId, string Name);
+        int FirstCategoryWithProducts();
     }
 }

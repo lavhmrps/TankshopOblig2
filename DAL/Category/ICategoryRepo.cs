@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+﻿using System.Collections.Generic;
+using Nettbutikk.Model;
 
-namespace DAL.Category
+namespace Nettbutikk.DAL
 {
     public interface ICategoryRepo
     {
-
-        bool AddCategory(string Name);
-        bool UpdateCategory(int CategoryId, string Name);
+        bool AddCategory(string name);
+        bool AddOldCategory(string Name, int adminId);
         bool DeleteCategory(int CategoryId);
-        List<Oblig1_Nettbutikk.Model.Category> GetAllCategories();
-        Oblig1_Nettbutikk.Model.Category GetCategory(int CategoryId);
-        List<CategoryModel> GetAllCategoryModels();
+        List<CategoryModel> GetAllCategories();
+        CategoryModel GetCategory(int CategoryId);
         string GetCategoryName(int CategoryId);
+        bool UpdateCategory(int CategoryId, string Name);
+        int FirstCategoryWithProducts();
 
-
-        //OldCategory
-        bool AddOldCategory(string CategoryName, int adminId);
-
-
+        // List<Category> GetAllCategories();
+        // List<CategoryModel> GetAllCategoryModels();
+        // Category GetCategory(int CategoryId);
     }
 }

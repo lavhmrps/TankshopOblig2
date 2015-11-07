@@ -9,9 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DAL</RootNamespace>
     <AssemblyName>DAL</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -82,10 +81,13 @@
     <Compile Include="Category\CategoryRepo.cs" />
     <Compile Include="Category\CategoryRepoStub.cs" />
     <Compile Include="Category\ICategoryRepo.cs" />
+    <Compile Include="Customer\CustomerRepo.cs" />
+    <Compile Include="Customer\CustomerRepoStub.cs" />
+    <Compile Include="Customer\ICustomerRepo.cs" />
     <Compile Include="Image\IImageRepo.cs" />
     <Compile Include="Image\ImageRepo.cs" />
     <Compile Include="Image\ImageRepoStub.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Order\OrderRepoStub.cs" />
     <Compile Include="Product\IProductRepo.cs" />
     <Compile Include="Order\IOrderRepo.cs" />
     <Compile Include="Order\OrderRepo.cs" />
@@ -98,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{696f113c-863e-4807-8953-15391b5fbc3a}</Project>
+      <Project>{323ffffc-0a38-405a-be8e-20dd2fbb055e}</Project>
       <Name>Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">

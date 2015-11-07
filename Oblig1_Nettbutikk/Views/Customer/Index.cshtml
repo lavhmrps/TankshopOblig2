@@ -1,0 +1,9 @@
+﻿
+<h2>Administration</h2>
+<div id="adminCustomer">
+    @{Html.RenderAction("CustomerlistPartial"); }
+</div>
+<hr class="hr-dark" />
+<div >
+    @{Html.RenderAction("OrdersPartial","Order", new { CustomerId = 0 });}
+</div>

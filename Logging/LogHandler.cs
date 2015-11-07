@@ -39,7 +39,8 @@ namespace Logging
         private static void WriteToLog(string str)
         {
 
-            try {
+            try
+            {
                 StreamWriter sw = new StreamWriter(fullPath, true);
                 sw.WriteLine(str);
                 sw.WriteLine();

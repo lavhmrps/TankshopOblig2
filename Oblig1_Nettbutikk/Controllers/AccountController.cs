@@ -1,14 +1,14 @@
-﻿using Oblig1_Nettbutikk.Models;
+﻿using Nettbutikk.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.BLL;
+using Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
 
     public class AccountController : Controller
@@ -17,6 +17,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public AccountController()
         {
+            System.Diagnostics.Debug.WriteLine("AccountController");
+
             _accountBLL = new AccountBLL();
         }
 
@@ -31,6 +33,11 @@ namespace Oblig1_Nettbutikk.Controllers
 
             if (_accountBLL.AttemptLogin(email, password))
             {
+                if (_accountBLL.isAdmin(email))
+                    Session["Admin"] = true;
+                else
+                    Session["Admin"] = false;
+
                 Session["LoggedIn"] = true;
                 Session["Email"] = email;
                 ViewBag.LoggedIn = true;
@@ -48,7 +55,7 @@ namespace Oblig1_Nettbutikk.Controllers
         {
             Session.Abandon();
             ViewBag.LoggedIn = false;
-
+            TempData.Clear();
         }
 
         [HttpPost]
@@ -121,23 +128,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 }
                 customerOrders.Add(order);
             }
-
-            //var customerOrders = Customer.Orders.Select(o => new OrderView()
-            //{
-            //    OrderId = o.OrderId,
-            //    Orderlines = o.Orderlines.Select(l => new OrderlineView()
-            //    {
-            //        OrderlineId = l.OrderlineId,
-            //        Count = l.Count,
-            //        Product = new ProductView()
-            //        {
-            //            ProductId = l.ProductId,
-            //            ProductName = l.ProductName,
-            //            Price = l.ProductPrice
-            //        }
-            //    }).ToList()
-            //}).ToList();
-
+          
             ViewBag.LoggedIn = LoginStatus();
             ViewBag.Customer = customerView;
             ViewBag.CustomerOrders = customerOrders;
@@ -148,6 +139,9 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public bool UpdateCustomerInfo(CustomerView customerEdit, string returnUrl)
         {
+
+            System.Diagnostics.Debug.WriteLine("Update customer info");
+
             var email = (string)Session["Email"];
 
             var personUpdate = new PersonModel()

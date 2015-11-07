@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
+using Nettbutikk.DAL;
 
-namespace DAL.Category
+namespace Nettbutikk.DAL
 {
     public class CategoryRepoStub : ICategoryRepo
     {
@@ -24,28 +25,22 @@ namespace DAL.Category
             return CategoryId != -1;
         }
 
-        public List<Oblig1_Nettbutikk.Model.Category> GetAllCategories()
-        {
-            var allCategories = new List<Oblig1_Nettbutikk.Model.Category> {
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 1, Name = "test name 1"},
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 2, Name = "test name 2"},
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 3, Name = "test name 3"},
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 4, Name = "test name 4"}
-            };
+        //public List<Category> GetAllCategories()
+        //{
+        //    var allCategories = new List<Category> {
+        //        new Category { CategoryId = 1, Name = "test1"},
+        //        new Category { CategoryId = 2, Name = "test2"},
+        //        new Category { CategoryId = 3, Name = "test3"},
+        //        new Category { CategoryId = 4, Name = "test4"}
+        //    };
 
-            return allCategories;
-        }
+        //    return allCategories;
+        //}
 
-        public List<CategoryModel> GetAllCategoryModels()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Oblig1_Nettbutikk.Model.Category GetCategory(int categoryId)
-        {
-            
-            return categoryId == -1 ? null : new Oblig1_Nettbutikk.Model.Category { CategoryId = categoryId, Name = "test name"};
-        }
+        //public Category GetCategory(int categoryId)
+        //{
+        //    return categoryId == -1 ? null : new Category { CategoryId = categoryId, Name = "test" };
+        //}
 
         public string GetCategoryName(int CategoryId)
         {
@@ -56,8 +51,29 @@ namespace DAL.Category
         {
 
             return CategoryId != -1;
-           
+
         }
 
+        public List<CategoryModel> GetAllCategories()
+        {
+            var allCategories = new List<CategoryModel> {
+                new CategoryModel { CategoryId = 1, CategoryName = "test name 1"},
+                new CategoryModel { CategoryId = 2, CategoryName = "test name 2"},
+                new CategoryModel{ CategoryId = 3, CategoryName = "test name 3"},
+                new CategoryModel { CategoryId = 4, CategoryName = "test name 4"}
+            };
+
+            return allCategories;
+        }
+
+        public CategoryModel GetCategory(int CategoryId)
+        {
+            return CategoryId == -1 ? null : new CategoryModel { CategoryId = CategoryId, CategoryName = "test name" };
+        }
+
+        public int FirstCategoryWithProducts()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

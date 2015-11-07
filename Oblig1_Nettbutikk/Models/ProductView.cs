@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Oblig1_Nettbutikk.Models
+namespace Nettbutikk.Models
 {
     public class ProductView
     {
@@ -13,6 +13,7 @@ namespace Oblig1_Nettbutikk.Models
         public string Description { get; set; }
         public int Stock { get; set; }
         public string ImageUrl { get; set; }
+        public int CategoryId { get;  set; }
         public string CategoryName { get; set; }
     }
 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
 using Logging;
+using Nettbutikk.Model;
 
 
 namespace DAL.Image
@@ -13,29 +13,33 @@ namespace DAL.Image
     {
 
 
-        public Oblig1_Nettbutikk.Model.Image GetImage(int imageId)
+        public Nettbutikk.Model.Image GetImage(int imageId)
         {
-            try {
+            try
+            {
                 return new TankshopDbContext().Images.FirstOrDefault(i => i.ImageId == imageId);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 LogHandler.WriteToLog(e);
                 return null;
             }
 
         }
 
-        public List<Oblig1_Nettbutikk.Model.Image> GetAllImages()
+        public List<Nettbutikk.Model.Image> GetAllImages()
         {
 
-            try {
+            try
+            {
                 return new TankshopDbContext().Images.ToList();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 LogHandler.WriteToLog(e);
-                return new List<Oblig1_Nettbutikk.Model.Image>();
+                return new List<Nettbutikk.Model.Image>();
             }
-            
+
         }
 
 
@@ -45,16 +49,17 @@ namespace DAL.Image
             try
             {
                 var db = new TankshopDbContext();
-                db.Images.Add(new Oblig1_Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
+                db.Images.Add(new Nettbutikk.Model.Image() { ProductId = productId, ImageUrl = imageUrl });
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 LogHandler.WriteToLog(e);
             }
 
             return false;
-            
+
         }
 
         public bool DeleteImage(int imageId)
@@ -62,19 +67,21 @@ namespace DAL.Image
 
             var db = new TankshopDbContext();
 
-            Oblig1_Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
+            Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
 
             if (img == null)
             {
                 return false;
             }
 
-            try {
+            try
+            {
                 db.Images.Remove(img);
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 LogHandler.WriteToLog(e);
             }
 
@@ -86,7 +93,7 @@ namespace DAL.Image
 
             var db = new TankshopDbContext();
 
-            Oblig1_Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
+            Nettbutikk.Model.Image img = (from i in db.Images where i.ImageId == imageId select i).FirstOrDefault();
 
             if (img == null)
             {
@@ -97,11 +104,13 @@ namespace DAL.Image
             img.ImageUrl = imageUrl;
 
 
-            try {
+            try
+            {
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 LogHandler.WriteToLog(e);
             }
 
@@ -123,11 +132,13 @@ namespace DAL.Image
 
             db.OldImages.Add(oldImage);
 
-            try {
+            try
+            {
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 LogHandler.WriteToLog(e);
             }
 

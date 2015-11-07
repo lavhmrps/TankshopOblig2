@@ -1,12 +1,12 @@
-﻿using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.Models;
+﻿using Nettbutikk.Model;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Oblig1_Nettbutikk
+namespace Nettbutikk
 {
     public class CookieHandler
     {
@@ -38,10 +38,13 @@ namespace Oblig1_Nettbutikk
 
             return NumItemsInCart();
         }
-        public void EmptyCart()
+        public bool EmptyCart()
         {
             _cookie.Expires = DateTime.Now.AddDays(-1d);
+            _cookie = new HttpCookie(SHOPPINGCART);
             _context.Response.Cookies.Add(_cookie);
+
+            return NumItemsInCart() == 0;
         }
         public List<int> GetCartProductIds()
         {

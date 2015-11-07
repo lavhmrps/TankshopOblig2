@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Models;
+using Nettbutikk.BLL;
+using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class CartController : Controller
     {
@@ -39,10 +39,12 @@ namespace Oblig1_Nettbutikk.Controllers
             var ch = new CookieHandler();
             return ch.AddToCart(ProductId);
         }
-        public void EmptyCart()
+        public ActionResult EmptyCart(string returnUrl)
         {
             var ch = new CookieHandler();
             ch.EmptyCart();
+
+            return RedirectToAction("Cart",new { returnUrl = returnUrl });
         }
         public string GetCart()
         {

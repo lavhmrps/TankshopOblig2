@@ -1,36 +1,43 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BLL.Category;
-using DAL.Category;
-using MvcContrib.TestHelper;
-using Oblig1_Nettbutikk.Controllers;
+using Nettbutikk.Model;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Controllers;
+using Nettbutikk.BLL;
+using Nettbutikk.DAL;
+using MvcContrib.TestHelper;
+using Nettbutikk.Models;
 
-namespace TankShopUnitTest
+namespace TankShopEnhetstest
 {
     [TestClass]
     public class CategoryControllerTest
     {
 
         [TestMethod]
-        public void Category_Index() {
+        public void Category_Index()
+        {
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
-            var expectedCategories = new List<Category> {
-                new Category { CategoryId = 1, Name = "test name 1"},
-                new Category { CategoryId = 2, Name = "test name 2"},
-                new Category { CategoryId = 3, Name = "test name 3"},
-                new Category { CategoryId = 4, Name = "test name 4"}
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+            
+            var expectedCategories = new List<CategoryModel>() {
+                new CategoryModel { CategoryId = 1, CategoryName = "test name 1"},
+                new CategoryModel { CategoryId = 2, CategoryName = "test name 2"},
+                new CategoryModel { CategoryId = 3, CategoryName = "test name 3"},
+                new CategoryModel { CategoryId = 4, CategoryName = "test name 4"}
             };
+            
 
 
             //Act
             var viewResult = controller.Index() as ViewResult;
-            var actualCategories = controller.ViewBag.Categories;
+            var actualCategories = viewResult.ViewBag.Categories;
 
 
             //Assert
@@ -38,10 +45,10 @@ namespace TankShopUnitTest
             for (int i = 0; i < actualCategories.Count; i++)
             {
                 Assert.AreEqual(expectedCategories[i].CategoryId, actualCategories[i].CategoryId);
-                Assert.AreEqual(expectedCategories[i].Name, actualCategories[i].Name);
+                Assert.AreEqual(expectedCategories[i].CategoryName, actualCategories[i].CategoryName);
             }
 
-            Assert.AreEqual("ListCategory",viewResult.ViewName);
+            Assert.AreEqual("ListCategory", viewResult.ViewName);
 
         }
 
@@ -57,7 +64,7 @@ namespace TankShopUnitTest
 
 
             //Assert
-            Assert.AreEqual("",viewResult.ViewName);
+            Assert.AreEqual("", viewResult.ViewName);
         }
 
 
@@ -68,7 +75,7 @@ namespace TankShopUnitTest
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
             string categoryId = "2";
-            var expectedCategory = new Category { CategoryId = 2, Name = "test name"};
+            var expectedCategory = new CategoryModel { CategoryId = 2, CategoryName = "test name" };
 
             //Act
             var viewResult = controller.EditCategory(categoryId) as ViewResult;
@@ -77,7 +84,7 @@ namespace TankShopUnitTest
 
             //Assert
             Assert.AreEqual(expectedCategory.CategoryId, actualCategory.CategoryId);
-            Assert.AreEqual(expectedCategory.Name, actualCategory.Name);
+            Assert.AreEqual(expectedCategory.CategoryName, actualCategory.CategoryName);
 
             Assert.AreEqual("", viewResult.ViewName);
 
@@ -126,7 +133,7 @@ namespace TankShopUnitTest
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
             string categoryId = "2";
-            var expectedCategory = new Category { CategoryId = 2, Name = "test name" };
+            var expectedCategory = new CategoryModel { CategoryId = 2, CategoryName = "test name" };
 
             //Act
             var viewResult = controller.DeleteCategory(categoryId) as ViewResult;
@@ -135,7 +142,7 @@ namespace TankShopUnitTest
 
             //Assert
             Assert.AreEqual(expectedCategory.CategoryId, actualCategory.CategoryId);
-            Assert.AreEqual(expectedCategory.Name, actualCategory.Name);
+            Assert.AreEqual(expectedCategory.CategoryName, actualCategory.CategoryName);
 
             Assert.AreEqual("", viewResult.ViewName);
 
@@ -172,13 +179,14 @@ namespace TankShopUnitTest
 
             //Assert
             Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Couldnt find a category with id: " + categoryId, controller.ViewBag.Message);
+            Assert.AreEqual("Couldnt find a category with the id: " + categoryId, controller.ViewBag.Message);
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
 
         [TestMethod]
-        public void Category_Create() {
+        public void Category_Create()
+        {
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
@@ -411,12 +419,7 @@ namespace TankShopUnitTest
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
-
-
-
-
-
-
+        
 
         /*
                 [TestMethod]
@@ -433,15 +436,6 @@ namespace TankShopUnitTest
 
         }
         */
-
-
-
-
-
-
-
-
-
+        
     }
 }
-

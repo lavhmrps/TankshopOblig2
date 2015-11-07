@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
 namespace DAL.Image
 {
@@ -13,8 +13,8 @@ namespace DAL.Image
         bool AddImage(int productId, string imageUrl);
         bool UpdateImage(int imageId, int productId, string imageUrl);
         bool DeleteImage(int imageId);
-        List<Oblig1_Nettbutikk.Model.Image> GetAllImages();
-        Oblig1_Nettbutikk.Model.Image GetImage(int imageId);
+        List<Nettbutikk.Model.Image> GetAllImages();
+        Nettbutikk.Model.Image GetImage(int imageId);
 
 
         //OldImage

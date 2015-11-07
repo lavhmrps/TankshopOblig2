@@ -1,5 +1,5 @@
-﻿@model Oblig1_Nettbutikk.Models.CustomerView
-<div id="divUpdateCustomer">
+﻿@model Nettbutikk.Models.CustomerView
+<div class="divUpdateCustomer">
     @using (Html.BeginForm())
     {
         <div class="form-horizontal">
@@ -13,7 +13,6 @@
                     @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.Lastname, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -21,7 +20,6 @@
                     @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -29,7 +27,6 @@
                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -37,7 +34,6 @@
                     @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -45,7 +41,6 @@
                     @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input id="btnUpdateCustomerInfo" type="button" value="Lagre" class="btn btn-default" />
@@ -57,35 +52,46 @@
 </div>
 <script>
     $(document).ready(function () {
-        $("#btnUpdateCustomerInfo").unbind("click");
-        $("#btnUpdateCustomerInfo").on("click", function () {
-            
+        $(".divUpdateCustomer #btnUpdateCustomerInfo").unbind("click");
+        $(".divUpdateCustomer #btnUpdateCustomerInfo").on("click", function () {
+
             var Firstname = $("#inFirstname").val();
             var Lastname = $("#inLastname").val();
             var Address = $("#inAddress").val();
             var Zipcode = $("#inZipcode").val();
             var City = $("#inCity").val();
-            
-            console.log(Firstname + " " + Lastname + " " + Address + " " + Zipcode + " " + City);
-            if (Firstname == "" || Lastname == "" || Address == "" || Zipcode == "" || City == "") {
-                if (Firstname == "") {
-                    $("#inFirstname").css("border", "thin solid red");
-                }
-                if (Lastname === "") {
-                    $("#inLastname").css("border", "thin solid red");
-                }
-                if (Address === "") {
-                    $("#inAddress").css("border", "thin solid red");
-                }
-                if (Zipcode === "") {
-                    $("#inZipcode").css("border", "thin solid red");
-                }
-                if (City === "") {
-                    $("#inCity").css("border", "thin solid red");
-                }
-                $("#updateCustomerMessage").text("Fyll inn alle feltene").css("color", "red");
+
+            var inputerr = Firstname == "" || Lastname == "" || Address == "" || Zipcode == "" || City == "";
+            if (Firstname == "") {
+                $(".divUpdateCustomer #inFirstname").addClass("input-error");
             }
-            $("#updateCustomerMessage").text("");
+            if (Lastname === "") {
+                $(".divUpdateCustomer #inLastname").addClass("input-error");
+            }
+            if (Address === "") {
+                $(".divUpdateCustomer #inAddress").addClass("input-error");
+            }
+            if (Zipcode === "") {
+                $(".divUpdateCustomer #inZipcode").addClass("input-error");
+            }
+            if (City === "") {
+                $(".divUpdateCustomer #inCity").addClass("input-error");
+            }
+
+            if (inputerr) {
+                $(".divUpdateCustomer #updateCustomerMessage").text("Fyll inn alle feltene").css("color", "red");
+                return;
+            }
+
+            // No errors, remove class input-error
+            $(".divUpdateCustomer input").each(function () {
+                $(this).removeClass("input-error");
+                $(".divAdminUpdateCustomer #updateCustomerMessage").text("");
+            })
+
+            $(".divUpdateCustomer #updateCustomerMessage").text("");
+
+            //console.log(Firstname + " " + Lastname + " " + Address + " " + Zipcode + " " + City); return;
 
             $.ajax({
                 url: '@Url.Action("UpdateCustomerInfo","Account")',
@@ -94,18 +100,16 @@
                     Lastname: Lastname,
                     Address: Address,
                     Zipcode: Zipcode,
-                    City:City
+                    City: City
                 },
                 method: "POST",
                 success: function (result) {
-                    if(result==="True")
-                    {
-                        $("#updateCustomerMessage").text("Feltene ble oppdatert").css("color", "green");
+                    if (result === "True") {
+                        $("#updateCustomerMessage").text("Lagret").css("color", "green");
                     }
-                    else if(result==="False")
-                    {
-                        window.location.reload();
-                        $("#updateCustomerMessage").text("Feil ved oppdatering").css("color", "red");
+                    else if (result === "False") {
+                        //window.location.reload();
+                        $("#updateCustomerMessage").text("Feil ved lagring").css("color", "red");
                     } else {
                         alert(result);
                     }

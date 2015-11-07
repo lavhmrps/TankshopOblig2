@@ -1,4 +1,4 @@
-﻿@model Oblig1_Nettbutikk.Models.ProductView
+﻿@model Nettbutikk.Models.ProductView
 
 <div class="product_listitem">
     <div class="row">
@@ -10,7 +10,7 @@
 
         </div>
         <div class="col-md-7">
-            <h5 style="font-weight:bold">@Html.ActionLink(@Model.ProductName, "Product", "Product", new { ProductId = Model.ProductId, ReturnUrl=Request.RawUrl }, null)</h5>
+            <h5 style="font-weight:bold">@Html.ActionLink(@Model.ProductName+"", "Product", "Product", new { ProductId = Model.ProductId, ReturnUrl=Request.RawUrl }, null)</h5>
         </div>
         </div>
     <div class="listitem_description_outer">

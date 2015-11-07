@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     // For testing
     public class AccountRepoStub : IAccountRepo
@@ -40,12 +40,12 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var admin = new AdminModel()
                 {
-                    Email = "Test@test.cz",
-                    Firstname = "Test",
-                    Lastname = "Test",
-                    Address = "Test",
-                    Zipcode = "1234",
-                    City = "Test",
+                    Email = "ole@gmail.com",
+                    Firstname = "Ole",
+                    Lastname = "Olsen",
+                    Address = "Persveien 5",
+                    Zipcode = "0123",
+                    City = "Oslo",
                     AdminId = 1
                 };
                 return admin;
@@ -57,12 +57,12 @@ namespace Oblig1_Nettbutikk.DAL
             var list = new List<PersonModel>();
             var person = new PersonModel()
             {
-                Email = "Test@test.cz",
-                Firstname = "Test",
-                Lastname = "Test",
-                Address = "Test",
-                Zipcode = "1234",
-                City = "Test"
+                Email = "ole@gmail.com",
+                Firstname = "Ole",
+                Lastname = "Olsen",
+                Address = "Persveien 5",
+                Zipcode = "0123",
+                City = "Oslo"
             };
 
             list.Add(person);
@@ -72,32 +72,7 @@ namespace Oblig1_Nettbutikk.DAL
             return list;
         }
 
-        public CustomerModel GetCustomer(int customerId)
-        {
-            if (customerId == 0)
-            {
-                var customer = new CustomerModel()
-                {
-                    Email = ""
-                };
-                return customer;
-            }
-            else
-            {
-                var customer = new CustomerModel()
-                {
-                    Email = "Test@test.cz",
-                    Firstname = "Test",
-                    Lastname = "Test",
-                    Address = "Test",
-                    Zipcode = "1234",
-                    City = "Test",
-                    CustomerId = 1
-                };
-
-                return customer;
-            }
-        }
+       
 
         public PersonModel GetPerson(string email)
         {
@@ -113,12 +88,12 @@ namespace Oblig1_Nettbutikk.DAL
             {
                 var person = new PersonModel()
                 {
-                    Email = "Test@test.cz",
-                    Firstname = "Test",
-                    Lastname = "Test",
-                    Address = "Test",
-                    Zipcode = "1234",
-                    City = "Test"
+                    Email = "ole@gmail.com",
+                    Firstname = "Ole",
+                    Lastname = "Olsen",
+                    Address = "Persveien 5",
+                    Zipcode = "0123",
+                    City = "Oslo"
                 };
                 return person;
             }
@@ -182,7 +157,10 @@ namespace Oblig1_Nettbutikk.DAL
 
         public bool UpdatePerson(PersonModel personUpdate, string email)
         {
-            throw new NotImplementedException();
+            if (email == "")
+                return false;
+
+            return true;
         }
 
         public bool DeletePerson(string email)
@@ -198,6 +176,16 @@ namespace Oblig1_Nettbutikk.DAL
         public bool SetRole(string email, Role role, bool isRole)
         {
             throw new NotImplementedException();
+        }
+
+        public bool isAdmin(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddOldPerson(string email, string firstName, string lastName, string address, string zipCode, int adminId)
+        {
+            return email != "invalid";
         }
     }
 }

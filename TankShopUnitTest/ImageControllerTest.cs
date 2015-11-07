@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MvcContrib.TestHelper;
 using DAL.Image;
 using BLL.Image;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Controllers;
+using Nettbutikk.Controllers;
 
 namespace TankShopUnitTest
 {
@@ -14,13 +13,15 @@ namespace TankShopUnitTest
     public class ImageControllerTest
     {
 
+        //Lage test om logging fungerer
+
         //GoodInput = input of correct type and value
         //BadInput = input of wrong type. For example "abc123" being sent instead of an int
         //Invalid = input of correct type, but wrong value. For example a product id of -1
 
 
         [TestMethod]
-        public void Image_Index()
+        public void Index()
         {
 
             //Arrange
@@ -53,12 +54,12 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_CreateImage()
+        public void CreateImage()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()),
-                new Oblig1_Nettbutikk.BLL.ProductBLL(new Oblig1_Nettbutikk.DAL.ProductRepoStub()));
+                new Nettbutikk.BLL.ProductBLL(new Nettbutikk.DAL.ProductRepoStub()));
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
@@ -92,12 +93,12 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Image_EditImage_GoodInput()
+        public void EditImageGoodInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()),
-                new Oblig1_Nettbutikk.BLL.ProductBLL(new Oblig1_Nettbutikk.DAL.ProductRepoStub()));
+                new Nettbutikk.BLL.ProductBLL(new Nettbutikk.DAL.ProductRepoStub()));
 
             var expectedImage = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
             var allProducts = new List<Product> {
@@ -137,7 +138,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Image_EditImage_BadInput()
+        public void EditImageBadInput()
         {
 
             //Arrange
@@ -157,7 +158,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Image_EditImage_NoImageFound()
+        public void EditImageNoImageFound()
         {
 
             //Arrange
@@ -177,7 +178,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Image_DeleteImage_GoodInput()
+        public void DeleteImageGoodInput()
         {
 
             //Arrange
@@ -199,7 +200,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_DeleteImage_BadInput()
+        public void DeleteImageBadInput()
         {
 
             //Arrange
@@ -217,7 +218,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_DeleteImage_NoImageFound()
+        public void DeleteImageNoImageFound()
         {
 
             //Arrange
@@ -236,16 +237,11 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Image_Create_GoodInput()
+        public void CreateGoodInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string productId = "1";
             string imageUrl = "url";
 
@@ -260,42 +256,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Create_NotAdmin()
+        public void CreateBadInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = false;
-
-            string productId = "1";
-            string imageUrl = "url";
-
-            //Act
-            var viewResult = controller.Create(productId, imageUrl) as ViewResult;
-
-            //Assert
-            Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Only administrators can create images", controller.ViewBag.Message);
-            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
-
-        }
-
-
-
-        [TestMethod]
-        public void Image_Create_BadInput()
-        {
-
-            //Arrange
-            var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string productId = "bad input";
             string imageUrl = "url";
 
@@ -310,16 +275,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Create_InvalidProductId()
+        public void CreateInvalidProductId()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string productId = "-1";
             string imageUrl = "url";
 
@@ -334,16 +294,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Edit_GoodInput()
+        public void EditGoodInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string imageId = "1";
             string productId = "1";
             string imageUrl = "url";
@@ -358,43 +313,13 @@ namespace TankShopUnitTest
 
         }
 
+
         [TestMethod]
-        public void Image_Edit_NotAdmin()
+        public void EditBadImageId()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = false;
-
-            string imageId = "1";
-            string productId = "1";
-            string imageUrl = "url";
-
-            //Act
-            var viewResult = controller.Edit(imageId, productId, imageUrl) as ViewResult;
-
-            //Assert
-            Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Only administrators can edit images", controller.ViewBag.Message);
-            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
-
-        }
-
-
-        [TestMethod]
-        public void Image_Edit_BadImageId()
-        {
-
-            //Arrange
-            var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string imageId = "bad";
             string productId = "1";
             string imageUrl = "url";
@@ -410,17 +335,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Edit_BadProductId()
+        public void EditBadProductId()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
-
             string imageId = "1";
             string productId = "bad";
             string imageUrl = "url";
@@ -436,17 +355,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Edit_InvalidImageId()
+        public void EditInvalidImageId()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
-
             string imageId = "-1";
             string productId = "1";
             string imageUrl = "url";
@@ -462,16 +375,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Edit_InvalidProductId()
+        public void EditInvalidProductId()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string imageId = "1";
             string productId = "-1";
             string imageUrl = "url";
@@ -487,16 +395,11 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Image_Delete_GoodInput()
+        public void DeleteGoodInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string imageId = "1";
 
             Image expectedResult = new Image { ImageId = 1, ProductId = 1, ImageUrl = "test" };
@@ -512,39 +415,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Delete_NotAdmin()
+        public void DeleteBadInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = false;
-
-            string imageId = "1";
-
-            //Act
-            var viewResult = controller.Delete(imageId) as ViewResult;
-
-            //Assert
-            Assert.AreEqual("Error", controller.ViewBag.Title);
-            Assert.AreEqual("Only administrators can delete images", controller.ViewBag.Message);
-            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
-
-        }
-
-        [TestMethod]
-        public void Image_Delete_BadInput()
-        {
-
-            //Arrange
-            var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string imageId = "bad input";
 
             //Act
@@ -558,16 +433,11 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Image_Delete_InvalidInput()
+        public void DeleteInvalidInput()
         {
 
             //Arrange
             var controller = new ImageController(new ImageBLL(new ImageRepoStub()));
-
-            var sessionMock = new TestControllerBuilder();
-            sessionMock.InitializeController(controller);
-            controller.Session["Admin"] = true;
-
             string imageId = "-1";
 
             //Act
@@ -579,7 +449,6 @@ namespace TankShopUnitTest
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
-
     }
 }
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Oblig1_Nettbutikk.Model.Product>
+﻿@model IEnumerable<Nettbutikk.Models.ProductView>
 
 <p>
     @Html.ActionLink("Create New", "CreateProduct")
@@ -7,7 +7,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.ProductName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.ImageUrl)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
+            @Html.DisplayNameFor(model => model.CategoryName)
         </th>
         <th></th>
     </tr>
@@ -31,7 +31,7 @@
 {
     <tr>
         <td>
-            @product.Name
+            @product.ProductName
         </td>
         <td>
             @string.Format("{0:n}", product.Price) kr
@@ -54,7 +54,7 @@
             @url
         </td>
         <td>
-            @product.Category.Name
+            @product.CategoryName
         </td>
         <td>
             @Html.ActionLink("Edit", "EditProduct", new { ProductId = product.ProductId }) |

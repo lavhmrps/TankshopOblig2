@@ -1,15 +1,14 @@
-﻿using Oblig1_Nettbutikk.BLL;
-using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.Models;
+﻿using Logging;
+using Nettbutikk.BLL;
+using Nettbutikk.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BLL.Category;
-using Logging;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class ProductController : Controller
     {
@@ -29,9 +28,50 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
 
-        public ActionResult Index() {
+        // GET: Product
+        public ActionResult Product(int ProductId,string ReturnUrl)
+        {
+            var productmodel = _productBLL.GetProduct(ProductId);
+            //var categoryname = _categoryBLL.GetCategoryName(productmodel.CategoryId);
+            var productview = new ProductView()
+            {
+                ProductId = productmodel.ProductId,
+                ProductName = productmodel.ProductName,
+                Description = productmodel.Description,
+                Price = productmodel.Price,
+                Stock = productmodel.Stock,
+                ImageUrl = productmodel.ImageUrl,
+                CategoryName = productmodel.CategoryName
+            };
+           
 
-            ViewBag.Products = _productBLL.GetAllProducts();
+            ViewBag.Product = productview;
+            ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.LoggedIn = LoginStatus();
+            return View();
+        }
+
+        public ActionResult Index()
+        {
+            var productmodels = _productBLL.GetAllProducts();
+            var productViews = new List<ProductView>();
+
+            foreach(var productmodel in productmodels)
+            {
+                var productview = new ProductView()
+                {
+                    ProductId = productmodel.ProductId,
+                    ProductName = productmodel.ProductName,
+                    Description = productmodel.Description,
+                    Price = productmodel.Price,
+                    Stock = productmodel.Stock,
+                    ImageUrl = productmodel.ImageUrl,
+                    CategoryName = productmodel.CategoryName
+                };
+                productViews.Add(productview);
+            }
+
+            ViewBag.Products = productViews;
 
             return View("ListProduct");
         }
@@ -40,12 +80,12 @@ namespace Oblig1_Nettbutikk.Controllers
         {
 
             List<SelectListItem> categoryIds = new List<SelectListItem>();
-            List<Category> allCategories = _categoryBLL.GetAllCategories();
+            var allCategories = _categoryBLL.GetAllCategories();
 
-            foreach (Category c in allCategories)
+            foreach (var c in allCategories)
             {
                 string categoryId = Convert.ToString(c.CategoryId);
-                categoryIds.Add(new SelectListItem { Text = c.Name, Value = categoryId});
+                categoryIds.Add(new SelectListItem { Text = c.CategoryName, Value = categoryId });
             }
 
             ViewBag.CategoryIds = categoryIds;
@@ -57,12 +97,12 @@ namespace Oblig1_Nettbutikk.Controllers
         {
 
             List<SelectListItem> categoryIds = new List<SelectListItem>();
-            List<Category> allCategories = _categoryBLL.GetAllCategories();
+            var allCategories = _categoryBLL.GetAllCategories();
 
-            foreach (Category c in allCategories)
+            foreach (var c in allCategories)
             {
                 string categoryId = Convert.ToString(c.CategoryId);
-                categoryIds.Add(new SelectListItem { Text = c.Name, Value = categoryId });
+                categoryIds.Add(new SelectListItem { Text = c.CategoryName, Value = categoryId });
             }
 
             ViewBag.CategoryIds = categoryIds;
@@ -82,15 +122,29 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Product p = _productBLL.GetProduct(nProductId);
+            var productmodel = _productBLL.GetProduct(nProductId);
 
-            if (p == null) {
+            if (productmodel == null)
+            {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not find a product with the id: " + ProductId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            ViewBag.Product = p;
+
+            var productview = new ProductView()
+            {
+                ProductId = productmodel.ProductId,
+                ProductName = productmodel.ProductName,
+                Description = productmodel.Description,
+                Price = productmodel.Price,
+                Stock = productmodel.Stock,
+                ImageUrl = productmodel.ImageUrl,
+                CategoryId = productmodel.CategoryId,
+                CategoryName = productmodel.CategoryName
+            };
+
+            ViewBag.Product = productview;
 
             return View();
         }
@@ -112,21 +166,35 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Product p = _productBLL.GetProduct(nProductId);
+            var productmodel = _productBLL.GetProduct(nProductId);
 
-            if (p == null) {
+            if (productmodel == null)
+            {
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Could not find a product with id: " + ProductId;
+                ViewBag.Message = "Could not find a product with the id: " + ProductId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            ViewBag.Product = p;
+
+            var productview = new ProductView()
+            {
+                ProductId = productmodel.ProductId,
+                ProductName = productmodel.ProductName,
+                Description = productmodel.Description,
+                Price = productmodel.Price,
+                Stock = productmodel.Stock,
+                ImageUrl = productmodel.ImageUrl,
+                CategoryId = productmodel.CategoryId,
+                CategoryName = productmodel.CategoryName
+            };
+
+            ViewBag.Product = productview;
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
+        public ActionResult Create(string ProductName, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
         {
 
 
@@ -149,7 +217,7 @@ namespace Oblig1_Nettbutikk.Controllers
 
             try
             {
-                nStock= Convert.ToInt32(Stock);
+                nStock = Convert.ToInt32(Stock);
             }
             catch (Exception e)
             {
@@ -169,17 +237,18 @@ namespace Oblig1_Nettbutikk.Controllers
             {
                 LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid category id: " + CategoryIds; 
+                ViewBag.Message = "Invalid category id: " + CategoryIds;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
             //Check for invalid int/doubles
-            if (!_productBLL.AddProduct(Name,dPrice, nStock, Description, ImageUrl, nCategoryId)) {
+            if (!_productBLL.AddProduct(ProductName, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Product was not added to the database";
                 return View("~/Views/Shared/Result.cshtml");
             }
-            
+
 
             ViewBag.Title = "Success";
             ViewBag.Message = "Product was added to the database";
@@ -187,7 +256,7 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string ProductId, string Name, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
+        public ActionResult Edit(string ProductId, string ProductName, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
         {
 
             int nProductId;
@@ -248,7 +317,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!_productBLL.UpdateProduct(nProductId, Name, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            if (!_productBLL.UpdateProduct(nProductId, ProductName, dPrice, nStock, Description, ImageUrl, nCategoryId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Product was not updated";
@@ -279,7 +348,8 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!_productBLL.DeleteProduct(nProductId)) {
+            if (!_productBLL.DeleteProduct(nProductId))
+            {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Product could not be deleted from the database";
                 return View("~/Views/Shared/Result.cshtml");
@@ -290,31 +360,12 @@ namespace Oblig1_Nettbutikk.Controllers
             ViewBag.Message = "Product was deleted from the database";
             return View("~/Views/Shared/Result.cshtml");
         }
-
-
-        // GET: Product
-        public ActionResult Product(int ProductId,string ReturnUrl)
+        
+        public string Products(string searchstr)
         {
-            
-            var productmodel = _productBLL.GetProduct(ProductId);
-            var categoryname = _categoryBLL.GetCategoryName(productmodel.CategoryId);
-
-            var productview = new ProductView()
-            {
-                ProductId = productmodel.ProductId,
-                ProductName = productmodel.Name,
-                Description = productmodel.Description,
-                Price = productmodel.Price,
-                Stock = productmodel.Stock,
-                ImageUrl = productmodel.ImageUrl,
-                CategoryName = categoryname
-            };
-            
-
-            ViewBag.Product = productview;
-            ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.LoggedIn = LoginStatus();
-            return View();
+            var result = _productBLL.GetProducts(searchstr);
+            var jsonResult  = JsonConvert.SerializeObject(result);
+            return jsonResult;
         }
 
         public bool LoginStatus()
@@ -326,5 +377,6 @@ namespace Oblig1_Nettbutikk.Controllers
             }
             return LoggedIn;
         }
+
     }
 }

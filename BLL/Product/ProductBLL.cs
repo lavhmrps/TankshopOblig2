@@ -3,33 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.DAL;
+using Nettbutikk.Model;
+using Nettbutikk.DAL;
 
-namespace Oblig1_Nettbutikk.BLL
+namespace Nettbutikk.BLL
 {
     public class ProductBLL : IProductLogic
     {
         private IProductRepo _repo;
+        private ICategoryRepo _categoryrepo;
 
         public ProductBLL()
         {
             _repo = new ProductRepo();
+            _categoryrepo = new CategoryRepo();
         }
 
         public ProductBLL(IProductRepo stub)
         {
             _repo = stub;
+            _categoryrepo = new CategoryRepoStub();
         }
 
-        public List<Product> GetAllProducts()
+        public List<CategoryModel> AllCategories()
+        {
+            return _categoryrepo.GetAllCategories();
+        }
+
+        public List<ProductModel> GetAllProducts()
         {
             return _repo.GetAllProducts();
         }
 
-        public ProductModel GetProductModel(int productId)
+        public string GetCategoryName(int categoryId)
         {
-            return _repo.GetProductModel(productId);
+            return _categoryrepo.GetCategoryName(categoryId);
+        }
+
+        public ProductModel GetProduct(int productId)
+        {
+            return _repo.GetProduct(productId);
+        }
+
+        public List<ProductModel> GetProducts(string searchstr)
+        {
+            return _repo.GetProducts(searchstr);
         }
 
         public List<ProductModel> GetProducts(List<int> productIdList)
@@ -42,43 +60,24 @@ namespace Oblig1_Nettbutikk.BLL
             return _repo.GetProductsByCategory(categoryId);
         }
 
-        public Product GetProduct(int ProductId)
-        {
-            return _repo.GetProduct(ProductId);
-        }
-
         public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
         {
-            return _repo.AddProduct(Name,Price,Stock,Description,ImageUrl,CategoryId);
+            return _repo.AddProduct(Name, Price, Stock, Description, ImageUrl, CategoryId);
         }
 
         public bool DeleteProduct(int ProductId)
         {
-            Product product = _repo.GetProduct(ProductId);
-
-            if (product == null)
-                return false;
-
-            if (!_repo.AddOldProduct(product.Name, product.Price, product.Stock,
-                product.Description, product.ImageUrl, product.CategoryId, 1))//Get admin id from session
-                return false;
-
             return _repo.DeleteProduct(ProductId);
         }
 
         public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
         {
-            Product product = _repo.GetProduct(ProductId);
-
-            if (product == null)
-                return false;
-
-            if (!_repo.AddOldProduct(product.Name, product.Price, product.Stock,
-                product.Description, product.ImageUrl, product.CategoryId, 1))//Get admin id from session
-                return false;
-
             return _repo.UpdateProduct(ProductId, Name, Price, Stock, Description, ImageUrl, CategoryId);
         }
 
+        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+        {
+            return _repo.AddOldProduct(Name, Price, Stock, Description, ImageUrl, CategoryId,AdminId);
+        }
     }
 }

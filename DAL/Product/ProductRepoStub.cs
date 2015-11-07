@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     public class ProductRepoStub : IProductRepo
     {
@@ -29,21 +29,27 @@ namespace Oblig1_Nettbutikk.DAL
             throw new NotImplementedException();
         }
 
-        public List<Product> GetAllProducts()
+        public List<ProductModel> GetAllProducts()
         {
-            return new List<Product> {
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
-                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
+            return new List<ProductModel> {
+                new ProductModel { ProductId = 1, ProductName = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new ProductModel { ProductId = 1, ProductName = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new ProductModel { ProductId = 1, ProductName = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
             };
+
         }
 
-        public Product GetProduct(int ProductId)
+        public string GetCategoryName(int categoryId)
         {
             throw new NotImplementedException();
         }
 
-        public ProductModel GetProductModel(int productId)
+        public ProductModel GetProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductModel> GetProducts(string searchstr)
         {
             throw new NotImplementedException();
         }

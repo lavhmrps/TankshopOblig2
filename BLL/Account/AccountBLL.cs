@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
-using Oblig1_Nettbutikk.DAL;
+using Nettbutikk.Model;
+using Nettbutikk.DAL;
 
-namespace Oblig1_Nettbutikk.BLL
+namespace Nettbutikk.BLL
 {
     public class AccountBLL : IAccountLogic
     {
       
         private IAccountRepo _repo;
+        private ICustomerRepo _customerrepo;
 
         public AccountBLL()
         {
             _repo = new AccountRepo();
+            _customerrepo = new CustomerRepo();
         }
 
         public AccountBLL(IAccountRepo stub)
         {
             _repo = stub;
+            _customerrepo = new CustomerRepoStub();
         }
 
         public bool AddPerson(PersonModel person, Role role, string password)
         {
+            
             return _repo.AddPerson(person, role, password);
         }
         
@@ -41,12 +45,12 @@ namespace Oblig1_Nettbutikk.BLL
 
         public CustomerModel GetCustomer(int customerId)
         {
-            return _repo.GetCustomer(customerId);
+            return _customerrepo.GetCustomer(customerId);
         }
 
         public CustomerModel GetCustomer(string email)
         {
-            return _repo.GetCustomer(email);
+            return _customerrepo.GetCustomer(email);
         }
 
         public bool AttemptLogin(string email, string password)
@@ -61,6 +65,16 @@ namespace Oblig1_Nettbutikk.BLL
 
         public bool DeletePerson(string email)
         {
+            //Person burde egentlig hentes fra _repo
+            Person person = new TankshopDbContext().People.Find(email);
+
+            if (person == null)
+                return false;
+
+            if (!_repo.AddOldPerson(person.Email, person.Firstname,
+                person.Lastname, person.Address, person.Zipcode, 1))//Get admin id from session
+                return false;
+
             return _repo.DeletePerson(email);
         }
 
@@ -78,5 +92,11 @@ namespace Oblig1_Nettbutikk.BLL
         {
             return _repo.UpdatePerson(personUpdate, email);
         }
+
+        public bool isAdmin(string email)
+        {
+            return _repo.isAdmin(email);
+        }
+        
     }
 }

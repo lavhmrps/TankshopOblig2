@@ -1,45 +1,53 @@
-﻿using System;
+﻿using Logging;
+using Nettbutikk.BLL;
+using Nettbutikk.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Oblig1_Nettbutikk.Model;
-using BLL.Category;
-using Logging;
 
-namespace Oblig1_Nettbutikk.Controllers
+namespace Nettbutikk.Controllers
 {
     public class CategoryController : Controller
     {
-
         private ICategoryLogic categoryBLL;
-      
+
 
         public CategoryController()
         {
-
             categoryBLL = new CategoryBLL();
-      
         }
 
         public CategoryController(ICategoryLogic categoryBLL)
         {
 
             this.categoryBLL = categoryBLL;
-        
 
         }
 
-
-        // GET: Image
         public ActionResult Index()
         {
+            if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
+            {
+                var allCategories = categoryBLL.GetAllCategories();
+                var categoryViews = new List<CategoryView>();
 
-            List<Category> allCategories = categoryBLL.GetAllCategories();
+                foreach (var category in allCategories)
+                {
+                    var categoryView = new CategoryView()
+                    {
+                        CategoryId = category.CategoryId,
+                        CategoryName = category.CategoryName
+                    };
+                    categoryViews.Add(categoryView);
+                }
 
-            ViewBag.Categories = allCategories;
+                ViewBag.Categories = categoryViews;
 
-            return View("ListCategory");
+                return View("ListCategory");
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -68,7 +76,7 @@ namespace Oblig1_Nettbutikk.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(string CategoryId,  string Name)
+        public ActionResult Edit(string CategoryId, string CategoryName)
         {
 
             if (Session["Admin"] != null && (bool)Session["Admin"] == false)
@@ -92,7 +100,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!categoryBLL.UpdateCategory(categoryId, Name))
+            if (!categoryBLL.UpdateCategory(categoryId, CategoryName))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the category";
@@ -104,6 +112,7 @@ namespace Oblig1_Nettbutikk.Controllers
             return View("~/Views/Shared/Result.cshtml");
         }
 
+        [HttpPost]
         public ActionResult Delete(string CategoryId)
         {
 
@@ -143,9 +152,9 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
 
+
         public ActionResult CreateCategory()
         {
-
             return View();
         }
 
@@ -153,6 +162,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult EditCategory(string categoryId)
         {
+
+            System.Diagnostics.Debug.WriteLine("Got value: " + categoryId);
 
             int nCategoryId;
 
@@ -168,7 +179,7 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Category category = categoryBLL.GetCategory(nCategoryId);
+            var category = categoryBLL.GetCategory(nCategoryId);
 
             if (category == null)
             {
@@ -177,7 +188,13 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            ViewBag.Category = category;
+            var categoryView = new CategoryView()
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+
+            ViewBag.Category = categoryView;
 
             return View();
         }
@@ -185,6 +202,8 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult DeleteCategory(string CategoryId)
         {
+
+            System.Diagnostics.Debug.WriteLine("Got value: " + CategoryId);
 
             int nCategoryId;
 
@@ -200,19 +219,24 @@ namespace Oblig1_Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            Category category = categoryBLL.GetCategory(nCategoryId);
+            var category = categoryBLL.GetCategory(nCategoryId);
 
             if (category == null)
             {
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Couldnt find a category with id: " + CategoryId;
+                ViewBag.Message = "Couldnt find a category with the id: " + CategoryId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            ViewBag.Category = category;
+            var categoryView = new CategoryView()
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+
+            ViewBag.Category = categoryView;
 
             return View();
         }
-
     }
 }

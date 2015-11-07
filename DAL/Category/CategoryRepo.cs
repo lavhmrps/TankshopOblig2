@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
 using Logging;
+using Nettbutikk.DAL;
 
-
-namespace DAL.Category
+namespace Nettbutikk.Model
 {
     public class CategoryRepo : ICategoryRepo
     {
 
 
-        public Oblig1_Nettbutikk.Model.Category GetCategory(int CategoryId)
-        {
-            try
-            {
-                return new TankshopDbContext().Categories.FirstOrDefault(c => c.CategoryId == CategoryId);
-            }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-                return null;
-            }
+        //public Category GetCategory(int CategoryId)
+        //{
+        //    try
+        //    {
+        //        return new TankshopDbContext().Categories.FirstOrDefault(c => c.CategoryId == CategoryId);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogHandler.WriteToLog(e);
+        //        return null;
+        //    }
 
-        }
+        //}
 
-        public List<CategoryModel> GetAllCategoryModels()
+        public List<CategoryModel> GetAllCategories()
         {
 
             var db = new TankshopDbContext();
@@ -37,35 +37,52 @@ namespace DAL.Category
 
             foreach (var c in dbCategories)
             {
+                var productModels = new List<ProductModel>();
+                
+                foreach(var product in c.Products)
+                {
+                    var productModel = new ProductModel()
+                    {
+                        CategoryId = product.CategoryId,
+                        CategoryName = product.Category.Name,
+                        Description = product.Description,
+                        ImageUrl = product.ImageUrl,
+                        Price = product.Price,
+                        ProductId = product.ProductId,
+                        ProductName = product.Name,
+                        Stock = product.Stock
+                    };
+
+                    productModels.Add(productModel);
+                }
+
                 var categoryModel = new CategoryModel()
                 {
                     CategoryId = c.CategoryId,
                     CategoryName = c.Name,
-                    //Products = c.Products;
+                    Products = productModels
                 };
 
                 categoryModels.Add(categoryModel);
 
             }
-
-
             return categoryModels;
         }
 
-        public List<Oblig1_Nettbutikk.Model.Category> GetAllCategories()
-        {
+        //public List<Category> GetAllCategories()
+        //{
 
-            try
-            {
-                return new TankshopDbContext().Categories.ToList();
-            }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-                return new List<Oblig1_Nettbutikk.Model.Category>();
-            }
+        //    try
+        //    {
+        //        return new TankshopDbContext().Categories.ToList();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogHandler.WriteToLog(e);
+        //        return new List<Category>();
+        //    }
 
-        }
+        //}
 
 
         public bool AddCategory(string name)
@@ -74,7 +91,7 @@ namespace DAL.Category
             try
             {
                 var db = new TankshopDbContext();
-                db.Categories.Add(new Oblig1_Nettbutikk.Model.Category() { Name = name });
+                db.Categories.Add(new Category() { Name = name });
                 db.SaveChanges();
                 return true;
             }
@@ -92,7 +109,7 @@ namespace DAL.Category
 
             var db = new TankshopDbContext();
 
-            Oblig1_Nettbutikk.Model.Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
+            Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
 
             if (category == null)
                 return false;
@@ -117,7 +134,7 @@ namespace DAL.Category
 
             var db = new TankshopDbContext();
 
-            Oblig1_Nettbutikk.Model.Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
+            Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
 
             if (category == null)
                 return false;
@@ -169,12 +186,64 @@ namespace DAL.Category
         public string GetCategoryName(int CategoryId)
         {
 
-            Oblig1_Nettbutikk.Model.Category c = new TankshopDbContext().Categories.Find(CategoryId);
+            Category c = new TankshopDbContext().Categories.Find(CategoryId);
 
             return c == null ? null : c.Name;
 
         }
 
+        //public string GetCategoryName(int categoryId)
+        //{
+        //    using (var db = new TankshopDbContext())
+        //    {
+        //        return db.Categories.Find(categoryId).Name;
+        //    }
+        //}
+
+        public CategoryModel GetCategory(int CategoryId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var c = db.Categories.Find(CategoryId);
+
+                var productModels = new List<ProductModel>();
+
+                foreach (var product in c.Products)
+                {
+                    var productModel = new ProductModel()
+                    {
+                        CategoryId = product.CategoryId,
+                        CategoryName = product.Category.Name,
+                        Description = product.Description,
+                        ImageUrl = product.ImageUrl,
+                        Price = product.Price,
+                        ProductId = product.ProductId,
+                        ProductName = product.Name,
+                        Stock = product.Stock
+                    };
+
+                    productModels.Add(productModel);
+                }
+
+                var categoryModel = new CategoryModel()
+                {
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Name,
+                    Products = productModels
+                };
+
+                return categoryModel;
+            }
+        }
+
+        public int FirstCategoryWithProducts()
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var FirstCategoryWithProducts = db.Categories.Where(c => c.Products.Count > 0).FirstOrDefault();
+                return FirstCategoryWithProducts == null ? 0 : FirstCategoryWithProducts.CategoryId;
+            }
+        }
     }
 
 }

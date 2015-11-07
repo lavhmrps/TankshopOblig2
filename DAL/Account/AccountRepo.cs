@@ -1,49 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Oblig1_Nettbutikk.Model;
+using Nettbutikk.Model;
+using Logging;
 
-namespace Oblig1_Nettbutikk.DAL
+namespace Nettbutikk.DAL
 {
     public class AccountRepo : IAccountRepo
     {
-
-        public List<PersonModel> GetAllPeople()
+        public bool AddOldPerson(string email, string firstName, string lastName, string address, string zipCode, int adminId)
         {
-            using (var db = new TankshopDbContext())
+            var db = new TankshopDbContext();
+            OldPerson oldPerson = new OldPerson();
+
+            oldPerson.Email = email;
+            oldPerson.Firstname = firstName;
+            oldPerson.Lastname = lastName;
+            oldPerson.Address = address;
+            oldPerson.Zipcode = zipCode;
+
+            oldPerson.AdminId = adminId;
+            oldPerson.Changed = DateTime.Now;
+
+            db.OldPeople.Add(oldPerson);
+
+            try
             {
-                var people = db.People.Select(p => new PersonModel()
-                {
-                    Email = p.Email,
-                    Firstname = p.Firstname,
-                    Lastname = p.Lastname,
-                    Address = p.Address,
-                    Zipcode = p.Zipcode,
-                    City = p.Postal.City
-                }).ToList();
-
-                // 
-                //foreach (var person in people)
-                //{
-                //    // If not admin / customer -> id == -1
-                //    int adminId = -1, customerId = -1;
-
-                //    var admin = db.Admins.FirstOrDefault(a => a.PersonId == person.PersonId);
-                //    var customer = db.Customers.FirstOrDefault(c => c.PersonId == person.PersonId);
-
-                //    if (admin != null)
-                //    {
-                //        adminId = admin.AdministratorId;
-                //    }
-
-                //    if (customer != null)
-                //    {
-                //        customerId = customer.CustomerId;
-                //    }
-                //}
-
-                return people;
+                db.SaveChanges();
+                return true;
             }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+            }
+
+            return false;
         }
 
         public bool AddPerson(PersonModel person, Role role, string password)
@@ -136,7 +127,47 @@ namespace Oblig1_Nettbutikk.DAL
                 }
             }
         }
+        public bool AttemptLogin(string email, string password)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var passwordHash = CreateHash(password);
+                    var existingUser = db.Credentials.FirstOrDefault(c => c.Email == email && c.Password == passwordHash);
 
+                    if (existingUser == null)
+                        return false;
+
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool ChangePassword(string email, string newPassword)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var newPasswordHash = CreateHash(newPassword);
+                    var existingUser = db.Credentials.Find(email);
+                    if (existingUser == null)
+                        return false;
+
+                    existingUser.Password = newPasswordHash;
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
         public bool CreateCredentials(string email, string password)
         {
             using (var db = new TankshopDbContext())
@@ -166,7 +197,186 @@ namespace Oblig1_Nettbutikk.DAL
 
             }
         }
+        public bool DeletePerson(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var deletePerson = db.People.Find(email);
+                    var deleteCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
+                    var deleteAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
 
+                    if (deletePerson != null)
+                        db.People.Remove(deletePerson);
+                    if (deleteCustomer != null)
+                        db.Customers.Remove(deleteCustomer);
+                    if (deleteAdmin != null)
+                        db.Admins.Remove(deleteAdmin);
+
+                    db.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public AdminModel GetAdmin(int adminId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbAdmin = db.Admins.FirstOrDefault(a => a.AdminId == adminId);
+                var dbPerson = GetPerson(dbAdmin.Email);
+                var admin = new AdminModel()
+                {
+                    AdminId = adminId,
+                    Email = dbPerson.Email,
+                    Firstname = dbPerson.Firstname,
+                    Lastname = dbPerson.Lastname,
+                    Address = dbPerson.Address,
+                    Zipcode = dbPerson.Zipcode,
+                    City = dbPerson.City
+                };
+
+                return admin;
+            }
+        }
+        public AdminModel GetAdmin(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var adminId = db.Admins.FirstOrDefault(a => a.Email == email).AdminId;
+                var dbPerson = GetPerson(email);
+                var admin = new AdminModel()
+                {
+                    AdminId = adminId,
+                    Email = dbPerson.Email,
+                    Firstname = dbPerson.Firstname,
+                    Lastname = dbPerson.Lastname,
+                    Address = dbPerson.Address,
+                    Zipcode = dbPerson.Zipcode,
+                    City = dbPerson.City
+                };
+
+                return admin;
+            }
+
+        }
+        public List<PersonModel> GetAllPeople()
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var people = db.People.Select(p => new PersonModel()
+                {
+                    Email = p.Email,
+                    Firstname = p.Firstname,
+                    Lastname = p.Lastname,
+                    Address = p.Address,
+                    Zipcode = p.Zipcode,
+                    City = p.Postal.City
+                }).ToList();
+
+                return people;
+            }
+        }
+        //public CustomerModel GetCustomer(int customerId)
+        ////{
+        ////    using (var db = new TankshopDbContext())
+        ////    {
+        ////        try
+        ////        {
+        ////            var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+        ////            var dbPerson = GetPerson(dbCustomer.Email);
+        ////            var orderRepo = new OrderRepo();
+
+        ////            var customer = new CustomerModel()
+        ////            {
+        ////                CustomerId = customerId,
+        ////                Email = dbPerson.Email,
+        ////                Firstname = dbPerson.Firstname,
+        ////                Lastname = dbPerson.Lastname,
+        ////                Address = dbPerson.Address,
+        ////                Zipcode = dbPerson.Zipcode,
+        ////                City = dbPerson.City,
+        ////                Orders = orderRepo.GetOrders(customerId)
+        ////            };
+
+        ////            return customer;
+        ////        }
+        ////        catch (Exception)
+        ////        {
+        ////            return null;
+        ////        }
+        ////    }
+        ////}
+        //public CustomerModel GetCustomer(string email)
+        //{
+        //    using (var db = new TankshopDbContext())
+        //    {
+        //        try
+        //        {
+        //            var dbPerson = GetPerson(email);
+        //            var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
+
+        //            var orderRepo = new OrderRepo();
+
+        //            var customer = new CustomerModel()
+        //            {
+        //                CustomerId = customerId,
+        //                Email = dbPerson.Email,
+        //                Firstname = dbPerson.Firstname,
+        //                Lastname = dbPerson.Lastname,
+        //                Address = dbPerson.Address,
+        //                Zipcode = dbPerson.Zipcode,
+        //                City = dbPerson.City,
+        //                Orders = orderRepo.GetOrders(customerId)
+        //            };
+
+        //            return customer;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
+        public PersonModel GetPerson(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+
+                    var person = db.People.Where(p => p.Email == email).Select(p => new PersonModel()
+                    {
+                        Email = p.Email,
+                        Firstname = p.Firstname,
+                        Lastname = p.Lastname,
+                        Address = p.Address,
+                        Zipcode = p.Zipcode,
+                        City = p.Postal.City
+                    }).Single();
+
+                    return person;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+        public bool isAdmin(string email)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                var dbAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
+
+                return dbAdmin != null;
+            }
+        }
         public bool SetRole(string email, Role role, bool isRole)
         {
             using (var db = new TankshopDbContext())
@@ -220,140 +430,6 @@ namespace Oblig1_Nettbutikk.DAL
                 }
             }
         }
-
-        public PersonModel GetPerson(string email)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-
-                    var person = db.People.Where(p => p.Email == email).Select(p => new PersonModel()
-                    {
-                        Email = p.Email,
-                        Firstname = p.Firstname,
-                        Lastname = p.Lastname,
-                        Address = p.Address,
-                        Zipcode = p.Zipcode,
-                        City = p.Postal.City
-                    }).Single();
-
-                    return person;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-
-        public CustomerModel GetCustomer(int customerId)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
-                    var dbPerson = GetPerson(dbCustomer.Email);
-                    var orderRepo = new OrderRepo();
-
-                    var customer = new CustomerModel()
-                    {
-                        CustomerId = customerId,
-                        Email = dbPerson.Email,
-                        Firstname = dbPerson.Firstname,
-                        Lastname = dbPerson.Lastname,
-                        Address = dbPerson.Address,
-                        Zipcode = dbPerson.Zipcode,
-                        City = dbPerson.City,
-                        Orders = orderRepo.GetOrders(customerId)
-                    };
-
-                    return customer;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-
-        public CustomerModel GetCustomer(string email)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var dbPerson = GetPerson(email);
-                    var customerId = db.Customers.FirstOrDefault(c => c.Email == email).CustomerId;
-
-                    var orderRepo = new OrderRepo();
-
-                    var customer = new CustomerModel()
-                    {
-                        CustomerId = customerId,
-                        Email = dbPerson.Email,
-                        Firstname = dbPerson.Firstname,
-                        Lastname = dbPerson.Lastname,
-                        Address = dbPerson.Address,
-                        Zipcode = dbPerson.Zipcode,
-                        City = dbPerson.City,
-                        Orders = orderRepo.GetOrders(customerId)
-                    };
-
-                    return customer;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-
-        public AdminModel GetAdmin(int adminId)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                var dbAdmin = db.Admins.FirstOrDefault(a => a.AdminId == adminId);
-                var dbPerson = GetPerson(dbAdmin.Email);
-                var admin = new AdminModel()
-                {
-                    AdminId = adminId,
-                    Email = dbPerson.Email,
-                    Firstname = dbPerson.Firstname,
-                    Lastname = dbPerson.Lastname,
-                    Address = dbPerson.Address,
-                    Zipcode = dbPerson.Zipcode,
-                    City = dbPerson.City
-                };
-
-                return admin;
-            }
-        }
-
-
-        public AdminModel GetAdmin(string email)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                var adminId = db.Admins.FirstOrDefault(a => a.Email == email).AdminId;
-                var dbPerson = GetPerson(email);
-                var admin = new AdminModel()
-                {
-                    AdminId = adminId,
-                    Email = dbPerson.Email,
-                    Firstname = dbPerson.Firstname,
-                    Lastname = dbPerson.Lastname,
-                    Address = dbPerson.Address,
-                    Zipcode = dbPerson.Zipcode,
-                    City = dbPerson.City
-                };
-
-                return admin;
-            }
-
-        }
-
         public bool UpdatePerson(PersonModel personUpdate, string email)
         {
             // TODO: update admin/customer -id
@@ -399,56 +475,6 @@ namespace Oblig1_Nettbutikk.DAL
             }
 
         }
-
-        public bool DeletePerson(string email)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var deletePerson = db.People.Find(email);
-                    var deleteCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
-                    var deleteAdmin = db.Admins.FirstOrDefault(a => a.Email == email);
-
-                    if (deletePerson != null)
-                        db.People.Remove(deletePerson);
-                    if (deleteCustomer != null)
-                        db.Customers.Remove(deleteCustomer);
-                    if (deleteAdmin != null)
-                        db.Admins.Remove(deleteAdmin);
-
-                    db.SaveChanges();
-
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-
-        public bool AttemptLogin(string email, string password)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var passwordHash = CreateHash(password);
-                    var existingUser = db.Credentials.FirstOrDefault(c => c.Email == email && c.Password == passwordHash);
-
-                    if (existingUser == null)
-                        return false;
-
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
-
         private byte[] CreateHash(string password)
         {
             byte[] inData, outData;
@@ -457,27 +483,7 @@ namespace Oblig1_Nettbutikk.DAL
             outData = alg.ComputeHash(inData);
             return outData;
         }
+        
 
-        public bool ChangePassword(string email, string newPassword)
-        {
-            using (var db = new TankshopDbContext())
-            {
-                try
-                {
-                    var newPasswordHash = CreateHash(newPassword);
-                    var existingUser = db.Credentials.Find(email);
-                    if (existingUser == null)
-                        return false;
-
-                    existingUser.Password = newPasswordHash;
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-        }
     }
 }

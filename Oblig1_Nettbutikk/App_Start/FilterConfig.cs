@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Oblig1_Nettbutikk
+namespace Nettbutikk
 {
     public class FilterConfig
     {
