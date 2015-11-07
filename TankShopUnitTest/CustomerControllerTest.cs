@@ -17,120 +17,45 @@ namespace TankShopUnitTest
     [TestClass]
     public class CustomerControllerTest
     {
+        private List<OrderModel> orderModels;
+        private OrderModel orderModel;
+        private List<OrderlineModel> orderlineModels;
+        private OrderlineModel orderlineModel;
+        private CustomerModel customerModel;
 
-        [TestMethod]
-        public void Customer_Administration_ok()
+        private string userEmail, anotherUserEmail, adminEmail;
+
+        public CustomerControllerTest()
         {
-            // Arrange
-            var SessionMock = new TestControllerBuilder();
-            var Controller = new CustomerController();
-            SessionMock.InitializeController(Controller);
-            Controller.Session["Admin"] = true;
+            orderlineModel = new OrderlineModel()
+            {
+                Count = 1,
+                OrderId = 1,
+                OrderlineId = 1,
+                ProductId = 1,
+                ProductName = "Tank",
+                ProductPrice = 500000
+            };
 
-            // Act
-            var result = (ViewResult)Controller.Index();
+            orderlineModels = new List<OrderlineModel>();
+            orderlineModels.Add(orderlineModel);
+            orderlineModels.Add(orderlineModel);
+            orderlineModels.Add(orderlineModel);
 
-            // Assert
-            Assert.AreEqual("", result.ViewName);
+            orderModel = new OrderModel()
+            {
+                CustomerId = 1,
+                Date = new DateTime(2015, 1, 1),
+                OrderId = 1,
+                Orderlines = orderlineModels
+            };
 
-        }
+            orderModels = new List<OrderModel>();
+            orderModels.Add(orderModel);
+            orderModels.Add(orderModel);
+            orderModels.Add(orderModel);
 
-        [TestMethod]
-        public void Customer_Administration_No_AdminSession()
-        {
-            // Arrange
-            var SessionMock = new TestControllerBuilder();
-            var Controller = new CustomerController();
-            SessionMock.InitializeController(Controller);
-            Controller.Session["Admin"] = null;
-
-            // Act
-            var result = (RedirectToRouteResult)Controller.Index();
-
-            // Assert
-            Assert.AreEqual("", result.RouteName);
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Home", result.RouteValues["controller"]);
-        }
-
-        [TestMethod]
-        public void Customer_Administration_Not_Admin()
-        {
-            // Arrange
-            var SessionMock = new TestControllerBuilder();
-            var Controller = new CustomerController();
-            SessionMock.InitializeController(Controller);
-            Controller.Session["Admin"] = false;
-
-            // Act
-            var result = (RedirectToRouteResult)Controller.Index();
-
-            // Assert
-            Assert.AreEqual("", result.RouteName);
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Home", result.RouteValues["controller"]);
-        }
-
-        [TestMethod]
-        public void Admin_ShowCustomer_ok()
-        {
-            // Arrange
-            var SessionMock = new TestControllerBuilder();
-            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
-            SessionMock.InitializeController(Controller);
-            Controller.Session["Admin"] = true;
-
-            // Act
-            var result = (ViewResult)Controller.ShowCustomer(1, "");
-
-            // Assert
-            Assert.AreEqual("Administration_Customer", result.ViewName);
-        }
-
-        [TestMethod]
-        public void Admin_ShowCustomer_No_AdminSession()
-        {
-            // Arrange
-            var SessionMock = new TestControllerBuilder();
-            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
-            SessionMock.InitializeController(Controller);
-            Controller.Session["Admin"] = null;
-
-            // Act
-            var result = (RedirectToRouteResult)Controller.ShowCustomer(1, "");
-
-            // Assert
-            Assert.AreEqual("", result.RouteName);
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Home", result.RouteValues["controller"]);
-        }
-
-        [TestMethod]
-        public void Admin_ShowCustomer_Not_Admin()
-        {
-            // Arrange
-            var SessionMock = new TestControllerBuilder();
-            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
-            SessionMock.InitializeController(Controller);
-            Controller.Session["Admin"] = false;
-
-            // Act
-            var result = (RedirectToRouteResult)Controller.ShowCustomer(1, "");
-
-            // Assert
-            Assert.AreEqual("", result.RouteName);
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Home", result.RouteValues["controller"]);
-        }
-
-
-        [TestMethod]
-        public void CustomerlistPartial_List()
-        {
-            // Arrange
-            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
-
-            var customerView = new CustomerView()
+            customerModel = new CustomerModel()
             {
                 CustomerId = 1,
                 Email = "ole@gmail.com",
@@ -138,12 +63,198 @@ namespace TankShopUnitTest
                 Lastname = "Olsen",
                 Address = "Persveien 5",
                 Zipcode = "0123",
-                City = "Oslo"
+                City = "Oslo",
+                Orders = orderModels
             };
-            var expectedResult = new List<CustomerView>();
-            expectedResult.Add(customerView);
-            expectedResult.Add(customerView);
-            expectedResult.Add(customerView);
+
+            userEmail = "ole@gmail.com";
+            anotherUserEmail = "notOle@gmail.com";
+            adminEmail = "admin";
+        }
+    
+
+        [TestMethod]
+        public void Index_ok()
+        {
+            // Arrange 
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+
+            Controller.Session["Admin"] = true;
+
+            var expViewName = "";
+
+            // Act
+            var result = (ViewResult)Controller.Index();
+
+            // Assert
+            Assert.AreEqual(expViewName,result.ViewName);
+        }
+
+        [TestMethod]
+        public void AdminIndex_Not_Admin()
+        {
+            // Arrange 
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+
+            Controller.Session["Admin"] = false;
+
+            var expRouteName = "";
+            var expAction = "Index";
+            var expController = "Home";
+
+            // Act
+            var result = (RedirectToRouteResult)Controller.Index();
+
+            // Assert
+            Assert.AreEqual(expRouteName, result.RouteName);
+            Assert.AreEqual(expAction, result.RouteValues["action"]);
+            Assert.AreEqual(expController, result.RouteValues["controller"]);
+        }
+
+        [TestMethod]
+        public void AdminIndex_No_AdminSession()
+        {
+            // Arrange 
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+
+            Controller.Session["Admin"] = null;
+
+            var expRouteName = "";
+            var expAction = "Index";
+            var expController = "Home";
+
+            // Act
+            var result = (RedirectToRouteResult)Controller.Index();
+
+            // Assert
+            Assert.AreEqual(expRouteName, result.RouteName);
+            Assert.AreEqual(expAction, result.RouteValues["action"]);
+            Assert.AreEqual(expController, result.RouteValues["controller"]);
+        }
+
+        [TestMethod]
+        public void Show_Customer_ok()
+        {
+            // Arrange
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+
+            Controller.Session["Admin"] = true;
+            var customerId = 1;
+            var returnUrl = "returnUrl";
+
+            var expViewName = "Administration_Customer";
+            var expViewBagCustomer = new CustomerView()
+            {
+                CustomerId = customerModel.CustomerId,
+                Email = customerModel.Email,
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
+            };
+            var expViewBagReturnUrl = returnUrl;
+
+            // Act
+            var result = (ViewResult)Controller.ShowCustomer(customerId,returnUrl);
+
+            var viewBagCustomer = result.ViewBag.Customer;
+            var viewBagReturnUrl = result.ViewBag.ReturnUrl;
+
+            // Assert
+            Assert.AreEqual(expViewName, result.ViewName);
+
+            Assert.AreEqual(expViewBagCustomer.CustomerId, viewBagCustomer.CustomerId);
+            Assert.AreEqual(expViewBagCustomer.Firstname, viewBagCustomer.Firstname);
+            Assert.AreEqual(expViewBagCustomer.Lastname, viewBagCustomer.Lastname);
+            Assert.AreEqual(expViewBagCustomer.Address, viewBagCustomer.Address);
+            Assert.AreEqual(expViewBagCustomer.Zipcode, viewBagCustomer.Zipcode);
+            Assert.AreEqual(expViewBagCustomer.City, viewBagCustomer.City);
+
+            Assert.AreEqual(expViewBagReturnUrl, viewBagReturnUrl);
+
+        }
+
+        [TestMethod]
+        public void Show_Customer_No_AdminSession()
+        {
+            // Arrange
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+
+            Controller.Session["Admin"] = null;
+            var customerId = 1;
+            var returnUrl = "returnUrl";
+            
+            var expRouteName = "";
+            var expAction = "Index";
+            var expController = "Home";
+
+            // Act
+            var result = (RedirectToRouteResult)Controller.ShowCustomer(customerId, returnUrl);
+            
+
+            // Assert
+            Assert.AreEqual(expRouteName, result.RouteName);
+            Assert.AreEqual(expAction, result.RouteValues["action"]);
+            Assert.AreEqual(expController, result.RouteValues["controller"]);
+        }
+
+        [TestMethod]
+        public void Show_Customer_Not_Admin()
+        {
+            // Arrange
+            var SessionMock = new TestControllerBuilder();
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+            SessionMock.InitializeController(Controller);
+
+            Controller.Session["Admin"] = false;
+            var customerId = 1;
+            var returnUrl = "returnUrl";
+
+            var expRouteName = "";
+            var expAction = "Index";
+            var expController = "Home";
+
+            // Act
+            var result = (RedirectToRouteResult)Controller.ShowCustomer(customerId, returnUrl);
+
+
+            // Assert
+            Assert.AreEqual(expRouteName, result.RouteName);
+            Assert.AreEqual(expAction, result.RouteValues["action"]);
+            Assert.AreEqual(expController, result.RouteValues["controller"]);
+        }
+
+        [TestMethod]
+        public void CustomerlistPartial_List()
+        {
+            // Arrange
+            var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
+
+            var expModel= new CustomerView()
+            {
+                CustomerId = customerModel.CustomerId,
+                Email = customerModel.Email,
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
+            };
+            var expResult = new List<CustomerView>();
+            expResult.Add(expModel);
+            expResult.Add(expModel);
+            expResult.Add(expModel);
 
             // Act
             var result = (PartialViewResult)Controller.CustomerlistPartial();
@@ -153,13 +264,13 @@ namespace TankShopUnitTest
             Assert.AreEqual("", result.ViewName);
             for (var i = 0; i < modelresult.Count; i++)
             {
-                Assert.AreEqual(expectedResult[i].CustomerId, modelresult[i].CustomerId);
-                Assert.AreEqual(expectedResult[i].Email, modelresult[i].Email);
-                Assert.AreEqual(expectedResult[i].Firstname, modelresult[i].Firstname);
-                Assert.AreEqual(expectedResult[i].Lastname, modelresult[i].Lastname);
-                Assert.AreEqual(expectedResult[i].Address, modelresult[i].Address);
-                Assert.AreEqual(expectedResult[i].Zipcode, modelresult[i].Zipcode);
-                Assert.AreEqual(expectedResult[i].City, modelresult[i].City);
+                Assert.AreEqual(expResult[i].CustomerId, modelresult[i].CustomerId);
+                Assert.AreEqual(expResult[i].Email, modelresult[i].Email);
+                Assert.AreEqual(expResult[i].Firstname, modelresult[i].Firstname);
+                Assert.AreEqual(expResult[i].Lastname, modelresult[i].Lastname);
+                Assert.AreEqual(expResult[i].Address, modelresult[i].Address);
+                Assert.AreEqual(expResult[i].Zipcode, modelresult[i].Zipcode);
+                Assert.AreEqual(expResult[i].City, modelresult[i].City);
             }
         }
 
@@ -170,20 +281,21 @@ namespace TankShopUnitTest
             var SessionMock = new TestControllerBuilder();
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
-            Controller.Session["Email"] = "ole@gmail.com";
+
+            Controller.Session["Email"] = userEmail;
             var customerView = new CustomerView()
             {
-                CustomerId = 1,
-                Email = "ole@gmail.com",
-                Firstname = "Ole",
-                Lastname = "Olsen",
-                Address = "Persveien 5",
-                Zipcode = "0123",
-                City = "Oslo"
+                CustomerId = customerModel.CustomerId,
+                Email = customerModel.Email,
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
             };
 
             // Act
-            var result = (bool)Controller.UpdateCustomerInfo(customerView);
+            var result = Controller.UpdateCustomerInfo(customerView);
 
             // Assert
             Assert.IsTrue(result);
@@ -198,17 +310,17 @@ namespace TankShopUnitTest
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
             Controller.Session["Admin"] = true;
-            Controller.Session["Email"] = "admin";
+            Controller.Session["Email"] = adminEmail;
 
             var customerView = new CustomerView()
             {
-                CustomerId = 1,
-                Email = "ole@gmail.com",
-                Firstname = "Ole",
-                Lastname = "Olsen",
-                Address = "Persveien 5",
-                Zipcode = "0123",
-                City = "Oslo"
+                CustomerId = customerModel.CustomerId,
+                Email = customerModel.Email,
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
             };
 
             // Act
@@ -230,13 +342,13 @@ namespace TankShopUnitTest
 
             var customerView = new CustomerView()
             {
-                CustomerId = 1,
-                Email = "ole@gmail.com",
-                Firstname = "Ole",
-                Lastname = "Olsen",
-                Address = "Persveien 5",
-                Zipcode = "0123",
-                City = "Oslo"
+                CustomerId = customerModel.CustomerId,
+                Email = customerModel.Email,
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
             };
 
             // Act
@@ -254,17 +366,17 @@ namespace TankShopUnitTest
             var SessionMock = new TestControllerBuilder();
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
-            Controller.Session["Email"] = "ikkeOle@gmail.com";
+            Controller.Session["Email"] = anotherUserEmail;
 
             var customerView = new CustomerView()
             {
-                CustomerId = 1,
-                Email = "ole@gmail.com",
-                Firstname = "Ole",
-                Lastname = "Olsen",
-                Address = "Persveien 5",
-                Zipcode = "0123",
-                City = "Oslo"
+                CustomerId = customerModel.CustomerId,
+                Email = customerModel.Email,
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
             };
 
             // Act
@@ -282,21 +394,21 @@ namespace TankShopUnitTest
             var SessionMock = new TestControllerBuilder();
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
-            Controller.Session["Email"] = "ikkeOle@gmail.com";
+            Controller.Session["Email"] = userEmail;
 
             var customerView = new CustomerView()
             {
-                CustomerId = 1,
+                CustomerId = customerModel.CustomerId,
                 Email = "",
-                Firstname = "Ole",
-                Lastname = "Olsen",
-                Address = "Persveien 5",
-                Zipcode = "0123",
-                City = "Oslo"
+                Firstname = customerModel.Firstname,
+                Lastname = customerModel.Lastname,
+                Address = customerModel.Address,
+                Zipcode = customerModel.Zipcode,
+                City = customerModel.City
             };
 
             // Act
-            var result = (bool)Controller.UpdateCustomerInfo(customerView);
+            var result = Controller.UpdateCustomerInfo(customerView);
 
             // Assert
             Assert.IsFalse(result);
@@ -313,8 +425,7 @@ namespace TankShopUnitTest
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
             Controller.Session["Admin"] = true;
-            Controller.Session["Email"] = "ikkeOle@gmail.com";
-            var email = "ole@gmail.com";
+            var email = userEmail;
 
             // Act
             var result = Controller.DeleteCustomer(email);
@@ -332,8 +443,8 @@ namespace TankShopUnitTest
             var SessionMock = new TestControllerBuilder();
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
-            Controller.Session["Email"] = false;
-            var email = "ole@gmail.com";
+            Controller.Session["Email"] = null;
+            var email = userEmail;
 
             // Act
             var result = (bool)Controller.DeleteCustomer(email);
@@ -352,11 +463,10 @@ namespace TankShopUnitTest
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
             Controller.Session["Admin"] = false;
-            Controller.Session["Email"] = "ikkeOle@gmail.com";
-            var email = "ole@gmail.com";
+            var email = userEmail;
 
             // Act
-            var result = (bool)Controller.DeleteCustomer(email);
+            var result = Controller.DeleteCustomer(email);
 
             // Assert
             Assert.IsFalse(result);
@@ -372,11 +482,11 @@ namespace TankShopUnitTest
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
             SessionMock.InitializeController(Controller);
             Controller.Session["Admin"] = true;
-            Controller.Session["Email"] = "admin";
-            var email = "admin";
+            Controller.Session["Email"] = adminEmail;
+            var email = adminEmail;
 
             // Act
-            var result = (bool)Controller.DeleteCustomer(email);
+            var result = Controller.DeleteCustomer(email);
 
             // Assert
             Assert.IsFalse(result);
