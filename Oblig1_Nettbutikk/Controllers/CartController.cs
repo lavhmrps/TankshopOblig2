@@ -39,10 +39,12 @@ namespace Nettbutikk.Controllers
             var ch = new CookieHandler();
             return ch.AddToCart(ProductId);
         }
-        public void EmptyCart()
+        public ActionResult EmptyCart(string returnUrl)
         {
             var ch = new CookieHandler();
             ch.EmptyCart();
+
+            return RedirectToAction("Cart",new { returnUrl = returnUrl });
         }
         public string GetCart()
         {

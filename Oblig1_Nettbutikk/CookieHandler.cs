@@ -38,10 +38,13 @@ namespace Nettbutikk
 
             return NumItemsInCart();
         }
-        public void EmptyCart()
+        public bool EmptyCart()
         {
             _cookie.Expires = DateTime.Now.AddDays(-1d);
+            _cookie = new HttpCookie(SHOPPINGCART);
             _context.Response.Cookies.Add(_cookie);
+
+            return NumItemsInCart() == 0;
         }
         public List<int> GetCartProductIds()
         {
