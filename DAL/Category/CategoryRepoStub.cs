@@ -56,12 +56,19 @@ namespace Nettbutikk.DAL
 
         public List<CategoryModel> GetAllCategories()
         {
-            throw new NotImplementedException();
+            var allCategories = new List<CategoryModel> {
+                new CategoryModel { CategoryId = 1, CategoryName = "test name 1"},
+                new CategoryModel { CategoryId = 2, CategoryName = "test name 2"},
+                new CategoryModel{ CategoryId = 3, CategoryName = "test name 3"},
+                new CategoryModel { CategoryId = 4, CategoryName = "test name 4"}
+            };
+
+            return allCategories;
         }
 
         public CategoryModel GetCategory(int CategoryId)
         {
-            throw new NotImplementedException();
+            return CategoryId == -1 ? null : new CategoryModel { CategoryId = CategoryId, CategoryName = "test name" };
         }
 
         public int FirstCategoryWithProducts()
