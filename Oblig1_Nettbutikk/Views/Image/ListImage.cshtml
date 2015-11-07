@@ -2,8 +2,6 @@
     @Html.ActionLink("Create New", "CreateImage")
 </p>
 
-<<<<<<< HEAD
-=======
 <script>
     $(document).ready(function(){
 
@@ -26,7 +24,6 @@
 </style>
 
 
->>>>>>> origin/alex_gaard
 <table class="table">
     <tr>
         <th>
@@ -48,21 +45,16 @@
                 @image.ProductId
             </td>
             <td>
-<<<<<<< HEAD
-                @image.ImageUrl
-=======
                 @{
                     string url = image.ImageUrl.Length >= 40 ? image.ImageUrl.Substring(0, 40) + "..." : image.ImageUrl;
                 }
 
                 <a href="@image.ImageUrl" data-toggle="popover" data-trigger="hover" >@url</a>
 
->>>>>>> origin/alex_gaard
             </td>
             <td>
 
                 @Html.ActionLink("Edit", "EditImage", new { imageId = image.ImageId }) |
-                @Html.ActionLink("Details", "NOT_IMPLEMENTED_YET", new { imageId = image.ImageId }) |
                 @Html.ActionLink("Delete", "DeleteImage", new { imageId = image.ImageId })
 
             </td>
