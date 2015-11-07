@@ -46,6 +46,13 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Create(string Name)
         {
 
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can create categories";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
             if (!categoryBLL.AddCategory(Name))
             {
                 ViewBag.Title = "Error";
@@ -63,6 +70,13 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Edit(string CategoryId,  string Name)
         {
+
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can edit categories";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             int categoryId;
 
@@ -93,7 +107,13 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult Delete(string CategoryId)
         {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST delete");
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can delete categories";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
 
             int categoryId;
 
@@ -134,8 +154,6 @@ namespace Oblig1_Nettbutikk.Controllers
         public ActionResult EditCategory(string categoryId)
         {
 
-            System.Diagnostics.Debug.WriteLine("Got value: " + categoryId);
-
             int nCategoryId;
 
             try
@@ -167,8 +185,6 @@ namespace Oblig1_Nettbutikk.Controllers
 
         public ActionResult DeleteCategory(string CategoryId)
         {
-
-            System.Diagnostics.Debug.WriteLine("Got value: " + CategoryId);
 
             int nCategoryId;
 

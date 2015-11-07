@@ -31,7 +31,11 @@ namespace Oblig1_Nettbutikk.DAL
 
         public List<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            return new List<Product> {
+                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
+                new Product { ProductId = 1, Name = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1}
+            };
         }
 
         public Product GetProduct(int ProductId)

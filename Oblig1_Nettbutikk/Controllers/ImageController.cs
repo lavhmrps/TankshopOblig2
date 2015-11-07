@@ -43,6 +43,12 @@ namespace Oblig1_Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Create(string ProductIDs, string ImageUrl) {
 
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can create images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
             int productId;
 
             try
@@ -72,6 +78,13 @@ namespace Oblig1_Nettbutikk.Controllers
 
         [HttpPost]
         public ActionResult Edit(string ImageId, string ProductIDs, string ImageUrl) {
+
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can edit images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             int imageId;
             int productId;
@@ -111,6 +124,15 @@ namespace Oblig1_Nettbutikk.Controllers
         }
 
         public ActionResult Delete(string ImageId) {
+
+            
+
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can delete images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             int imageId;
 

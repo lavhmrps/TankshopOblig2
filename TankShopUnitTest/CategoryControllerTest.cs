@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BLL.Category;
 using DAL.Category;
+using MvcContrib.TestHelper;
 using Oblig1_Nettbutikk.Controllers;
 using System.Web.Mvc;
 using Oblig1_Nettbutikk.Model;
@@ -181,6 +182,11 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryName = "test name";
 
             //Act
@@ -194,11 +200,40 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
+        public void Category_Create_NotAdmin()
+        {
+
+            //Arrange
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = false;
+
+            string categoryName = "test name";
+
+            //Act
+            var viewResult = controller.Create(categoryName) as ViewResult;
+
+            //Assert
+            Assert.AreEqual("Error", controller.ViewBag.Title);
+            Assert.AreEqual("Only administrators can create categories", controller.ViewBag.Message);
+            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
+
+        }
+
+
+        [TestMethod]
         public void Category_Edit_GoodInput()
         {
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryName = "test name";
             string categoryId = "2";
 
@@ -213,11 +248,40 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
+        public void Category_Edit_NotAdmin()
+        {
+
+            //Arrange
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = false;
+
+            string categoryName = "test name";
+            string categoryId = "2";
+
+            //Act
+            var viewResult = controller.Edit(categoryId, categoryName) as ViewResult;
+
+            //Assert
+            Assert.AreEqual("Error", controller.ViewBag.Title);
+            Assert.AreEqual("Only administrators can edit categories", controller.ViewBag.Message);
+            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
+
+        }
+
+        [TestMethod]
         public void Category_Edit_BadInput()
         {
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryName = "test name";
             string categoryId = "2asb";
 
@@ -237,6 +301,11 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryName = "test name";
             string categoryId = "-1";
 
@@ -257,6 +326,11 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryId = "2";
 
             //Act
@@ -270,11 +344,39 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
+        public void Category_Delete_NotAdmin()
+        {
+
+            //Arrange
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = false;
+
+            string categoryId = "2";
+
+            //Act
+            var viewResult = controller.Delete(categoryId) as ViewResult;
+
+            //Assert
+            Assert.AreEqual("Error", controller.ViewBag.Title);
+            Assert.AreEqual("Only administrators can delete categories", controller.ViewBag.Message);
+            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
+
+        }
+
+        [TestMethod]
         public void Category_Delete_BadInput()
         {
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryId = "2asb";
 
             //Act
@@ -293,6 +395,11 @@ namespace TankShopUnitTest
 
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
             string categoryId = "-1";
 
             //Act
