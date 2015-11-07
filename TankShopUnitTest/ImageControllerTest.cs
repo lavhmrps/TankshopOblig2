@@ -21,7 +21,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void Index()
+        public void Image_Index()
         {
 
             //Arrange
@@ -54,7 +54,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void CreateImage()
+        public void Image_CreateImage()
         {
 
             //Arrange
@@ -93,7 +93,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void EditImageGoodInput()
+        public void Image_EditImage_GoodInput()
         {
 
             //Arrange
@@ -138,7 +138,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void EditImageBadInput()
+        public void Image_EditImage_BadInput()
         {
 
             //Arrange
@@ -158,7 +158,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void EditImageNoImageFound()
+        public void Image_EditImage_NoImageFound()
         {
 
             //Arrange
@@ -178,7 +178,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void DeleteImageGoodInput()
+        public void Image_DeleteImage_GoodInput()
         {
 
             //Arrange
@@ -200,7 +200,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteImageBadInput()
+        public void Image_DeleteImage_BadInput()
         {
 
             //Arrange
@@ -218,7 +218,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteImageNoImageFound()
+        public void Image_DeleteImage_NoImageFound()
         {
 
             //Arrange
@@ -237,7 +237,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void CreateGoodInput()
+        public void Image_Create_GoodInput()
         {
 
             //Arrange
@@ -256,7 +256,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void CreateBadInput()
+        public void Image_Create_BadInput()
         {
 
             //Arrange
@@ -275,7 +275,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void CreateInvalidProductId()
+        public void Image_Create_InvalidProductId()
         {
 
             //Arrange
@@ -294,7 +294,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void EditGoodInput()
+        public void Image_Edit_GoodInput()
         {
 
             //Arrange
@@ -315,7 +315,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void EditBadImageId()
+        public void Image_Edit_BadImageId()
         {
 
             //Arrange
@@ -335,7 +335,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void EditBadProductId()
+        public void Image_Edit_BadProductId()
         {
 
             //Arrange
@@ -355,7 +355,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void EditInvalidImageId()
+        public void Image_Edit_InvalidImageId()
         {
 
             //Arrange
@@ -375,7 +375,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void EditInvalidProductId()
+        public void Image_Edit_InvalidProductId()
         {
 
             //Arrange
@@ -395,7 +395,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void DeleteGoodInput()
+        public void Image_Delete_GoodInput()
         {
 
             //Arrange
@@ -415,7 +415,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteBadInput()
+        public void Image_Delete_BadInput()
         {
 
             //Arrange
@@ -433,7 +433,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteInvalidInput()
+        public void Image_Delete_InvalidInput()
         {
 
             //Arrange
