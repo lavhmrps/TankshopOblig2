@@ -2,6 +2,20 @@
     @Html.ActionLink("Create New", "CreateImage")
 </p>
 
+<style>
+    .box {
+        display: none;
+        width: 100%;
+    }
+
+
+        a:hover + .box, .box:hover {
+            display: block;
+            position: relative;
+            z-index: 100;
+        }
+</style>
+
 <table class="table">
     <tr>
         <th>
@@ -11,10 +25,8 @@
             Image URL
         </th>
         <th>
-
         </th>
     </tr>
-
 
     @foreach (var image in ViewBag.Images)
     {
@@ -23,16 +35,19 @@
                 @image.ProductId
             </td>
             <td>
-                @image.ImageUrl
+                @{
+                    string url = image.ImageUrl.Length >= 40 ? image.ImageUrl.Substring(0, 40) + "..." : image.ImageUrl;
+                }
+
+                <a href="@image.ImageUrl">@url</a><div class="box"><img src="@image.ImageUrl" /></div>
+
             </td>
             <td>
 
                 @Html.ActionLink("Edit", "EditImage", new { imageId = image.ImageId }) |
-                @Html.ActionLink("Details", "NOT_IMPLEMENTED_YET", new { imageId = image.ImageId }) |
                 @Html.ActionLink("Delete", "DeleteImage", new { imageId = image.ImageId })
 
             </td>
         </tr>
-    }
-
+                    }
 </table>
