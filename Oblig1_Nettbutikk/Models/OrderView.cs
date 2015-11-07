@@ -9,6 +9,7 @@ namespace Nettbutikk.Models
     public class OrderView
     {
         public int OrderId { get; set; }
+        public int CustomerId { get; set; }
         public DateTime Date { get; set; }
         public List<OrderlineView> Orderlines { get; set; }
     }

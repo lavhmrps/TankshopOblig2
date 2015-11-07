@@ -40,6 +40,7 @@ namespace Nettbutikk.Controllers
                 var order = new OrderView();
                 order.Date = o.Date;
                 order.OrderId = o.OrderId;
+                order.CustomerId = o.CustomerId;
                 order.Orderlines = new List<OrderlineView>();
 
                 foreach (var l in o.Orderlines)
@@ -71,13 +72,14 @@ namespace Nettbutikk.Controllers
                     Description = productModel.Description,
                     Price = productModel.Price,
                     Stock = productModel.Stock,
-                    ImageUrl = productModel.ImageUrl,
-                    CategoryName = productModel.CategoryName
+                    //ImageUrl = productModel.ImageUrl,
+                    //CategoryName = productModel.CategoryName
+                    CategoryId = productModel.CategoryId
                 };
                 productViews.Add(productview);
             }
 
-            string Title = CustomerId == 0 ? "Ordreadministrasjon - Alle ordre" : "Ordreadministrasjon - Kunde";
+            string Title = CustomerId == 0 ? "Ordreadministrasjon - Alle ordre" : (CustomerId > 0 ? "Ordreadministrasjon - Kunde": "Feil kunde id");
 
             ViewBag.Orders = orderViews;
             ViewBag.Products = productViews;
