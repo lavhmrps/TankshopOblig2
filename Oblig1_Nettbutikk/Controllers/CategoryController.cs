@@ -105,7 +105,7 @@ namespace Oblig1_Nettbutikk.Controllers
             {
                 LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Invalid image id: " + CategoryId;
+                ViewBag.Message = "Invalid category id: " + CategoryId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
@@ -189,7 +189,7 @@ namespace Oblig1_Nettbutikk.Controllers
             if (category == null)
             {
                 ViewBag.Title = "Error";
-                ViewBag.Message = "Could find a category with the id: " + CategoryId;
+                ViewBag.Message = "Couldnt find a category with id: " + CategoryId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 

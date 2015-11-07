@@ -2,6 +2,21 @@
     @Html.ActionLink("Create New", "CreateImage")
 </p>
 
+<style>
+    .box {
+        display: none;
+        width: 100%;
+    }
+
+        
+    a:hover + .box, .box:hover {
+        display: block;
+        position: relative;
+        z-index: 100;
+    }
+</style>
+
+
 <table class="table">
     <tr>
         <th>
@@ -27,7 +42,8 @@
                     string url = image.ImageUrl.Length >= 40 ? image.ImageUrl.Substring(0, 40) + "..." : image.ImageUrl;
                 }
 
-                @url
+                <a href="@image.ImageUrl">@url</a><div class="box"><img src="@image.ImageUrl"/></div>
+
             </td>
             <td>
 

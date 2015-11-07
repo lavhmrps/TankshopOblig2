@@ -27,10 +27,10 @@ namespace DAL.Category
         public List<Oblig1_Nettbutikk.Model.Category> GetAllCategories()
         {
             var allCategories = new List<Oblig1_Nettbutikk.Model.Category> {
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 1, Name = "test1"},
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 2, Name = "test2"},
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 3, Name = "test3"},
-                new Oblig1_Nettbutikk.Model.Category { CategoryId = 4, Name = "test4"}
+                new Oblig1_Nettbutikk.Model.Category { CategoryId = 1, Name = "test name 1"},
+                new Oblig1_Nettbutikk.Model.Category { CategoryId = 2, Name = "test name 2"},
+                new Oblig1_Nettbutikk.Model.Category { CategoryId = 3, Name = "test name 3"},
+                new Oblig1_Nettbutikk.Model.Category { CategoryId = 4, Name = "test name 4"}
             };
 
             return allCategories;
@@ -44,7 +44,7 @@ namespace DAL.Category
         public Oblig1_Nettbutikk.Model.Category GetCategory(int categoryId)
         {
             
-            return categoryId == -1 ? null : new Oblig1_Nettbutikk.Model.Category { CategoryId = categoryId, Name = "test"};
+            return categoryId == -1 ? null : new Oblig1_Nettbutikk.Model.Category { CategoryId = categoryId, Name = "test name"};
         }
 
         public string GetCategoryName(int CategoryId)
