@@ -1,7 +1,32 @@
-﻿<p>
+<p>
     @Html.ActionLink("Create New", "CreateImage")
 </p>
 
+<<<<<<< HEAD
+=======
+<script>
+    $(document).ready(function(){
+
+        $('a[data-toggle="popover"]').popover({
+            html: true,
+            trigger: 'hover',
+            content: function () {
+                return '<img class=".img-responsive" src="' + $(this).attr('href') + '" width="400" height="300" />';
+
+            }
+        });
+
+    });
+</script>
+
+<style>
+    .popover{
+        max-width: 100%;
+    }
+</style>
+
+
+>>>>>>> origin/alex_gaard
 <table class="table">
     <tr>
         <th>
@@ -15,15 +40,24 @@
         </th>
     </tr>
 
-
     @foreach (var image in ViewBag.Images)
     {
+        
         <tr>
             <td>
                 @image.ProductId
             </td>
             <td>
+<<<<<<< HEAD
                 @image.ImageUrl
+=======
+                @{
+                    string url = image.ImageUrl.Length >= 40 ? image.ImageUrl.Substring(0, 40) + "..." : image.ImageUrl;
+                }
+
+                <a href="@image.ImageUrl" data-toggle="popover" data-trigger="hover" >@url</a>
+
+>>>>>>> origin/alex_gaard
             </td>
             <td>
 
