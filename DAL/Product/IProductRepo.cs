@@ -9,22 +9,21 @@ namespace DAL.Product
 {
     public interface IProductRepo
     {
-        List<ProductModel> GetAllProducts();
-        ProductModel GetProduct(int productId);
+
+        Nettbutikk.Model.Product GetProduct(int productId);
+        List<Nettbutikk.Model.Product> GetAllProducts();
+
+        ProductModel GetProductModel(int productId);
+        List<ProductModel> GetAllProductModels();
+
         List<ProductModel> GetProducts(List<int> productIdList);
         List<ProductModel> GetProducts(string searchstr);
         List<ProductModel> GetProductsByCategory(int categoryId);
 
-        bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId);
+        bool AddProduct(string Name, double Price, int Stock, string Description, int CategoryId);
         bool DeleteProduct(int ProductId);
-        bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId);
-        bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId);
+        bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, int CategoryId);
+        bool AddOldProduct(string Name, double Price, int Stock, string Description, int CategoryId, int AdminId);
 
-        //ProductModel GetProductModel(int productId);
-        //List<Product> GetAllProducts();
-
-
-        //string GetCategoryName(int categoryId);
-        //List<CategoryModel> AllCategories();
     }
 }

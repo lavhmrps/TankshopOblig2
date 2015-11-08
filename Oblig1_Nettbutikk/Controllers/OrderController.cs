@@ -18,9 +18,9 @@ namespace Nettbutikk.Controllers
             _orderBLL = new OrderBLL();
         }
 
-        public OrderController(IOrderLogic orderstub)
+        public OrderController(IOrderLogic stub)
         {
-            _orderBLL = orderstub;
+            _orderBLL = stub;
         }
 
         [ChildActionOnly]
@@ -100,7 +100,7 @@ namespace Nettbutikk.Controllers
                 };
 
                 var adminEmail = (string)Session["Email"];
-                var adminModel = _orderBLL.GetAdmin(adminEmail);
+                var adminModel = new AccountBLL().GetAdmin(adminEmail);
 
 
                 return _orderBLL.UpdateOrderline(orderlineModel, adminModel.AdminId);

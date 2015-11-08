@@ -9,17 +9,13 @@ namespace DAL.Product
 {
     public class ProductRepoStub : IProductRepo
     {
-        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+
+        public bool AddOldProduct(string Name, double Price, int Stock, string Description, int CategoryId, int AdminId)
         {
             throw new NotImplementedException();
         }
 
-        public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<CategoryModel> AllCategories()
+        public bool AddProduct(string Name, double Price, int Stock, string Description, int CategoryId)
         {
             throw new NotImplementedException();
         }
@@ -29,7 +25,7 @@ namespace DAL.Product
             throw new NotImplementedException();
         }
 
-        public List<ProductModel> GetAllProducts()
+        public List<ProductModel> GetAllProductModels()
         {
             return new List<ProductModel> {
                 new ProductModel { ProductId = 1, ProductName = "tank", Price = 150, Stock = 5, Description = "blows things up", CategoryId = 1},
@@ -39,12 +35,17 @@ namespace DAL.Product
 
         }
 
-        public string GetCategoryName(int categoryId)
+        public List<Nettbutikk.Model.Product> GetAllProducts()
         {
             throw new NotImplementedException();
         }
 
-        public ProductModel GetProduct(int productId)
+        public Nettbutikk.Model.Product GetProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ProductModel GetProductModel(int productId)
         {
             throw new NotImplementedException();
         }
@@ -64,7 +65,7 @@ namespace DAL.Product
             throw new NotImplementedException();
         }
 
-        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, int CategoryId)
         {
             throw new NotImplementedException();
         }

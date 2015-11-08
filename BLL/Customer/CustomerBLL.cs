@@ -73,7 +73,7 @@ namespace BLL.Customer
 
         public List<ProductModel> GetAllProducts()
         {
-            return _productrepo.GetAllProducts();
+            return _productrepo.GetAllProductModels();
         }
     }
 }

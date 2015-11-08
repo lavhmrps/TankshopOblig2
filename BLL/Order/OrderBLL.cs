@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using DAL.Customer;
 using DAL.Order;
 using DAL.Product;
-using DAL.Account;
 
 namespace BLL.Order
 {
@@ -13,14 +12,12 @@ namespace BLL.Order
         private IOrderRepo _repo;
         private IProductRepo _productrepo;
         private ICustomerRepo _customerrepo;
-        private IAccountRepo _accountrepo;
 
         public OrderBLL()
         {
             _repo = new OrderRepo();
             _productrepo = new ProductRepo();
             _customerrepo = new CustomerRepo();
-            _accountrepo = new AccountRepo();
         }
 
         public OrderBLL(IOrderRepo stub)
@@ -28,7 +25,6 @@ namespace BLL.Order
             _repo = stub;
             _productrepo = new ProductRepoStub();
             _customerrepo = new CustomerRepoStub();
-            _accountrepo = new AccountRepoStub();
         }
 
         public OrderModel GetReciept(int orderId)
@@ -57,7 +53,7 @@ namespace BLL.Order
 
         public List<ProductModel> GetAllProducts()
         {
-            return _productrepo.GetAllProducts();
+            return _productrepo.GetAllProductModels();
         }
 
         public OrderModel GetOrder(int OrderId)
@@ -78,11 +74,6 @@ namespace BLL.Order
         public bool UpdateOrderline(OrderlineModel orderlineModel, int adminId)
         {
             return _repo.UpdateOrderline(orderlineModel, adminId);
-        }
-
-        public AdminModel GetAdmin(string adminEmail)
-        {
-            return _accountrepo.GetAdmin(adminEmail);
         }
     }
 }

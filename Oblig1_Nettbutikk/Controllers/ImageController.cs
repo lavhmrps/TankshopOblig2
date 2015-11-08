@@ -193,7 +193,7 @@ namespace Nettbutikk.Controllers
         {
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-            List<ProductModel> allProducts = productBLL.GetAllProducts();
+            List<ProductModel> allProducts = productBLL.GetAllProductModels();
 
             foreach (var p in allProducts)
             {
@@ -233,7 +233,7 @@ namespace Nettbutikk.Controllers
 
 
             List<SelectListItem> productIDs = new List<SelectListItem>();
-            List<ProductModel> allProducts = productBLL.GetAllProducts();
+            List<ProductModel> allProducts = productBLL.GetAllProductModels();
 
             foreach (var p in allProducts)
             {

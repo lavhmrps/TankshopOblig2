@@ -1,11 +1,13 @@
 ﻿using Logging;
-using Nettbutikk.Viewmodels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BLL.Product;
 using BLL.Category;
+using BLL.Account;
+using Nettbutikk.Model;
+using Nettbutikk.Viewmodels;
 
 namespace Nettbutikk.Controllers
 {
@@ -13,24 +15,27 @@ namespace Nettbutikk.Controllers
     {
         private IProductLogic _productBLL;
         private ICategoryLogic _categoryBLL;
+        private IAccountLogic _accountBLL;
 
         public ProductController()
         {
             _productBLL = new ProductBLL();
             _categoryBLL = new CategoryBLL();
+            _accountBLL = new AccountBLL();
         }
 
-        public ProductController(IProductLogic productStub, ICategoryLogic categoryStub)
+        public ProductController(IProductLogic productStub, ICategoryLogic categoryStub, IAccountLogic accountBLL = null)
         {
             _productBLL = productStub;
             _categoryBLL = categoryStub;
+            _accountBLL = accountBLL;
         }
 
 
         // GET: Product
         public ActionResult Product(int ProductId, string ReturnUrl)
         {
-            var product = _productBLL.GetProduct(ProductId);
+            var product = _productBLL.GetProductModel(ProductId);
 
             var imageViews = new List<ImageView>();
             foreach (var image in product.Images)
@@ -64,7 +69,7 @@ namespace Nettbutikk.Controllers
 
         public ActionResult Index()
         {
-            var productModels = _productBLL.GetAllProducts();
+            var productModels = _productBLL.GetAllProductModels();
 
             var products = new List<ProductView>();
             foreach (var product in productModels)
@@ -144,7 +149,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            var product = _productBLL.GetProduct(nProductId);
+            var product = _productBLL.GetProductModel(nProductId);
 
             if (product == null)
             {
@@ -172,7 +177,6 @@ namespace Nettbutikk.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 Stock = product.Stock,
-                CategoryId = product.CategoryId,
                 CategoryName = product.CategoryName,
                 Images = imageViews
             };
@@ -199,7 +203,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            var product = _productBLL.GetProduct(nProductId);
+            var product = _productBLL.GetProductModel(nProductId);
 
             if (product == null)
             {
@@ -239,6 +243,19 @@ namespace Nettbutikk.Controllers
         public ActionResult Create(string ProductName, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
         {
 
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can delete images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             double dPrice;
 
@@ -284,7 +301,7 @@ namespace Nettbutikk.Controllers
             }
 
             //Check for invalid int/doubles
-            if (!_productBLL.AddProduct(ProductName, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            if (!_productBLL.AddProduct(ProductName, dPrice, nStock, Description, nCategoryId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Product was not added to the database";
@@ -298,8 +315,24 @@ namespace Nettbutikk.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string ProductId, string ProductName, string Price, string Stock, string Description, string ImageUrl, string CategoryIds)
+        public ActionResult Edit(string ProductId, string ProductName, string Price, string Stock, string Description, string CategoryIds)
         {
+
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can delete images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            AdminModel adminModel = _accountBLL.GetAdmin(Session["Email"].ToString());
 
             int nProductId;
 
@@ -359,7 +392,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!_productBLL.UpdateProduct(nProductId, ProductName, dPrice, nStock, Description, ImageUrl, nCategoryId))
+            if (!_productBLL.UpdateProduct(nProductId, ProductName, dPrice, nStock, Description, nCategoryId, adminModel.AdminId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Product was not updated";
@@ -376,6 +409,22 @@ namespace Nettbutikk.Controllers
         public ActionResult Delete(string ProductId)
         {
 
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can delete images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            AdminModel adminModel = _accountBLL.GetAdmin(Session["Email"].ToString());
+
             int nProductId;
 
             try
@@ -390,7 +439,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!_productBLL.DeleteProduct(nProductId))
+            if (!_productBLL.DeleteProduct(nProductId, adminModel.AdminId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Product could not be deleted from the database";

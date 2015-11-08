@@ -12,48 +12,32 @@ namespace DAL.Product
     public class ProductRepo : IProductRepo
     {
 
-        public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        public bool AddProduct(string Name, double Price, int Stock, string Description, int CategoryId)
         {
-            using (var db = new TankshopDbContext())
+            var db = new TankshopDbContext();
+
+            var newProduct = new Nettbutikk.Model.Product()
             {
-                using (var transaction = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var newProduct = new Nettbutikk.Model.Product()
-                        {
-                            Name = Name,
-                            Price = Price,
-                            Stock = Stock,
-                            Description = Description,
-                            CategoryId = CategoryId
-                        };
+                Name = Name,
+                Price = Price,
+                Stock = Stock,
+                Description = Description,
+                CategoryId = CategoryId
+            };
 
-                        db.Products.Add(newProduct);
-                        db.SaveChanges();
-
-                        var newImage = new Nettbutikk.Model.Image()
-                        {
-                            ImageUrl = ImageUrl,
-                            ProductId = newProduct.ProductId
-                        };
-                        db.SaveChanges();
-
-                        transaction.Commit();
-                        return true;
-                    }
-                    catch (Exception e)
-                    {
-                        transaction.Rollback();
-                        LogHandler.WriteToLog(e);
-                    }
-                }
+            try {
+                db.Products.Add(newProduct);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) {
+                LogHandler.WriteToLog(e);
             }
 
             return false;
         }
 
-        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+        public bool AddOldProduct(string Name, double Price, int Stock, string Description, int CategoryId, int AdminId)
         {
             var db = new TankshopDbContext();
             OldProduct oldProduct = new OldProduct();
@@ -62,7 +46,6 @@ namespace DAL.Product
             oldProduct.Price = Price;
             oldProduct.Stock = Stock;
             oldProduct.Description = Description;
-            oldProduct.ImageUrl = ImageUrl;
             oldProduct.CategoryId = CategoryId;
 
             oldProduct.AdminId = AdminId;
@@ -107,7 +90,7 @@ namespace DAL.Product
             return false;
         }
 
-        public List<ProductModel> GetAllProducts()
+        public List<ProductModel> GetAllProductModels()
         {
             var productModels = new List<ProductModel>();
             try
@@ -155,22 +138,22 @@ namespace DAL.Product
             }
         }
 
-        //public Product GetProduct(int ProductId)
-        //{
+        public Nettbutikk.Model.Product GetProduct(int ProductId)
+        {
 
-        //    try
-        //    {
-        //        return new TankshopDbContext().Products.Find(ProductId);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        LogHandler.WriteToLog(e);
-        //        return null;
-        //    }
+            try
+            {
+                return new TankshopDbContext().Products.Find(ProductId);
+            }
+            catch (Exception e)
+            {
+                LogHandler.WriteToLog(e);
+                return null;
+            }
 
-        //}
+        }
 
-        public ProductModel GetProduct(int ProductId)
+        public ProductModel GetProductModel(int ProductId)
         {
             using (var db = new TankshopDbContext())
             {
@@ -204,7 +187,7 @@ namespace DAL.Product
             }
         }
 
-        public List<ProductModel> GetProducts(string searchstr)
+        public List<ProductModel> GetProductModels(string searchstr)
         {
             using (var db = new TankshopDbContext())
             {
@@ -347,22 +330,20 @@ namespace DAL.Product
             }
         }
 
-        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, int CategoryId)
         {
             var db = new TankshopDbContext();
 
             Nettbutikk.Model.Product product = (from p in db.Products where p.ProductId == ProductId select p).FirstOrDefault();
-            Nettbutikk.Model.Image image = db.Images.Where(i => i.ProductId == ProductId).FirstOrDefault();
+            
             if (product == null)
                 return false;
-
 
             product.Name = Name;
             product.Price = Price;
             product.Stock = Stock;
             product.Description = Description;
             product.CategoryId = CategoryId;
-            image.ImageUrl = ImageUrl;
 
             try
             {
@@ -377,5 +358,14 @@ namespace DAL.Product
             return false;
         }
 
+        public List<Nettbutikk.Model.Product> GetAllProducts()
+        {
+            return new TankshopDbContext().Products.ToList();
+        }
+
+        public List<ProductModel> GetProducts(string searchstr)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

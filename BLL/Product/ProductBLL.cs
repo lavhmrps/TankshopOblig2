@@ -31,9 +31,9 @@ namespace BLL.Product
             return _categoryRepo.GetAllCategoryModels();
         }
 
-        public List<ProductModel> GetAllProducts()
+        public List<ProductModel> GetAllProductModels()
         {
-            return _productRepo.GetAllProducts();
+            return _productRepo.GetAllProductModels();
         }
 
         public string GetCategoryName(int categoryId)
@@ -41,7 +41,7 @@ namespace BLL.Product
             return _categoryRepo.GetCategoryName(categoryId);
         }
 
-        public ProductModel GetProduct(int productId)
+        public Nettbutikk.Model.Product GetProduct(int productId)
         {
             return _productRepo.GetProduct(productId);
         }
@@ -61,24 +61,48 @@ namespace BLL.Product
             return _productRepo.GetProductsByCategory(categoryId);
         }
 
-        public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        public bool AddProduct(string Name, double Price, int Stock, string Description, int CategoryId)
         {
-            return _productRepo.AddProduct(Name, Price, Stock, Description, ImageUrl, CategoryId);
+            return _productRepo.AddProduct(Name, Price, Stock, Description, CategoryId);
         }
 
-        public bool DeleteProduct(int ProductId)
+        public bool DeleteProduct(int ProductId, int AdminId)
         {
+
+            Nettbutikk.Model.Product product = _productRepo.GetProduct(ProductId);
+
+            if (product == null)
+                return false;
+
+            if (!_productRepo.AddOldProduct(product.Name, product.Price, product.Stock, product.Description, product.CategoryId, AdminId))
+                return false;
+
+
             return _productRepo.DeleteProduct(ProductId);
         }
 
-        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
+        public bool UpdateProduct(int ProductId, string Name, double Price, int Stock, string Description, int CategoryId, int AdminId)
         {
-            return _productRepo.UpdateProduct(ProductId, Name, Price, Stock, Description, ImageUrl, CategoryId);
+            Nettbutikk.Model.Product product = _productRepo.GetProduct(ProductId);
+
+            if (product == null)
+                return false;
+
+            if (!_productRepo.AddOldProduct(product.Name, product.Price, product.Stock, product.Description, product.CategoryId, AdminId))
+                return false;
+
+
+            return _productRepo.UpdateProduct(ProductId, Name, Price, Stock, Description, CategoryId);
         }
 
-        public bool AddOldProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId, int AdminId)
+        public ProductModel GetProductModel(int productId)
         {
-            return _productRepo.AddOldProduct(Name, Price, Stock, Description, ImageUrl, CategoryId,AdminId);
+            return _productRepo.GetProductModel(productId);
+        }
+
+        public List<Nettbutikk.Model.Product> GetAllProducts()
+        {
+            return _productRepo.GetAllProducts();
         }
     }
 }
