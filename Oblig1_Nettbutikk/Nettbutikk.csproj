@@ -142,13 +142,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511061841109_Init.cs" />
-    <Compile Include="Migrations\201511061841109_Init.Designer.cs">
-      <DependentUpon>201511061841109_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511072000371_init2.cs" />
-    <Compile Include="Migrations\201511072000371_init2.Designer.cs">
-      <DependentUpon>201511072000371_init2.cs</DependentUpon>
+    <Compile Include="Migrations\201511080320098_Initial.cs" />
+    <Compile Include="Migrations\201511080320098_Initial.Designer.cs">
+      <DependentUpon>201511080320098_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -266,11 +262,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511061841109_Init.resx">
-      <DependentUpon>201511061841109_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511072000371_init2.resx">
-      <DependentUpon>201511072000371_init2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511080320098_Initial.resx">
+      <DependentUpon>201511080320098_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
