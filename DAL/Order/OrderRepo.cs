@@ -236,7 +236,7 @@ namespace DAL.Order
                         ProductId_From = dbOrderline.ProductId,
                         ProductId_To= orderline.ProductId,
                         Count_From = dbOrderline.Count,
-                        Count_To = orderline.ProductId,
+                        Count_To = orderline.Count,
                         AdminId = adminId,
                         Changed = DateTime.Now,
                     };
