@@ -135,7 +135,7 @@ namespace DAL.Order
 
         public bool UpdateOrderline(OrderlineModel orderlineModel, int adminId)
         {
-            return adminId != 0;
+            return (adminId != 0) && (orderlineModel.OrderlineId != 0);
         }
     }
 }

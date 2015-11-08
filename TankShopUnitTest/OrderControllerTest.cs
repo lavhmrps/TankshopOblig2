@@ -24,6 +24,8 @@ namespace TankShopUnitTest
         private readonly int ALL_ORDERS = 0;
         private readonly int CUSTOMER_ORDERS = 1;
 
+        private string adminEmail;
+
         public OrderControllerTest()
         {
             orderlineModel = new OrderlineModel()
@@ -66,6 +68,8 @@ namespace TankShopUnitTest
             productModels.Add(productModel);
             productModels.Add(productModel);
             productModels.Add(productModel);
+
+            adminEmail = "admin";
         }
 
         [TestMethod]
@@ -253,6 +257,7 @@ namespace TankShopUnitTest
             SessionMock.InitializeController(Controller);
 
             Controller.Session["Admin"] = true;
+            Controller.Session["Email"] = adminEmail;
             var OrderlineId = 1;
             var ProductId = 1;
             var Count = 1;
@@ -295,6 +300,7 @@ namespace TankShopUnitTest
             SessionMock.InitializeController(Controller);
 
             Controller.Session["Admin"] = null;
+            Controller.Session["Email"] = adminEmail;
             var OrderlineId = 1;
             var ProductId = 1;
             var Count = 1;
@@ -315,6 +321,7 @@ namespace TankShopUnitTest
             SessionMock.InitializeController(Controller);
 
             Controller.Session["Admin"] = true;
+            Controller.Session["Email"] = adminEmail;
             var OrderlineId = 0;
             var ProductId = 1;
             var Count = 1;
