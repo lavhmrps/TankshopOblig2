@@ -1,5 +1,5 @@
 ﻿using Logging;
-using Nettbutikk.Models;
+using Nettbutikk.Viewmodels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -171,6 +171,7 @@ namespace Nettbutikk.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 Stock = product.Stock,
+                CategoryId = product.CategoryId,
                 CategoryName = product.CategoryName,
                 Images = imageViews
             };

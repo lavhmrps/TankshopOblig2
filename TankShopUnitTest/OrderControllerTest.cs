@@ -2,7 +2,7 @@
 using MvcContrib.TestHelper;
 using Nettbutikk.Controllers;
 using Nettbutikk.Model;
-using Nettbutikk.Models;
+using Nettbutikk.Viewmodels;
 using System;
 using System.Collections.Generic;
 using BLL.Order;

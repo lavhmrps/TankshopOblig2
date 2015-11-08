@@ -147,14 +147,14 @@
       <DependentUpon>201511081442165_InitialMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\CartItem.cs" />
-    <Compile Include="Models\CategoryView.cs" />
-    <Compile Include="Models\CustomerView.cs" />
-    <Compile Include="Models\CustomerLoginPartial.cs" />
-    <Compile Include="Models\CustomerRegisterPartial.cs" />
-    <Compile Include="Models\ImageView.cs" />
-    <Compile Include="Models\OrderView.cs" />
-    <Compile Include="Models\ProductView.cs" />
+    <Compile Include="Viewmodels\CartItem.cs" />
+    <Compile Include="Viewmodels\CategoryView.cs" />
+    <Compile Include="Viewmodels\CustomerView.cs" />
+    <Compile Include="Viewmodels\CustomerLoginPartial.cs" />
+    <Compile Include="Viewmodels\CustomerRegisterPartial.cs" />
+    <Compile Include="Viewmodels\ImageView.cs" />
+    <Compile Include="Viewmodels\OrderView.cs" />
+    <Compile Include="Viewmodels\ProductView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

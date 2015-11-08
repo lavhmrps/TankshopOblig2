@@ -1,5 +1,5 @@
 ﻿using Logging;
-using Nettbutikk.Models;
+using Nettbutikk.Viewmodels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;

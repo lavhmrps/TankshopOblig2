@@ -1,4 +1,4 @@
-﻿using Nettbutikk.Models;
+﻿using Nettbutikk.Viewmodels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

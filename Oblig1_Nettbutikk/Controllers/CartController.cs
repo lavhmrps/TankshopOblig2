@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Nettbutikk.Models;
+using Nettbutikk.Viewmodels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
