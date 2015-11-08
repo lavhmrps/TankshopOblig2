@@ -52,10 +52,25 @@ namespace Nettbutikk.Migrations
                 Images = new List<Image> {
                     new Image()
                     {
-                        ImageUrl = "http://www.hsgalleries.com/gallery04/images/Tiger%20front1.jpg",
+                        ImageUrl = "http://www.hsgalleries.com/gallery04/images/Tiger%20front1.jpg"
+                    },
+                     new Image()
+                    {
+                        ImageUrl = "http://imgs.inkfrog.com/pix/mideatoys/613523051_o_0001.jpg"
+                    },
+                     new Image()
+                    {
+                        ImageUrl = "http://www.fprado.com/armorsite/Tiger1-2002-Picz/Tiger1-131-Tunis-43.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.fprado.com/armorsite/Tiger1-2002-Picz/Tiger1-131-Bovington-2004.jpg"
+                    },new Image()
+
+                    {
+                        ImageUrl ="http://www.modelerv.com/MidTiger/DSC_0017.jpg"
                     }
                 }
-
+                
                 //
             }
             , new Product
@@ -70,6 +85,18 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://aviatornut.com/images/Panther_Tank_Red_332.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "http://www.kitsune.addr.com/Rifts/Rifts-Earth-Vehicles/Technowizard/German_Panther_Tank.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "http://hq-wall.net/i/med_thumb/14/90/13f6f785.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "http://en.tracesofwar.com/upload/5286100430193553.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "http://preservedtanks.com/Handler.ashx?UniqueID=47&Select=1&Size=P"
                     }
                 }
             }, new Product
@@ -84,6 +111,12 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://www.themotorpool.net/v/vspfiles/photos/DRR60554-2.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.themotorpool.net/v/vspfiles/photos/DRR60554-2.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://static.giantbomb.com/uploads/original/1/14440/1310855-jagdpanthergcw_10.jpg"
                     }
                 }
 
@@ -99,6 +132,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://cdn-frm-eu.wargaming.net/wot/eu/uploads/monthly_11_2014/post-507347053-0-33442400-1417183077.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "http://www.lexikon-der-wehrmacht.de/Bilder/Beutepanzer/ShermanFirefly-2.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/f/f8/Sherman_Firefly_9-08-2008_15-05-43.JPG"
+                    },new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/b/bb/Sherman_Firefly_M4A4_Tank_Medium_(17_Pdr)_(4536832318).jpg"
                     }
                 }
 
@@ -114,6 +156,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://www.strijdbewijs.nl/hinder/C1.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/d/dd/Churchill_tank,_CFB_Borden_1.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a1/Churchill_axb01.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/4a/Churchill_Tank_2_(8033545309).jpg"
                     }
                 }
 
@@ -129,6 +180,12 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://modelsua.com/images/D/A72291.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "http://onlytruecars.com/data_images/gallery/01/vickers-light-tank-mkvi/vickers-light-tank-mkvi-06.jpg"
+                    },new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/f/fd/Puckapunyal-Vickers-Light-MkVIA-2.jpg"
                     }
                 }
 
@@ -144,7 +201,14 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/c/cd/M4_Sherman_at_Utah_Beach.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://vignette4.wikia.nocookie.net/turtledove/images/5/5d/M4.jpg/revision/latest?cb=20110120040244"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://upload.wikimedia.org/wikipedia/commons/b/be/M4_Sherman_tank_-_Flickr_-_Joost_J._Bakker_IJmuiden_(1).jpg"
                     }
+
                 }
 
             }, new Product
@@ -159,6 +223,12 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://i.imgur.com/VskPxBB.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://vignette1.wikia.nocookie.net/uzbrojenie/images/f/f6/M26_pershing.jpg/revision/latest?cb=20150711200605&path-prefix=pl"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/6/66/M26Belgium.jpg"
                     }
                 }
 
@@ -174,6 +244,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://olive-drab.com/images/id_m10a1td_4is_pettit_120_20051202_700.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.flamesofwar.com/Portals/0/all_images/Tactics/Gun-Guts-03.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a2/M10_Tank_Destroyer_Right_View_in_Hukou_Camp_20111105.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.missing-lynx.com/gallery/usa/szm10-1.jpg"
                     }
                 }
             });
@@ -192,6 +271,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://orig15.deviantart.net/b3da/f/2011/341/d/0/wright_continental_r975_by_sceptre63-d4ifi79.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://the.shadock.free.fr/sherman_minutia/engines/Continental_R975C1_3.JPG"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/c/cd/Wright_R-975_f%C3%BCr_Sherman-Panzer.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = ""
                     }
                 }
             },
@@ -207,6 +295,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://www.strijdbewijs.nl/tanks/sherman/bank.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://c2.staticflickr.com/8/7381/11998183435_f3f7f9f410_b.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://i0.wp.com/hooniverse.com/blog/wp-content/uploads/2009/11/BRM-h16.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://i700.photobucket.com/albums/ww8/DAVIDD_09/General%20Pics/chryslertankengine_zpsfcdb3dd4.jpg"
                     }
                 }
              },
@@ -222,6 +319,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://www.fordgaaengine.com/GAA-03.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://the.shadock.free.fr/sherman_minutia/engines/Ford_GAA_5.JPG"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://svsm.org/albums/pershingengine/P1130623.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.fordgaaengine.com/Ford_GAF_engine-2.jpg"
                     }
                 }
              },
@@ -237,6 +343,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                          ImageUrl = "http://www.kampfpanzer.de/image/txt/v-2-34.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://allabouttanks.com/wp-content/uploads/2015/01/v-2engine.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/f/ff/T34_engine_parola_2.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.maquetland.com/upload/phototeque/images/7171/t34_moteur_kharkiv_model_v2%20(2).jpg"
                     }
                 }
              },
@@ -252,6 +367,9 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/f/ff/T34_engine_parola_2.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/0/07/T34_engine_parola_1.jpg"
                     }
                 }
              },
@@ -267,6 +385,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "http://allabouttanks.com/wp-content/uploads/2015/01/v-2engine.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://i.ytimg.com/vi/l9wTo92X0HQ/maxresdefault.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.456fis.org/THE%20JET%20ENGINE/08Me262JunkersJumo004Turbojet[1].jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://model-making.eu/zdjecia/0/3/9/921_rn.jpg"
                     }
                 }
              });
@@ -285,6 +412,9 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/c/c5/M3_105mm_Howitzer.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/d/d2/90mm_M1_AAgun_CFB_Borden.jpg"
                     }
                 }
             }, new Product
@@ -299,6 +429,12 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/49/90_mm_gun_antitank_1.JPG"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://farm6.static.flickr.com/5260/5458713602_3da4fe5bdb.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.517thartillery.org/J_Curran_photos/sc000803f7.jpg"
                     }
                 }
             }, new Product
@@ -313,6 +449,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                          ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a8/Three_Inch_M-5_Gun.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/3inchUSM1918AAGunAutoTrailerTravelingPosition.jpg/300px-3inchUSM1918AAGunAutoTrailerTravelingPosition.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://cdsg.org/old/HDCRdata/3-AA-pic-2.gif"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://c2.staticflickr.com/4/3815/11491266843_f34dd9b9a7_b.jpg"
                     }
                 }
             }, new Product
@@ -327,6 +472,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                          ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a0/T-34-76_RB6.JPG"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/83/76mm_f22_usv_hameenlinna_3.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/ac/76_mm_divisional_gun_M1942_(ZiS-3)_001.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/b/b4/F22_helsinki_military_museum_1.jpg"
                     }
                 }
             }, new Product
@@ -341,6 +495,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                           ImageUrl = "http://upload.wikimedia.org/wikipedia/commons/1/12/122-mm_howitzer_M1938_001.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/d/d8/152_mm_howitzer_M1938_(M-10)_2.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/9/9f/152_mm_howitzer-gun_M1937_(ML-20)_1.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://xxrntcs.devhub.com/img/upload/152howwwe.jpg"
                     }
                 }
 
@@ -356,6 +519,15 @@ namespace Nettbutikk.Migrations
                     new Image()
                     {
                         ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/0/09/85_mm_air_defense_gun_M1939_(52-K)_11.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/f/fc/85_mm_air_defense_gun_M1939_(52-K)_1.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "http://www.militaryfactory.com/armor/imgs/85mm-air-defense-gun-m1939.jpg"
+                    }, new Image()
+                    {
+                        ImageUrl = "https://farm8.staticflickr.com/7316/9217210940_be5a27e088_b.jpg"
                     }
                 }
 
