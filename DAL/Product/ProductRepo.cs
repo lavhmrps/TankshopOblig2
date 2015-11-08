@@ -365,7 +365,7 @@ namespace DAL.Product
 
         public List<ProductModel> GetProducts(string searchstr)
         {
-            throw new NotImplementedException();
+            return GetAllProductModels();
         }
     }
 }
