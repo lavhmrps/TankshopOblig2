@@ -15,5 +15,6 @@ namespace BLL.Order
         int PlaceOrder(OrderModel order);
         bool UpdateOrderline(OrderlineModel orderline);
         bool UpdateOrderline(OrderlineModel orderlineModel, int adminId);
+        AdminModel GetAdmin(string adminEmail);
     }
 }

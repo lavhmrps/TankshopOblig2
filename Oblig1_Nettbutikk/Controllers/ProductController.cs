@@ -177,6 +177,7 @@ namespace Nettbutikk.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 Stock = product.Stock,
+                CategoryId = product.CategoryId,
                 CategoryName = product.CategoryName,
                 Images = imageViews
             };

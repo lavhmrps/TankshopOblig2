@@ -14,11 +14,6 @@ namespace DAL.Order
         private OrderModel orderModel;
         private List<OrderModel> orderModels;
 
-        //private Orderline orderline;
-        //private List<Orderline> orderlines;
-        //private Order order;
-        //private List<Order> orders;
-
         public OrderRepoStub()
         {
             // DomainModels
@@ -48,33 +43,7 @@ namespace DAL.Order
             orderModels.Add(orderModel);
             orderModels.Add(orderModel);
 
-
-            //// DbModels
-            //orderline = new Orderline()
-            //{
-            //    Count = 1,
-            //    OrderId = 1,
-            //    OrderlineId = 1,
-            //    ProductId = 1
-            //};
-
-            //orderlines = new List<Orderline>();
-            //orderlines.Add(orderline);
-            //orderlines.Add(orderline);
-            //orderlines.Add(orderline);
-
-            //order = new Order()
-            //{
-            //    CustomerId = 1,
-            //    Date = new DateTime(2015, 1, 1),
-            //    OrderId = 1,
-            //    Orderlines = orderlines
-            //};
-
-            //orders = new List<Order>();
-            //orders.Add(order);
-            //orders.Add(order);
-            //orders.Add(order);
+            
         }
 
         public bool DeleteOrder(int orderId)
@@ -135,7 +104,7 @@ namespace DAL.Order
 
         public bool UpdateOrderline(OrderlineModel orderlineModel, int adminId)
         {
-            return adminId != 0;
+            return (adminId != 0) && (orderlineModel.OrderlineId != 0);
         }
     }
 }

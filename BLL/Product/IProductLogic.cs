@@ -14,7 +14,7 @@ namespace BLL.Product
         List<ProductModel> GetProducts(string searchstr);
         List<ProductModel> GetProductsByCategory(int categoryId);
 
-        Nettbutikk.Model.Product GetProduct(int productId);
+        //Nettbutikk.Model.Product GetProduct(int productId);
         ProductModel GetProductModel(int productId);
 
         List<Nettbutikk.Model.Product> GetAllProducts();
