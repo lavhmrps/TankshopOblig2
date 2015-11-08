@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<Nettbutikk.Models.ProductView>
+    @using Nettbutikk.Models
+    @{ 
+        List<ProductView> Products = ViewBag.Products;
+    }
 
 <p>
     @Html.ActionLink("Create New", "CreateProduct")
@@ -19,7 +23,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ImageUrl)
+            @Html.DisplayNameFor(model => model.Images.FirstOrDefault().ImageUrl)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CategoryName)
@@ -27,7 +31,7 @@
         <th></th>
     </tr>
 
-@foreach (var product in ViewBag.Products)
+@foreach (var product in Products)
 {
     <tr>
         <td>
@@ -48,10 +52,15 @@
         </td>
         <td>
             @{ 
-                string url = product.ImageUrl.Length >= 20 ? product.ImageUrl.Substring(0, 20) + "..." : product.ImageUrl;
+                var image = product.Images.FirstOrDefault() ?? null;
+                string url = "";
+                if (image != null)
+                {
+                    url = product.Images.FirstOrDefault().ImageUrl .Length >= 20 ? product.Images.FirstOrDefault().ImageUrl.Substring(0, 20) + "..." : product.Images.FirstOrDefault().ImageUrl;
+                }
+                @url
             }
 
-            @url
         </td>
         <td>
             @product.CategoryName

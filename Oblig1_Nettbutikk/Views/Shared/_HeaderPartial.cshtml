@@ -135,7 +135,7 @@
                         for (var i = 0; i < obj.length; i++) {
                             var product = obj[i].ProductName;
                             html += "<li id='" + obj[i].ProductId + "'>" +
-                                "<a href='Product/Product?ProductId=" + obj[i].ProductId + "&ReturnUrl= " + "@Request.RawUrl" + "'>" + product + "</a>" +
+                                "<a href='@Url.Action("Product","Product")?ProductId=" + obj[i].ProductId + "&ReturnUrl= " + "@Request.RawUrl" + "'>" + product + "</a>" +
                                 "</li>";
                         }
                         console.log("@Request.RawUrl");

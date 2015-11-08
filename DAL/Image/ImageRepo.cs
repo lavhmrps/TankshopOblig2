@@ -28,7 +28,7 @@ namespace DAL.Image
         {
 
             try {
-                return new TankshopDbContext().Images.ToList();
+                return new TankshopDbContext().Images.OrderBy(i => i.ProductId).ToList();
             }
             catch (Exception e) {
                 //LogHandler.WriteToLog(e);

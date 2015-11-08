@@ -41,16 +41,34 @@ namespace Nettbutikk.Controllers
 
             int firstCategoryWithProducts = _categoryBLL.FirstCategoryWithProducts();
 
-            var products = _productBLL.GetProductsByCategory(firstCategoryWithProducts).Select( p => new ProductView()
+            var productModels = _productBLL.GetProductsByCategory(firstCategoryWithProducts).ToList();
+
+            var products = new List<ProductView>();
+            foreach (var product in productModels)
             {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                Description = p.Description,
-                Price = p.Price,
-                Stock = p.Stock,
-                ImageUrl = p.ImageUrl,
-                CategoryName = p.CategoryName
-            }).ToList();
+                var imageViews = new List<ImageView>();
+                foreach(var image in product.Images)
+                {
+                    var imageView = new ImageView()
+                    {
+                        ImageId = image.ImageId,
+                        ProductId = image.ProductId,
+                        ImageUrl = image.ImageUrl
+                    };
+                    imageViews.Add(imageView);
+                }
+                var productView = new ProductView()
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    CategoryName = product.CategoryName,
+                    Images = imageViews
+                };
+                products.Add(productView);
+            }
 
             ViewBag.Categories = categories ?? new List<CategoryView>();
             ViewBag.Products = products ?? new List<ProductView>();
@@ -69,16 +87,34 @@ namespace Nettbutikk.Controllers
             }
             ).ToList();
 
-            var products = _productBLL.GetProductsByCategory(CategoryId).Select(p => new ProductView()
+            var productModels = _productBLL.GetProductsByCategory(CategoryId).ToList();
+
+            var products = new List<ProductView>();
+            foreach (var product in productModels)
             {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                Description = p.Description,
-                Price = p.Price,
-                Stock = p.Stock,
-                ImageUrl = p.ImageUrl,
-                CategoryName = categories.FirstOrDefault(c => c.CategoryId == p.CategoryId).CategoryName
-            }).ToList(); 
+                var imageViews = new List<ImageView>();
+                foreach (var image in product.Images)
+                {
+                    var imageView = new ImageView()
+                    {
+                        ImageId = image.ImageId,
+                        ProductId = image.ProductId,
+                        ImageUrl = image.ImageUrl
+                    };
+                    imageViews.Add(imageView);
+                }
+                var productView = new ProductView()
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    CategoryName = product.CategoryName,
+                    Images = imageViews
+                };
+                products.Add(productView);
+            }
 
             ViewBag.Categories = categories;
             ViewBag.Products = products;

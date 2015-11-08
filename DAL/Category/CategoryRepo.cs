@@ -41,16 +41,29 @@ namespace Nettbutikk.Model
                 
                 foreach(var product in c.Products)
                 {
+                    var imageModels = new List<ImageModel>();
+
+                    foreach(var image in product.Images)
+                    {
+                        var imageModel = new ImageModel()
+                        {
+                            ImageId = image.ImageId,
+                            ImageUrl = image.ImageUrl,
+                            ProductId = image.ProductId
+                        };
+                        imageModels.Add(imageModel);
+                    }
+
                     var productModel = new ProductModel()
                     {
                         CategoryId = product.CategoryId,
                         CategoryName = product.Category.Name,
                         Description = product.Description,
-                        ImageUrl = product.ImageUrl,
                         Price = product.Price,
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        Stock = product.Stock
+                        Stock = product.Stock,
+                        Images = imageModels
                     };
 
                     productModels.Add(productModel);
@@ -210,16 +223,29 @@ namespace Nettbutikk.Model
 
                 foreach (var product in c.Products)
                 {
+                    var imageModels = new List<ImageModel>();
+
+                    foreach (var image in product.Images)
+                    {
+                        var imageModel = new ImageModel()
+                        {
+                            ImageId = image.ImageId,
+                            ImageUrl = image.ImageUrl,
+                            ProductId = image.ProductId
+                        };
+                        imageModels.Add(imageModel);
+                    }
+
                     var productModel = new ProductModel()
                     {
                         CategoryId = product.CategoryId,
                         CategoryName = product.Category.Name,
                         Description = product.Description,
-                        ImageUrl = product.ImageUrl,
                         Price = product.Price,
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        Stock = product.Stock
+                        Stock = product.Stock,
+                        Images = imageModels
                     };
 
                     productModels.Add(productModel);

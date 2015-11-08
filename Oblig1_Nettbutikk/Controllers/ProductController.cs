@@ -29,23 +29,34 @@ namespace Nettbutikk.Controllers
 
 
         // GET: Product
-        public ActionResult Product(int ProductId,string ReturnUrl)
+        public ActionResult Product(int ProductId, string ReturnUrl)
         {
-            var productmodel = _productBLL.GetProduct(ProductId);
-            //var categoryname = _categoryBLL.GetCategoryName(productmodel.CategoryId);
-            var productview = new ProductView()
-            {
-                ProductId = productmodel.ProductId,
-                ProductName = productmodel.ProductName,
-                Description = productmodel.Description,
-                Price = productmodel.Price,
-                Stock = productmodel.Stock,
-                ImageUrl = productmodel.ImageUrl,
-                CategoryName = productmodel.CategoryName
-            };
-           
+            var product = _productBLL.GetProduct(ProductId);
 
-            ViewBag.Product = productview;
+            var imageViews = new List<ImageView>();
+            foreach (var image in product.Images)
+            {
+                var imageView = new ImageView()
+                {
+                    ImageId = image.ImageId,
+                    ProductId = image.ProductId,
+                    ImageUrl = image.ImageUrl
+                };
+                imageViews.Add(imageView);
+            }
+            var productView = new ProductView()
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock,
+                CategoryName = product.CategoryName,
+                Images = imageViews
+            };
+
+
+            ViewBag.Product = productView;
             ViewBag.ReturnUrl = ReturnUrl;
             ViewBag.LoggedIn = LoginStatus();
             return View();
@@ -53,25 +64,36 @@ namespace Nettbutikk.Controllers
 
         public ActionResult Index()
         {
-            var productmodels = _productBLL.GetAllProducts();
-            var productViews = new List<ProductView>();
+            var productModels = _productBLL.GetAllProducts();
 
-            foreach(var productmodel in productmodels)
+            var products = new List<ProductView>();
+            foreach (var product in productModels)
             {
-                var productview = new ProductView()
+                var imageViews = new List<ImageView>();
+                foreach (var image in product.Images)
                 {
-                    ProductId = productmodel.ProductId,
-                    ProductName = productmodel.ProductName,
-                    Description = productmodel.Description,
-                    Price = productmodel.Price,
-                    Stock = productmodel.Stock,
-                    ImageUrl = productmodel.ImageUrl,
-                    CategoryName = productmodel.CategoryName
+                    var imageView = new ImageView()
+                    {
+                        ImageId = image.ImageId,
+                        ProductId = image.ProductId,
+                        ImageUrl = image.ImageUrl
+                    };
+                    imageViews.Add(imageView);
+                }
+                var productView = new ProductView()
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    CategoryName = product.CategoryName,
+                    Images = imageViews
                 };
-                productViews.Add(productview);
+                products.Add(productView);
             }
 
-            ViewBag.Products = productViews;
+            ViewBag.Products = products;
 
             return View("ListProduct");
         }
@@ -122,9 +144,9 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            var productmodel = _productBLL.GetProduct(nProductId);
+            var product = _productBLL.GetProduct(nProductId);
 
-            if (productmodel == null)
+            if (product == null)
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not find a product with the id: " + ProductId;
@@ -132,19 +154,29 @@ namespace Nettbutikk.Controllers
             }
 
 
-            var productview = new ProductView()
+            var imageViews = new List<ImageView>();
+            foreach (var image in product.Images)
             {
-                ProductId = productmodel.ProductId,
-                ProductName = productmodel.ProductName,
-                Description = productmodel.Description,
-                Price = productmodel.Price,
-                Stock = productmodel.Stock,
-                ImageUrl = productmodel.ImageUrl,
-                CategoryId = productmodel.CategoryId,
-                CategoryName = productmodel.CategoryName
+                var imageView = new ImageView()
+                {
+                    ImageId = image.ImageId,
+                    ProductId = image.ProductId,
+                    ImageUrl = image.ImageUrl
+                };
+                imageViews.Add(imageView);
+            }
+            var productView = new ProductView()
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock,
+                CategoryName = product.CategoryName,
+                Images = imageViews
             };
 
-            ViewBag.Product = productview;
+            ViewBag.Product = productView;
 
             return View();
         }
@@ -166,9 +198,9 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            var productmodel = _productBLL.GetProduct(nProductId);
+            var product = _productBLL.GetProduct(nProductId);
 
-            if (productmodel == null)
+            if (product == null)
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not find a product with the id: " + ProductId;
@@ -176,19 +208,28 @@ namespace Nettbutikk.Controllers
             }
 
 
-            var productview = new ProductView()
+            var imageViews = new List<ImageView>();
+            foreach (var image in product.Images)
             {
-                ProductId = productmodel.ProductId,
-                ProductName = productmodel.ProductName,
-                Description = productmodel.Description,
-                Price = productmodel.Price,
-                Stock = productmodel.Stock,
-                ImageUrl = productmodel.ImageUrl,
-                CategoryId = productmodel.CategoryId,
-                CategoryName = productmodel.CategoryName
+                var imageView = new ImageView()
+                {
+                    ImageId = image.ImageId,
+                    ProductId = image.ProductId,
+                    ImageUrl = image.ImageUrl
+                };
+                imageViews.Add(imageView);
+            }
+            var productView = new ProductView()
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock,
+                CategoryName = product.CategoryName,
+                Images = imageViews
             };
-
-            ViewBag.Product = productview;
+            ViewBag.Product = productView;
 
             return View();
         }
@@ -360,11 +401,11 @@ namespace Nettbutikk.Controllers
             ViewBag.Message = "Product was deleted from the database";
             return View("~/Views/Shared/Result.cshtml");
         }
-        
+
         public string Products(string searchstr)
         {
             var result = _productBLL.GetProducts(searchstr);
-            var jsonResult  = JsonConvert.SerializeObject(result);
+            var jsonResult = JsonConvert.SerializeObject(result);
             return jsonResult;
         }
 

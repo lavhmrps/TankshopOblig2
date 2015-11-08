@@ -137,28 +137,28 @@ section {
 }
 
 .adminControls {
-    text-align:center;
+    text-align: center;
 }
 
     .adminControls span {
-        font-size:1.2em;
-        display:inline-block;
-        padding:2px 5px;
+        font-size: 1.2em;
+        display: inline-block;
+        padding: 2px 5px;
     }
 
-    .adminControls span:hover {
-        //background:#7fe443;
-    }
+        .adminControls span:hover {
+            //background:#7fe443;
+        }
 
         .adminControls span a {
-            color:#ee7419;
-            font-weight:bold;
+            color: #ee7419;
+            font-weight: bold;
         }
 
-        .adminControls span a:hover {
-            color:rgba(241, 34, 34, 0.91);
-            text-decoration:none;
-        }
+            .adminControls span a:hover {
+                color: rgba(241, 34, 34, 0.91);
+                text-decoration: none;
+            }
 
 
 .table-modal td {
@@ -323,16 +323,79 @@ section {
         position: relative;
     }
 
-
-.details_image img {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+.details_image {
+    height: 500px;
+}
+/*
+.details_image .glyphicon {
+    position: absolute;
+    top: 40%;
     margin: auto;
-    height: 100%;
-    width: 100%;
+    font-size: 2em;
+    color: #36b7bf;
+    padding: 5px;
+}
+
+.details_image .glyphicon-chevron-left {
+    left: 0;
+}
+
+.details_image .glyphicon-chevron-right {
+    right: 0;
+}
+
+    .details_image .glyphicon-chevron-left:hover, .details_image .glyphicon-chevron-right:hover {
+        border-radius: 50%;
+        background: #ee7419;
+    }*/
+
+.details_image {
+    position:relative;
+    height: 450px;
+}
+
+    .details_image img {
+        position:absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        max-height: 100%;
+        max-width: 100%;
+        box-shadow: 0 0 1px #555;
+    }
+
+.product_details .image-thumbnails {
+    margin-top: 5px;
+    height: 120px;
+    padding: 8px;
+    background: #f2f2f2;
     box-shadow: 0 0 1px #555;
+    overflow: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.image-thumbnails div {
+    position: relative;
+    display: inline-block;
+    height:100%;
+}
+
+.image-thumbnail {
+    max-height: 100%;
+    /*box-shadow: 0 0 1px #555;*/
+    border: thin solid #777;
+}
+
+    .image-thumbnail:hover {
+        box-shadow: 0 0 1px #ee7419;
+        cursor: pointer;
+    }
+
+.thumbnail-selected {
+    border: thin solid #ee7419;
 }
 
 .details_price, .details_var_info, .details_description {

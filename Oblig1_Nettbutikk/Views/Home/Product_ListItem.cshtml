@@ -5,7 +5,7 @@
         <div class="col-md-5" style="padding-right:0;">
             <div class="listitem_image">
               
-                <img id="imgProductID_@Model.ProductId" src="@Model.ImageUrl" alt="Bilde av @Model.ProductName"/>
+                <img id="imgProductID_@Model.ProductId" src="@Model.Images.FirstOrDefault().ImageUrl" alt="Bilde av @Model.ProductName"/>
             </div>
 
         </div>

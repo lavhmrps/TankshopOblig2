@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Oblig1_Nettbutikk</RootNamespace>
-    <AssemblyName>Oblig1_Nettbutikk</AssemblyName>
+    <RootNamespace>Nettbutikk</RootNamespace>
+    <AssemblyName>Nettbutikk</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -146,12 +146,17 @@
     <Compile Include="Migrations\201511061841109_Init.Designer.cs">
       <DependentUpon>201511061841109_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511072000371_init2.cs" />
+    <Compile Include="Migrations\201511072000371_init2.Designer.cs">
+      <DependentUpon>201511072000371_init2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CategoryView.cs" />
     <Compile Include="Models\CustomerView.cs" />
     <Compile Include="Models\CustomerLoginPartial.cs" />
     <Compile Include="Models\CustomerRegisterPartial.cs" />
+    <Compile Include="Models\ImageView.cs" />
     <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\ProductView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -263,6 +268,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201511061841109_Init.resx">
       <DependentUpon>201511061841109_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511072000371_init2.resx">
+      <DependentUpon>201511072000371_init2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

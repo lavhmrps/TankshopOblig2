@@ -2,19 +2,27 @@
     @Html.ActionLink("Create New", "CreateImage")
 </p>
 
+<script>
+    $(document).ready(function(){
+
+        $('a[data-toggle="popover"]').popover({
+            html: true,
+            trigger: 'hover',
+            content: function () {
+                return '<img class=".img-responsive" src="' + $(this).attr('href') + '" width="400" height="300" />';
+
+            }
+        });
+
+    });
+</script>
+
 <style>
-    .box {
-        display: none;
-        width: 100%;
+    .popover {
+        max-width: 100%;
     }
-
-
-        a:hover + .box, .box:hover {
-            display: block;
-            position: relative;
-            z-index: 100;
-        }
 </style>
+
 
 <table class="table">
     <tr>
@@ -25,11 +33,13 @@
             Image URL
         </th>
         <th>
+
         </th>
     </tr>
 
     @foreach (var image in ViewBag.Images)
     {
+
         <tr>
             <td>
                 @image.ProductId
@@ -39,7 +49,7 @@
                     string url = image.ImageUrl.Length >= 40 ? image.ImageUrl.Substring(0, 40) + "..." : image.ImageUrl;
                 }
 
-                <a href="@image.ImageUrl">@url</a><div class="box"><img src="@image.ImageUrl" /></div>
+                <a href="@image.ImageUrl" data-toggle="popover" data-trigger="hover">@url</a>
 
             </td>
             <td>
@@ -50,4 +60,5 @@
             </td>
         </tr>
                     }
+
 </table>

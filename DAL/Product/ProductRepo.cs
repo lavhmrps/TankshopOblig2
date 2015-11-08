@@ -14,16 +14,40 @@ namespace Nettbutikk.DAL
 
         public bool AddProduct(string Name, double Price, int Stock, string Description, string ImageUrl, int CategoryId)
         {
-            try
+            using (var db = new TankshopDbContext())
             {
-                var db = new TankshopDbContext();
-                db.Products.Add(new Product() { Name = Name, Price = Price, Stock = Stock, Description = Description, ImageUrl = ImageUrl, CategoryId = CategoryId });
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var newProduct = new Product()
+                        {
+                            Name = Name,
+                            Price = Price,
+                            Stock = Stock,
+                            Description = Description,
+                            CategoryId = CategoryId
+                        };
+
+                        db.Products.Add(newProduct);
+                        db.SaveChanges();
+
+                        var newImage = new Image()
+                        {
+                            ImageUrl = ImageUrl,
+                            ProductId = newProduct.ProductId
+                        };
+                        db.SaveChanges();
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        LogHandler.WriteToLog(e);
+                    }
+                }
             }
 
             return false;
@@ -92,18 +116,32 @@ namespace Nettbutikk.DAL
                 {
                     var dbProducts = db.Products.ToList();
 
-                    foreach (var dbProduct in dbProducts)
+                    foreach (var product in dbProducts)
                     {
+                        var dbProductImages = db.Images.Where(i => i.ProductId == product.ProductId).ToList();
+                        var imageModels = new List<ImageModel>();
+
+                        foreach (var image in dbProductImages)
+                        {
+                            var imageModel = new ImageModel()
+                            {
+                                ImageId = image.ImageId,
+                                ImageUrl = image.ImageUrl,
+                                ProductId = image.ProductId
+                            };
+                            imageModels.Add(imageModel);
+                        }
+
                         var productModel = new ProductModel()
                         {
-                            CategoryId = dbProduct.CategoryId,
-                            CategoryName = dbProduct.Category.Name,
-                            Description = dbProduct.Description,
-                            ImageUrl = dbProduct.ImageUrl,
-                            Price = dbProduct.Price,
-                            ProductId = dbProduct.ProductId,
-                            ProductName = dbProduct.Name,
-                            Stock = dbProduct.Stock
+                            CategoryId = product.CategoryId,
+                            CategoryName = product.Category.Name,
+                            Description = product.Description,
+                            Price = product.Price,
+                            ProductId = product.ProductId,
+                            ProductName = product.Name,
+                            Stock = product.Stock,
+                            Images = imageModels
                         };
                         productModels.Add(productModel);
                     }
@@ -137,16 +175,30 @@ namespace Nettbutikk.DAL
             using (var db = new TankshopDbContext())
             {
                 var product = db.Products.Find(ProductId);
+                var dbProductImages = db.Images.Where(i => i.ProductId == product.ProductId).ToList();
+                var imageModels = new List<ImageModel>();
+
+                foreach (var image in dbProductImages)
+                {
+                    var imageModel = new ImageModel()
+                    {
+                        ImageId = image.ImageId,
+                        ImageUrl = image.ImageUrl,
+                        ProductId = image.ProductId
+                    };
+                    imageModels.Add(imageModel);
+                }
+
                 var productModel = new ProductModel()
                 {
                     CategoryId = product.CategoryId,
                     CategoryName = product.Category.Name,
                     Description = product.Description,
-                    ImageUrl = product.ImageUrl,
                     Price = product.Price,
                     ProductId = product.ProductId,
                     ProductName = product.Name,
-                    Stock = product.Stock
+                    Stock = product.Stock,
+                    Images = imageModels
                 };
                 return productModel;
             }
@@ -159,22 +211,36 @@ namespace Nettbutikk.DAL
                 var productList = new List<ProductModel>();
                 try
                 {
-                    var dbProducts = db.Products.Where(p => p.Name.Contains(searchstr) 
+                    var dbProducts = db.Products.Where(p => p.Name.Contains(searchstr)
                                                         || p.Category.Name.Contains(searchstr)
                                                         //|| p.Description.Contains(searchstr)
                                                         ).ToList();
                     foreach (var product in dbProducts)
                     {
+                        var dbProductImages = db.Images.Where(i => i.ProductId == product.ProductId).ToList();
+                        var imageModels = new List<ImageModel>();
+
+                        foreach (var image in dbProductImages)
+                        {
+                            var imageModel = new ImageModel()
+                            {
+                                ImageId = image.ImageId,
+                                ImageUrl = image.ImageUrl,
+                                ProductId = image.ProductId
+                            };
+                            imageModels.Add(imageModel);
+                        }
+
                         var productModel = new ProductModel()
                         {
-                            ProductId = product.ProductId,
-                            ProductName = product.Name,
+                            CategoryId = product.CategoryId,
+                            CategoryName = product.Category.Name,
                             Description = product.Description,
                             Price = product.Price,
+                            ProductId = product.ProductId,
+                            ProductName = product.Name,
                             Stock = product.Stock,
-                            ImageUrl = product.ImageUrl,
-                            CategoryId = product.CategoryId,
-                            CategoryName = product.Category.Name
+                            Images = imageModels
                         };
 
                         productList.Add(productModel);
@@ -202,16 +268,30 @@ namespace Nettbutikk.DAL
                         var product = db.Products.Find(productId);
                         if (product != null)
                         {
+                            var dbProductImages = db.Images.Where(i => i.ProductId == product.ProductId).ToList();
+                            var imageModels = new List<ImageModel>();
+
+                            foreach (var image in dbProductImages)
+                            {
+                                var imageModel = new ImageModel()
+                                {
+                                    ImageId = image.ImageId,
+                                    ImageUrl = image.ImageUrl,
+                                    ProductId = image.ProductId
+                                };
+                                imageModels.Add(imageModel);
+                            }
+
                             var productModel = new ProductModel()
                             {
-                                ProductId = product.ProductId,
-                                ProductName = product.Name,
+                                CategoryId = product.CategoryId,
+                                CategoryName = product.Category.Name,
                                 Description = product.Description,
                                 Price = product.Price,
+                                ProductId = product.ProductId,
+                                ProductName = product.Name,
                                 Stock = product.Stock,
-                                ImageUrl = product.ImageUrl,
-                                CategoryId = product.CategoryId,
-                                CategoryName = product.Category.Name
+                                Images = imageModels
                             };
 
                             productList.Add(productModel);
@@ -235,17 +315,32 @@ namespace Nettbutikk.DAL
                 var productModels = new List<ProductModel>();
                 foreach (var product in dbProducts)
                 {
-                    productModels.Add(new ProductModel()
+                    var dbProductImages = db.Images.Where(i => i.ProductId == product.ProductId).ToList();
+                    var imageModels = new List<ImageModel>();
+
+                    foreach (var image in dbProductImages)
+                    {
+                        var imageModel = new ImageModel()
+                        {
+                            ImageId = image.ImageId,
+                            ImageUrl = image.ImageUrl,
+                            ProductId = image.ProductId
+                        };
+                        imageModels.Add(imageModel);
+                    }
+
+                    var productModel = new ProductModel()
                     {
                         CategoryId = product.CategoryId,
                         CategoryName = product.Category.Name,
                         Description = product.Description,
-                        ImageUrl = product.ImageUrl,
                         Price = product.Price,
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        Stock = product.Stock
-                    });
+                        Stock = product.Stock,
+                        Images = imageModels
+                    };
+                    productModels.Add(productModel);
                 }
                 return productModels;
 
@@ -257,7 +352,7 @@ namespace Nettbutikk.DAL
             var db = new TankshopDbContext();
 
             Product product = (from p in db.Products where p.ProductId == ProductId select p).FirstOrDefault();
-
+            Image image = db.Images.Where(i => i.ProductId == ProductId).FirstOrDefault();
             if (product == null)
                 return false;
 
@@ -266,8 +361,8 @@ namespace Nettbutikk.DAL
             product.Price = Price;
             product.Stock = Stock;
             product.Description = Description;
-            product.ImageUrl = ImageUrl;
             product.CategoryId = CategoryId;
+            image.ImageUrl = ImageUrl;
 
             try
             {
@@ -281,6 +376,6 @@ namespace Nettbutikk.DAL
 
             return false;
         }
-       
+
     }
 }
