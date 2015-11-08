@@ -24,22 +24,22 @@ namespace DAL.Category
             return CategoryId != -1;
         }
 
-        //public List<Category> GetAllCategories()
-        //{
-        //    var allCategories = new List<Category> {
-        //        new Category { CategoryId = 1, Name = "test1"},
-        //        new Category { CategoryId = 2, Name = "test2"},
-        //        new Category { CategoryId = 3, Name = "test3"},
-        //        new Category { CategoryId = 4, Name = "test4"}
-        //    };
+        public List<Nettbutikk.Model.Category> GetAllCategories()
+        {
+            var allCategories = new List<Nettbutikk.Model.Category> {
+                new Nettbutikk.Model.Category { CategoryId = 1, Name = "test1"},
+                new Nettbutikk.Model.Category { CategoryId = 2, Name = "test2"},
+                new Nettbutikk.Model.Category { CategoryId = 3, Name = "test3"},
+                new Nettbutikk.Model.Category { CategoryId = 4, Name = "test4"}
+            };
 
-        //    return allCategories;
-        //}
+            return allCategories;
+        }
 
-        //public Category GetCategory(int categoryId)
-        //{
-        //    return categoryId == -1 ? null : new Category { CategoryId = categoryId, Name = "test" };
-        //}
+        public Nettbutikk.Model.Category GetCategory(int categoryId)
+        {
+            return categoryId == -1 ? null : new Nettbutikk.Model.Category { CategoryId = categoryId, Name = "test" };
+        }
 
         public string GetCategoryName(int CategoryId)
         {
@@ -53,7 +53,7 @@ namespace DAL.Category
 
         }
 
-        public List<CategoryModel> GetAllCategories()
+        public List<CategoryModel> GetAllCategoryModels()
         {
             var allCategories = new List<CategoryModel> {
                 new CategoryModel { CategoryId = 1, CategoryName = "test name 1"},
@@ -65,7 +65,7 @@ namespace DAL.Category
             return allCategories;
         }
 
-        public CategoryModel GetCategory(int CategoryId)
+        public CategoryModel GetCategoryModel(int CategoryId)
         {
             return CategoryId == -1 ? null : new CategoryModel { CategoryId = CategoryId, CategoryName = "test name" };
         }

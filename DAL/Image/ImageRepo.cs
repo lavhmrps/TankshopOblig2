@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
+using Logging;
 
 
 namespace DAL.Image
@@ -18,7 +19,7 @@ namespace DAL.Image
                 return new TankshopDbContext().Images.FirstOrDefault(i => i.ImageId == imageId);
             }
             catch (Exception e) {
-                //LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 return null;
             }
 
@@ -31,7 +32,7 @@ namespace DAL.Image
                 return new TankshopDbContext().Images.OrderBy(i => i.ProductId).ToList();
             }
             catch (Exception e) {
-                //LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 return new List<Nettbutikk.Model.Image>();
             }
             
@@ -48,7 +49,9 @@ namespace DAL.Image
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) { }//LogHandler.WriteToLog(e); }
+            catch (Exception e) {
+                LogHandler.WriteToLog(e);
+            }
 
             return false;
             
@@ -71,7 +74,9 @@ namespace DAL.Image
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) { }//LogHandler.WriteToLog(e); }
+            catch (Exception e) {
+                LogHandler.WriteToLog(e);
+            }
 
             return false;
         }
@@ -96,7 +101,9 @@ namespace DAL.Image
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) { }//LogHandler.WriteToLog(e); }
+            catch (Exception e) {
+                LogHandler.WriteToLog(e);
+            }
 
             return false;
         }
@@ -120,7 +127,9 @@ namespace DAL.Image
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e) { }//LogHandler.WriteToLog(e); }
+            catch (Exception e) {
+                LogHandler.WriteToLog(e);
+            }
 
             return false;
         }

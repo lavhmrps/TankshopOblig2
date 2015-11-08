@@ -30,7 +30,7 @@ namespace Nettbutikk.Controllers
 
         public ActionResult Index()
         {
-            var categories = _categoryBLL.GetAllCategories().Select(c => new CategoryView()
+            var categories = _categoryBLL.GetAllCategoryModels().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName
@@ -78,7 +78,7 @@ namespace Nettbutikk.Controllers
 
         public ActionResult Category(int CategoryId)
         {
-            var categories = _categoryBLL.GetAllCategories().Select(c => new CategoryView()
+            var categories = _categoryBLL.GetAllCategoryModels().Select(c => new CategoryView()
             {
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName

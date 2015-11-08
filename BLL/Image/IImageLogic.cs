@@ -10,8 +10,8 @@ namespace BLL.Image
     {
 
         bool AddImage(int productId, string imageUrl);
-        bool UpdateImage(int imageId, int productId, string imageUrl);
-        bool DeleteImage(int imageId);
+        bool UpdateImage(int imageId, int productId, string imageUrl, int adminId);
+        bool DeleteImage(int imageId, int adminId);
         List<Nettbutikk.Model.Image> GetAllImages();
         Nettbutikk.Model.Image GetImage(int imageId);
 

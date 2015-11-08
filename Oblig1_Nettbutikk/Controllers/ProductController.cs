@@ -101,7 +101,7 @@ namespace Nettbutikk.Controllers
         {
 
             List<SelectListItem> categoryIds = new List<SelectListItem>();
-            var allCategories = _categoryBLL.GetAllCategories();
+            var allCategories = _categoryBLL.GetAllCategoryModels();
 
             foreach (var c in allCategories)
             {
@@ -118,7 +118,7 @@ namespace Nettbutikk.Controllers
         {
 
             List<SelectListItem> categoryIds = new List<SelectListItem>();
-            var allCategories = _categoryBLL.GetAllCategories();
+            var allCategories = _categoryBLL.GetAllCategoryModels();
 
             foreach (var c in allCategories)
             {

@@ -72,7 +72,7 @@ namespace TankShopUnitTest
     
 
         [TestMethod]
-        public void Index_ok()
+        public void Customer_Index_ok()
         {
             // Arrange 
             var SessionMock = new TestControllerBuilder();
@@ -91,7 +91,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void AdminIndex_Not_Admin()
+        public void Customer_AdminIndex_NotAdmin()
         {
             // Arrange 
             var SessionMock = new TestControllerBuilder();
@@ -114,7 +114,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void AdminIndex_No_AdminSession()
+        public void Customer_AdminIndex_NoAdminSession()
         {
             // Arrange 
             var SessionMock = new TestControllerBuilder();
@@ -137,7 +137,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Show_Customer_ok()
+        public void Customer_Show_CustomerOk()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -182,7 +182,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Show_Customer_No_AdminSession()
+        public void Customer_Show_Customer_NoAdminSession()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -208,7 +208,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void Show_Customer_Not_Admin()
+        public void Customer_Show_Customer_NotAdmin()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -234,7 +234,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void CustomerlistPartial_List()
+        public void Customer_CustomerlistPartial_List()
         {
             // Arrange
             var Controller = new CustomerController(new CustomerBLL(new CustomerRepoStub()));
@@ -273,7 +273,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateCustomer_Update_Self_ok()
+        public void Customer_UpdateCustomer_UpdateSelfOk()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -301,7 +301,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateCustomer_Admin_Update_Ok()
+        public void Customer_UpdateCustomer_AdminUpdateOk()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -330,7 +330,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateCustomer_Not_Logged_In()
+        public void Customer_UpdateCustomer_NotLoggedIn()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -358,7 +358,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateCustomer_Update_Another_Customer()
+        public void Customer_UpdateCustomer_UpdateAnotherCustomer()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -386,7 +386,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateCustomer_modelerror()
+        public void Customer_UpdateCustomer_ModelError()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -416,7 +416,7 @@ namespace TankShopUnitTest
 
 
         [TestMethod]
-        public void DeleteCustomer_ok()
+        public void Customer_DeleteCustomer_Ok()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -435,7 +435,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteCustomer_No_EmailSession()
+        public void Customer_DeleteCustomer_NoEmailSession()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -454,7 +454,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteCustomer_Not_Admin()
+        public void Customer_DeleteCustomer_NotAdmin()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -473,7 +473,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteCustomer_Delete_Self_Not_Allowed()
+        public void Customer_DeleteCustomer_DeleteSelfNotAllowed()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -488,7 +488,6 @@ namespace TankShopUnitTest
 
             // Assert
             Assert.IsFalse(result);
-
 
         }
 

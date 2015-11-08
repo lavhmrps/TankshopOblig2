@@ -69,7 +69,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void OrderPartial_List_All_Orders()
+        public void Order_OrderPartial_ListAllOrders()
         {
             // Arrange
             var Controller = new OrderController(new OrderBLL(new OrderRepoStub()));
@@ -157,7 +157,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void OrderPartial_List_Customer_Orders()
+        public void Order_OrderPartial_ListCustomerOrders()
         {
             // Arrange
             var Controller = new OrderController(new OrderBLL(new OrderRepoStub()));
@@ -245,7 +245,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateOrderline_Ok()
+        public void Order_UpdateOrderline_Ok()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -265,7 +265,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateOrderline_Not_Admin()
+        public void Order_UpdateOrderline_NotAdmin()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -286,7 +286,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateOrderline_No_AdminSession()
+        public void Order_UpdateOrderline_NoAdminSession()
         {
 
             // Arrange
@@ -307,7 +307,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void UpdateOrderline_Modelerror()
+        public void Order_UpdateOrderline_ModelError()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -327,7 +327,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void GetOrderSumTotal_ok()
+        public void Order_GetOrderSumTotal_Ok()
         {
             // Arrange
             var Controller = new OrderController(new OrderBLL(new OrderRepoStub()));
@@ -343,7 +343,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void GetOrderSumTotal_Bad_OrderId()
+        public void Order_GetOrderSumTotal_BadOrderId()
         {
             // Arrange
             var Controller = new OrderController(new OrderBLL(new OrderRepoStub()));
@@ -359,7 +359,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteOrder_ok()
+        public void Order_DeleteOrder_Ok()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -377,7 +377,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteOrder_No_AdminSession()
+        public void Order_DeleteOrder_NoAdminSession()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -395,7 +395,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteOrder_Not_Admin()
+        public void Order_DeleteOrder_NotAdmin()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();
@@ -413,7 +413,7 @@ namespace TankShopUnitTest
         }
 
         [TestMethod]
-        public void DeleteOrder_Bad_OrderId()
+        public void Order_DeleteOrder_BadOrderId()
         {
             // Arrange
             var SessionMock = new TestControllerBuilder();

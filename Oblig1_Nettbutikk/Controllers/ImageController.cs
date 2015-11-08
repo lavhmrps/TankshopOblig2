@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Nettbutikk.Model;
 using BLL.Image;
 using BLL.Product;
+using Logging;
+using BLL.Account;
 
 namespace Nettbutikk.Controllers
 {
@@ -14,18 +16,21 @@ namespace Nettbutikk.Controllers
 
         private IImageLogic imageBLL;
         private IProductLogic productBLL;
+        private IAccountLogic accountBLL;
 
         public ImageController() {
             
             imageBLL = new ImageBLL();
             productBLL = new ProductBLL();
+            accountBLL = new AccountBLL();
         
         }
 
-        public ImageController(IImageLogic imageBLL, IProductLogic productBLL = null) {
+        public ImageController(IImageLogic imageBLL, IProductLogic productBLL = null, IAccountLogic accountBLL = null) {
 
             this.imageBLL = imageBLL;
             this.productBLL = productBLL;
+            this.accountBLL = accountBLL;
 
         }
 
@@ -43,9 +48,19 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Create(string ProductIDs, string ImageUrl) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST create");
-            System.Diagnostics.Debug.WriteLine("Got ProductId: " + ProductIDs);
-            System.Diagnostics.Debug.WriteLine("Got url: " + ImageUrl);
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can create images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
 
             int productId;
 
@@ -55,7 +70,7 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid product id";
                 return View("~/Views/Shared/Result.cshtml");
@@ -77,10 +92,20 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public ActionResult Edit(string ImageId, string ProductIDs, string ImageUrl) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST edit");
-            System.Diagnostics.Debug.WriteLine("Got ImageId: " + ImageId);
-            System.Diagnostics.Debug.WriteLine("Got ProductId: " + ProductIDs);
-            System.Diagnostics.Debug.WriteLine("Got url: " + ImageUrl);
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can edit images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (Session["Email"] == null) {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            AdminModel adminModel = accountBLL.GetAdmin(Session["Email"].ToString());
 
             int imageId;
             int productId;
@@ -91,7 +116,7 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + ImageId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -101,14 +126,14 @@ namespace Nettbutikk.Controllers
                 productId = Convert.ToInt32(ProductIDs);
             }
             catch (Exception e) {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid product id: " + ProductIDs;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
 
-            if (!imageBLL.UpdateImage(imageId, productId, ImageUrl)) {
+            if (!imageBLL.UpdateImage(imageId, productId, ImageUrl, adminModel.AdminId)) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the image";
                 return View("~/Views/Shared/Result.cshtml");
@@ -121,8 +146,21 @@ namespace Nettbutikk.Controllers
 
         public ActionResult Delete(string ImageId) {
 
-            System.Diagnostics.Debug.WriteLine("HTTP POST delete");
-            System.Diagnostics.Debug.WriteLine("Got ImageId: " + ImageId);
+            if (Session["Admin"] != null && (bool)Session["Admin"] == false)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Only administrators can delete images";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            AdminModel adminModel = accountBLL.GetAdmin(Session["Email"].ToString());
 
             int imageId;
 
@@ -132,13 +170,13 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + ImageId;
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!imageBLL.DeleteImage(imageId)) {
+            if (!imageBLL.DeleteImage(imageId, adminModel.AdminId)) {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not delete the image";
                 return View("~/Views/Shared/Result.cshtml");
@@ -172,15 +210,13 @@ namespace Nettbutikk.Controllers
 
         public ActionResult EditImage(string imageId) {
 
-            System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
-
             int nImageId;
 
             try {
                 nImageId = Convert.ToInt32(imageId);
             }
             catch (Exception e) {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");
@@ -214,8 +250,6 @@ namespace Nettbutikk.Controllers
 
         public ActionResult DeleteImage(string imageId) {
 
-            System.Diagnostics.Debug.WriteLine("Got value: " + imageId);
-
             int nImageId;
 
             try
@@ -224,7 +258,7 @@ namespace Nettbutikk.Controllers
             }
             catch (Exception e)
             {
-                //App_Code.LogHandler.WriteToLog(e);
+                LogHandler.WriteToLog(e);
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Invalid image id: " + imageId;
                 return View("~/Views/Shared/Result.cshtml");

@@ -8,14 +8,16 @@ namespace DAL.Category
         bool AddCategory(string name);
         bool AddOldCategory(string Name, int adminId);
         bool DeleteCategory(int CategoryId);
-        List<CategoryModel> GetAllCategories();
-        CategoryModel GetCategory(int CategoryId);
+
+        List<Nettbutikk.Model.Category> GetAllCategories();
+        Nettbutikk.Model.Category GetCategory(int CategoryId);
+
+        List<CategoryModel> GetAllCategoryModels();
+        CategoryModel GetCategoryModel(int CategoryId);
+
         string GetCategoryName(int CategoryId);
         bool UpdateCategory(int CategoryId, string Name);
         int FirstCategoryWithProducts();
 
-        // List<Category> GetAllCategories();
-        // List<CategoryModel> GetAllCategoryModels();
-        // Category GetCategory(int CategoryId);
     }
 }

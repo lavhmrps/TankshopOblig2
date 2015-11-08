@@ -4,23 +4,28 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BLL.Category;
+using BLL.Account;
+using Nettbutikk.Model;
 
 namespace Nettbutikk.Controllers
 {
     public class CategoryController : Controller
     {
         private ICategoryLogic categoryBLL;
+        private IAccountLogic accountBLL;
 
 
         public CategoryController()
         {
             categoryBLL = new CategoryBLL();
+            accountBLL = new AccountBLL();
         }
 
-        public CategoryController(ICategoryLogic categoryBLL)
+        public CategoryController(ICategoryLogic categoryBLL, IAccountLogic accountBLL = null)
         {
 
             this.categoryBLL = categoryBLL;
+            this.accountBLL = accountBLL;
 
         }
 
@@ -28,7 +33,7 @@ namespace Nettbutikk.Controllers
         {
             if ((Session["Admin"] == null ? false : (bool)Session["Admin"]))
             {
-                var allCategories = categoryBLL.GetAllCategories();
+                var allCategories = categoryBLL.GetAllCategoryModels();
                 var categoryViews = new List<CategoryView>();
 
                 foreach (var category in allCategories)
@@ -49,7 +54,7 @@ namespace Nettbutikk.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Name)
+        public ActionResult Create(string CategoryName)
         {
 
             if (Session["Admin"] != null && (bool)Session["Admin"] == false)
@@ -59,7 +64,14 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!categoryBLL.AddCategory(Name))
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            if (!categoryBLL.AddCategory(CategoryName))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not add the category to the database";
@@ -84,6 +96,15 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            AdminModel adminModel = accountBLL.GetAdmin(Session["Email"].ToString());
+
             int categoryId;
 
             try
@@ -98,7 +119,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!categoryBLL.UpdateCategory(categoryId, CategoryName))
+            if (!categoryBLL.UpdateCategory(categoryId, CategoryName, adminModel.AdminId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not update the category";
@@ -121,6 +142,15 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
+            if (Session["Email"] == null)
+            {
+                ViewBag.Title = "Error";
+                ViewBag.Message = "Cannot perform admin tasks without a valid email";
+                return View("~/Views/Shared/Result.cshtml");
+            }
+
+            AdminModel adminModel = accountBLL.GetAdmin(Session["Email"].ToString());
+
 
             int categoryId;
 
@@ -136,7 +166,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            if (!categoryBLL.DeleteCategory(categoryId))
+            if (!categoryBLL.DeleteCategory(categoryId, adminModel.AdminId))
             {
                 ViewBag.Title = "Error";
                 ViewBag.Message = "Could not delete the category";
@@ -189,7 +219,7 @@ namespace Nettbutikk.Controllers
             var categoryView = new CategoryView()
             {
                 CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName
+                CategoryName = category.Name
             };
 
             ViewBag.Category = categoryView;
@@ -200,8 +230,6 @@ namespace Nettbutikk.Controllers
 
         public ActionResult DeleteCategory(string CategoryId)
         {
-
-            System.Diagnostics.Debug.WriteLine("Got value: " + CategoryId);
 
             int nCategoryId;
 
@@ -217,7 +245,7 @@ namespace Nettbutikk.Controllers
                 return View("~/Views/Shared/Result.cshtml");
             }
 
-            var category = categoryBLL.GetCategory(nCategoryId);
+            var category = categoryBLL.GetCategoryModel(nCategoryId);
 
             if (category == null)
             {

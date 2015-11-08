@@ -152,7 +152,7 @@ namespace DAL.Account
 
         public AdminModel GetAdmin(string email)
         {
-            throw new NotImplementedException();
+            return new AdminModel { AdminId = 1, Email = email};
         }
 
         public bool UpdatePerson(PersonModel personUpdate, string email)

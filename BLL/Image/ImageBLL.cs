@@ -25,14 +25,14 @@ namespace BLL.Image
             return repo.AddImage(productId,imageUrl);
         }
 
-        public bool DeleteImage(int imageId)
+        public bool DeleteImage(int imageId, int adminId)
         {
             Nettbutikk.Model.Image img = repo.GetImage(imageId);
 
             if (img == null)
                 return false;
 
-            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, 1))//Get admin id from session
+            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, adminId))
                 return false; 
 
             return repo.DeleteImage(imageId);
@@ -48,7 +48,7 @@ namespace BLL.Image
             return repo.GetImage(imageId);
         }
 
-        public bool UpdateImage(int imageId, int productId, string imageUrl)
+        public bool UpdateImage(int imageId, int productId, string imageUrl, int adminId)
         {
 
             Nettbutikk.Model.Image img = repo.GetImage(imageId);
@@ -56,7 +56,7 @@ namespace BLL.Image
             if (img == null)
                 return false;
 
-            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, 1))//Get admin id from session
+            if (!repo.AddOldImage(img.ProductId, img.ImageUrl, adminId))
                 return false;
 
             return repo.UpdateImage(imageId, productId, imageUrl);

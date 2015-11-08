@@ -6,14 +6,16 @@ namespace BLL.Category
     public interface ICategoryLogic
     {
         bool AddCategory(string Name);
-        bool DeleteCategory(int CategoryId);
-        //List<Category> GetAllCategories();
-        //List<CategoryModel> GetAllCategoryModels();
-        List<CategoryModel> GetAllCategories();
-        //Category GetCategory(int CategoryId);
-        CategoryModel GetCategory(int CategoryId);
+        bool DeleteCategory(int CategoryId, int AdminId);
+
+        Nettbutikk.Model.Category GetCategory(int CategoryId);
+        List<Nettbutikk.Model.Category> GetAllCategories();
+
+        CategoryModel GetCategoryModel(int CategoryId);
+        List<CategoryModel> GetAllCategoryModels();
+
         string GetCategoryName(int CategoryId);
-        bool UpdateCategory(int CategoryId, string Name);
+        bool UpdateCategory(int CategoryId, string Name, int AdminId);
         int FirstCategoryWithProducts();
     }
 }

@@ -7,6 +7,8 @@ using Nettbutikk.Controllers;
 using MvcContrib.TestHelper;
 using BLL.Category;
 using DAL.Category;
+using BLL.Account;
+using DAL.Account;
 
 
 namespace TankShopEnhetstest
@@ -14,6 +16,10 @@ namespace TankShopEnhetstest
     [TestClass]
     public class CategoryControllerTest
     {
+
+        //GoodInput = input of correct type and value
+        //BadInput = input of wrong type. For example "abc123" being sent instead of an int
+        //Invalid = input of correct type, but wrong value. For example an id of -1
 
         [TestMethod]
         public void Category_Index()
@@ -25,6 +31,7 @@ namespace TankShopEnhetstest
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            
             
             var expectedCategories = new List<CategoryModel>() {
                 new CategoryModel { CategoryId = 1, CategoryName = "test name 1"},
@@ -75,7 +82,7 @@ namespace TankShopEnhetstest
             //Arrange
             var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
             string categoryId = "2";
-            var expectedCategory = new CategoryModel { CategoryId = 2, CategoryName = "test name" };
+            var expectedCategory = new CategoryModel { CategoryId = 2, CategoryName = "test" };
 
             //Act
             var viewResult = controller.EditCategory(categoryId) as ViewResult;
@@ -85,7 +92,6 @@ namespace TankShopEnhetstest
             //Assert
             Assert.AreEqual(expectedCategory.CategoryId, actualCategory.CategoryId);
             Assert.AreEqual(expectedCategory.CategoryName, actualCategory.CategoryName);
-
             Assert.AreEqual("", viewResult.ViewName);
 
         }
@@ -185,7 +191,7 @@ namespace TankShopEnhetstest
         }
 
         [TestMethod]
-        public void Category_Create()
+        public void Category_Create_GoodInput()
         {
 
             //Arrange
@@ -194,6 +200,7 @@ namespace TankShopEnhetstest
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryName = "test name";
 
@@ -207,6 +214,7 @@ namespace TankShopEnhetstest
 
         }
 
+        
         [TestMethod]
         public void Category_Create_NotAdmin()
         {
@@ -217,6 +225,7 @@ namespace TankShopEnhetstest
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = false;
+            controller.Session["Email"] = "ole";
 
             string categoryName = "test name";
 
@@ -236,11 +245,13 @@ namespace TankShopEnhetstest
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryName = "test name";
             string categoryId = "2";
@@ -256,15 +267,42 @@ namespace TankShopEnhetstest
         }
 
         [TestMethod]
+        public void Category_Edit_NoIdentifierFound()
+        {
+
+            //Arrange
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
+            string categoryName = "test name";
+            string categoryId = "2";
+
+            //Act
+            var viewResult = controller.Edit(categoryId, categoryName) as ViewResult;
+
+            //Assert
+            Assert.AreEqual("Error", controller.ViewBag.Title);
+            Assert.AreEqual("Cannot perform admin tasks without a valid email", controller.ViewBag.Message);
+            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
+
+        }
+
+        [TestMethod]
         public void Category_Edit_NotAdmin()
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = false;
+            controller.Session["Email"] = "ole";
 
             string categoryName = "test name";
             string categoryId = "2";
@@ -284,11 +322,13 @@ namespace TankShopEnhetstest
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryName = "test name";
             string categoryId = "2asb";
@@ -308,11 +348,13 @@ namespace TankShopEnhetstest
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryName = "test name";
             string categoryId = "-1";
@@ -333,11 +375,13 @@ namespace TankShopEnhetstest
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryId = "2";
 
@@ -352,15 +396,43 @@ namespace TankShopEnhetstest
         }
 
         [TestMethod]
+        public void Category_Delete_NoIdentifierFound()
+        {
+
+            //Arrange
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
+
+            var sessionMock = new TestControllerBuilder();
+            sessionMock.InitializeController(controller);
+            controller.Session["Admin"] = true;
+
+            string categoryId = "2";
+
+            //Act
+            var viewResult = controller.Delete(categoryId) as ViewResult;
+
+            //Assert
+            Assert.AreEqual("Error", controller.ViewBag.Title);
+            Assert.AreEqual("Cannot perform admin tasks without a valid email", controller.ViewBag.Message);
+            Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
+
+        }
+
+
+
+        [TestMethod]
         public void Category_Delete_NotAdmin()
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = false;
+            controller.Session["Email"] = "ole";
 
             string categoryId = "2";
 
@@ -379,11 +451,13 @@ namespace TankShopEnhetstest
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryId = "2asb";
 
@@ -402,11 +476,13 @@ namespace TankShopEnhetstest
         {
 
             //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
+            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub())
+                , new AccountBLL(new AccountRepoStub()));
 
             var sessionMock = new TestControllerBuilder();
             sessionMock.InitializeController(controller);
             controller.Session["Admin"] = true;
+            controller.Session["Email"] = "admin";
 
             string categoryId = "-1";
 
@@ -419,23 +495,6 @@ namespace TankShopEnhetstest
             Assert.AreEqual("~/Views/Shared/Result.cshtml", viewResult.ViewName);
 
         }
-        
-
-        /*
-                [TestMethod]
-        public void Index() {
-
-            //Arrange
-            var controller = new CategoryController(new CategoryBLL(new CategoryRepoStub()));
-
-            //Act
-            var viewResult = controller.EditImage(goodInput) as ViewResult;
-
-
-            //Assert
-
-        }
-        */
         
     }
 }
