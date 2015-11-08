@@ -41,11 +41,6 @@ namespace BLL.Order
             return _repo.GetAllOrders();
         }
 
-        public bool UpdateOrderline(OrderlineModel orderline)
-        {
-            return _repo.UpdateOrderline(orderline);
-        }
-
         public double GetOrderSumTotal(int orderId)
         {
             return _repo.GetOrderSumTotal(orderId);
@@ -69,6 +64,16 @@ namespace BLL.Order
         public List<OrderModel> GetOrders(int CustomerId)
         {
             return _repo.GetOrders(CustomerId);
+        }
+
+        public bool UpdateOrderline(OrderlineModel orderline)
+        {
+            return _repo.UpdateOrderline(orderline);
+        }
+
+        public bool UpdateOrderline(OrderlineModel orderlineModel, int adminId)
+        {
+            return _repo.UpdateOrderline(orderlineModel, adminId);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Nettbutikk.Model;
+﻿using Logging;
+using Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -171,6 +172,8 @@ namespace DAL.Order
                         dbOrderline.ProductId = orderline.ProductId;
                         dbOrderline.Count = orderline.Count;
                     }
+
+
                     db.SaveChanges();
                     return true;
                 }
@@ -216,6 +219,48 @@ namespace DAL.Order
                     return false;
                 }
 
+            }
+        }
+
+        public bool UpdateOrderline(OrderlineModel orderline, int adminId)
+        {
+            using (var db = new TankshopDbContext())
+            {
+                try
+                {
+                    var dbOrderline = db.Orderlines.Find(orderline.OrderlineId);
+                    var oldOrderline = new OldOrderline()
+                    {
+                        OrderlineId = dbOrderline.OrderlineId,
+                        OrderId = dbOrderline.OrderId, 
+                        ProductId_From = dbOrderline.ProductId,
+                        ProductId_To= orderline.ProductId,
+                        Count_From = dbOrderline.Count,
+                        Count_To = orderline.ProductId,
+                        AdminId = adminId,
+                        Changed = DateTime.Now,
+                    };
+                     
+                    if (orderline.Count == 0)
+                    {
+                        db.Orderlines.Remove(dbOrderline);
+                    }
+                    else
+                    {
+                        dbOrderline.ProductId = orderline.ProductId;
+                        dbOrderline.Count = orderline.Count;
+                    }
+
+                    db.OldOrderLines.Add(oldOrderline);
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    LogHandler.WriteToLog(e);
+                    return false;
+                }
             }
         }
     }

@@ -225,15 +225,20 @@ namespace Nettbutikk.Model
     public class OldOrderline{
 
         [Key]
-        public int OldOrderlineId { get; set; }
-
-        public int ProductId { get; set; }
+        public int Id { get; set; }
+        public int OrderlineId { get; set; }
         public int OrderId { get; set; }
-        public int Count { get; set; }
-
-        public DateTime Changed { get; set; }
+        public int ProductId_From { get; set; }
+        public int ProductId_To { get; set; }
+        public int Count_From { get; set; }
+        public int Count_To{ get; set; }
         public int AdminId { get; set; }
 
+        public DateTime Changed { get; set; }
+
+        //public virtual Orderline Orderline{ get; set; }
+        //public virtual Product Product { get; set; }
+        //public virtual Order Order{ get; set; }
         public virtual Admin Admin { get; set; }
     }
 

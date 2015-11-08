@@ -146,6 +146,10 @@
     <Compile Include="Migrations\201511081442165_InitialMigrations.Designer.cs">
       <DependentUpon>201511081442165_InitialMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511081941307_From-To-Attr-OIdOrderline.cs" />
+    <Compile Include="Migrations\201511081941307_From-To-Attr-OIdOrderline.Designer.cs">
+      <DependentUpon>201511081941307_From-To-Attr-OIdOrderline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Viewmodels\CartItem.cs" />
     <Compile Include="Viewmodels\CategoryView.cs" />
@@ -264,6 +268,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201511081442165_InitialMigrations.resx">
       <DependentUpon>201511081442165_InitialMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511081941307_From-To-Attr-OIdOrderline.resx">
+      <DependentUpon>201511081941307_From-To-Attr-OIdOrderline.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

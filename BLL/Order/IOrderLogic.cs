@@ -14,5 +14,6 @@ namespace BLL.Order
         OrderModel GetReciept(int orderId);
         int PlaceOrder(OrderModel order);
         bool UpdateOrderline(OrderlineModel orderline);
+        bool UpdateOrderline(OrderlineModel orderlineModel, int adminId);
     }
 }

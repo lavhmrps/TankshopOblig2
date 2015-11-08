@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BLL.Order;
+using BLL.Account;
 
 namespace Nettbutikk.Controllers
 {
@@ -98,8 +99,11 @@ namespace Nettbutikk.Controllers
                     ProductId = ProductId
                 };
 
+                var adminEmail = (string)Session["Email"];
+                var adminModel = new AccountBLL().GetAdmin(adminEmail);
 
-                return _orderBLL.UpdateOrderline(orderlineModel);
+
+                return _orderBLL.UpdateOrderline(orderlineModel, adminModel.AdminId);
 
             }
             return false;
