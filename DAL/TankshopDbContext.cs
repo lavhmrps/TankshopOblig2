@@ -36,12 +36,10 @@ namespace Nettbutikk.Model
         public virtual DbSet<Orderline> Orderlines { get; set; }
         public virtual DbSet<Image> Images { get; set; }
 
-        public virtual DbSet<OldCategory> OldCategories{ get; set; }
+        public virtual DbSet<OldCategory> OldCategories { get; set; }
         public virtual DbSet<OldImage> OldImages { get; set; }
         public virtual DbSet<OldProduct> OldProducts { get; set; }
-        public virtual DbSet<OldPerson> OldPeople { get; set; }
-        public virtual DbSet<OldOrderLine> OldOrderLines { get; set; }
-
+        public virtual DbSet<OldOrderline> OldOrderLines { get; set; }
 
     }
 
@@ -119,13 +117,17 @@ namespace Nettbutikk.Model
     // Product
     public class Product
     {
+        public Product()
+        {
+            this.Images = new List<Image>();
+        }
         [Key]
         public int ProductId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public int Stock { get; set; }
         public string Description { get; set; }
-        public string ImageUrl { get; set; }
+        public List<Image> Images { get; set; }
 
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
@@ -142,7 +144,7 @@ namespace Nettbutikk.Model
         [Key]
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
-        
+
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
@@ -200,40 +202,6 @@ namespace Nettbutikk.Model
         public virtual Admin Admin { get; set; }
     }
 
-    public class OldPerson{
-
-        [Key]
-        public int OldPersonId { get; set; }
-
-        public string Email { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-        public string Address { get; set; }
-        public string Zipcode { get; set; }
-
-        public DateTime Changed { get; set; }
-        public int AdminId { get; set; }
-
-        public virtual Admin Admin { get; set; }
-
-    }
-
-    public class OldOrderLine {
-
-        [Key]
-        public int OldOrderLineId { get; set; }
-
-        public int ProductId { get; set; }
-        public int OrderId { get; set; }
-        public int Count { get; set; }
-
-        public DateTime Changed { get; set; }
-        public int AdminId { get; set; }
-
-        public virtual Admin Admin { get; set; }
-
-    }
-
     public class OldProduct
     {
 
@@ -252,6 +220,21 @@ namespace Nettbutikk.Model
 
         public virtual Admin Admin { get; set; }
 
+    }
+
+    public class OldOrderline{
+
+        [Key]
+        public int OldOrderlineId { get; set; }
+
+        public int ProductId { get; set; }
+        public int OrderId { get; set; }
+        public int Count { get; set; }
+
+        public DateTime Changed { get; set; }
+        public int AdminId { get; set; }
+
+        public virtual Admin Admin { get; set; }
     }
 
 }

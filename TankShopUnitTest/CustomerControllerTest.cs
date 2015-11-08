@@ -1,16 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
-using Nettbutikk.BLL;
 using Nettbutikk.Controllers;
-using Nettbutikk.DAL;
 using Nettbutikk.Model;
 using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using BLL.Customer;
+using DAL.Customer;
+
 
 namespace TankShopUnitTest
 {

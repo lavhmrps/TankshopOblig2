@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nettbutikk.DAL
+namespace DAL.Product
 {
     public interface IProductRepo
     {

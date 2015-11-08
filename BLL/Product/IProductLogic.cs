@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nettbutikk.BLL
-{
+namespace BLL.Product
+{ 
+
     public interface IProductLogic
     {
         List<ProductModel> GetProducts(List<int> productIdList);

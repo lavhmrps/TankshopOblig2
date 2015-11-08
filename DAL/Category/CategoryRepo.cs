@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
 using Logging;
-using Nettbutikk.DAL;
 
-namespace Nettbutikk.Model
+namespace DAL.Category
 {
     public class CategoryRepo : ICategoryRepo
     {
@@ -41,16 +40,29 @@ namespace Nettbutikk.Model
                 
                 foreach(var product in c.Products)
                 {
+                    var imageModels = new List<ImageModel>();
+
+                    foreach(var image in product.Images)
+                    {
+                        var imageModel = new ImageModel()
+                        {
+                            ImageId = image.ImageId,
+                            ImageUrl = image.ImageUrl,
+                            ProductId = image.ProductId
+                        };
+                        imageModels.Add(imageModel);
+                    }
+
                     var productModel = new ProductModel()
                     {
                         CategoryId = product.CategoryId,
                         CategoryName = product.Category.Name,
                         Description = product.Description,
-                        ImageUrl = product.ImageUrl,
                         Price = product.Price,
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        Stock = product.Stock
+                        Stock = product.Stock,
+                        Images = imageModels
                     };
 
                     productModels.Add(productModel);
@@ -91,7 +103,7 @@ namespace Nettbutikk.Model
             try
             {
                 var db = new TankshopDbContext();
-                db.Categories.Add(new Category() { Name = name });
+                db.Categories.Add(new Nettbutikk.Model.Category() { Name = name });
                 db.SaveChanges();
                 return true;
             }
@@ -109,7 +121,7 @@ namespace Nettbutikk.Model
 
             var db = new TankshopDbContext();
 
-            Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
+            Nettbutikk.Model.Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
 
             if (category == null)
                 return false;
@@ -134,7 +146,7 @@ namespace Nettbutikk.Model
 
             var db = new TankshopDbContext();
 
-            Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
+            Nettbutikk.Model.Category category = (from c in db.Categories where c.CategoryId == CategoryId select c).FirstOrDefault();
 
             if (category == null)
                 return false;
@@ -186,7 +198,7 @@ namespace Nettbutikk.Model
         public string GetCategoryName(int CategoryId)
         {
 
-            Category c = new TankshopDbContext().Categories.Find(CategoryId);
+            Nettbutikk.Model.Category c = new TankshopDbContext().Categories.Find(CategoryId);
 
             return c == null ? null : c.Name;
 
@@ -210,16 +222,29 @@ namespace Nettbutikk.Model
 
                 foreach (var product in c.Products)
                 {
+                    var imageModels = new List<ImageModel>();
+
+                    foreach (var image in product.Images)
+                    {
+                        var imageModel = new ImageModel()
+                        {
+                            ImageId = image.ImageId,
+                            ImageUrl = image.ImageUrl,
+                            ProductId = image.ProductId
+                        };
+                        imageModels.Add(imageModel);
+                    }
+
                     var productModel = new ProductModel()
                     {
                         CategoryId = product.CategoryId,
                         CategoryName = product.Category.Name,
                         Description = product.Description,
-                        ImageUrl = product.ImageUrl,
                         Price = product.Price,
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        Stock = product.Stock
+                        Stock = product.Stock,
+                        Images = imageModels
                     };
 
                     productModels.Add(productModel);

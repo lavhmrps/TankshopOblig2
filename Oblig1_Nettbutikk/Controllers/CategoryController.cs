@@ -1,11 +1,9 @@
 ﻿using Logging;
-using Nettbutikk.BLL;
 using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using BLL.Category;
 
 namespace Nettbutikk.Controllers
 {

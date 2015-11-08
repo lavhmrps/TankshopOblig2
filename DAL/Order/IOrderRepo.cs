@@ -1,11 +1,9 @@
 ﻿using Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Nettbutikk.DAL
+
+namespace DAL.Order
 {
     public interface IOrderRepo
     {
@@ -17,6 +15,5 @@ namespace Nettbutikk.DAL
         OrderModel GetReciept(int orderId);
         int PlaceOrder(OrderModel order);
         bool UpdateOrderline(OrderlineModel orderline);
-
     }
 }

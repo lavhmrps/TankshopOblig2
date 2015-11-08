@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Order;
 
-namespace Nettbutikk.DAL
+namespace DAL.Customer
 {
     public class CustomerRepo : ICustomerRepo
     {

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nettbutikk.Model;
-using Nettbutikk.DAL;
 
-namespace Nettbutikk.BLL
+namespace BLL.Category
 {
     public interface ICategoryLogic
     {

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
-using Nettbutikk.DAL;
+using DAL.Product;
+using DAL.Category;
 
-namespace Nettbutikk.BLL
+namespace BLL.Product
 {
     public class ProductBLL : IProductLogic
     {

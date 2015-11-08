@@ -1,12 +1,12 @@
-﻿using Nettbutikk.DAL;
-using Nettbutikk.Model;
+﻿using Nettbutikk.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Customer;
+using DAL.Account;
+using DAL.Order;
+using DAL.Product;
 
-namespace Nettbutikk.BLL
+namespace BLL.Customer
 {
     public class CustomerBLL :ICustomerLogic
     {
@@ -33,16 +33,6 @@ namespace Nettbutikk.BLL
 
         public bool DeleteCustomer(string email)
         {
-            //Person burde egentlig hentes fra _repo
-            Person person = new TankshopDbContext().People.Find(email);
-
-            if (person == null)
-                return false;
-
-            if (!_accountrepo.AddOldPerson(person.Email, person.Firstname,
-                person.Lastname, person.Address, person.Zipcode, 1))//Get admin id from session
-                return false;
-
             return _repo.DeleteCustomer(email);
         }
 
@@ -53,18 +43,6 @@ namespace Nettbutikk.BLL
 
         public bool UpdatePerson(PersonModel personUpdate, string email)
         {
-
-            //Person burde egentlig hentes fra _repo
-            Person person = new TankshopDbContext().People.Find(email);
-
-            if (person == null)
-                return false;
-
-            if (!_accountrepo.AddOldPerson(email, personUpdate.Firstname,
-                personUpdate.Lastname, personUpdate.Address, personUpdate.Zipcode, 1))//Get admin id from session
-                return false;
-
-
             return _accountrepo.UpdatePerson(personUpdate, email);
         }
 

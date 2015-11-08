@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace DAL.Account
 {
     // For testing
     public class AccountRepoStub : IAccountRepo
@@ -181,11 +181,6 @@ namespace Nettbutikk.DAL
         public bool isAdmin(string email)
         {
             throw new NotImplementedException();
-        }
-
-        public bool AddOldPerson(string email, string firstName, string lastName, string address, string zipCode, int adminId)
-        {
-            return email != "invalid";
         }
     }
 }

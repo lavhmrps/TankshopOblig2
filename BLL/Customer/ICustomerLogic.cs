@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nettbutikk.BLL
+namespace BLL.Customer
 {
     public interface ICustomerLogic
     {

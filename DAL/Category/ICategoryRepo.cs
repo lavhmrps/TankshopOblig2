@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace DAL.Category
 {
     public interface ICategoryRepo
     {

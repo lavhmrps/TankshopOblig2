@@ -1,12 +1,11 @@
-﻿using Nettbutikk.DAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.DAL
+namespace DAL.Customer
 {
     public class CustomerRepoStub : ICustomerRepo
     {

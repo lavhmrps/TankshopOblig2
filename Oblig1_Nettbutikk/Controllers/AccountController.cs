@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Nettbutikk.BLL;
 using Nettbutikk.Model;
+using BLL.Account;
 
 namespace Nettbutikk.Controllers
 {
@@ -17,8 +17,6 @@ namespace Nettbutikk.Controllers
 
         public AccountController()
         {
-            System.Diagnostics.Debug.WriteLine("AccountController");
-
             _accountBLL = new AccountBLL();
         }
 
@@ -139,9 +137,6 @@ namespace Nettbutikk.Controllers
         [HttpPost]
         public bool UpdateCustomerInfo(CustomerView customerEdit, string returnUrl)
         {
-
-            System.Diagnostics.Debug.WriteLine("Update customer info");
-
             var email = (string)Session["Email"];
 
             var personUpdate = new PersonModel()

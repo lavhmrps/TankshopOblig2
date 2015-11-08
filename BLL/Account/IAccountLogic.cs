@@ -1,7 +1,7 @@
 ﻿using Nettbutikk.Model;
 using System.Collections.Generic;
 
-namespace Nettbutikk.BLL
+namespace BLL.Account
 {
     public interface IAccountLogic
     {

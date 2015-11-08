@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
-using Nettbutikk.DAL;
 
-namespace Nettbutikk.DAL
+namespace DAL.Category
 {
     public class CategoryRepoStub : ICategoryRepo
     {

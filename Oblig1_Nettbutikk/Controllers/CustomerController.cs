@@ -1,11 +1,10 @@
-﻿using Nettbutikk.BLL;
-using Nettbutikk.Model;
+﻿using Nettbutikk.Model;
 using Nettbutikk.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using BLL.Customer;
+
 
 namespace Nettbutikk.Controllers
 {

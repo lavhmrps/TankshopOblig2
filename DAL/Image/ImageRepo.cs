@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logging;
 using Nettbutikk.Model;
 
 
@@ -15,13 +14,11 @@ namespace DAL.Image
 
         public Nettbutikk.Model.Image GetImage(int imageId)
         {
-            try
-            {
+            try {
                 return new TankshopDbContext().Images.FirstOrDefault(i => i.ImageId == imageId);
             }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
+            catch (Exception e) {
+                //LogHandler.WriteToLog(e);
                 return null;
             }
 
@@ -30,16 +27,14 @@ namespace DAL.Image
         public List<Nettbutikk.Model.Image> GetAllImages()
         {
 
-            try
-            {
-                return new TankshopDbContext().Images.ToList();
+            try {
+                return new TankshopDbContext().Images.OrderBy(i => i.ProductId).ToList();
             }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
+            catch (Exception e) {
+                //LogHandler.WriteToLog(e);
                 return new List<Nettbutikk.Model.Image>();
             }
-
+            
         }
 
 
@@ -53,13 +48,10 @@ namespace DAL.Image
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
 
             return false;
-
+            
         }
 
         public bool DeleteImage(int imageId)
@@ -74,16 +66,12 @@ namespace DAL.Image
                 return false;
             }
 
-            try
-            {
+            try {
                 db.Images.Remove(img);
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
 
             return false;
         }
@@ -104,15 +92,11 @@ namespace DAL.Image
             img.ImageUrl = imageUrl;
 
 
-            try
-            {
+            try {
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
 
             return false;
         }
@@ -132,15 +116,11 @@ namespace DAL.Image
 
             db.OldImages.Add(oldImage);
 
-            try
-            {
+            try {
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-            }
+            catch (Exception e) { }//LogHandler.WriteToLog(e); }
 
             return false;
         }

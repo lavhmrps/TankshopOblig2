@@ -2,40 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nettbutikk.Model;
-using Logging;
 
-namespace Nettbutikk.DAL
+namespace DAL.Account
 {
     public class AccountRepo : IAccountRepo
     {
-        public bool AddOldPerson(string email, string firstName, string lastName, string address, string zipCode, int adminId)
-        {
-            var db = new TankshopDbContext();
-            OldPerson oldPerson = new OldPerson();
-
-            oldPerson.Email = email;
-            oldPerson.Firstname = firstName;
-            oldPerson.Lastname = lastName;
-            oldPerson.Address = address;
-            oldPerson.Zipcode = zipCode;
-
-            oldPerson.AdminId = adminId;
-            oldPerson.Changed = DateTime.Now;
-
-            db.OldPeople.Add(oldPerson);
-
-            try
-            {
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                LogHandler.WriteToLog(e);
-            }
-
-            return false;
-        }
 
         public bool AddPerson(PersonModel person, Role role, string password)
         {
@@ -101,7 +72,7 @@ namespace Nettbutikk.DAL
                             var dbCustomer = db.Customers.FirstOrDefault(c => c.Email == email);
                             if (dbCustomer == null)
                             {
-                                dbCustomer = new Customer()
+                                dbCustomer = new Nettbutikk.Model.Customer()
                                 {
                                     Email = email
                                 };
@@ -409,7 +380,7 @@ namespace Nettbutikk.DAL
                         {
                             if (dbCustomer == null)
                             {
-                                var newCustomer = new Customer()
+                                var newCustomer = new Nettbutikk.Model.Customer()
                                 {
                                     Email = email
                                 };

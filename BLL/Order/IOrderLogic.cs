@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nettbutikk.Model;
 
-namespace Nettbutikk.BLL
+namespace BLL.Order
 {
     public interface IOrderLogic
     {

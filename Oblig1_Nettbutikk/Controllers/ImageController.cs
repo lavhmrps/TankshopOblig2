@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Nettbutikk.Model;
 using BLL.Image;
-using DAL.Image;
-using Nettbutikk.BLL;
+using BLL.Product;
 
 namespace Nettbutikk.Controllers
 {

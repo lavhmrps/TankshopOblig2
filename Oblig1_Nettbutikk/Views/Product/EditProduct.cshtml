@@ -17,14 +17,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ProductId, "ProductId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.Product.ProductId } })
+                @Html.EditorFor(model => model.ProductId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = p.ProductId } })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Product.ProductName } })
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @Value = p.ProductName } })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Product.Price } })
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @Value = p.Price } })
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Product.Stock } })
+                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @Value = p.Stock } })
                 @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,16 +48,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Product.Description } })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @Value = p.Description } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => p.Images.FirstOrDefault().ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Product.ImageUrl } })
-                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => p.Images.FirstOrDefault().ImageUrl, new { htmlAttributes = new { @class = "form-control", @Value = p.Images.FirstOrDefault().ImageUrl } })
+                @Html.ValidationMessageFor(model => p.Images.FirstOrDefault().ImageUrl, "", new { @class = "text-danger" })
             </div>
         </div>
 

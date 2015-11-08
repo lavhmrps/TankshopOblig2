@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Oblig1_Nettbutikk</RootNamespace>
-    <AssemblyName>Oblig1_Nettbutikk</AssemblyName>
+    <RootNamespace>Nettbutikk</RootNamespace>
+    <AssemblyName>Nettbutikk</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -142,9 +142,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511072118104_InitialMigrations.cs" />
-    <Compile Include="Migrations\201511072118104_InitialMigrations.Designer.cs">
-      <DependentUpon>201511072118104_InitialMigrations.cs</DependentUpon>
+    <Compile Include="Migrations\201511081442165_InitialMigrations.cs" />
+    <Compile Include="Migrations\201511081442165_InitialMigrations.Designer.cs">
+      <DependentUpon>201511081442165_InitialMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -152,6 +152,7 @@
     <Compile Include="Models\CustomerView.cs" />
     <Compile Include="Models\CustomerLoginPartial.cs" />
     <Compile Include="Models\CustomerRegisterPartial.cs" />
+    <Compile Include="Models\ImageView.cs" />
     <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\ProductView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -189,9 +190,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -263,8 +262,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511072118104_InitialMigrations.resx">
-      <DependentUpon>201511072118104_InitialMigrations.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511081442165_InitialMigrations.resx">
+      <DependentUpon>201511081442165_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

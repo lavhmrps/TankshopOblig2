@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logging;
 
-namespace Nettbutikk.DAL
+namespace DAL.Order
 {
     public class OrderRepo : IOrderRepo
     {
@@ -75,7 +74,7 @@ namespace Nettbutikk.DAL
             {
                 try
                 {
-                    var newOrder = new Order()
+                    var newOrder = new Nettbutikk.Model.Order()
                     {
                         CustomerId = order.CustomerId,
                         Date = order.Date
@@ -219,6 +218,5 @@ namespace Nettbutikk.DAL
 
             }
         }
-
     }
 }

@@ -4,10 +4,10 @@ using Nettbutikk.Model;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Nettbutikk.Controllers;
-using Nettbutikk.BLL;
-using Nettbutikk.DAL;
 using MvcContrib.TestHelper;
-using Nettbutikk.Models;
+using BLL.Category;
+using DAL.Category;
+
 
 namespace TankShopEnhetstest
 {

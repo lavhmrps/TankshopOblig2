@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nettbutikk.Model;
-using Nettbutikk.DAL;
+using DAL.Account;
+using DAL.Customer;
 
-namespace Nettbutikk.BLL
+namespace BLL.Account
 {
     public class AccountBLL : IAccountLogic
     {
@@ -28,7 +29,6 @@ namespace Nettbutikk.BLL
 
         public bool AddPerson(PersonModel person, Role role, string password)
         {
-            
             return _repo.AddPerson(person, role, password);
         }
         
@@ -65,16 +65,6 @@ namespace Nettbutikk.BLL
 
         public bool DeletePerson(string email)
         {
-            //Person burde egentlig hentes fra _repo
-            Person person = new TankshopDbContext().People.Find(email);
-
-            if (person == null)
-                return false;
-
-            if (!_repo.AddOldPerson(person.Email, person.Firstname,
-                person.Lastname, person.Address, person.Zipcode, 1))//Get admin id from session
-                return false;
-
             return _repo.DeletePerson(email);
         }
 
