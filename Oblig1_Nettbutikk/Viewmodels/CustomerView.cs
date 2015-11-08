@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Nettbutikk.Models
+namespace Nettbutikk.Viewmodels
 {
     public class CustomerView
     {
