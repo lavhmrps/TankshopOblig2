@@ -176,6 +176,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Images\logo-category-guns.png" />
+    <Content Include="Images\logo-category-guns2.png" />
+    <Content Include="Images\logo-category-guns3.png" />
+    <Content Include="Images\logo-category-tank.png" />
+    <Content Include="Images\logo-category-tank2.jpg" />
+    <Content Include="Images\logo-category-engine.png" />
     <Content Include="Images\logo-tank.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

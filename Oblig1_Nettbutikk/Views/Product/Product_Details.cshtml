@@ -10,7 +10,20 @@
             <div class="details_image">
                 @*<span class="glyphicon glyphicon-chevron-left " ></span>*@
                 <div>
-                    <img src="@Model.Images.FirstOrDefault().ImageUrl" />
+                    @{
+                        string imageUrl = Model.Images.Count == 0 ? "" : Model.Images.FirstOrDefault().ImageUrl;
+                        if (imageUrl == "")
+                        {
+                            int catId = Convert.ToInt32(Model.CategoryId);
+                            switch (catId)
+                            {
+                                case 1: imageUrl = "/Nettbutikk/Images/logo-category-tank.png"; break;
+                                case 2: imageUrl = "/Nettbutikk/Images/logo-category-engine.png"; break;
+                                case 3: imageUrl = "/Nettbutikk/Images/logo-category-guns.png"; break;
+                            }
+                        }
+                    }
+                    <img src="@imageUrl" />
 
                 </div>
                 @*<span class="glyphicon glyphicon-chevron-right"></span>*@

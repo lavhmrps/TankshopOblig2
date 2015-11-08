@@ -56,7 +56,11 @@
         <div class="form-group">
             @Html.LabelFor(model => p.Images.FirstOrDefault().ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => p.Images.FirstOrDefault().ImageUrl, new { htmlAttributes = new { @class = "form-control", @Value = p.Images.FirstOrDefault().ImageUrl } })
+                @{
+                    string imageUrl = p.Images.Count == 0 ? "Ingen bilder" : p.Images.FirstOrDefault().ImageUrl;
+                   
+                }
+                @Html.EditorFor(model => imageUrl, new { htmlAttributes = new { @class = "form-control", @Value = imageUrl } })
                 @Html.ValidationMessageFor(model => p.Images.FirstOrDefault().ImageUrl, "", new { @class = "text-danger" })
             </div>
         </div>
